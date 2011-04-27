@@ -78,9 +78,8 @@ class Title {
 
 	/**
 	 * Constructor
-	 * @private
 	 */
-	/* private */ function __construct() { }
+	/*protected*/ function __construct() { }
 
 	/**
 	 * Create a new Title from a prefixed DB key
@@ -1785,7 +1784,7 @@ class Title {
 
 			# Always grant access to the login page.
 			# Even anons need to be able to log in.
-			if ( $this->isSpecial( 'Userlogin' ) || $this->isSpecial( 'Resetpass' ) ) {
+			if ( $this->isSpecial( 'Userlogin' ) || $this->isSpecial( 'ChangePassword' ) ) {
 				return true;
 			}
 
@@ -1812,7 +1811,7 @@ class Title {
 			# If it's a special page, ditch the subpage bit and check again
 			if ( $this->getNamespace() == NS_SPECIAL ) {
 				$name = $this->getDBkey();
-				list( $name, /* $subpage */ ) = SpecialPage::resolveAliasWithSubpage( $name );
+				list( $name, /* $subpage */ ) = SpecialPageFactory::resolveAlias( $name );
 				if ( $name === false ) {
 					# Invalid special page, but we show standard login required message
 					return false;
@@ -2499,7 +2498,7 @@ class Title {
 	 * @return String the prefixed text
 	 * @private
 	 */
-	/* private */ function prefix( $name ) {
+	private function prefix( $name ) {
 		$p = '';
 		if ( $this->mInterwiki != '' ) {
 			$p = $this->mInterwiki . ':';
@@ -2570,8 +2569,6 @@ class Title {
 		global $wgContLang, $wgLocalInterwiki;
 
 		# Initialisation
-		$rxTc = self::getTitleInvalidRegex();
-
 		$this->mInterwiki = $this->mFragment = '';
 		$this->mNamespace = $this->mDefaultNamespace; # Usually NS_MAIN
 
@@ -2681,6 +2678,7 @@ class Title {
 		}
 
 		# Reject illegal characters.
+		$rxTc = self::getTitleInvalidRegex();
 		if ( preg_match( $rxTc, $dbkey ) ) {
 			return false;
 		}
@@ -3813,7 +3811,7 @@ class Title {
 				return (bool)wfFindFile( $this );
 			case NS_SPECIAL:
 				// valid special page
-				return SpecialPage::exists( $this->getDBkey() );
+				return SpecialPageFactory::exists( $this->getDBkey() );
 			case NS_MAIN:
 				// selflink, possibly with fragment
 				return $this->mDbkeyform == '';
@@ -4026,7 +4024,7 @@ class Title {
 	 */
 	public function isSpecial( $name ) {
 		if ( $this->getNamespace() == NS_SPECIAL ) {
-			list( $thisName, /* $subpage */ ) = SpecialPage::resolveAliasWithSubpage( $this->getDBkey() );
+			list( $thisName, /* $subpage */ ) = SpecialPageFactory::resolveAlias( $this->getDBkey() );
 			if ( $name == $thisName ) {
 				return true;
 			}
@@ -4042,9 +4040,9 @@ class Title {
 	 */
 	public function fixSpecialName() {
 		if ( $this->getNamespace() == NS_SPECIAL ) {
-			$canonicalName = SpecialPage::resolveAlias( $this->mDbkeyform );
+			list( $canonicalName, /*...*/ ) = SpecialPageFactory::resolveAlias( $this->mDbkeyform );
 			if ( $canonicalName ) {
-				$localName = SpecialPage::getLocalNameFor( $canonicalName );
+				$localName = SpecialPageFactory::getLocalNameFor( $canonicalName );
 				if ( $localName != $this->mDbkeyform ) {
 					return Title::makeTitle( NS_SPECIAL, $localName );
 				}

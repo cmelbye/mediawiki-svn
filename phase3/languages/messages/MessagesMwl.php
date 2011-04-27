@@ -421,7 +421,7 @@ de modo a cunfirmar que la cuonta ye mesmo la tue.',
 'emailconfirmlink'        => 'Cunfirma la tue morada de correio eiletrónico',
 'loginlanguagelabel'      => 'Lhéngua: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass' => 'Demudar palabra-chabe',
 'retypenew' => 'Pon outra beç la nuoba palabra chabe:',
 
@@ -1146,7 +1146,13 @@ Causo l fexeiro tenga sido demudado a partir de l sou stado oureginal, alguns de
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'       => 'Ancho',

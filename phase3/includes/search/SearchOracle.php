@@ -238,7 +238,6 @@ class SearchOracle extends SearchEngine {
 	 * @param $text String
 	 */
 	function update($id, $title, $text) {
-		global $wgDBprefix;
 		$dbw = wfGetDB(DB_MASTER);
 		$dbw->replace('searchindex',
 			array('si_page'),
@@ -254,9 +253,9 @@ class SearchOracle extends SearchEngine {
 		//     ALTER SESSION SET CURRENT_SCHEMA = ...
 		// was used.
 		$dbw->query( "CALL ctx_ddl.sync_index(" . 
-			$dbw->addQuotes( $dbw->getDBname() . '.' . trim( $dbw->tableName( 'si_text_idx' ),  '"' ) ) . ")" );
+			$dbw->addQuotes( $dbw->getDBname() . '.' . $dbw->tableName( 'si_text_idx', false ) ) . ")" );
 		$dbw->query( "CALL ctx_ddl.sync_index(" . 
-			$dbw->addQuotes( $dbw->getDBname() . '.' . trim( $dbw->tableName( 'si_title_idx' ),  '"' ) ) . ")" );
+			$dbw->addQuotes( $dbw->getDBname() . '.' . $dbw->tableName( 'si_title_idx', false ) ) . ")" );
 	}
 
 	/**

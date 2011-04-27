@@ -687,29 +687,10 @@ class User {
 	 *
 	 * @param $addr String E-mail address
 	 * @return Bool
+	 * @deprecated since 1.18 call Sanitizer::isValidEmail() directly
 	 */
 	public static function isValidEmailAddr( $addr ) {
-		$result = null;
-		if( !wfRunHooks( 'isValidEmailAddr', array( $addr, &$result ) ) ) {
-			return $result;
-		}
-
-		// Please note strings below are enclosed in brackets [], this make the
-		// hyphen "-" a range indicator. Hence it is double backslashed below.
-		// See bug 26948
-		$rfc5322_atext   = "a-z0-9!#$%&'*+\\-\/=?^_`{|}~" ;
-		$rfc1034_ldh_str = "a-z0-9\\-" ;
-
-		$HTML5_email_regexp = "/
-		^                      # start of string
-		[$rfc5322_atext\\.]+    # user part which is liberal :p
-		@                      # 'apostrophe'
-		[$rfc1034_ldh_str]+       # First domain part
-		(\\.[$rfc1034_ldh_str]+)*  # Following part prefixed with a dot
-		$                      # End of string
-		/ix" ; // case Insensitive, eXtended
-
-		return (bool) preg_match( $HTML5_email_regexp, $addr );
+		return Sanitizer::validateEmail( $addr );
 	}
 
 	/**
@@ -821,7 +802,7 @@ class User {
 		$digit = mt_rand( 0, $pwlength - 1 );
 		$np = '';
 		for ( $i = 0; $i < $pwlength; $i++ ) {
-			$np .= $i == $digit ? chr( mt_rand( 48, 57 ) ) : $pwchars{ mt_rand( 0, $l ) };
+			$np .= $i == $digit ? chr( mt_rand( 48, 57 ) ) : $pwchars[ mt_rand( 0, $l ) ];
 		}
 		return $np;
 	}

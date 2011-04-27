@@ -600,16 +600,7 @@ Oedwch ychydig cyn mentro eto.',
 # E-mail sending
 'php-mail-error-unknown' => 'Gwall anhysbys yng ngweithrediad post() PHP',
 
-# JavaScript password checks
-'password-strength'            => 'Amcangyfrif o gryfder y cyfrinair: $1',
-'password-strength-bad'        => 'GWAEL',
-'password-strength-mediocre'   => 'tila',
-'password-strength-acceptable' => 'derbyniol',
-'password-strength-good'       => 'da',
-'password-retype'              => 'Ail-deipiwch y cyfrinair fan hyn',
-'password-retype-mismatch'     => 'Y cyfrineiriau yn wahanol',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Newid cyfrinair y cyfrif',
 'resetpass_announce'        => "Fe wnaethoch fewngofnodi gyda chôd dros dro oddi ar e-bost.
 Er mwyn cwblhau'r mewngofnodi, rhaid i chi osod cyfrinair newydd fel hyn:",
@@ -986,24 +977,6 @@ Edrychwch ar y logiau er mwyn cael rhagor o wybodaeth.",
 'suppressionlogtext' => "Dyma restr y dileuon a'r blociau lle y cuddiwyd cynnwys rhag y gweinyddwyr.
 Gallwch weld rhestr y gwaharddiadau a'r blociau gweithredol ar y [[Special:IPBlockList|rhestr blociau IP]].",
 
-# Revision move
-'moverevlogentry'              => 'wedi symud {{PLURAL:$3||un diwygiad|$3 ddiwygiad|$3 diwygiad|$3 diwygiad|$3 diwygiad}} o $1 i $2',
-'revisionmove'                 => 'Symud diwygiadau oddi wrth "$1"',
-'revmove-explain'              => "Caiff y diwygiadau hyn eu symud o $1 i dudalen y cyrchfan a benwyd. Os nad yw'r cyrchfan yn bodoli, fe gaiff ei greu. Fel arall, caiff y diwygiadau eu cyfuno gyda hanes y dudalen.",
-'revmove-legend'               => 'Gosod crynodeb a thudalen y cyrchfan',
-'revmove-submit'               => "Symud y diwygiadau i'r dudalen dewisedig",
-'revisionmoveselectedversions' => 'Symud y diwygiadau dewisedig',
-'revmove-reasonfield'          => 'Rheswm:',
-'revmove-titlefield'           => 'Tudalen y cyrchfan:',
-'revmove-badparam-title'       => 'Paramedrau gwallus',
-'revmove-badparam'             => 'Mae eich cais yn cynnwys paramedrau annigonol neu anghyfreithlon. Pwyswch y botwm "Nôl" a rhowch gynnig arall arni.',
-'revmove-norevisions-title'    => 'Penwyd diwygiad annilys',
-'revmove-norevisions'          => "Nid ydych wedi nodi un neu ragor o ddiwygiadau i'w symud, ynteu nid yw'r diwygiad a nodwyd ar gael.",
-'revmove-nullmove-title'       => 'Teitl gwallus',
-'revmove-nullmove'             => 'Mae\'r un enw ar dudalennau\'r ffynhonnell a\'r cyrchfan. Pwyswch y botwm "Nôl" a phennwch enw tudalen heblaw "$1".',
-'revmove-success-existing'     => "{{PLURAL:$1|Cafodd un diwygiad o [[$2]] ei|$1 diwygiad o [[$2]] eu}} symud i'r dudalen [[$3]].",
-'revmove-success-created'      => "{{PLURAL:$1|Cafodd un diwygiad o [[$2]] ei|$1 diwygiad o [[$2]] eu}} symud i'r dudalen sydd newydd gael ei chreu [[$3]].",
-
 # History merging
 'mergehistory'                     => 'Cyfuno hanesion y tudalennau',
 'mergehistory-header'              => 'Pwrpas y dudalen hon yw cyfuno diwygiadau o hanes un dudalen gwreiddiol ar dudalen newydd.
@@ -1343,8 +1316,6 @@ Mae'r wybodaeth hon ar gael i'r cyhoedd.",
 'right-reset-passwords'       => 'Ailosod cyfrinair defnyddwyr eraill',
 'right-override-export-depth' => 'Allforio tudalennau gan gynnwys tudalennau cysylltiedig hyd at ddyfnder o 5',
 'right-sendemail'             => 'Anfon e-bost at ddefnyddwyr eraill',
-'right-revisionmove'          => 'Symud diwygiadau',
-'right-disableaccount'        => 'Analluogi cyfrifon',
 
 # User rights log
 'rightslog'      => 'Lòg galluoedd defnyddiwr',
@@ -1387,7 +1358,6 @@ Mae'r wybodaeth hon ar gael i'r cyhoedd.",
 'action-userrights'           => 'golygu holl alluoedd y defnyddwyr',
 'action-userrights-interwiki' => 'golygu galluoedd y defnyddwyr ar wicïau eraill',
 'action-siteadmin'            => "cloi neu ddatgloi'r databas",
-'action-revisionmove'         => 'symud diwygiadau',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|newid|newid|newid|newid|newid|o newidiadau}}',
@@ -1587,22 +1557,23 @@ Ni all gael ei wirio'n ddigonol er sicrhau diogelwch.",
 'uploadstash-refresh'  => 'Adnewyddu rhestr y ffeiliau',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Ni chaniatawyd mynediad',
-'img-auth-nopathinfo'   => "PATH_INFO yn eisiau.
+'img-auth-accessdenied'     => 'Ni chaniatawyd mynediad',
+'img-auth-nopathinfo'       => "PATH_INFO yn eisiau.
 Nid yw'ch gweinydd wedi ei osod i fedru pasio'r wybodaeth hon.
 Efallai ei fod wedi ei seilio ar CGI, ac heb fod yn gallu cynnal img_auth.
 Gweler http://www.mediawiki.org/wiki/Manual:Image_Authorization.",
-'img-auth-notindir'     => "Nid yw'r llwybr y gwneuthpwyd cais amdano yn y cyfeiriadur uwchlwytho ffurfweddedig.",
-'img-auth-badtitle'     => 'Ddim yn gallu gwneud teitl dilys o "$1".',
-'img-auth-nologinnWL'   => 'Nid ydych wedi mewngofnodi ac nid yw "$1" ar y rhestr wen.',
-'img-auth-nofile'       => 'Nid oes ffeil a\'r enw "$1" ar gael.',
-'img-auth-isdir'        => 'Rydych yn ceisio cyrchu cyfeiriadur o\'r enw "$1".
+'img-auth-notindir'         => "Nid yw'r llwybr y gwneuthpwyd cais amdano yn y cyfeiriadur uwchlwytho ffurfweddedig.",
+'img-auth-badtitle'         => 'Ddim yn gallu gwneud teitl dilys o "$1".',
+'img-auth-nologinnWL'       => 'Nid ydych wedi mewngofnodi ac nid yw "$1" ar y rhestr wen.',
+'img-auth-nofile'           => 'Nid oes ffeil a\'r enw "$1" ar gael.',
+'img-auth-isdir'            => 'Rydych yn ceisio cyrchu cyfeiriadur o\'r enw "$1".
 Dim ond ffeiliau y cewch eu cyrchu.',
-'img-auth-streaming'    => 'Wrthi\'n llifo "$1".',
-'img-auth-public'       => "Gwaith img_auth.php yw allbynnu ffeiliau o wici preifat.
+'img-auth-streaming'        => 'Wrthi\'n llifo "$1".',
+'img-auth-public'           => "Gwaith img_auth.php yw allbynnu ffeiliau o wici preifat.
 Mae'r wici hwn wedi ei osod yn wici gyhoeddus.
 Er mwyn sicrhau'r diogelwch gorau posib, analluogwyd img_auth.php.",
-'img-auth-noread'       => 'Nid yw\'r gallu gan y defnyddiwr hwn i gyrchu\'r ffeil "$1" i\'w ddarllen.',
+'img-auth-noread'           => 'Nid yw\'r gallu gan y defnyddiwr hwn i gyrchu\'r ffeil "$1" i\'w ddarllen.',
+'img-auth-bad-query-string' => 'Mae llinyn ymholi annilys gan yr URL.',
 
 # HTTP errors
 'http-invalid-url'      => 'URL annilys: $1',
@@ -1964,6 +1935,10 @@ Bydd y cyfeiriad e-bost a osodoch yn eich [[Special:Preferences|dewisiadau chith
 'noemailtext'          => "Nid yw'r defnyddiwr hwn wedi gosod cyfeiriad e-bost dilys.",
 'nowikiemailtitle'     => 'Ni chaniateir e-bostio',
 'nowikiemailtext'      => "Mae'r defnyddiwr hwn wedi dewis peidio derbyn e-byst oddi wrth ddefnyddwyr eraill.",
+'emailnotarget'        => "Nid yw'r enw a roddwyd i'r derbynnydd ymhlith yr enwau defnyddwyr sydd yma.",
+'emailtarget'          => 'Rhowch enw defnyddiwr y derbynnydd',
+'emailusername'        => 'Enw defnyddiwr:',
+'emailusernamesubmit'  => 'Cyflwyner',
 'email-legend'         => 'Anfon e-bost at ddefnyddiwr {{SITENAME}} arall',
 'emailfrom'            => 'Oddi wrth:',
 'emailto'              => 'At:',
@@ -2794,7 +2769,13 @@ Cuddir y meysydd eraill trwy ragosodiad.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength",
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude",
 
 # EXIF tags
 'exif-imagewidth'                  => 'Lled',
@@ -2809,13 +2790,11 @@ Cuddir y meysydd eraill trwy ragosodiad.
 'exif-ycbcrpositioning'            => 'Lleoli Y a C',
 'exif-xresolution'                 => 'Datrysiad llorweddol',
 'exif-yresolution'                 => 'Datrysiad fertigol',
-'exif-resolutionunit'              => 'Datrysiad uned X a Y',
 'exif-stripoffsets'                => "Lleoliad data'r ddelwedd",
 'exif-rowsperstrip'                => 'Nifer y rhesi i bob stribed',
 'exif-stripbytecounts'             => 'Nifer y beitiau i bob stribed cywasgedig',
 'exif-jpeginterchangeformat'       => 'Yr atred i JPEG SOI',
 'exif-jpeginterchangeformatlength' => "Nifer beitiau'r data JPEG",
-'exif-transferfunction'            => 'Swyddogaeth trosglwyddo',
 'exif-whitepoint'                  => 'Cromatigedd y cyfeirbwynt gwyn',
 'exif-primarychromaticities'       => 'Cromatigedd y lliwiau cysefin',
 'exif-ycbcrcoefficients'           => 'Cyfernodau matrics trawsffurfio gofod lliw',
@@ -2834,7 +2813,6 @@ Cuddir y meysydd eraill trwy ragosodiad.
 'exif-compressedbitsperpixel'      => 'Modd cywasgu delwedd',
 'exif-pixelydimension'             => 'Lled delwedd dilys',
 'exif-pixelxdimension'             => 'Uchder delwedd dilys',
-'exif-makernote'                   => "Nodiadau'r gwneuthurwr",
 'exif-usercomment'                 => "Sylwadau'r defnyddiwr",
 'exif-relatedsoundfile'            => 'Ffeil sain cysylltiedig',
 'exif-datetimeoriginal'            => 'Dyddiad ac amser y cynhyrchwyd y data',
@@ -2848,7 +2826,6 @@ Cuddir y meysydd eraill trwy ragosodiad.
 'exif-exposureprogram'             => 'Rhaglen Dinoethi',
 'exif-spectralsensitivity'         => 'Sensitifedd sbectrol',
 'exif-isospeedratings'             => 'Cyfraddiad cyflymder ISO',
-'exif-oecf'                        => 'Ffactor trawsnewid optoelectronig',
 'exif-shutterspeedvalue'           => 'Cyflymder y caead',
 'exif-aperturevalue'               => 'Agorfa',
 'exif-brightnessvalue'             => 'Disgleirdeb',
@@ -2861,8 +2838,6 @@ Cuddir y meysydd eraill trwy ragosodiad.
 'exif-focallength'                 => 'Hyd ffocal y lens',
 'exif-subjectarea'                 => 'Maint a lleoliad y goddrych',
 'exif-flashenergy'                 => "Ynni'r fflach",
-'exif-spatialfrequencyresponse'    => 'Spatial frequency response
-Ymateb yr amledd gofodol',
 'exif-focalplanexresolution'       => 'Datrysiad y plân ffocysu X',
 'exif-focalplaneyresolution'       => 'Datrysiad y plân ffocysu Y',
 'exif-focalplaneresolutionunit'    => 'Uned mesur datrysiad y plân ffocysu',
@@ -2871,7 +2846,6 @@ Ymateb yr amledd gofodol',
 'exif-sensingmethod'               => 'Dull synhwyro',
 'exif-filesource'                  => 'Ffynhonnell y ffeil',
 'exif-scenetype'                   => 'Math o olygfa',
-'exif-cfapattern'                  => 'Patrwm CFA',
 'exif-customrendered'              => "Hunan-ddewis gosodiadau prosesu'r ddelwedd",
 'exif-exposuremode'                => 'Modd dinoethi',
 'exif-whitebalance'                => 'Cydbwysedd Gwyn',
@@ -3057,6 +3031,11 @@ Ymateb yr amledd gofodol',
 'exif-gpsspeed-m' => 'Milltir yr awr',
 'exif-gpsspeed-n' => 'Notiau',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Cilomedrau',
+'exif-gpsdestdistance-m' => 'Milltiroedd',
+'exif-gpsdestdistance-n' => 'Milltiroedd môr',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Gwir gyfeiriad',
 'exif-gpsdirection-m' => 'Cyfeiriad magnetig',
@@ -3141,11 +3120,12 @@ $1",
 'trackbackdeleteok' => "Dilewyd y cyswllt 'trackback' yn llwyddiannus.",
 
 # Delete conflict
-'deletedwhileediting' => "'''Rhybudd''': Dilëwyd y dudalen wedi i chi ddechrau ei golygu!",
-'confirmrecreate'     => "Mae'r defnyddiwr [[User:$1|$1]] ([[User talk:$1|Sgwrs]]) wedi dileu'r erthygl hon ers i chi ddechrau golygu. Y rheswm oedd:
+'deletedwhileediting'      => "'''Rhybudd''': Dilëwyd y dudalen wedi i chi ddechrau ei golygu!",
+'confirmrecreate'          => "Mae'r defnyddiwr [[User:$1|$1]] ([[User talk:$1|Sgwrs]]) wedi dileu'r dudalen hon ers i chi ddechrau ei golygu. Y rheswm a roddwyd yw:
 : ''$2''
-Cadarnhewch eich bod chi wir am ail-greu'r erthygl.",
-'recreate'            => 'Ail-greu',
+Cadarnhewch eich bod chi wir am ail-greu'r dudalen.",
+'confirmrecreate-noreason' => "Dileodd y defnyddiwr [[User:$1|$1]] ([[User talk:$1|sgwrs]]) y dudalen hon wedi i chi ddechrau ei golygu. Cadarnhewch eich bod chi wir am ail-greu'r dudalen hon.",
+'recreate'                 => 'Ail-greu',
 
 # action=purge
 'confirm_purge_button' => 'Iawn',
@@ -3345,18 +3325,5 @@ Rhowch enw\'r ffeil heb y rhagddodiad "{{ns:file}}:".',
 # SQLite database support
 'sqlite-has-fts' => '$1 gyda chymorth chwilio yr holl destun',
 'sqlite-no-fts'  => '$1 heb gymorth chwiliad yr holl destun',
-
-# Special:DisableAccount
-'disableaccount'             => 'Analluogi cyfrif defnyddiwr',
-'disableaccount-user'        => 'Enw defnyddiwr:',
-'disableaccount-reason'      => 'Rheswm:',
-'disableaccount-confirm'     => "Analluogu cyfrif y defnyddiwr hwn. 
-Ni fydd y defnyddiwr yn gallu mewngofnodi, ailosod ei gyfrinair, na derbyn hysbysiadau e-bost. 
-Os yw'r defnyddiwr wedi mewngofnodi rhywle ar hyn o bryd, bydd yn cael ei allgofnodi'n syth. 
-''Noder nad oes modd gwrthdroi'r weithred o anablu cyfrif heb ymyrraeth gweinyddwr y system.''",
-'disableaccount-mustconfirm' => "Mae'n rhaid i chi gadarnhau eich bod am analluogi'r cyfrif hwn.",
-'disableaccount-nosuchuser'  => 'Nid oes cyfrif defnyddiwr o\'r enw "$1" ar gael.',
-'disableaccount-success'     => 'Analluogwyd cyfrif y defnyddiwr "$1" yn barhaol.',
-'disableaccount-logentry'    => 'wedi analluogi cyfrif y defnyddiwr [[$1]] yn barhaol',
 
 );

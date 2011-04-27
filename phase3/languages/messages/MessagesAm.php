@@ -283,7 +283,7 @@ $1',
 'helppage'             => 'Help:ይዞታ',
 'mainpage'             => 'ዋናው ገጽ',
 'mainpage-description' => 'ዋና ገጽ',
-'policy-url'           => 'Project:መርመርያዎች',
+'policy-url'           => 'Project:መመሪያዎች',
 'portal'               => 'የኅብረተሠቡ መረዳጃ',
 'portal-url'           => 'Project:የኅብረተሠብ መረዳጃ',
 'privacy'              => 'መተዳደሪያ ደንብ',
@@ -465,7 +465,7 @@ $2",
 እባክዎ እንደገና ሳይሞክሩ ለጥቂት ደቂቃ ይቆዩ።',
 'loginlanguagelabel'         => 'ቋምቋ፦ $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'የአባል መግቢያ ቃል ለመቀየር',
 'resetpass_announce'        => 'በኢ-ሜል በተላከ ጊዜያዊ ኮድ ገብተዋል። መግባትዎን ለመጨርስ፣ አዲስ መግቢያ ቃል እዚህ መምረጥ አለብዎ።',
 'resetpass_header'          => 'መግቢያ ቃል ለመቀየር',
@@ -1956,7 +1956,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength",
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude",
 
 # EXIF tags
 'exif-imagewidth'                  => 'ስፋት',
@@ -1969,12 +1975,10 @@ $1',
 'exif-ycbcrpositioning'            => 'የY ና C አቀማመጥ',
 'exif-xresolution'                 => 'አድማሳዊ ማጉላት',
 'exif-yresolution'                 => 'ቁም ማጉላት',
-'exif-resolutionunit'              => 'የX ና Y ማጉላት መስፈርያ',
 'exif-stripoffsets'                => 'የስዕል መረጃ ሥፍራ',
 'exif-rowsperstrip'                => 'የተርታዎች ቁጥር በየቁራጩ',
 'exif-stripbytecounts'             => 'byte በየተጨመቀ ቁራጩ',
 'exif-jpeginterchangeformatlength' => 'የJPEG መረጃ byte',
-'exif-transferfunction'            => 'የማሻገር ተግባር',
 'exif-datetime'                    => 'ፋይሉ የተቀየረበት ቀንና ሰዓት',
 'exif-imagedescription'            => 'የስዕል አርዕስት',
 'exif-make'                        => 'የካሜራው ሠሪ ድርጅት',
@@ -1988,7 +1992,6 @@ $1',
 'exif-compressedbitsperpixel'      => 'የስዕል መጨመቅ ዘዴ',
 'exif-pixelydimension'             => 'እውነተኛ የስዕል ስፋት',
 'exif-pixelxdimension'             => 'እውነተኛ የስዕል ቁመት',
-'exif-makernote'                   => 'የሠሪው ማሳሰቢያዎች',
 'exif-usercomment'                 => 'የተጠቃሚው ማጠቃለያ',
 'exif-relatedsoundfile'            => 'የተዛመደ የድምጽ ፋይል',
 'exif-datetimeoriginal'            => 'መረጃው የተፈጠረበት ቀንና ሰዓት',

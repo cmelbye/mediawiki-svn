@@ -522,11 +522,7 @@ $2',
 বারো হৎনা করানির আগে খানি ঝিরা।',
 'loginlanguagelabel'         => 'ঠার: $1',
 
-# JavaScript password checks
-'password-strength-bad'  => 'হবানেই',
-'password-strength-good' => 'হবা',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'খন্তাচাবি সিলকরানি',
 'resetpass_announce'        => 'তি লেপ নাইসে খন্তাচাবি আগন হমাসত। হমানিহান পুরা করানির কা নুৱা লেপ্পা খন্তাচাবি হঙকরানি লাগতই:',
 'resetpass_header'          => 'খন্তাচাবি সিলকর',
@@ -774,11 +770,6 @@ $2',
 
 # Suppression log
 'suppressionlog' => 'লগ নিকালা',
-
-# Revision move
-'revmove-reasonfield'    => 'কারণ:',
-'revmove-titlefield'     => 'নিঙকরিসি পাতা:',
-'revmove-badparam-title' => 'প্যারামিটার লালুইসে',
 
 # History merging
 'mergehistory'                     => 'পাতার ইতিহাসহানি পুলকর',
@@ -1584,7 +1575,13 @@ Also see [[Special:WantedCategories|wanted categories]].',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # Pseudotags used for GPSSpeedRef
 'exif-gpsspeed-n' => 'গাথিগি',

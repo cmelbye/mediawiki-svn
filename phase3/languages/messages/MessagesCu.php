@@ -277,11 +277,7 @@ $messages = array(
 'accountcreated'          => 'мѣ́сто сътворєно́ ѥ́стъ',
 'loginlanguagelabel'      => 'ѩꙁꙑ́къ : $1',
 
-# JavaScript password checks
-'password-strength-bad'  => 'ꙀЪЛА',
-'password-strength-good' => 'добра',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'таина словєсє иꙁмѣнѥ́ниѥ',
 'oldpassword'               => 'старо таино слово :',
 'newpassword'               => 'ново таино слово :',

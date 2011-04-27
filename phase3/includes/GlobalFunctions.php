@@ -492,7 +492,7 @@ function wfMessage( $key /*...*/) {
  * for the first message which is non-empty. If all messages are empty then an
  * instance of the first message key is returned.
  * Varargs: message keys
- * @return \type{Message}
+ * @return Message
  * @since 1.18
  */
 function wfMessageFallback( /*...*/ ) {
@@ -590,8 +590,11 @@ function wfMsgNoDB( $key ) {
 
 /**
  * Get a message from the language file, for the content
+ *
+ * @deprecated in 1.18; use wfMessage()
  */
 function wfMsgNoDBForContent( $key ) {
+	wfDeprecated( __FUNCTION__ );
 	global $wgForceUIMsgAsContentMsg;
 	$args = func_get_args();
 	array_shift( $args );
@@ -629,6 +632,7 @@ function wfMsgReal( $key, $args, $useDB = true, $forContent = false, $transform 
  * @param $key String
  */
 function wfMsgWeirdKey( $key ) {
+	wfDeprecated( __FUNCTION__ );
 	$source = wfMsgGetKey( $key, false, true, false );
 	if ( wfEmptyMsg( $key ) ) {
 		return '';
@@ -716,10 +720,11 @@ function wfMsgHtml( $key ) {
  * @return string
  */
 function wfMsgWikiHtml( $key ) {
-	global $wgOut;
 	$args = func_get_args();
 	array_shift( $args );
-	return wfMsgReplaceArgs( $wgOut->parse( wfMsgGetKey( $key, true ), /* can't be set to false */ true ), $args );
+	return wfMsgReplaceArgs(
+		MessageCache::singleton()->parse( wfMsgGetKey( $key, true ), $key, /* can't be set to false */ true )->getText(),
+		$args );
 }
 
 /**
@@ -741,8 +746,6 @@ function wfMsgWikiHtml( $key ) {
  * Behavior for conflicting options (e.g., parse+parseinline) is undefined.
  */
 function wfMsgExt( $key, $options ) {
-	global $wgOut;
-
 	$args = func_get_args();
 	array_shift( $args );
 	array_shift( $args );
@@ -780,16 +783,17 @@ function wfMsgExt( $key, $options ) {
 		$string = wfMsgReplaceArgs( $string, $args );
 	}
 
+	$messageCache = MessageCache::singleton();
 	if( in_array( 'parse', $options, true ) ) {
-		$string = $wgOut->parse( $string, true, !$forContent, $langCodeObj );
+		$string = $messageCache->parse( $string, $key, true, !$forContent, $langCodeObj )->getText();
 	} elseif ( in_array( 'parseinline', $options, true ) ) {
-		$string = $wgOut->parse( $string, true, !$forContent, $langCodeObj );
+		$string = $messageCache->parse( $string, $key, true, !$forContent, $langCodeObj )->getText();
 		$m = array();
 		if( preg_match( '/^<p>(.*)\n?<\/p>\n?$/sU', $string, $m ) ) {
 			$string = $m[1];
 		}
 	} elseif ( in_array( 'parsemag', $options, true ) ) {
-		$string = MessageCache::singleton()->transform( $string,
+		$string = $messageCache->transform( $string,
 				!$forContent, $langCodeObj );
 	}
 
@@ -1777,7 +1781,11 @@ function wfSuppressWarnings( $end = false ) {
 		}
 	} else {
 		if ( !$suppressCount ) {
-			$originalLevel = error_reporting( E_ALL & ~( E_WARNING | E_NOTICE | E_USER_WARNING | E_USER_NOTICE ) );
+			// E_DEPRECATED is undefined in PHP 5.2
+			if( !defined( 'E_DEPRECATED' ) ){
+				define( 'E_DEPRECATED', 8192 );
+			}
+			$originalLevel = error_reporting( E_ALL & ~( E_WARNING | E_NOTICE | E_USER_WARNING | E_USER_NOTICE | E_DEPRECATED ) );
 		}
 		++$suppressCount;
 	}
@@ -2714,7 +2722,7 @@ function wfBaseConvert( $input, $sourceBase, $destBase, $pad = 1, $lowercase = t
 	// Decode and validate input string
 	$input = strtolower( $input );
 	for( $i = 0; $i < strlen( $input ); $i++ ) {
-		$n = strpos( $digitChars, $input{$i} );
+		$n = strpos( $digitChars, $input[$i] );
 		if( $n === false || $n > $sourceBase ) {
 			return false;
 		}
@@ -3138,34 +3146,24 @@ function wfWarn( $msg, $callerOffset = 1, $level = E_USER_NOTICE ) {
 }
 
 /**
- * Sleep until the worst slave's replication lag is less than or equal to
- * $maxLag, in seconds.  Use this when updating very large numbers of rows, as
+ * Modern version of wfWaitForSlaves(). Instead of looking at replication lag
+ * and waiting for it to go down, this waits for the slaves to catch up to the
+ * master position. Use this when updating very large numbers of rows, as
  * in maintenance scripts, to avoid causing too much lag.  Of course, this is
  * a no-op if there are no slaves.
- *
- * Every time the function has to wait for a slave, it will print a message to
- * that effect (and then sleep for a little while), so it's probably not best
- * to use this outside maintenance scripts in its present form.
- *
- * @param $maxLag Integer
+ * 
+ * @param $maxLag Integer (deprecated)
  * @param $wiki mixed Wiki identifier accepted by wfGetLB
  * @return null
  */
-function wfWaitForSlaves( $maxLag, $wiki = false ) {
-	if( $maxLag ) {
-		$lb = wfGetLB( $wiki );
-		list( $host, $lag ) = $lb->getMaxLag( $wiki );
-		while( $lag > $maxLag ) {
-			wfSuppressWarnings();
-			$name = gethostbyaddr( $host );
-			wfRestoreWarnings();
-			if( $name !== false ) {
-				$host = $name;
-			}
-			print "Waiting for $host (lagged $lag seconds)...\n";
-			sleep( $maxLag );
-			list( $host, $lag ) = $lb->getMaxLag();
-		}
+function wfWaitForSlaves( $maxLag = false, $wiki = false ) {
+	$lb = wfGetLB( $wiki );
+	// bug 27975 - Don't try to wait for slaves if there are none
+	// Prevents permission error when getting master position
+	if ( $lb->getServerCount() > 1 ) {
+		$dbw = $lb->getConnection( DB_MASTER );
+		$pos = $dbw->getMasterPos();
+		$lb->waitForAll( $pos );
 	}
 }
 

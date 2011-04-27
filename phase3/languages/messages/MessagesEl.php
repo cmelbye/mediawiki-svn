@@ -19,6 +19,7 @@
  * @author Flyax
  * @author Geraki
  * @author Glavkos
+ * @author Grondin
  * @author Kiriakos
  * @author Lou
  * @author MF-Warburg
@@ -162,7 +163,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'ΚατάλογοςBot' ),
 	'Popularpages'              => array( 'ΔημοφιλείςΣελίδες' ),
 	'Search'                    => array( 'Αναζήτηση' ),
-	'Resetpass'                 => array( 'ΑλλαγήΚωδικού', 'ΑρχικοποίησηΠάσου', 'ΑρχικοποίησηΚωδικού' ),
+	'ChangePassword'            => array( 'ΑλλαγήΚωδικού', 'ΑρχικοποίησηΠάσου', 'ΑρχικοποίησηΚωδικού' ),
 	'Withoutinterwiki'          => array( 'ΧωρίςInterwiki' ),
 	'MergeHistory'              => array( 'ΣυγχώνευσηΙστορικού' ),
 	'Filepath'                  => array( 'ΔιαδρομήΑρχείου' ),
@@ -824,16 +825,7 @@ $2',
 # E-mail sending
 'php-mail-error-unknown' => 'Άγνωστο σφάλμα στη συνάρτηση της PHP mail()',
 
-# JavaScript password checks
-'password-strength'            => 'Εκτιμώμενη ισχύς κωδικού:  $1',
-'password-strength-bad'        => 'ΚΑΚΗ',
-'password-strength-mediocre'   => 'μέτρια',
-'password-strength-acceptable' => 'αποδεκτή',
-'password-strength-good'       => 'καλή',
-'password-retype'              => 'Πληκτρολογήστε ξανά τον κωδικό πρόσβασης',
-'password-retype-mismatch'     => 'Οι κωδικοί πρόσβασης δεν ταιριάζουν',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Αλλαγή κωδικού πρόσβασης',
 'resetpass_announce'        => 'Συνδεθήκατε με ένα προσωρινό κωδικό, σταλμένο με e-mail. Για να ολοκληρώσετε την σύνδεση, πρέπει να στείλετε ένα νέο κωδικό εδώ:',
 'resetpass_text'            => '<!-- Προσθέστε κείμενο εδώ -->',
@@ -1204,24 +1196,6 @@ $1",
 'suppressionlogtext' => 'Παρακάτω βρίσκεται μία λίστα με τις διαγραφές και τις φραγές τις σχετικές με περιεχόμενο που έχει κρυφθεί από τους διαχειριστές.
 Δείτε την [[Special:IPBlockList|λίστα φραγών IP]] για τις παρούσες λειτουργικές απαγορεύσεις και φραγές.',
 
-# Revision move
-'moverevlogentry'              => '{{PLURAL:$3|μεταφέρθηκε μια αναθεώρηση |μεταφέρθηκαν $3 αναθεωρήσεις}} από $1 σε $2',
-'revisionmove'                 => 'Μετακίνηση αναθεωρήσεων από την "$1"',
-'revmove-explain'              => 'Οι ακόλουθες αναθεωρήσεις θα πρέπει να μετακινηθούν από την $1 στην καθορισμένη σελίδα-στόχο. Εάν ο στόχος δεν υπάρχει, θα δημιουργηθεί. Διαφορετικά, οι εν λόγω αναθεωρήσεις θα συγχωνευθούν στο ιστορικό της σελίδας.',
-'revmove-legend'               => 'Ορίστε σελίδα προορισμού και σύνοψη',
-'revmove-submit'               => 'Μετακίνηση αναθεωρήσεων στην επιλεγμένη σελίδα',
-'revisionmoveselectedversions' => 'Μετακίνηση των επιλεγμένων εκδόσεων',
-'revmove-reasonfield'          => 'Αιτία:',
-'revmove-titlefield'           => 'Σελίδα-στόχος:',
-'revmove-badparam-title'       => 'Λάθος παράμετροι',
-'revmove-badparam'             => 'Το αίτημά σας περιέχει αντικανονικές ή ανεπαρκείς παραμέτρους. Παρακαλoύμε πατήστε "επιστροφή" και προσπαθήστε ξανά.',
-'revmove-norevisions-title'    => 'Άκυρη έκδοση-στόχος',
-'revmove-norevisions'          => 'Δεν έχετε καθορίσει μία ή περισσότερες αναθεωρήσεις-στόχους για την εκτέλεση αυτής της λειτουργίας ή ηκαθορισμένη αναθεώρηση δεν υπάρχει.',
-'revmove-nullmove-title'       => 'Ακατάλληλος τίτλος',
-'revmove-nullmove'             => 'Πηγή και τη σελίδα-στόχος είναι πανομοιότυπα. Παρακαλoύμε πατήστε "Επιστροφή" και πληκτρολογήστε ένα όνομα σελίδας διαφορετικό από το "$1".',
-'revmove-success-existing'     => '{{PLURAL:$1|Μια αναθεώρηση από την [[$2]] έχει |$1 αναθεωρήσεις από την [[$2]] έχουν}} μεταφερθεί στην υπάρχουσα σελίδα [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Μία αναθεώρηση από τη σελίδα [[$2]] έχει|$1 αναθεωρήσεις από τη σελίδα [[$2]] έχουν}} μεταφερθεί στη νεοσύστατη σελίδα [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Συγχώνευση ιστορικών σελίδων',
 'mergehistory-header'              => 'Αυτή η σελίδα σας επιτρέπει να συγχωνεύσετε τις εκδόσεις από το ιστορικό μίας σελίδας πηγής σε μια νεώτερη σελίδα.
@@ -1559,8 +1533,6 @@ $1",
 'right-reset-passwords'       => 'Αρχικοποίηση κωδικών πρόσβασης άλλων χρηστών/χρηστριών',
 'right-override-export-depth' => 'Εξαγωγή σελίδων συμπεριλαμβάνοντας συνδεδεμένες σελίδες έως ένα βάθος 5 επιπέδων',
 'right-sendemail'             => 'Αποστολή ηλεκτρονικού μηνύματος σε άλλους χρήστες',
-'right-revisionmove'          => 'Μετακίνηση εκδόσεων',
-'right-disableaccount'        => 'Απενεργοποίηση λογαριασμών',
 
 # User rights log
 'rightslog'      => 'Αρχείο καταγραφών δικαιωμάτων χρηστών',
@@ -1603,7 +1575,6 @@ $1",
 'action-userrights'           => 'να επεξεργαστείτε όλα τα δικαιώματα χρηστών',
 'action-userrights-interwiki' => 'να επεξεργαστείτε τα δικαιώματα χρηστών σε άλλα βίκι',
 'action-siteadmin'            => 'να κλειδώσετε ή ξεκλειδώσετε τη βάση δεδομένων',
-'action-revisionmove'         => 'Μετακίνηση εκδόσεων',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|αλλαγή|αλλαγές}}',
@@ -1626,7 +1597,7 @@ $1",
 'rcshowhidemine'                    => '$1 των επεξεργασιών μου',
 'rclinks'                           => 'Εμφάνιση των τελευταίων $1 αλλαγών στο διάστημα των τελευταίων $2 ημερών<br />$3',
 'diff'                              => "'διαφορά'",
-'hist'                              => "'ιστορικό'",
+'hist'                              => 'ιστορικό',
 'hide'                              => 'απόκρυψη',
 'show'                              => 'εμφάνιση',
 'minoreditletter'                   => 'μ',
@@ -2768,7 +2739,7 @@ $1',
 'import-interwiki-namespace' => 'Προορισμός στην περιοχή ονομάτων:',
 'import-upload-filename'     => 'Όνομα αρχείου:',
 'import-comment'             => 'Σχόλιο:',
-'importtext'                 => 'Παρακαλούμε εξάγετε το αρχείο από το πηγαίο Wiki (χρησιμοποιώντας Special:Export), αποθηκεύστε το στο δίσκο του υπολογιστή σας και φορτώστε το από εκεί.',
+'importtext'                 => 'Παρακαλούμε εξάγετε το αρχείο από το πηγαίο βίκι (χρησιμοποιώντας το [[Special:Export|εργαλείο εξαγωγής]]), αποθηκεύστε το στον υπολογιστή σας και μεταφορτώστε το από εκεί.',
 'importstart'                => 'Η εισαγωγή των σελίδων είναι σε εξέλιξη...',
 'import-revision-count'      => '$1 {{PLURAL:$1|αναθεώρηση|αναθεωρήσεις}}',
 'importnopages'              => 'Δεν υπάρχουν σελίδες για εισαγωγή.',
@@ -3018,7 +2989,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Πλάτος',
@@ -3033,13 +3010,11 @@ $1',
 'exif-ycbcrpositioning'            => 'Ρύθμιση φωτεινότητας και χρώματος',
 'exif-xresolution'                 => 'Οριζόντια ανάλυση',
 'exif-yresolution'                 => 'Κατακόρυφη ανάλυση',
-'exif-resolutionunit'              => 'Μονάδα μέτρησης ανάλυσης X και Y',
 'exif-stripoffsets'                => 'Τοποθέτηση δεδομένων εικόνας',
 'exif-rowsperstrip'                => 'Αριθμός σειρών ανά λωρίδα',
 'exif-stripbytecounts'             => 'Bytes ανά συμπιεσμένη λωρίδα',
 'exif-jpeginterchangeformat'       => 'Μετάθεση σε JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Bytes δεδομένων JPEG',
-'exif-transferfunction'            => 'Λειτουργία μεταφοράς',
 'exif-whitepoint'                  => 'Χρωματικός προσδιορισμός λευκού',
 'exif-primarychromaticities'       => 'Πρωτεύοντες χρωματισμοί',
 'exif-ycbcrcoefficients'           => 'Συντελεστές μητρών μετασχηματισμού χρώματος',
@@ -3058,7 +3033,6 @@ $1',
 'exif-compressedbitsperpixel'      => 'Κατάσταση συμπίεσης εικόνας',
 'exif-pixelydimension'             => 'Έγκυρο πλάτος εικόνας',
 'exif-pixelxdimension'             => 'Έγκυρο ύψος εικόνας',
-'exif-makernote'                   => 'Σημειώσεις του κατασκευαστή',
 'exif-usercomment'                 => 'Σχόλια χρήστη',
 'exif-relatedsoundfile'            => 'Σχετικό αρχείο ήχου',
 'exif-datetimeoriginal'            => 'Ημερομηνία και ώρα της παραγωγής ψηφιακών δεδομένων',
@@ -3072,7 +3046,6 @@ $1',
 'exif-exposureprogram'             => 'Πρόγραμμα έκθεσης',
 'exif-spectralsensitivity'         => 'Ευαισθησία φάσματος',
 'exif-isospeedratings'             => 'Βαθμολόγηση ταχύτητας ISO',
-'exif-oecf'                        => 'Οπτικοηλεκτρονικός συντελεστής μετατροπής',
 'exif-shutterspeedvalue'           => 'Ταχύτητα κλείστρου',
 'exif-aperturevalue'               => 'Διάφραγμα',
 'exif-brightnessvalue'             => 'Φωτεινότητα',
@@ -3085,7 +3058,6 @@ $1',
 'exif-focallength'                 => 'Εστιακή απόσταση του φακού',
 'exif-subjectarea'                 => 'Θεματική περιοχή',
 'exif-flashenergy'                 => 'Ενέργεια του φλας',
-'exif-spatialfrequencyresponse'    => 'Χωρική απόκριση συχνότητας',
 'exif-focalplanexresolution'       => 'Ανάλυση εστιακού επιπέδου Χ',
 'exif-focalplaneyresolution'       => 'Ανάλυση εστιακού επιπέδου Υ',
 'exif-focalplaneresolutionunit'    => 'Μονάδα μέτρησης ανάλυσης εστιακού επιπέδου',
@@ -3094,7 +3066,6 @@ $1',
 'exif-sensingmethod'               => 'Μέθοδος αισθητήρα',
 'exif-filesource'                  => 'Πηγή αρχείου',
 'exif-scenetype'                   => 'Τύπος σκηνής',
-'exif-cfapattern'                  => 'Πρότυπο CFA',
 'exif-customrendered'              => 'Ειδική επεξεργασία εικόνας',
 'exif-exposuremode'                => 'Κατάσταση λειτουργίας έκθεσης',
 'exif-whitebalance'                => 'Ισορροπία των λευκών',
@@ -3279,6 +3250,11 @@ $1',
 'exif-gpsspeed-k' => 'Χιλιόμετρα/ώρα',
 'exif-gpsspeed-m' => 'Μίλια/ώρα',
 'exif-gpsspeed-n' => 'Κόμβοι',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Χιλιόμετρα',
+'exif-gpsdestdistance-m' => 'Μίλια',
+'exif-gpsdestdistance-n' => 'Ναυτικά μίλια',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Πραγματική κατεύθυνση',
@@ -3558,18 +3534,5 @@ $1',
 # SQLite database support
 'sqlite-has-fts' => '$1 με υποστήριξη αναζήτησης πλήρους κειμένου',
 'sqlite-no-fts'  => '$1 χωρίς την υποστήριξη αναζήτησης πλήρους κειμένου',
-
-# Special:DisableAccount
-'disableaccount'             => 'Απενεργοποίηση λογαριασμού χρήστη',
-'disableaccount-user'        => 'Όνομα χρήστη:',
-'disableaccount-reason'      => 'Αιτιολογία:',
-'disableaccount-confirm'     => "Απενεργοποίηση αυτού του λογαριασμού χρήστη. 
- Ο χρήστης δεν θα είναι σε θέση να συνδεθείτε, επαναφέρετε τον κωδικό πρόσβασής τους, ή να λαμβάνετε ειδοποιήσεις e-mail. 
- Εάν ο χρήστης είναι συνδεδεμένος οπουδήποτε, θα αποσυνδεθεί άμεσα. 
- ''Σημειώστε ότι η απενεργοποίηση ενός λογαριασμού δεν είναι αναστρέψιμη χωρίς παρέμβαση του διαχειριστή του συστήματος.''",
-'disableaccount-mustconfirm' => 'Πρέπει να επιβεβαιώσετε ότι θέλετε να απενεργοποιήσετε αυτό το λογαριασμό.',
-'disableaccount-nosuchuser'  => 'Ο λογαριασμός χρήστη "$1" δεν υπάρχει.',
-'disableaccount-success'     => 'Ο λογαριασμός χρήστη "$1" έχει απενεργοποιηθεί μόνιμα.',
-'disableaccount-logentry'    => 'μόνιμα απονεργοποιήθηκε ο  λογαριασμός  χρήστη [[$1]]',
 
 );

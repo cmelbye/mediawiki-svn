@@ -147,7 +147,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'ListaDeBots' ),
 	'Popularpages'              => array( 'HojasMásVisitadas' ),
 	'Search'                    => array( 'Buscar' ),
-	'Resetpass'                 => array( 'TrocarKóddiche' ),
+	'ChangePassword'            => array( 'TrocarKóddiche' ),
 	'Withoutinterwiki'          => array( 'SinIntervikis' ),
 	'MergeHistory'              => array( 'AjuntarIstoria' ),
 	'Filepath'                  => array( 'Pozisyón_de_dosya' ),
@@ -1013,7 +1013,13 @@ Los otros campos se van a guardar por defecto.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-filesource'   => 'Manadéro de archivo',

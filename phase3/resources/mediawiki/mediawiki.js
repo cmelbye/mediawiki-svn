@@ -1046,9 +1046,11 @@ window.mediaWiki = new ( function( $ ) {
 				// Support adding arbitrary external scripts
 				if ( modules.substr( 0, 7 ) == 'http://' || modules.substr( 0, 8 ) == 'https://' ) {
 					if ( type === 'text/css' ) {
-						$( 'head' )
-							.append( $( '<link rel="stylesheet" type="text/css" />' )
-							.attr( 'href', modules ) );
+						$( 'head' ).append( $( '<link />', {
+							rel: 'stylesheet',
+							type: 'text/css',
+							href: modules
+						} ) );
 						return true;
 					} else if ( type === 'text/javascript' || typeof type === 'undefined' ) {
 						var script = mediaWiki.html.element( 'script',
@@ -1224,6 +1226,10 @@ window.mediaWiki = new ( function( $ ) {
 
 } )( jQuery );
 
+// Alias $j to jQuery for backwards compatibility
+window.$j = jQuery;
+window.mw = mediaWiki;
+
 /* Auto-register from pre-loaded startup scripts */
 
 if ( $.isFunction( startUp ) ) {
@@ -1232,8 +1238,4 @@ if ( $.isFunction( startUp ) ) {
 }
 
 // Add jQuery Cookie to initial payload (used in mediaWiki.user)
-mediaWiki.loader.load( 'jquery.cookie' );
-
-// Alias $j to jQuery for backwards compatibility
-window.$j = jQuery;
-window.mw = mediaWiki;
+mw.loader.load( 'jquery.cookie' );

@@ -385,7 +385,7 @@ Foalls doas Nutzerkonto irrtümlich oagelagt wurde, koast du diese Noachricht ig
 Bitte warte, bevor du is erneut probierst.',
 'loginlanguagelabel'         => 'Sproache: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Passwurt ändern',
 'resetpass_announce'        => "Anmeldung mi'm per E-Mail zugesandten Code. Im de Anmeldung abzuschließa, mußt du jitz a neues Poaßwurt wähla.",
 'resetpass_header'          => 'Passwurt ändern',
@@ -1969,7 +1969,13 @@ Darauf folgende Seitalinks ei derselba Zeile definiera Ausnahma, ei deren Kontex
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagelength'                 => 'Länge',
@@ -1980,11 +1986,9 @@ Darauf folgende Seitalinks ei derselba Zeile definiera Ausnahma, ei deren Kontex
 'exif-ycbcrsubsampling'            => 'Subsampling Rate vu Y bis C',
 'exif-xresolution'                 => 'Horizontale Ufflesung',
 'exif-yresolution'                 => 'Vertikale Ufflesung',
-'exif-resolutionunit'              => 'Maßeinheet dar Ufflesung',
 'exif-rowsperstrip'                => 'Oazoahl Zeila pro Streifa',
 'exif-stripbytecounts'             => 'Bytes pro komprimiertem Streifa',
 'exif-jpeginterchangeformatlength' => 'Griße dar JPEG-Daten ei Bytes',
-'exif-transferfunction'            => 'Iebertragungsfunksjonn',
 'exif-whitepoint'                  => 'Manuell miet Messung',
 'exif-primarychromaticities'       => 'Primäre Forboart',
 'exif-referenceblackwhite'         => 'Schworz/Weeß-Referenzpunkte',
@@ -1994,7 +1998,6 @@ Darauf folgende Seitalinks ei derselba Zeile definiera Ausnahma, ei deren Kontex
 'exif-colorspace'                  => 'Forbraum',
 'exif-pixelydimension'             => 'Giltige Bildbreite',
 'exif-pixelxdimension'             => 'Giltige Bildhiehe',
-'exif-makernote'                   => 'Herstallernotiz',
 'exif-usercomment'                 => 'Nutzerkommentare',
 'exif-relatedsoundfile'            => 'Zugehierige Tondatei',
 'exif-exposuretime-format'         => '$1 Sekunda ($2)',

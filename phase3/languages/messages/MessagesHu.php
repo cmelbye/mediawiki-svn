@@ -141,7 +141,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Botok', 'Botok_listája' ),
 	'Popularpages'              => array( 'Népszerű_oldalak' ),
 	'Search'                    => array( 'Keresés' ),
-	'Resetpass'                 => array( 'Jelszócsere' ),
+	'ChangePassword'            => array( 'Jelszócsere' ),
 	'Withoutinterwiki'          => array( 'Nyelvközi_hivatkozás_nélküli_lapok', 'Wikiközi_hivatkozás_nélküli_lapok', 'Interwikilinkek_nélküli_lapok' ),
 	'MergeHistory'              => array( 'Laptörténetek_egyesítése', 'Laptörténet-egyesítés' ),
 	'Filepath'                  => array( 'Fájl_elérési_útja', 'Fájl_elérési_út' ),
@@ -784,16 +784,7 @@ Várj egy kicsit, mielőtt újra próbálkozol.',
 # E-mail sending
 'php-mail-error-unknown' => 'Ismeretlen hiba a PHP mail() függvényében',
 
-# JavaScript password checks
-'password-strength'            => 'Becsült jelszóerősség: $1',
-'password-strength-bad'        => 'GYENGE',
-'password-strength-mediocre'   => 'közepes',
-'password-strength-acceptable' => 'elfogadható',
-'password-strength-good'       => 'jó',
-'password-retype'              => 'Jelszavad még egyszer:',
-'password-retype-mismatch'     => 'A jelszavak nem egyeznek meg',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Jelszó módosítása',
 'resetpass_announce'        => 'Az e-mailben elküldött ideiglenes kóddal jelentkeztél be. A bejelentkezés befejezéséhez meg kell megadnod egy új jelszót:',
 'resetpass_text'            => '<!-- Ide írd a szöveget -->',
@@ -1175,24 +1166,6 @@ Ellenőrizd a naplókat.',
 'suppressionlog'     => 'Adatvédelmibiztos-napló',
 'suppressionlogtext' => 'Lenn látható az adminisztrátorok elől legutóbb elrejtett törlések és blokkok listája. Lásd a [[Special:IPBlockList|blokkolt IP-címek listája]] lapot a jelenleg érvényben lévő kitiltásokhoz és blokkokhoz.',
 
-# Revision move
-'moverevlogentry'              => 'áthelyezett {{PLURAL:$3|egy|$3}} lapváltozatot a(z) $1 lapról $2 lapra',
-'revisionmove'                 => 'Lapváltozatok áthelyezése a(z) „$1” lapról',
-'revmove-explain'              => 'A következő lapváltozatok át lesznek helyezve a(z) $1 lapról a megadott céllapra. Ha a cél nem létezik, akkor létre lesz hozva. Egyébként ezek a lapváltozatok össze lesznek vonva annak a lapnak a laptörténetével.',
-'revmove-legend'               => 'Céllap és összefoglaló megadása',
-'revmove-submit'               => 'Lapváltozatok áthelyezése egy kiválasztott lapra',
-'revisionmoveselectedversions' => 'Kiválasztott lapváltozatok áthelyezése',
-'revmove-reasonfield'          => 'Ok:',
-'revmove-titlefield'           => 'Céllap:',
-'revmove-badparam-title'       => 'Hibás paraméterek',
-'revmove-badparam'             => 'A kérésed érvénytelen vagy nem elegendő paramétert tartalmaz. Kattints a „Vissza” gombra, majd próbáld újra.',
-'revmove-norevisions-title'    => 'Érvénytelen célváltozat',
-'revmove-norevisions'          => 'Nem adtad meg az(oka)t a lapváltozato(ka)t, mely(ek)en végre akarod hajtani ezt a műveletet, vagy a kiválasztott lapváltozat nem létezik.',
-'revmove-nullmove-title'       => 'Hibás cím',
-'revmove-nullmove'             => 'A forrás és a céllap megegyezik. Kattints a „Vissza” gombra, majd adj meg a jelenlegi, „$1” címtől különbözőt.',
-'revmove-success-existing'     => '{{PLURAL:$1|Egy|$1}} lapváltozat át lett helyezve a(z) [[$2]] lapról a már létező [[$3]] lapra.',
-'revmove-success-created'      => '{{PLURAL:$1|Egy|$1}} lapváltozat át lett helyezve a(z) [[$2]] lapról az újonnan létrehozott [[$3]] lapra.',
-
 # History merging
 'mergehistory'                     => 'Laptörténetek egyesítése',
 'mergehistory-header'              => 'Ez az oldal lehetővé teszi egy oldal laptörténetének egyesítését egy másikéval.
@@ -1527,8 +1500,6 @@ Ezen kívül más szerkesztők is kapcsolatba lépjenek veled a szerkesztői vag
 'right-reset-passwords'       => 'Más felhasználók jelszavának visszaállítása',
 'right-override-export-depth' => 'Lapok exportálása a hivatkozott lapokkal együtt, legfeljebb 5-ös mélységig',
 'right-sendemail'             => 'e-mail küldése más felhasználóknak',
-'right-revisionmove'          => 'lapváltozatok áthelyezése',
-'right-disableaccount'        => 'fiókok letiltása',
 
 # User rights log
 'rightslog'      => 'Szerkesztői jogosultságok naplója',
@@ -1571,7 +1542,6 @@ Ezen kívül más szerkesztők is kapcsolatba lépjenek veled a szerkesztői vag
 'action-userrights'           => 'összes szerkesztő jogainak módosítása',
 'action-userrights-interwiki' => 'más wikik szerkesztői jogainak módosítása',
 'action-siteadmin'            => 'adatbázis lezárása vagy felnyitása',
-'action-revisionmove'         => 'lapváltozatok áthelyezése',
 
 # Recent changes
 'nchanges'                          => '{{PLURAL:$1|egy|$1}} változtatás',
@@ -1661,8 +1631,8 @@ Lásd még az [[Special:NewFiles|új fáljlok galériáját]]',
 'filetype-bad-ie-mime'        => 'A fájlt nem lehet feltölteni, mert az Internet Explorer „$1” típusúnak tekintené, ami tiltott és potenciálisan veszélyes fájltípus.',
 'filetype-unwanted-type'      => "A(z) '''„.$1”''' nem javasolt fájltípus.
 Az ajánlott {{PLURAL:$3|típus|típusok}}: $2.",
-'filetype-banned-type'        => "A(z) '''„.$1”''' nem megengedett fájltípus.
-Az engedélyezett {{PLURAL:$3|típus|típusok}}: $2.",
+'filetype-banned-type'        => "A következő {{PLURAL:$4|fájltípus nem engedélyezett|fájltípusok nem engedélyezettek}}: '''„.$1”'''
+Engedélyezett {{PLURAL:$3|típus|típusok}}: $2.",
 'filetype-missing'            => 'A fájlnak nincs kiterjesztése (pl. „.jpg”).',
 'empty-file'                  => 'Az elküldött fájl üres volt.',
 'file-too-large'              => 'Az elküldött fájl túl nagy volt.',
@@ -2139,6 +2109,8 @@ Feladóként a [[Special:Preferences|beállításaid]]nál megadott e-mail-címe
 'noemailtext'          => 'Ez a szerkesztő nem adott meg érvényes e-mail címet.',
 'nowikiemailtitle'     => 'Nem küldhető e-mail üzenet',
 'nowikiemailtext'      => 'Ez a szerkesztő nem kíván másoktól e-mail üzeneteket fogadni.',
+'emailusername'        => 'Felhasználónév:',
+'emailusernamesubmit'  => 'Küldés',
 'email-legend'         => 'E-mail küldése egy másik {{SITENAME}}-szerkesztőnek',
 'emailfrom'            => 'Feladó:',
 'emailto'              => 'Címzett:',
@@ -2399,9 +2371,10 @@ $1',
 'undelete-show-file-submit'    => 'Igen',
 
 # Namespace form on various pages
-'namespace'      => 'Névtér:',
-'invert'         => 'Kijelölés megfordítása',
-'blanknamespace' => '(Fő)',
+'namespace'             => 'Névtér:',
+'invert'                => 'Kijelölés megfordítása',
+'namespace_association' => 'Kapcsolódó névtér',
+'blanknamespace'        => '(Fő)',
 
 # Contributions
 'contributions'       => 'Szerkesztő közreműködései',
@@ -2450,6 +2423,8 @@ A blokknapló legutóbbi ide vonatkozó bejegyzése a következő:',
 'whatlinkshere-filters'    => 'Elemek szűrése',
 
 # Block/unblock
+'autoblockid'                     => '$1. autoblokk',
+'block'                           => 'Felhasználó blokkolása',
 'blockip'                         => 'Blokkolás',
 'blockip-title'                   => 'Felhasználó blokkolása',
 'blockip-legend'                  => 'Felhasználó blokkolása',
@@ -2479,6 +2454,7 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 'ipbhidename'                     => 'A felhasználónév ne jelenjen meg a szerkesztéseknél és a listákban',
 'ipbwatchuser'                    => 'A felhasználó lapjának és vitalapjának figyelése',
 'ipb-change-block'                => 'Blokk beállításainak megváltoztatása',
+'ipb-confirm'                     => 'Blokk megerősítése',
 'badipaddress'                    => 'Érvénytelen IP-cím',
 'blockipsuccesssub'               => 'Sikeres blokkolás',
 'blockipsuccesstext'              => '„[[Special:Contributions/$1|$1]]” felhasználót blokkoltad.
@@ -2493,6 +2469,7 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 'ipusubmit'                       => 'Blokk eltávolítása',
 'unblocked'                       => '[[User:$1|$1]] blokkolása feloldva',
 'unblocked-id'                    => '$1 blokkolása feloldásra került',
+'blocklist'                       => 'Blokkolt felhasználók',
 'ipblocklist'                     => 'Blokkolt felhasználók',
 'ipblocklist-legend'              => 'Blokkolt felhasználó keresése',
 'ipblocklist-submit'              => 'Keresés',
@@ -2980,7 +2957,13 @@ tartalmazni fogja. A többi alapértelmezésként rejtett marad.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Szélesség',
@@ -2995,13 +2978,11 @@ tartalmazni fogja. A többi alapértelmezésként rejtett marad.
 'exif-ycbcrpositioning'            => 'Y és C pozicionálása',
 'exif-xresolution'                 => 'Vízszintes felbontás',
 'exif-yresolution'                 => 'Függőleges felbontás',
-'exif-resolutionunit'              => 'Az X és Y felbontás mértékegysége',
 'exif-stripoffsets'                => 'Képadatok elhelyezése',
 'exif-rowsperstrip'                => 'Egy csíkban levő sorok száma',
 'exif-stripbytecounts'             => 'Bájt/csík',
 'exif-jpeginterchangeformat'       => 'Eltolás JPEG SOI-be',
 'exif-jpeginterchangeformatlength' => 'JPEG adatok bájtjai',
-'exif-transferfunction'            => 'Átviteli funkció',
 'exif-whitepoint'                  => 'Fehér pont színérték',
 'exif-primarychromaticities'       => 'Színinger',
 'exif-ycbcrcoefficients'           => 'Színtér transzformációs mátrixának együtthatói',
@@ -3018,9 +2999,8 @@ tartalmazni fogja. A többi alapértelmezésként rejtett marad.
 'exif-colorspace'                  => 'Színtér',
 'exif-componentsconfiguration'     => 'Az egyes összetevők jelentése',
 'exif-compressedbitsperpixel'      => 'Képtömörítési mód',
-'exif-pixelydimension'             => 'Érvényes képszélesség',
-'exif-pixelxdimension'             => 'Érvényes képmagasság',
-'exif-makernote'                   => 'Gyártó jegyzetei',
+'exif-pixelydimension'             => 'Képszélesség',
+'exif-pixelxdimension'             => 'Képmagasság',
 'exif-usercomment'                 => 'Felhasználók megjegyzései',
 'exif-relatedsoundfile'            => 'Kapcsolódó hangfájl',
 'exif-datetimeoriginal'            => 'EXIF információ létrehozásának dátuma',
@@ -3034,10 +3014,9 @@ tartalmazni fogja. A többi alapértelmezésként rejtett marad.
 'exif-exposureprogram'             => 'Expozíciós program',
 'exif-spectralsensitivity'         => 'Színkép érzékenysége',
 'exif-isospeedratings'             => 'ISO érzékenység minősítése',
-'exif-oecf'                        => 'Optoelectronikai konverziós tényező',
-'exif-shutterspeedvalue'           => 'Zársebesség',
-'exif-aperturevalue'               => 'Lencsenyílás',
-'exif-brightnessvalue'             => 'Fényerő',
+'exif-shutterspeedvalue'           => 'APEX zársebesség',
+'exif-aperturevalue'               => 'APEX lencsenyílás',
+'exif-brightnessvalue'             => 'APEX fényerő',
 'exif-exposurebiasvalue'           => 'Expozíciós dőltség',
 'exif-maxaperturevalue'            => 'Legnagyobb földi lencsenyílás',
 'exif-subjectdistance'             => 'Tárgy távolsága',
@@ -3047,7 +3026,6 @@ tartalmazni fogja. A többi alapértelmezésként rejtett marad.
 'exif-focallength'                 => 'Fókusztávolság',
 'exif-subjectarea'                 => 'Tárgy területe',
 'exif-flashenergy'                 => 'Vaku ereje',
-'exif-spatialfrequencyresponse'    => 'Térbeli frekvenciareakció',
 'exif-focalplanexresolution'       => 'Mátrixdetektor X felbontása',
 'exif-focalplaneyresolution'       => 'Mátrixdetektor Y felbontása',
 'exif-focalplaneresolutionunit'    => 'Mátrixdetektor felbontásának mértékegysége',
@@ -3056,7 +3034,6 @@ tartalmazni fogja. A többi alapértelmezésként rejtett marad.
 'exif-sensingmethod'               => 'Érzékelési mód',
 'exif-filesource'                  => 'Fájl forrása',
 'exif-scenetype'                   => 'Színhely típusa',
-'exif-cfapattern'                  => 'CFA minta',
 'exif-customrendered'              => 'Egyéni képfeldolgozás',
 'exif-exposuremode'                => 'Expozíciós mód',
 'exif-whitebalance'                => 'Fehéregyensúly',
@@ -3101,10 +3078,40 @@ tartalmazni fogja. A többi alapértelmezésként rejtett marad.
 'exif-gpsareainformation'          => 'GPS terület neve',
 'exif-gpsdatestamp'                => 'GPS dátum',
 'exif-gpsdifferential'             => 'GPS különbözeti korrekció',
+'exif-keywords'                    => 'Kulcsszavak',
 'exif-objectname'                  => 'Rövid cím',
+'exif-specialinstructions'         => 'Különleges utasítások',
+'exif-headline'                    => 'Fejléc',
+'exif-source'                      => 'Forrás',
+'exif-urgency'                     => 'Sürgősség',
+'exif-locationdest'                => 'Ábrázolt helyszín',
+'exif-writer'                      => 'Író',
+'exif-languagecode'                => 'Nyelv',
+'exif-iimcategory'                 => 'Kategória',
+'exif-datetimereleased'            => 'Megjelenés ideje',
+'exif-identifier'                  => 'Azonosító',
+'exif-serialnumber'                => 'Kamera sorozatszáma',
+'exif-cameraownername'             => 'Kamera tulajdonosa',
+'exif-label'                       => 'Címke',
+'exif-copyrighted'                 => 'Szerzői jogi állapot',
+'exif-copyrightowner'              => 'Szerzői jog tulajdonosa',
+'exif-usageterms'                  => 'Felhasználási feltételek',
+'exif-webstatement'                => 'Online szerzői jogi nyilatkozat',
+'exif-originaldocumentid'          => 'Eredeti dokumentum egyedi azonosítója',
+'exif-licenseurl'                  => 'Szerzői jog engedély URL-címe',
+'exif-morepermissionsurl'          => 'Alternatív licencinformáció',
+'exif-intellectualgenre'           => 'Elemtípus',
+'exif-subjectnewscode'             => 'Tárgykód',
+'exif-event'                       => 'Ábrázolt esemény',
+'exif-personinimage'               => 'Ábrázolt személy',
+'exif-originalimageheight'         => 'Kép magassága a levágás előtt',
+'exif-originalimagewidth'          => 'Kép szélessége a levágás előtt',
 
 # EXIF attributes
 'exif-compression-1' => 'Nem tömörített',
+
+'exif-copyrighted-true'  => 'Szerzői jog által védett',
+'exif-copyrighted-false' => 'Közkincs',
 
 'exif-unknowndate' => 'Ismeretlen dátum',
 
@@ -3119,6 +3126,8 @@ tartalmazni fogja. A többi alapértelmezésként rejtett marad.
 
 'exif-planarconfiguration-1' => 'Egyben',
 'exif-planarconfiguration-2' => 'sík formátum',
+
+'exif-colorspace-65535' => 'Nem kalibrált',
 
 'exif-componentsconfiguration-0' => 'nem létezik',
 
@@ -3242,9 +3251,40 @@ tartalmazni fogja. A többi alapértelmezésként rejtett marad.
 'exif-gpsspeed-m' => 'Márföld óránként',
 'exif-gpsspeed-n' => 'Csomó',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'kilométer',
+'exif-gpsdestdistance-m' => 'mérföld',
+'exif-gpsdestdistance-n' => 'tengeri mérföld',
+
+'exif-gpsdop-excellent' => 'Kiváló ($1)',
+'exif-gpsdop-good'      => 'Jó ($1)',
+'exif-gpsdop-moderate'  => 'Mérsékelt ($1)',
+'exif-gpsdop-poor'      => 'Gyenge ($1)',
+
+'exif-objectcycle-a' => 'Csak reggel',
+'exif-objectcycle-p' => 'Csak este',
+'exif-objectcycle-b' => 'Reggel és este',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Igazi irány',
 'exif-gpsdirection-m' => 'Mágneses irány',
+
+'exif-dc-contributor' => 'Közreműködők',
+'exif-dc-relation'    => 'Kapcsolódó média',
+'exif-dc-source'      => 'Forrás-adathordozó',
+'exif-dc-type'        => 'Adathordozó típusa',
+
+'exif-rating-rejected' => 'Elutasítva',
+
+'exif-isospeedratings-overflow' => 'Nagyobb, mint 65535',
+
+'exif-iimcategory-ace' => 'Művészetek, kultúra és szórakoztatás',
+'exif-iimcategory-clj' => 'Bűnözés és törvény',
+'exif-iimcategory-fin' => 'Gazdaság és üzlet',
+'exif-iimcategory-edu' => 'Oktatás',
+'exif-iimcategory-evn' => 'Környezet',
+'exif-iimcategory-hth' => 'Egészség',
+'exif-iimcategory-pol' => 'Politika',
 
 # External editor support
 'edit-externally'      => 'A fájl szerkesztése külső alkalmazással',
@@ -3542,18 +3582,5 @@ Add meg a fájlnevet a „{{ns:file}}:” prefixum nélkül.',
 # SQLite database support
 'sqlite-has-fts' => '$1 teljes szöveges keresés támogatással',
 'sqlite-no-fts'  => '$1 teljes szöveges keresés támogatása nélkül',
-
-# Special:DisableAccount
-'disableaccount'             => 'Felhasználói fiók letiltása',
-'disableaccount-user'        => 'Felhasználónév:',
-'disableaccount-reason'      => 'Ok:',
-'disableaccount-confirm'     => "Felhasználói fiók letiltása.
-A felhasználó nem jelentkezhet be, nem kérhet új jelszót és nem kap e-mailes értesítéseket.
-Ha a felhasználó bárhol be van jelentkezve, ki lesz jelentkeztetve.
-''Fontos, hogy felhasználói fiók letiltása nem állítható vissza rendszeradminisztrátor közreműködése nélkül.''",
-'disableaccount-mustconfirm' => 'Meg kell erősítened, hogy biztosan le szeretnéd tiltani ezt a fiókot.',
-'disableaccount-nosuchuser'  => 'Nem létezik „$1” nevű felhasználói fiók.',
-'disableaccount-success'     => '„$1” felhasználói fiókja véglegesen le lett tiltva.',
-'disableaccount-logentry'    => 'véglegesen letiltotta [[$1]] felhasználói fiókját',
 
 );

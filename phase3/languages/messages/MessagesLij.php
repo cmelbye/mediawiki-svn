@@ -119,7 +119,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Bot' ),
 	'Popularpages'              => array( 'Paggine ciû viscitæ' ),
 	'Search'                    => array( 'Riçerca', 'Çerca' ),
-	'Resetpass'                 => array( 'Rimposta paròlla d\'ordine' ),
+	'ChangePassword'            => array( 'Rimposta paròlla d\'ordine' ),
 	'Withoutinterwiki'          => array( 'Sensa Interwiki' ),
 );
 
@@ -399,7 +399,7 @@ Pe abilitâ l'invîo de messaggi e-mail pe quest'accesso, o se deive seguî l'is
 'accountcreatedtext'         => "Utente $1, ti te guägno l'açeiso!",
 'loginlanguagelabel'         => 'Lengoa: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'           => 'Reverti a pòula segretta',
 'resetpass_header'    => 'Reverti a pòula segretta',
 'retypenew'           => "Ripette a nêuva paròlla d'ordine:",
@@ -1066,7 +1066,13 @@ L'ingançi succescivi, inscia mæxima riga, van conscideræ comme eccescioîn (p
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength",
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude",
 
 # EXIF tags
 'exif-datetime'   => 'Data e öa do cangiamento do papê',

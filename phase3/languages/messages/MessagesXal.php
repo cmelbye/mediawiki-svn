@@ -455,7 +455,7 @@ $1',
 'accountcreated'          => 'Бичгдллһн бүтәв.',
 'loginlanguagelabel'      => 'Келн: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Нууц үгиг сольх',
 'resetpass_header'          => 'Бичгдллһнә нууц үгиг сольх',
 'oldpassword'               => 'Көгшн нууц үг:',
@@ -1171,7 +1171,13 @@ $2 шидрә һарһлһна төлә хәләтн.',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'               => 'Өргн',

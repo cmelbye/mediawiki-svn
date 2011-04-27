@@ -127,7 +127,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'ListaBots' ),
 	'Popularpages'              => array( 'PaġniPopolari' ),
 	'Search'                    => array( 'Fittex' ),
-	'Resetpass'                 => array( 'BiddelPassword' ),
+	'ChangePassword'            => array( 'BiddelPassword' ),
 	'Withoutinterwiki'          => array( 'PaġniMingħajrInterwiki', 'BlaInterwiki' ),
 	'MergeHistory'              => array( 'WaħħadKronoloġija' ),
 	'Filepath'                  => array( 'PostFajl' ),
@@ -737,7 +737,7 @@ Jekk jogħġbok stenna qabel ma terġa' tipprova.",
 'loginlanguagelabel'         => 'Lingwa: $1',
 'suspicious-userlogout'      => "Ir-rikjesta tiegħek li toħroġ barra mill-kont tiegħek ġiet miċħuda minħabba li jidher li din intbagħtet minn browser li ma jaħdimx jew minn proxy ta' caching.",
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Biddel il-password',
 'resetpass_announce'        => "L-aċċess ġe effetwat permezz ta' kodiċi temporanju, li ntbagħat permezz tal-posta elettronika.
 Biex tkompli l-aċċess tal-kont tiegħek huwa neċessarju li toħloq password ġdida hawnhekk:",
@@ -1077,9 +1077,6 @@ $1",
 'suppressionlog'     => "Log ta' ċaħdied",
 'suppressionlogtext' => "Il-lista ta' tħassir u blokjar tinsab hawn taħt din tinkludi kontenut li huwa moħbi mill-amministraturi.
 Ara [[Special:IPBlockList|IP lista ta' blokjar]] għal lista ta' ċaħdiet u blokjar kurrenti.",
-
-# Revision move
-'revmove-nullmove-title' => 'Titlu ħażin',
 
 # History merging
 'mergehistory'                     => 'Waħħad l-istorji tal-paġni',
@@ -2644,7 +2641,13 @@ Minħabba veduta predefinita ,l-oħrajn se jiġu moħbija.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength",
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude",
 
 # EXIF tags
 'exif-imagewidth'                  => "Wisa'",
@@ -2659,13 +2662,11 @@ Minħabba veduta predefinita ,l-oħrajn se jiġu moħbija.
 'exif-ycbcrpositioning'            => 'Pożizzjonament tal-komponenti Y u C',
 'exif-xresolution'                 => 'Riżoluzzjoni orizzontali',
 'exif-yresolution'                 => 'Riżoluzzjoni vertikali',
-'exif-resolutionunit'              => 'Unita tar-riżoluzzjoni X u Y',
 'exif-stripoffsets'                => 'Post fejn jinsab id-data tal-istampa',
 'exif-rowsperstrip'                => "Numru ta' fillieri għal kull strixxa",
 'exif-stripbytecounts'             => 'Bytes għal kull strixxa kompressa',
 'exif-jpeginterchangeformat'       => 'Pożizzjoni byte SOI JPEG',
 'exif-jpeginterchangeformatlength' => "Numru ta' bytes ta' data JPEG",
-'exif-transferfunction'            => "Funżjoni ta' transferiment",
 'exif-whitepoint'                  => 'Kromatiku tal-punt abjad',
 'exif-primarychromaticities'       => 'Kromitiku tal-kuluri primarji',
 'exif-ycbcrcoefficients'           => 'Koeffiċjent matriċi tat-trasformazzjoni spazji tal-kuluri',
@@ -2684,7 +2685,6 @@ Minħabba veduta predefinita ,l-oħrajn se jiġu moħbija.
 'exif-compressedbitsperpixel'      => 'Għamla tal-kompressjoni tal-istampa',
 'exif-pixelydimension'             => "Wisa' valida tal-istampa",
 'exif-pixelxdimension'             => 'Għoli validu tal-istampa',
-'exif-makernote'                   => 'Noti dwar il-maniffatur',
 'exif-usercomment'                 => 'Noti tal-utent',
 'exif-relatedsoundfile'            => 'Fajl relatat mal-ismiegħ',
 'exif-datetimeoriginal'            => 'Data u ħin tal-ħolqien tad-data',
@@ -2698,7 +2698,6 @@ Minħabba veduta predefinita ,l-oħrajn se jiġu moħbija.
 'exif-exposureprogram'             => 'Programm tal-wirja',
 'exif-spectralsensitivity'         => 'Sensitività spettrali',
 'exif-isospeedratings'             => 'Sensibilità ISO',
-'exif-oecf'                        => "Fattur ta' konverżjoni optoelettronika",
 'exif-shutterspeedvalue'           => "Ħin ta' wirja",
 'exif-aperturevalue'               => 'Ftuħ',
 'exif-brightnessvalue'             => 'Ċarezza',
@@ -2711,7 +2710,6 @@ Minħabba veduta predefinita ,l-oħrajn se jiġu moħbija.
 'exif-focallength'                 => 'Distanza fokali objettiva',
 'exif-subjectarea'                 => 'Spazju tas-suġġett',
 'exif-flashenergy'                 => 'Saħħa tal-flash',
-'exif-spatialfrequencyresponse'    => 'Risposta fi frekwenza spazjali',
 'exif-focalplanexresolution'       => 'Riżoluzzjoni X fuq il-witja fokali',
 'exif-focalplaneyresolution'       => 'Riżoluzzjoni Y fuq il-witja fokali',
 'exif-focalplaneresolutionunit'    => "Unita ta' qisien tar-riżoluzzjoni fuq il-witja fokali",
@@ -2720,7 +2718,6 @@ Minħabba veduta predefinita ,l-oħrajn se jiġu moħbija.
 'exif-sensingmethod'               => 'Metodu ta tħaffif',
 'exif-filesource'                  => 'Oriġini tal-fajl',
 'exif-scenetype'                   => 'Tip tax-xena',
-'exif-cfapattern'                  => 'Dispożizzjoni tal-filtru tal-kulur',
 'exif-customrendered'              => 'Proċessar tal-istampi personalizzati',
 'exif-exposuremode'                => "Stat ta' wirja",
 'exif-whitebalance'                => 'Bilanċ l-abjad',
@@ -2896,6 +2893,11 @@ Minħabba veduta predefinita ,l-oħrajn se jiġu moħbija.
 'exif-gpsspeed-k' => 'Kilometru fis-siegħa',
 'exif-gpsspeed-m' => 'Mili fis-siegħa',
 'exif-gpsspeed-n' => 'Nodi',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometri',
+'exif-gpsdestdistance-m' => 'Mili',
+'exif-gpsdestdistance-n' => 'Mili nawtiċi',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Direzzjoni vera',

@@ -210,7 +210,7 @@ class LegacyTemplate extends BaseTemplate {
 		}
 
 		if ( $wgMaxCredits != 0 ) {
-			$s .= ' ' . Credits::getCredits( $article, $wgMaxCredits, $wgShowCreditsIfMax );
+			$s .= ' ' . Action::factory( 'credits', $article )->getCredits( $wgMaxCredits, $wgShowCreditsIfMax );
 		} else {
 			$s .= $this->data['lastmod'];
 		}
@@ -432,7 +432,7 @@ class LegacyTemplate extends BaseTemplate {
 	function specialPagesList() {
 		global $wgContLang, $wgServer, $wgRedirectScript;
 
-		$pages = array_merge( SpecialPage::getRegularPages(), SpecialPage::getRestrictedPages() );
+		$pages = SpecialPageFactory::getUsablePages();
 
 		foreach ( $pages as $name => $page ) {
 			$pages[$name] = $page->getDescription();

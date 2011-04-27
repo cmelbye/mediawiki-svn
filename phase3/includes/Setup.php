@@ -270,6 +270,14 @@ if ( !$wgEnotifMinorEdits ) {
 	$wgHiddenPrefs[] = 'enotifminoredits';
 }
 
+# $wgDisabledActions is deprecated as of 1.18
+foreach( $wgDisabledActions as $action ){
+	$wgActions[$action] = false;
+}
+if( !$wgAllowPageInfo ){
+	$wgActions['info'] = false;
+}
+
 if ( !$wgHtml5Version && $wgHtml5 && $wgAllowRdfaAttributes ) {
 	# see http://www.w3.org/TR/rdfa-in-html/#document-conformance
 	if ( $wgMimeType == 'application/xhtml+xml' ) {
@@ -453,8 +461,6 @@ foreach ( $wgExtensionFunctions as $func ) {
 	wfProfileOut( $profName );
 }
 
-require_once( MWInit::compiledPath( 'includes/normal/UtfNormalDefines.php' ) );
-
 // For compatibility
 wfRunHooks( 'LogPageValidTypes', array( &$wgLogTypes ) );
 wfRunHooks( 'LogPageLogName', array( &$wgLogNames ) );
@@ -464,4 +470,7 @@ wfRunHooks( 'LogPageActionText', array( &$wgLogActions ) );
 wfDebug( "Fully initialised\n" );
 $wgFullyInitialised = true;
 wfProfileOut( $fname . '-extensions' );
+
+require_once( MWInit::compiledPath( 'includes/normal/UtfNormalDefines.php' ) );
+
 wfProfileOut( $fname );

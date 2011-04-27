@@ -517,14 +517,7 @@ Tulung nunggu dhisik sadurungé njajal manèh.',
 'loginlanguagelabel'         => 'Basa: $1',
 'suspicious-userlogout'      => 'Panjaluk panjenengan supaya metu ditolak amarga katoné panjlajah internt utawa proksi panyinggah.',
 
-# JavaScript password checks
-'password-strength-bad'        => 'ALA (ÈLÈK)',
-'password-strength-acceptable' => 'lumayan',
-'password-strength-good'       => 'apik',
-'password-retype'              => 'Balènana tembung sandhi',
-'password-retype-mismatch'     => 'Tembung sandhiné ora cocog',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Ganti tembung sandi',
 'resetpass_announce'        => 'Panjenengan wis mlebu log mawa kodhe sementara sing dikirim mawa e-mail. Menawa kersa nglanjutaké, panjenengan kudu milih tembung sandhi anyar ing kéné:',
 'resetpass_text'            => '<!-- Tambahaké teks ing kéné -->',
@@ -860,11 +853,6 @@ Mangga priksa cathetan log.',
 # Suppression log
 'suppressionlog'     => "Log barang-barang sing didelikaké (''oversight'')",
 'suppressionlogtext' => "Ing ngisor iki kapacak daftar pambusakan lan pamblokiran pungkasan sing uga nyangkut isi sing didelikaké saka para opsis. Mangga mirsani [[Special:IPBlockList|daftar pamblokiran IP]] kanggo daftar pambuwangan (''ban'') lan pamblokiran sing saiki lagi operasional.",
-
-# Revision move
-'revmove-reasonfield'       => 'Alesan:',
-'revmove-norevisions-title' => 'Target revisi ora ditemokaké',
-'revmove-nullmove-title'    => 'Judhulé ora sah',
 
 # History merging
 'mergehistory'                     => 'Gabung sejarah kaca',
@@ -2478,7 +2466,14 @@ Pranala-pranala sabanjuré ing baris sing padha dianggep minangka ''pengecualian
 * datetimeoriginal
 * exposuretime
 * fnumber
-* isospeedratings',
+* isospeedratings
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Jembar',
@@ -2493,13 +2488,11 @@ Pranala-pranala sabanjuré ing baris sing padha dianggep minangka ''pengecualian
 'exif-ycbcrpositioning'            => 'Pandokokan Y lan C',
 'exif-xresolution'                 => 'Résolusi horisontal',
 'exif-yresolution'                 => 'Résolusi vèrtikal',
-'exif-resolutionunit'              => 'Unit résolusi X lan Y',
 'exif-stripoffsets'                => 'Lokasi data gambar',
 'exif-rowsperstrip'                => 'Cacah baris per strip',
 'exif-stripbytecounts'             => 'Bita per strip komprèsi',
 'exif-jpeginterchangeformat'       => 'Ofset menyang JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Bita data JPEG',
-'exif-transferfunction'            => 'Fungsi transfer',
 'exif-whitepoint'                  => 'Kromatisitas titik putih',
 'exif-primarychromaticities'       => 'Kromatisitas werna primer',
 'exif-ycbcrcoefficients'           => 'Koèfisièn matriks transformasi papan werna',
@@ -2518,7 +2511,6 @@ Pranala-pranala sabanjuré ing baris sing padha dianggep minangka ''pengecualian
 'exif-compressedbitsperpixel'      => 'Modhe komprèsi gambar',
 'exif-pixelydimension'             => 'Jembar gambar sing sah',
 'exif-pixelxdimension'             => 'Dhuwur gambar sing sah',
-'exif-makernote'                   => 'Cathetan prodhusèn',
 'exif-usercomment'                 => 'Komentar panganggo',
 'exif-relatedsoundfile'            => 'Berkas audio sing kagandhèng',
 'exif-datetimeoriginal'            => 'Tanggal lan wektu nggawé data',
@@ -2532,7 +2524,6 @@ Pranala-pranala sabanjuré ing baris sing padha dianggep minangka ''pengecualian
 'exif-exposureprogram'             => 'Program pajanan',
 'exif-spectralsensitivity'         => 'Sènsitivitas spèktral',
 'exif-isospeedratings'             => 'Rating kacepetan ISO',
-'exif-oecf'                        => 'Faktor konvèrsi optoélèktronik',
 'exif-shutterspeedvalue'           => 'Kacepatan rana',
 'exif-aperturevalue'               => 'Bukaan',
 'exif-brightnessvalue'             => 'Kacerahan',
@@ -2545,7 +2536,6 @@ Pranala-pranala sabanjuré ing baris sing padha dianggep minangka ''pengecualian
 'exif-focallength'                 => 'Jarak fokus lènsa',
 'exif-subjectarea'                 => 'Wilayah subjèk',
 'exif-flashenergy'                 => 'Énèrgi kilas',
-'exif-spatialfrequencyresponse'    => 'Respons frekwènsi spasial',
 'exif-focalplanexresolution'       => 'Résolusi bidang fokus X',
 'exif-focalplaneyresolution'       => 'Résolusi bidang fokus Y',
 'exif-focalplaneresolutionunit'    => 'Unit résolusi bidang fokus',
@@ -2554,7 +2544,6 @@ Pranala-pranala sabanjuré ing baris sing padha dianggep minangka ''pengecualian
 'exif-sensingmethod'               => 'Métodhe pangindran',
 'exif-filesource'                  => 'Sumber berkas',
 'exif-scenetype'                   => 'Tipe panyawangan',
-'exif-cfapattern'                  => 'Pola CFA',
 'exif-customrendered'              => 'Prosès nggawé gambar',
 'exif-exposuremode'                => 'Modhe pajanan',
 'exif-whitebalance'                => 'Kaseimbangan putih',
@@ -2990,10 +2979,5 @@ Katrangan tampilan:
 'htmlform-submit'              => 'Kirim',
 'htmlform-reset'               => 'Batalna pangowahan',
 'htmlform-selectorother-other' => 'Liya',
-
-# Special:DisableAccount
-'disableaccount'        => 'Nonaktifaké akun panganggo',
-'disableaccount-user'   => 'Jeneng panganggo:',
-'disableaccount-reason' => 'Alesan:',
 
 );

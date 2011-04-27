@@ -439,7 +439,7 @@ Palihog tistingan liwat.',
 'usernamehasherror'       => 'Ang ngalan sang manug-usar indi dapat mag-unod sang mga labay-labay nga mga karakter.',
 'loginlanguagelabel'      => 'Lingguahe:',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'               => 'Islan ang password',
 'resetpass_header'        => 'Islan ang password sang account',
 'oldpassword'             => 'Luma nga password:',
@@ -909,7 +909,13 @@ Ang iban ay pagataguon sang default.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'Islan ang mini nga file gamit ang panluwas nga aplikasyon',

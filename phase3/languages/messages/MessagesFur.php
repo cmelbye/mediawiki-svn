@@ -101,7 +101,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'ListeBots' ),
 	'Popularpages'              => array( 'PagjinisPopolârs' ),
 	'Search'                    => array( 'Ricercje', 'Cîr' ),
-	'Resetpass'                 => array( 'ReimpuestePerauleClâf' ),
+	'ChangePassword'            => array( 'ReimpuestePerauleClâf' ),
 	'Withoutinterwiki'          => array( 'CenceInterwiki' ),
 );
 
@@ -463,7 +463,7 @@ Prime di ricevi cualsisei altri messaç di pueste, tu scugnis seguî lis istruzi
 'createaccount-title'     => 'Creazion di une identitât par {{SITENAME}}',
 'loginlanguagelabel'      => 'Lenghe: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'               => 'Gambie peraule clâf',
 'resetpass_header'        => 'Cambie peraule clâf de identitât',
 'oldpassword'             => 'Vecje peraule clâf',
@@ -899,7 +899,7 @@ Par includi une figure intune pagjine, dopre un leam inte form
 'file-anchor-link'          => 'Figure',
 'filehist'                  => 'Storic dal file',
 'filehist-help'             => 'Frache suntune date/ore par viodi il file cemût che al jere in chel moment.',
-'filehist-current'          => 'corint',
+'filehist-current'          => 'atuâl',
 'filehist-datetime'         => 'Date/Ore',
 'filehist-thumb'            => 'Miniature',
 'filehist-thumbtext'        => 'Miniature de version dai $1',
@@ -1348,7 +1348,8 @@ Sielç par plasê un altri non.',
 'allmessagesname'           => 'Non',
 'allmessagesdefault'        => 'Test predeterminât',
 'allmessagescurrent'        => 'Test curint',
-'allmessagestext'           => 'Cheste e je une liste dai messaçs di sisteme disponibii tal non dal spazi MediaWiki:',
+'allmessagestext'           => 'Cheste e je une liste dai messaçs di sisteme disponibii tal non dal spazi MediaWiki.
+Par plasê va su [http://www.mediawiki.org/wiki/Localisation MediaWiki Localisation] e [http://translatewiki.net translatewiki.net] se tu vuelis contribuî ae traduzion gjeneriche di MediaWiki.',
 'allmessages-language'      => 'Lenghe:',
 'allmessages-filter-submit' => 'Va',
 
@@ -1509,7 +1510,13 @@ Se il file al è stât cambiât rispiet al so stât origjinâl, cualchi informaz
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'       => 'Largjece',

@@ -67,19 +67,14 @@ if ( $r ) {
 # Get the MWInit class
 if ( !defined( 'MW_COMPILED' ) ) {
 	require_once( "$IP/includes/Init.php" );
+	require_once( "$IP/includes/AutoLoader.php" );
 }
 
-# Setup the profiler
-global $IP;
-if ( !defined( 'MW_COMPILED' ) && file_exists( "$IP/StartProfiler.php" ) ) {
-	require_once( "$IP/StartProfiler.php" );
-} else {
-	require_once( MWInit::compiledPath( 'includes/ProfilerStub.php' ) );
-}
+# Stub the profiler
+require_once( MWInit::compiledPath( 'includes/profiler/Profiler.php' ) );
 
 // Some other requires
 if ( !defined( 'MW_COMPILED' ) ) {
-	require_once( "$IP/includes/AutoLoader.php" );
 	require_once( "$IP/includes/Defines.php" );
 }
 require_once( "$IP/includes/DefaultSettings.php" );

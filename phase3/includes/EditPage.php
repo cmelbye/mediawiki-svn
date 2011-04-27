@@ -1153,9 +1153,9 @@ class EditPage {
 			$dbw = wfGetDB( DB_MASTER );
 			$dbw->begin();
 			if ( $this->watchthis ) {
-				$this->mArticle->doWatch();
+				Action::factory( 'watch', $this->mArticle )->execute();
 			} else {
-				$this->mArticle->doUnwatch();
+				Action::factory( 'watch', $this->mArticle )->execute();
 			}
 			$dbw->commit();
 		}
@@ -2700,7 +2700,7 @@ HTML
 		$result = "";
 		$working = 0;
 		for( $i = 0; $i < strlen( $invalue ); $i++ ) {
-			$bytevalue = ord( $invalue{$i} );
+			$bytevalue = ord( $invalue[$i] );
 			if ( $bytevalue <= 0x7F ) { //0xxx xxxx
 				$result .= chr( $bytevalue );
 				$bytesleft = 0;
@@ -2737,13 +2737,13 @@ HTML
 	function unmakesafe( $invalue ) {
 		$result = "";
 		for( $i = 0; $i < strlen( $invalue ); $i++ ) {
-			if ( ( substr( $invalue, $i, 3 ) == "&#x" ) && ( $invalue{$i+3} != '0' ) ) {
+			if ( ( substr( $invalue, $i, 3 ) == "&#x" ) && ( $invalue[$i+3] != '0' ) ) {
 				$i += 3;
 				$hexstring = "";
 				do {
-					$hexstring .= $invalue{$i};
+					$hexstring .= $invalue[$i];
 					$i++;
-				} while( ctype_xdigit( $invalue{$i} ) && ( $i < strlen( $invalue ) ) );
+				} while( ctype_xdigit( $invalue[$i] ) && ( $i < strlen( $invalue ) ) );
 
 				// Do some sanity checks. These aren't needed for reversability,
 				// but should help keep the breakage down if the editor

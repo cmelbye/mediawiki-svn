@@ -478,12 +478,7 @@ Biko meríáríá ya.',
 'usernamehasherror'       => "Áhè ọ'bànifé ènwéghịkị nwé nkárí",
 'loginlanguagelabel'      => 'Asụsụ: $1',
 
-# JavaScript password checks
-'password-strength-bad'  => 'NJO',
-'password-strength-good' => 'Ómá',
-'password-retype'        => 'Detuari mkpurụ okwu ejị a gafẹ',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Gbanwe okwu éjị à gáfe',
 'resetpass_header'          => 'Gbanwe okwúngáfè nke bùwá',
 'oldpassword'               => 'Mkpurụ okwu ejị a gafẹ ochië:',
@@ -669,11 +664,6 @@ Okwu ụmà: '''({{int:cur}})''' = gbánwe na nké orü mbu, '''({{int:last}})''
 'revdelete-reasonotherlist'  => 'Mgbághàpụtá ozor',
 'revdelete-edit-reasonlist'  => 'Rüwa gbakashia mgbághapụtà',
 'revdelete-offender'         => 'Ọde akwukwo nke orübà:',
-
-# Revision move
-'revmove-reasonfield'    => 'Mgbághapụtà:',
-'revmove-titlefield'     => 'Ihü ȯ chọrí ga:',
-'revmove-nullmove-title' => 'Ishi edemede öjö',
 
 # History merging
 'mergehistory'                => 'Tìkȯtá ákíkó mbu nke ihü ndiá',
@@ -1497,13 +1487,19 @@ Jikodo nke gị byá àzú na áhìrì nke òfu á bu nke nwéríkí gáfè, dí
 'metadata-collapse' => 'Zonari nkówá di ógólógó',
 'metadata-fields'   => 'Ómárí nso nke nkeji nke EXIF détùrù na ozi nká gí banyé na nlé ihü nhuunuche mgbè ómárí nso mgbe àgàdà gi dátù.
 Nke ozor gí zonari na áká onwe ha.
-* okíké
-* àtụ
-* úbochịógèmbuyá
-* háfùrù na anwü
-* onúf
-* nkówá íjè ISO
-* ógólógó focal',
+* make
+* model
+* datetimeoriginal
+* exposuretime
+* fnumber
+* isospeedratings
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'          => 'Àsáa',

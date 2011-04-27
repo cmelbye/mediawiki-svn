@@ -530,16 +530,7 @@ $2',
 # E-mail sending
 'php-mail-error-unknown' => 'mail() PHP-функциятыгар туох эрэ алҕас тахсыбыт',
 
-# JavaScript password checks
-'password-strength'            => 'Киирии тыл туругун тургутуу: $1',
-'password-strength-bad'        => 'МӨЛТӨХ',
-'password-strength-mediocre'   => 'орто',
-'password-strength-acceptable' => 'барсар',
-'password-strength-good'       => 'үчүгэй',
-'password-retype'              => 'Киирии тылгын хатылаа',
-'password-retype-mismatch'     => 'Киирии тыллар сөп түбэспэттэр',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Киирии тылы уларытыы',
 'resetpass_announce'        => 'Бу быстах кэмҥэ туттуллар киирии тылынан киирдиҥ. Түмүккэ саҥа киирии тылла суруй:',
 'resetpass_text'            => '<!-- Тиэкиһи манна эбэн суруйуҥ -->',
@@ -926,24 +917,6 @@ $1",
 'suppressionlogtext' => 'Аллара соторутааҥҥы сотуулар уонна хааччахтааһыннар тиһиктэрэ бэриллэр (администраатардарга көстүбэт сээкэйдэр эмиэ).
 Билигин баар хааччахтар тиһиктэрин көрөргө [[Special:IPBlockList|IP хааччахтааһынын тиһигэр]] киир.',
 
-# Revision move
-'moverevlogentry'              => '{{PLURAL:$3|$3 барылы|$3 барыллары}} мантан $1 манна $2 көһөрбүт',
-'revisionmove'                 => 'Барыллары мантан «$1» көһөрүү',
-'revmove-explain'              => 'Манна көрдөрүллүбүт барыллар мантан $1 ыйыллыбыт сирэйгэ көһөрүллүөхтэрэ. Ыйыллыбыт сирэй суох буоллаҕына - оҥоһуллуо. Эбэтэр, ити барыллар сирэй уларыйыытын устуоруйатыгар киириэхтэрэ.',
-'revmove-legend'               => 'Сорук-сирэйи ыйыы уонна кинини ойуулааһын',
-'revmove-submit'               => 'Барыллары ыйыллыбыт сирэйгэ көһөрүү',
-'revisionmoveselectedversions' => 'Талыллыбыт барыллары көһөр',
-'revmove-reasonfield'          => 'Төрүөтэ:',
-'revmove-titlefield'           => 'Сорук-сирэй:',
-'revmove-badparam-title'       => 'Алҕастаах туруоруулар',
-'revmove-badparam'             => 'Эн көрдөбүлүҥ сыыһалаах, эбэтэр сорох туруоруулар суох. Бука диэн «Төнүн» тимэҕи баттаан баран хос боруобалаа.',
-'revmove-norevisions-title'    => 'Сатаммат сорук-сирэй',
-'revmove-norevisions'          => 'Маны толорорго биир дуу, хас да дуу сорук-сирэйдэри ыйбатаххын, эбэтэр ыйыллыбыт барыллар суохтар.',
-'revmove-nullmove-title'       => 'Табыллыбат аат',
-'revmove-nullmove'             => 'Саҕалаабыт уонна сорук-сирэй биирдэр. Бука диэн, «Төнүн» тимэҕи баттаа уонна мантан «$1» атын ааты суруй.',
-'revmove-success-existing'     => '{{PLURAL:$1|[[$2]] сирэй биир барыла|[[$2]] сирэй $1 барыла}} баар [[$3]] сирэйгэ көһөрүллүбүт.',
-'revmove-success-created'      => '{{PLURAL:$1|[[$2]] сирэй биир барыла|[[$2]] сирэй $1 барыла}} саҥа [[$3]] сирэйгэ көһөрүллүбүт.',
-
 # History merging
 'mergehistory'                     => 'Силбэһии сирэйин хронологията',
 'mergehistory-header'              => 'Бу сирэй биир ыстатыйа (сирэй) хас да барылын биир саҥа барыл гына оҥорорго аналлаах.
@@ -1281,8 +1254,6 @@ $1 {{PLURAL:$1|бэлиэттэн|бэлиэттэн (буукубаттан)}} 
 'right-reset-passwords'       => 'атын кыттааччылар киирии тылларын уларытыы',
 'right-override-export-depth' => 'сирэйдэри таһаарааһын (экспортааһын), ситимнээх сирэйдэри 5-с таһымҥа дылы холбоон туран',
 'right-sendemail'             => 'Атын кыттааччыларга эл. почтаны ыытарга',
-'right-revisionmove'          => 'Сирэйдэр барылларын көһөрүү',
-'right-disableaccount'        => 'Бэлиэтэниллибит ааты араарыы',
 
 # User rights log
 'rightslog'      => 'Кыттаачы бырааптарын сурунаала',
@@ -1325,7 +1296,6 @@ $1 {{PLURAL:$1|бэлиэттэн|бэлиэттэн (буукубаттан)}} 
 'action-userrights'           => 'кыттар бары бырааптарын уларытыы',
 'action-userrights-interwiki' => 'атын биикигэ кыттыы бырааптарын уларытыы',
 'action-siteadmin'            => 'билэ олоҕун хааччахтааһын уонна хааччахтааһынын устуу',
-'action-revisionmove'         => 'сирэйдэр барылларын көһөрүү',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|уларытыы|уларытыылар}}',
@@ -1536,22 +1506,23 @@ $1',
 'uploadstash-refresh'  => 'Билэлэр тиһиктэрин саҥардан биэр',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Киирии бобуллубут',
-'img-auth-nopathinfo'   => 'PATH_INFO суох.
+'img-auth-accessdenied'     => 'Киирии бобуллубут',
+'img-auth-nopathinfo'       => 'PATH_INFO суох.
 Эн сиэбэрин маннык сибидиэнньэни ыытар курдук туруоруута суох.
 Баҕар кини CGI олоҕурара буолуо ол иһин img_auth өйөөбөтө буолуо.
 Көр http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Көрдөөбүт суолуҥ эрдэттэн туруоруллубут хачайдыыр паапкаҕа сыһыана суох.',
-'img-auth-badtitle'     => 'Мантан «$1» сөптөөх ааты оҥорор кыах суох.',
-'img-auth-nologinnWL'   => 'Эн тиһиликкэ киирбэтэххин, уонна «$1» үрүҥ (көҥүллэммит) тиһиккэ киирбэт эбит.',
-'img-auth-nofile'       => '«$1» билэ суох.',
-'img-auth-isdir'        => 'Бу паапакаҕа «$1» киирэ сатыыгын.
+'img-auth-notindir'         => 'Көрдөөбүт суолуҥ эрдэттэн туруоруллубут хачайдыыр паапкаҕа сыһыана суох.',
+'img-auth-badtitle'         => 'Мантан «$1» сөптөөх ааты оҥорор кыах суох.',
+'img-auth-nologinnWL'       => 'Эн тиһиликкэ киирбэтэххин, уонна «$1» үрүҥ (көҥүллэммит) тиһиккэ киирбэт эбит.',
+'img-auth-nofile'           => '«$1» билэ суох.',
+'img-auth-isdir'            => 'Бу паапакаҕа «$1» киирэ сатыыгын.
 Билэлэргэ эрэ киирэр көҥүллэммит.',
-'img-auth-streaming'    => 'Ботуогунан биэрии «$1».',
-'img-auth-public'       => 'img_auth.php аналынан билэлэри сабыылаах биикиттэн таһаарыы буолар.
+'img-auth-streaming'        => 'Ботуогунан биэрии «$1».',
+'img-auth-public'           => 'img_auth.php аналынан билэлэри сабыылаах биикиттэн таһаарыы буолар.
 Бу биики аһаҕас.
 Онон img_auth.php араарыллыбыт.',
-'img-auth-noread'       => 'Кыттааччы «$1» ааҕарга көҥүлэ суох.',
+'img-auth-noread'           => 'Кыттааччы «$1» ааҕарга көҥүлэ суох.',
+'img-auth-bad-query-string' => 'URL алҕастаах',
 
 # HTTP errors
 'http-invalid-url'      => 'Алҕастаах URL: $1',
@@ -1910,6 +1881,10 @@ $1',
 'noemailtext'          => 'Бу кыттааччы e-mail аадырыһын эппэтэх.',
 'nowikiemailtitle'     => 'Сурук ыытар кыах суох',
 'nowikiemailtext'      => 'Бу кыттааччы сурук тутуон баҕарбат.',
+'emailnotarget'        => 'Суруйбут кыттааччыҥ суох эбэтэр аата алҕастаах.',
+'emailtarget'          => 'Суруйар киһиҥ аатын киллэр',
+'emailusername'        => 'Кыттааччы:',
+'emailusernamesubmit'  => 'Ыыт',
 'email-legend'         => '{{SITENAME}} атын кыттааччытыгар сурук ыытарга',
 'emailfrom'            => 'Кимтэн:',
 'emailto'              => 'Кимиэхэ:',
@@ -2758,14 +2733,20 @@ $1',
 'metadata-help'     => 'Бу билэҕэ цифровой камералар уонна сканердар эбэр ойуу туһунан информациялара баар. Билэ кэлин уларытыллыбыт буоллаҕына сорох кээмэйдэр билиҥҥи ойууга сөп түбэһиэ суохтарын сөп.',
 'metadata-expand'   => 'Эбии информацияны көрдөр',
 'metadata-collapse' => 'Эбии информацияны көрдөрүмэ',
-'metadata-fields'   => 'Манна баар метадааннайдар ойуу сирэйигэр куруук көстүөхтэрэ, атыттара көстүөхтэрэ суоҕа.
+'metadata-fields'   => 'Манна баар метадааннайдар ойуу кыччатыллыбыт сирэйигэр куруук көстүөхтэрэ, атыттара көрдөрүллүөхтэрэ суоҕа.
 * make
 * model
 * datetimeoriginal
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Кэтитэ',
@@ -2780,13 +2761,11 @@ $1',
 'exif-ycbcrpositioning'            => 'Y уонна C ханан тураллара',
 'exif-xresolution'                 => 'Сытыары разрешениета',
 'exif-yresolution'                 => 'Туруору разрешениета',
-'exif-resolutionunit'              => 'Разрешениены тугунан кээмэйдиэххэ',
 'exif-stripoffsets'                => 'Ойуу дааннайдара ханна баар буолара',
 'exif-rowsperstrip'                => 'Биир блокка төһө строка баар буолара',
 'exif-stripbytecounts'             => 'Хам тутуллубут блок кээмэйэ',
 'exif-jpeginterchangeformat'       => 'JPEG SOI аналлаах сиригэр көһүү',
 'exif-jpeginterchangeformatlength' => 'JPEG дааннайдарын кээмэйэ',
-'exif-transferfunction'            => 'Функция преобразования цветового пространства',
 'exif-whitepoint'                  => 'Үрүҥ өҥ цветноһа',
 'exif-primarychromaticities'       => 'Сүрүн өҥнөр цветностара',
 'exif-ycbcrcoefficients'           => 'Өҥ уларыйыытын коэфициеннара',
@@ -2803,9 +2782,8 @@ $1',
 'exif-colorspace'                  => 'Өҥ куйаара (пространство, space)',
 'exif-componentsconfiguration'     => 'Хас биирдии компонент суолтата',
 'exif-compressedbitsperpixel'      => 'Ойууну хам тутуу ньымата',
-'exif-pixelydimension'             => 'Ойуу дьиҥ кэтитэ',
-'exif-pixelxdimension'             => 'Ойуу дьиҥ үрдүгэ',
-'exif-makernote'                   => 'Оҥорооччу хос быһаарыыта',
+'exif-pixelydimension'             => 'Ойуу кэтитэ',
+'exif-pixelxdimension'             => 'Ойуу үрдүгэ',
 'exif-usercomment'                 => 'Кыттааччы хос быһаарыыта',
 'exif-relatedsoundfile'            => 'Аудио-билэҕэ сыһыаннаах',
 'exif-datetimeoriginal'            => 'Оҥоһуллубут кэмэ',
@@ -2819,10 +2797,9 @@ $1',
 'exif-exposureprogram'             => 'Экспозиция бырагырааммата',
 'exif-spectralsensitivity'         => 'Спектр чувствительноһа',
 'exif-isospeedratings'             => 'ISO кээмэйэ',
-'exif-oecf'                        => 'OECF (коэффициент оптоэлектрического преобразования)',
-'exif-shutterspeedvalue'           => 'Объективы арыйыы кээмэйэ (Выдержка)',
-'exif-aperturevalue'               => 'Диафрагма',
-'exif-brightnessvalue'             => 'Сырдыга (яркость)',
+'exif-shutterspeedvalue'           => 'Объективы арыйыы түргэнэ (APEX выдержката)',
+'exif-aperturevalue'               => 'Диафрагма (APEX улахана)',
+'exif-brightnessvalue'             => 'Сырдыга (APEX яркоһа)',
 'exif-exposurebiasvalue'           => 'Экспозиция сыҕарыйыыта (компенсация)',
 'exif-maxaperturevalue'            => 'Диафрагма саамай улахан кээмэйэ (Maximum land aperture)',
 'exif-subjectdistance'             => 'Объект ырааҕа',
@@ -2833,7 +2810,6 @@ $1',
 'exif-focallength-format'          => '$1 мм',
 'exif-subjectarea'                 => 'Түһэриллибит объект иэнэ',
 'exif-flashenergy'                 => 'Вспышка күүһэ',
-'exif-spatialfrequencyresponse'    => 'Пространственная частотная характеристика',
 'exif-focalplanexresolution'       => 'Разрешение по X в фокальной плоскости',
 'exif-focalplaneyresolution'       => 'Разрешение по Y в фокальной плоскости',
 'exif-focalplaneresolutionunit'    => 'Единица измерения разрешения в фокальной плоскости',
@@ -2842,7 +2818,6 @@ $1',
 'exif-sensingmethod'               => 'Сенсор тиибэ',
 'exif-filesource'                  => 'Билэ хантан ылыллыбыта',
 'exif-scenetype'                   => 'Сцена көрүҥэ',
-'exif-cfapattern'                  => 'Өҥ фильтрын көрүҥэ (CFA pattern)',
 'exif-customrendered'              => 'Ойууну эбии тупсарыы',
 'exif-exposuremode'                => 'Экспозиция көрүҥэ',
 'exif-whitebalance'                => 'Үрүҥ балансата',
@@ -2887,6 +2862,10 @@ $1',
 'exif-gpsareainformation'          => 'GPS оройуонун аата',
 'exif-gpsdatestamp'                => 'GPS ыйа-күнэ',
 'exif-gpsdifferential'             => 'GPS көннөрүүтүн дифференциала',
+'exif-jpegfilecomment'             => 'JPEG билэ быһаарыыта',
+'exif-keywords'                    => 'Күлүүс тыллар',
+'exif-worldregioncreated'          => 'Хаартыска оҥоһуллубут аан дойду муннуга',
+'exif-countrycreated'              => 'Хаартыска оҥоһуллубут дойдута',
 'exif-objectname'                  => 'Кылгас аата',
 
 # EXIF attributes
@@ -3027,6 +3006,11 @@ $1',
 'exif-gpsspeed-k' => 'км/чаас',
 'exif-gpsspeed-m' => 'Миляны чааска',
 'exif-gpsspeed-n' => 'Узел',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Километр',
+'exif-gpsdestdistance-m' => 'Миилэ',
+'exif-gpsdestdistance-n' => 'Байҕал миилэтэ',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Дьиҥнээх',
@@ -3328,18 +3312,5 @@ MediaWiki туһалаах буоллун диэн тарҕатыллар, ол 
 # SQLite database support
 'sqlite-has-fts' => '$1 толору тиэкистээх көрдөөһүнү өйүүр',
 'sqlite-no-fts'  => '$1 толору тиэкистээх көрдөөһүнү өйөөбөт',
-
-# Special:DisableAccount
-'disableaccount'             => 'Кытааччы бэлиэтэммит аатын араарыы',
-'disableaccount-user'        => 'Кыттааччы аата:',
-'disableaccount-reason'      => 'Төрүөтэ:',
-'disableaccount-confirm'     => "Кытааччы бу аатын араарыы. 
-Кыттааччы тиһиликкэ киирбэт буолуо, киирии тылын уларытар кыаҕа суох буолуо, электроннай почтатыгар биллэриилэр кэлбэт буолуохтара. 
-Кыттааччы билигин тиһиликкэ киирэн олорор буоллаҕына, тутатына таһаарыллыа. 
-''Болҕой, араарыллыбыт ааты дьаһабыла суох төннөрөр кыах суох.''",
-'disableaccount-mustconfirm' => 'Бу ааты араарабын диэн бигэргэт.',
-'disableaccount-nosuchuser'  => '«$1» ааттаах кыттааччы суох эбит.',
-'disableaccount-success'     => '«$1» кыттааччы аата букатын араарылынна.',
-'disableaccount-logentry'    => '[[$1]] кыттааччы аатын букатын араарбыт',
 
 );

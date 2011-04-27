@@ -503,7 +503,7 @@ Bıne vındere u newe ra dest pê bıkere.',
 'loginlanguagelabel'         => 'Zıwan: $1',
 'suspicious-userlogout'      => 'Waştişê tu ya veciyayişi kebul nibiya cunki ihtimal o ke waştiş yew browser ya zi proksiyê heripiyaye ra ameya.',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Parola bıvurne',
 'resetpass_announce'        => 'Şıma pê yew parolayê muweqqet hesab kerd a, qey qedyayişe dekewtış newe yew parola bınuse:',
 'resetpass_text'            => 'Parolayê hesab bıvurn',
@@ -870,25 +870,6 @@ rocaneyan kontrol bıkere.',
 'suppressionlog'     => 'qeydê pinani kerdışi',
 'suppressionlogtext' => 'qey listeya qedexan bıewne: [[Special:IPBlockList|IP listeya vergırewteyan]]',
 
-# Revision move
-'moverevlogentry'              => '{{PLURAL:$3|yew revizyon|$3 reviyanan}} $1 ra berd $2',
-'revisionmove'                 => 'Revizyonan "$1" ra bere',
-'revmove-explain'              => 'Ena revizyonanê $1i ra yew hedefê pele xususi rê beni. Eka pele hedefi cini ya, ena pele viraziyena. Eka nibeno, ena revizyanan u tarixê pelan piya keno yani yew keno.',
-'revmove-legend'               => 'Yew pele hedefi u xulasa viraze',
-'revmove-submit'               => 'Revizyonan pelanê vecinayiş rê bere',
-'revisionmoveselectedversions' => 'Revizyonanê weçinıtan bere',
-'revmove-reasonfield'          => 'Sebeb:',
-'revmove-titlefield'           => 'Pelê hedefi:',
-'revmove-badparam-title'       => 'Parametreyê xeleti',
-'revmove-badparam'             => 'Waştişê tu de cikek ke illegal ya zi kem est ê. Ma rica keni "peyser" şo u reyna deneme bike.',
-'revmove-norevisions-title'    => 'Çımraviyarnayışo waşte nêvêreno',
-'revmove-norevisions'          => 'Seba kerdişê ena fonksiyon, ti hama yew ya zi yew ra zafyer revizyonê hedefi belli nikerd ya zi revizyonê ke belli biyo ey cini yo.',
-'revmove-nullmove-title'       => 'Sernameo xırabın',
-'revmove-nullmove'             => 'Peleyê hedefi u peleyê cimeyi eyni name nigene.
-Eka peyser şo pele verini u reyna "$1" ra yew nameya newe biwecine.',
-'revmove-success-existing'     => '{{PLURAL:$1|Yew revizyon [[$2]] ra|$1 revizyonan from [[$2]] ra}} pele [[$3]] rê berda.',
-'revmove-success-created'      => '{{PLURAL:$1|Yew revizyon [[$2]] ra|$1 revizyonan from [[$2]] ra}} pele [[$3]] ke newe a biya o rê berda.',
-
 # History merging
 'mergehistory'                     => 'vere cûye pelan bıhewelın',
 'mergehistory-header'              => 'No pel, reviyonê yew peli eşkeno yewna pelo newe de piyawano.
@@ -1216,7 +1197,6 @@ Eka tu wazene ke nameyo raşt xo bide, ma nameyo raşt ti iştirakanê ti de moc
 'right-reset-passwords'       => 'Parolayê karberanê binî reset bike',
 'right-override-export-depth' => 'Peleyanê ke tede linkanê 5 ra zafyer estê ay export bike',
 'right-sendemail'             => 'Karberanê binî ra e-mail bişirav',
-'right-revisionmove'          => 'Revizyonanê bere',
 
 # User rights log
 'rightslog'      => 'Qeydê heqanê karberi',
@@ -1259,7 +1239,6 @@ Eka tu wazene ke nameyo raşt xo bide, ma nameyo raşt ti iştirakanê ti de moc
 'action-userrights'           => 'heqqa karberanê hemî bivurne',
 'action-userrights-interwiki' => 'heqqa karberanê ke wikiyê binî de hemî bivurne',
 'action-siteadmin'            => 'database kilit bike ya zi a bike',
-'action-revisionmove'         => 'revizyonanê bere',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|vurnayış|vurnayışan}}',
@@ -2191,8 +2170,7 @@ Sebebê kılit-biyayışê $1\'i: "$2"o',
 'ipb_expiry_temp'                 => 'Kılitbiyayışê karberê nımıtey gani ebedi bo.',
 'ipb_hide_invalid'                => 'hesabê karberi pinani nêbeno; belka semedê zaf vurnayişi ra yo.',
 'ipb_already_blocked'             => '"$1" zaten blok biya',
-'ipb-needreblock'                 => '"$1" zaten blok biya
-Ti wazene ayaran bivurne?',
+'ipb-needreblock'                 => '$1 xora engel biyo. Tı wazenay eyaran bıvurnê?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Kılitkerdışo bin|Kılitkerdışê bini}}',
 'ipb_cant_unblock'                => 'xeta: IDyê ver-grewtışi $1 nêesa/asa.
 belka ver-grewtış wedariyayo.',
@@ -2602,7 +2580,13 @@ Ma aya bini numnen.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Verini',
@@ -2617,13 +2601,11 @@ Ma aya bini numnen.
 'exif-ycbcrpositioning'            => 'pozisyonê Y u C',
 'exif-xresolution'                 => 'Rezulasyanê veriniye',
 'exif-yresolution'                 => 'Rezulasyanê derganiye',
-'exif-resolutionunit'              => 'Rezulasyonê Parçeyê X U Y',
 'exif-stripoffsets'                => 'cayê data yê resim',
 'exif-rowsperstrip'                => 'Yew reze de teneyê dizeyi',
 'exif-stripbytecounts'             => 'Yew compresyon de dizeyi',
 'exif-jpeginterchangeformat'       => 'JPEG SOI rê ayar bike',
 'exif-jpeginterchangeformatlength' => 'Bitê data yê JPEG',
-'exif-transferfunction'            => 'Fonksiyonê transferi',
 'exif-whitepoint'                  => 'noktayê sipe ye kromaticiti',
 'exif-primarychromaticities'       => 'Kromaticitiyê eveli',
 'exif-ycbcrcoefficients'           => 'Cayê rengi yê transformasyon metriksê koefişinti',
@@ -2642,7 +2624,6 @@ Ma aya bini numnen.
 'exif-compressedbitsperpixel'      => 'Modê komprasyonê resimi',
 'exif-pixelydimension'             => 'Verniyê resimo raştiye',
 'exif-pixelxdimension'             => 'Derganiyê resimo raştiye',
-'exif-makernote'                   => 'Notê Viraştoği',
 'exif-usercomment'                 => 'Hulasayê karberi',
 'exif-relatedsoundfile'            => 'Derhekê dosya yê vengi',
 'exif-datetimeoriginal'            => 'Zeman u tarixê data varaziyayişi',
@@ -2656,7 +2637,6 @@ Ma aya bini numnen.
 'exif-exposureprogram'             => 'Programê Orta de Vinderdişi',
 'exif-spectralsensitivity'         => 'Hesasiyetê spektrali',
 'exif-isospeedratings'             => 'ISO değerê piti',
-'exif-oecf'                        => 'Faktorê conversiyonê optoelektroniki',
 'exif-shutterspeedvalue'           => 'Pitiyê şhutteri',
 'exif-aperturevalue'               => 'Apertur',
 'exif-brightnessvalue'             => 'Beraqiyi',
@@ -2669,7 +2649,6 @@ Ma aya bini numnen.
 'exif-focallength'                 => 'Deganiyê fokus ê lensi',
 'exif-subjectarea'                 => 'Wareyê ey',
 'exif-flashenergy'                 => 'Kuvetê flaşi',
-'exif-spatialfrequencyresponse'    => 'cewabê frekansê mekanî',
 'exif-focalplanexresolution'       => 'Focal plane X resolution',
 'exif-focalplaneyresolution'       => 'Focal plane Y resolution',
 'exif-focalplaneresolutionunit'    => 'Focal plane resolution unit',
@@ -2678,7 +2657,6 @@ Ma aya bini numnen.
 'exif-sensingmethod'               => 'metodê hiskerdışi',
 'exif-filesource'                  => 'çimeyê dosyayi',
 'exif-scenetype'                   => 'tipa sehneyi',
-'exif-cfapattern'                  => 'desenê (fesalê) CFAyi',
 'exif-customrendered'              => 'karê resmê xususiyi',
 'exif-exposuremode'                => 'poz kerdışi',
 'exif-whitebalance'                => 'Dengeyo Sipe',

@@ -1237,7 +1237,8 @@ A table with nothing but a caption
 |}
 !! result
 <table>
-<caption>caption</caption>
+<caption>caption
+</caption>
 <tr><td></td></tr>
 </table>
 
@@ -1254,12 +1255,281 @@ Simple table
 !! result
 <table>
 <tr>
-<td>1</td>
-<td>2</td>
+<td>1
+</td>
+<td>2
+</td>
 </tr>
 <tr>
-<td>3</td>
-<td>4</td>
+<td>3
+</td>
+<td>4
+</td>
+</tr>
+</table>
+
+!! end
+
+!! test
+Table inside unclosed table w/o cells
+!! input
+{|
+{| 
+| foo bar
+|}
+
+!! result
+<table>
+<tr>
+<td>
+<table>
+<tr>
+<td>foo bar
+</td>
+</tr>
+</table>
+<p><br />
+</p>
+</td>
+</tr>
+</table>
+
+!! end
+
+!! test
+Table with thead
+!! input
+{| 
+! Number !! Another number
+|-
+| 1 || 2
+|- 
+| 3 || 4
+|}
+!! result
+<table>
+<thead>
+<tr>
+<th>Number
+</th>
+<th>Another number
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1
+</td>
+<td>2
+</td>
+</tr>
+<tr>
+<td>3
+</td>
+<td>4
+</td>
+</tr></tbody>
+</table>
+
+!! end
+!! test
+Table with multiple thead
+!! input
+{| 
+! Number !! Another number
+|-
+| 1 || 2
+|- 
+! Some other number !! Another number
+|-
+| 3 || 4
+|}
+!! result
+<table>
+<thead>
+<tr>
+<th>Number
+</th>
+<th>Another number
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1
+</td>
+<td>2
+</td>
+</tr></tbody>
+<thead>
+<tr>
+<th>Some other number
+</th>
+<th>Another number
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>3
+</td>
+<td>4
+</td>
+</tr></tbody>
+</table>
+
+!! end
+!! test
+Table with thead & tfoot
+!! input
+{| 
+! Number !! Another number
+|-
+| 1 || 2
+|- 
+! Some other number !! Another number
+|-
+| 3 || 4
+|-
+! Total: 4 !! Total: 6
+|}
+!! result
+<table>
+<thead>
+<tr>
+<th>Number
+</th>
+<th>Another number
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1
+</td>
+<td>2
+</td>
+</tr></tbody>
+<thead>
+<tr>
+<th>Some other number
+</th>
+<th>Another number
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>3
+</td>
+<td>4
+</td>
+</tr></tbody>
+<tfoot>
+<tr>
+<th>Total: 4
+</th>
+<th>Total: 6
+</th>
+</tr></tfoot>
+</table>
+
+!! end
+
+!! test
+Table with list inside
+!! input
+{|
+|style="width: 5em; text-align: center"| gives
+|style="border: 1px dashed #2F6FAB; padding: 0.5em; margin: 0.5em"|
+# Some
+# list
+# Lorem
+# ipsum
+# dolor
+|}
+!! result
+<table>
+<tr>
+<td style="width: 5em; text-align: center">gives
+</td>
+<td style="border: 1px dashed #2F6FAB; padding: 0.5em; margin: 0.5em">
+<ol><li> Some
+</li><li> list
+</li><li> Lorem
+</li><li> ipsum
+</li><li> dolor
+</li></ol>
+</td>
+</tr>
+</table>
+
+!! end
+!! test
+Table with broken up list inside
+!! input
+{|
+|style="width: 5em; text-align: center"| gives
+|style="border: 1px dashed #2F6FAB; padding: 0.5em; margin: 0.5em"|
+# Some
+# list
+# Lorem
+
+# ipsum
+# dolor
+|}
+!! result
+<table>
+<tr>
+<td style="width: 5em; text-align: center">gives
+</td>
+<td style="border: 1px dashed #2F6FAB; padding: 0.5em; margin: 0.5em">
+<ol><li> Some
+</li><li> list
+</li><li> Lorem
+</li></ol>
+<ol><li> ipsum
+</li><li> dolor
+</li></ol>
+</td>
+</tr>
+</table>
+
+!! end
+
+!! test
+Indented table wrapped in html tags (Related to Bug 26362)
+!! input
+<div>
+:{|
+|-
+| test
+|}</div>
+
+!! result
+<div>
+<dl><dd><table>
+<tr>
+<td>test
+</td>
+</tr>
+</table></dd></dl></div>
+
+!! end
+
+!! test
+Table with multiline contents
+!! input
+{|
+| Alice
+Bob
+dfdfg
+dfg
+|}
+!! result
+<table>
+<tr>
+<td>Alice
+<p>Bob
+dfdfg
+dfg
+</p>
+</td>
 </tr>
 </table>
 
@@ -1290,44 +1560,69 @@ Multiplication table
 |}
 !! result
 <table border="1" cellpadding="2">
-<caption>Multiplication table</caption>
+<caption>Multiplication table
+</caption>
 <thead>
 <tr>
-<th>&#215;</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
+<th>&#215;
+</th>
+<th>1
+</th>
+<th>2
+</th>
+<th>3
+</th>
 </tr></thead>
 <tbody>
 <tr>
-<th>1</th>
-<td>1</td>
-<td>2</td>
-<td>3</td>
+<th>1
+</th>
+<td>1
+</td>
+<td>2
+</td>
+<td>3
+</td>
 </tr>
 <tr>
-<th>2</th>
-<td>2</td>
-<td>4</td>
-<td>6</td>
+<th>2
+</th>
+<td>2
+</td>
+<td>4
+</td>
+<td>6
+</td>
 </tr>
 <tr>
-<th>3</th>
-<td>3</td>
-<td>6</td>
-<td>9</td>
+<th>3
+</th>
+<td>3
+</td>
+<td>6
+</td>
+<td>9
+</td>
 </tr>
 <tr>
-<th>4</th>
-<td>4</td>
-<td>8</td>
-<td>12</td>
+<th>4
+</th>
+<td>4
+</td>
+<td>8
+</td>
+<td>12
+</td>
 </tr>
 <tr>
-<th>5</th>
-<td>5</td>
-<td>10</td>
-<td>15</td>
+<th>5
+</th>
+<td>5
+</td>
+<td>10
+</td>
+<td>15
+</td>
 </tr></tbody>
 </table>
 
@@ -1347,13 +1642,18 @@ Table rowspan
 !! result
 <table align="right" border="1">
 <tr>
-<td>Cell 1, row 1</td>
-<td rowspan="2">Cell 2, row 1 (and 2)</td>
-<td>Cell 3, row 1</td>
+<td>Cell 1, row 1
+</td>
+<td rowspan="2">Cell 2, row 1 (and 2)
+</td>
+<td>Cell 3, row 1
+</td>
 </tr>
 <tr>
-<td>Cell 1, row 2</td>
-<td>Cell 3, row 2</td>
+<td>Cell 1, row 2
+</td>
+<td>Cell 3, row 2
+</td>
 </tr>
 </table>
 
@@ -1375,17 +1675,22 @@ Nested table
 !! result
 <table border="1">
 <tr>
-<td>&#945;</td>
+<td>&#945;
+</td>
 <td>
 <table bgcolor="#ABCDEF" border="2">
 <tr>
-<td>nested</td>
+<td>nested
+</td>
 </tr>
 <tr>
-<td>table</td>
+<td>table
+</td>
 </tr>
-</table></td>
-<td>the original table again</td>
+</table>
+</td>
+<td>the original table again
+</td>
 </tr>
 </table>
 
@@ -1400,7 +1705,8 @@ Invalid attributes in table cell (bug 1830)
 !! result
 <table>
 <tr>
-<td>broken</td>
+<td>broken
+</td>
 </tr>
 </table>
 
@@ -1416,11 +1722,67 @@ Heading inside table (affected by r85922)
 |}
 !! result
 <table>
-
 <tr valign="top">
 <td>
 <h3><span class="editsection">[<a href="/index.php?title=Parser_test&amp;action=edit&amp;section=1" title="Edit section: Heading">edit</a>]</span> <span class="mw-headline" id="Heading"> Heading </span></h3>
-</td></tr></table>
+</td>
+</tr>
+</table>
+
+!! end
+
+!! test
+A table with a caption with unclosed italic
+!! input 
+{|
+|+ ''caption
+|  Cell
+|}
+!! result
+<table>
+<caption><i>caption</i>
+</caption>
+<tr>
+<td>Cell
+</td>
+</tr>
+</table>
+
+!! end
+
+!! test
+A table with unclosed italic in a cell
+!! input 
+{|
+| ''Cell
+|}
+!! result
+<table>
+<tr>
+<td><i>Cell</i>
+</td>
+</tr>
+</table>
+
+!! end
+
+!! test
+A table with unclosed italic in a th
+!! input
+{|
+|-
+! ''Cell
+|| Value
+|}
+!! result
+<table>
+<tr>
+<th><i>Cell</i>
+</th>
+<td>Value
+</td>
+</tr>
+</table>
 
 !! end
 
@@ -1432,8 +1794,10 @@ Table security: embedded pipes (http://lists.wikimedia.org/mailman/htdig/wikitec
 !! result
 <table>
 <tr>
-<td>[<a rel="nofollow" class="external free" href="ftp://%7Cx">ftp://%7Cx</a></td>
-<td>]" onmouseover="alert(document.cookie)"&gt;test</td>
+<td>[<a rel="nofollow" class="external free" href="ftp://%7Cx">ftp://%7Cx</a>
+</td>
+<td>]" onmouseover="alert(document.cookie)"&gt;test
+</td>
 </tr>
 </table>
 
@@ -1450,16 +1814,62 @@ Indented Tables, bug 20078
 !! result
 <dl><dd><table>
 <tr>
-<td>1</td>
-<td>2</td>
+<td>1
+</td>
+<td>2
+</td>
 </tr>
 <tr>
-<td>3</td>
-<td>4</td>
+<td>3
+</td>
+<td>4
+</td>
 </tr>
 </table></dd></dl>
 
 !! end
+
+!! test
+Arbitrary whitespace should not be prepended
+!! input
+{| 
+| 1 || 2
+
+|- 
+
+
+| 3 || 4
+|-
+
+| 6 || 8
+|}
+!! result
+<table>
+<tr>
+<td>1
+</td>
+<td>2
+<p><br />
+</p>
+</td>
+</tr>
+<tr>
+<td>3
+</td>
+<td>4
+</td>
+</tr>
+<tr>
+<td>6
+</td>
+<td>8
+</td>
+</tr>
+</table>
+
+!! end
+
+
 ###
 ### Internal links
 ###
@@ -2719,7 +3129,8 @@ BUG 553: link with two variables in a piped link
 !! result
 <table>
 <tr>
-<td>[[{{{1}}}|{{{2}}}]]</td>
+<td>[[{{{1}}}|{{{2}}}]]
+</td>
 </tr>
 </table>
 
@@ -2830,12 +3241,16 @@ foo {{table}}
 </p>
 <table>
 <tr>
-<td>1</td>
-<td>2</td>
+<td>1
+</td>
+<td>2
+</td>
 </tr>
 <tr>
-<td>3</td>
-<td>4</td>
+<td>3
+</td>
+<td>4
+</td>
 </tr>
 </table>
 
@@ -2851,12 +3266,16 @@ foo
 </p>
 <table>
 <tr>
-<td>1</td>
-<td>2</td>
+<td>1
+</td>
+<td>2
+</td>
 </tr>
 <tr>
-<td>3</td>
-<td>4</td>
+<td>3
+</td>
+<td>4
+</td>
 </tr>
 </table>
 
@@ -3025,6 +3444,35 @@ section=1
 ==Section 1==
 !! result
 ==Section 1==
+!! end
+!! article
+Template:Top-level template
+!! text
+{{Nested template}}
+!! endarticle
+
+!! article
+Template:Nested template
+!! text
+*Item 1
+*Item 2
+!! endarticle
+
+!! test
+Line-start flag in a nested template call
+!! input
+*Item A
+*Item B
+
+{{Top-level template}}
+!! result
+<ul><li>Item A
+</li><li>Item B
+</li></ul>
+<ul><li>Item 1
+</li><li>Item 2
+</li></ul>
+
 !! end
 
 ###
@@ -4407,7 +4855,8 @@ Table multiple attributes correction
 !! result
 <table>
 <tr>
-<th class="awesome">status</th>
+<th class="awesome">status
+</th>
 </tr>
 </table>
 
@@ -4853,7 +5302,8 @@ Table attribute legitimate extension
 !! result
 <table>
 <tr>
-<th style="color:blue">status</th>
+<th style="color:blue">status
+</th>
 </tr>
 </table>
 
@@ -4868,7 +5318,8 @@ Table attribute safety
 !! result
 <table>
 <tr>
-<th style="/* insecure input */">status</th>
+<th style="/* insecure input */">status
+</th>
 </tr>
 </table>
 
@@ -5523,7 +5974,8 @@ Fuzz testing: Parser14-table
 <h2><span class="editsection">[<a href="/index.php?title=Parser_test&amp;action=edit&amp;section=1" title="Edit section: a">edit</a>]</span> <span class="mw-headline" id="a">a</span></h2>
 <table style="&#95;_TOC&#95;_">
 <tr>
-<td>foo</td>
+<td>foo
+</td>
 </tr>
 </table>
 
@@ -5540,7 +5992,8 @@ noxml
 !! result
 <table>
 <tr>
-<th>https://</th>
+<th>https://
+</th>
 <th></th>
 <th></th>
 <th></th>
@@ -5558,7 +6011,8 @@ Fuzz testing: Parser21
 !! result
 <table>
 <tr>
-<th><a rel="nofollow" class="external free" href="irc://{{ftp://a">irc://{{ftp://a</a>" onmouseover="alert('hello world');"</th>
+<th><a rel="nofollow" class="external free" href="irc://{{ftp://a">irc://{{ftp://a</a>" onmouseover="alert('hello world');"
+</th>
 <td></td>
 </tr>
 </table>
@@ -5574,8 +6028,8 @@ http://===r:::https://b
 
 !!result
 <p><a rel="nofollow" class="external free" href="http://===r:::https://b">http://===r:::https://b</a>
+</p><p><br />
 </p>
-
 !! end
 
 # Known to produce bad XML for now
@@ -5611,14 +6065,14 @@ MOVE YOUR MOUSE CURSOR OVER THIS TEXT
 |
 !! result
 <p>{{{|
-</p><p><u class="&#124;">}}}} &gt;
-</p><p><br style="onmouseover=&#39;alert(document.cookie);&#39;" />
-</p><p><br />
-MOVE YOUR MOUSE CURSOR OVER THIS TEXT
+<u class="&#124;">}}}} &gt;
+<br style="onmouseover=&#39;alert(document.cookie);&#39;" />
+</p><p>MOVE YOUR MOUSE CURSOR OVER THIS TEXT
 </p>
 <table>
 <tr>
-<td></u></td>
+<td></u>
+</td>
 </tr>
 </table>
 
@@ -7620,7 +8074,7 @@ language=sr variant=sr-ec
 !! input
 == -{Naslov}- ==
 !! result
-<h2><span class="editsection">[<a href="/index.php?title=Parser_test&amp;action=edit&amp;section=1" title="Уреди део: Naslov">уреди</a>]</span> <span class="mw-headline" id="-.7BNaslov.7D-"> Naslov </span></h2>
+<h2><span class="editsection">[<a href="/index.php?title=Parser_test&amp;action=edit&amp;section=1" title="Уредите одељак „Naslov“">уреди</a>]</span> <span class="mw-headline" id="-.7BNaslov.7D-"> Naslov </span></h2>
 
 !! end
 
@@ -7789,13 +8243,18 @@ y
 </p>
 <table>
 <tr>
-<td>1</td>
-<td>2</td>
+<td>1
+</td>
+<td>2
+</td>
 </tr>
 <tr>
-<td>3</td>
-<td>4</td>
-</tr></table>
+<td>3
+</td>
+<td>4
+</td>
+</tr>
+</table>
 <p>y
 </p>
 !! end

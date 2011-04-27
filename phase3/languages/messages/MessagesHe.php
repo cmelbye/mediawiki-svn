@@ -302,7 +302,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'רשימת_בוטים' ),
 	'Popularpages'              => array( 'הדפים_הנצפים_ביותר', 'דפים_פופולריים' ),
 	'Search'                    => array( 'חיפוש' ),
-	'Resetpass'                 => array( 'שינוי_סיסמה', 'איפוס_סיסמה' ),
+	'ChangePassword'            => array( 'שינוי_סיסמה', 'איפוס_סיסמה' ),
 	'Withoutinterwiki'          => array( 'דפים_ללא_קישורי_שפה' ),
 	'MergeHistory'              => array( 'מיזוג_גרסאות' ),
 	'Filepath'                  => array( 'נתיב_לקובץ' ),
@@ -837,16 +837,7 @@ $2',
 # E-mail sending
 'php-mail-error-unknown' => 'שגיאה לא ידועה בפונקציה mail() של PHP',
 
-# JavaScript password checks
-'password-strength'            => 'חוזק סיסמה מוערך: $1',
-'password-strength-bad'        => 'רע',
-'password-strength-mediocre'   => 'בינוני',
-'password-strength-acceptable' => 'סביר',
-'password-strength-good'       => 'טוב',
-'password-retype'              => 'הקלידו מחדש את סיסמתכם כאן',
-'password-retype-mismatch'     => 'הסיסמאות אינן מתאימות',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'שינוי סיסמה',
 'resetpass_announce'        => 'נכנסתם באמצעות סיסמה זמנית שנשלחה אליכם בדוא"ל.
 כדי לסיים את הכניסה, עליכם לקבוע כאן סיסמה חדשה:',
@@ -1229,27 +1220,6 @@ $1",
 'suppressionlogtext' => 'להלן רשימת המחיקות והחסימות הכוללות תוכן המוסתר ממפעילי המערכת.
 ראו את [[Special:BlockList|רשימת כתובות ה־IP החסומות]] לרשימת החסימות הפעילות כעת.',
 
-# Revision move
-'moverevlogentry'              => 'העביר {{PLURAL:$3|גרסה אחת|$3 גרסאות}} מ$1 ל$2',
-'revisionmove'                 => 'העברת גרסאות מהדף "$1"',
-'revisionmove-backlink'        => '→ $1',
-'revmove-explain'              => 'הגרסאות הבאות יועברו מהדף $1 לדף היעד שצוין. אם דף היעד לא קיים, הוא ייווצר. אחרת, גרסאות אלה ימוזגו לתוך היסטוריית הדף.',
-'revmove-legend'               => 'הגדרת דף היעד והתקציר',
-'revmove-submit'               => 'העברת הגרסאות לדף שנבחר',
-'revisionmoveselectedversions' => 'העברת הגרסאות שנבחרו',
-'revmove-reasonfield'          => 'סיבה:',
-'revmove-titlefield'           => 'דף היעד:',
-'revmove-badparam-title'       => 'פרמטרים שגויים',
-'revmove-badparam'             => 'בקשתכם כוללת פרמטרים בלתי חוקיים או בלתי מספיקים.
-אנא חזרו לדף הקודם ונסו שוב.',
-'revmove-norevisions-title'    => 'גרסת יעד בלתי תקינה',
-'revmove-norevisions'          => 'לא ציינתם גרסת יעד אחת או יותר שיש לבצע עליה פעולה זו, או שהגרסה שציינתם אינה קיימת.',
-'revmove-nullmove-title'       => 'כותרת שגויה',
-'revmove-nullmove'             => 'דף המקור אינו יכול להיות זהה לדף היעד.
-אנא חזרו לדף הקודם והקלידו שם דף שונה מ"$1".',
-'revmove-success-existing'     => '{{PLURAL:$1|גרסה אחת מ[[$2]] הועברה|$1 גרסאות מ[[$2]] הועברו}} לדף הקיים [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|גרסה אחת מ[[$2]] הועברה|$1 גרסאות מ[[$2]] הועברו}} לדף החדש [[$3]].',
-
 # History merging
 'mergehistory'                     => 'מיזוג גרסאות של דפים',
 'mergehistory-header'              => "דף זה מאפשר לכם למזג גרסאות מהיסטוריית הדף של דף מקור לתוך דף חדש יותר.
@@ -1590,8 +1560,6 @@ $1",
 'right-reset-passwords'       => 'איפוס סיסמאות של משתמשים אחרים',
 'right-override-export-depth' => 'ייצוא דפים כולל דפים מקושרים עד עומק של חמישה',
 'right-sendemail'             => 'שליחת דואר אלקטרוני למשתמשים אחרים',
-'right-revisionmove'          => 'העברת גרסאות',
-'right-disableaccount'        => 'ביטול חשבונות',
 
 # User rights log
 'rightslog'      => 'יומן תפקידים',
@@ -1634,7 +1602,6 @@ $1",
 'action-userrights'           => 'לערוך את כל הרשאות המשתמש',
 'action-userrights-interwiki' => 'לערוך את ההרשאות של משתמשים באתרי ויקי אחרים',
 'action-siteadmin'            => 'לנעול או לבטל את נעילת בסיס הנתונים',
-'action-revisionmove'         => 'להעביר גרסאות',
 
 # Recent changes
 'nchanges'                          => '{{PLURAL:$1|שינוי אחד|$1 שינויים}}',
@@ -2940,39 +2907,31 @@ $1',
 'tooltip-summary'                 => 'להכנסת תקציר קצר',
 
 # Stylesheets
-'common.css'        => '/* הסגנונות הנכתבים כאן ישפיעו על כל העיצובים */',
-'standard.css'      => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Standard בלבד */',
-'nostalgia.css'     => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Nostalgia בלבד */',
-'cologneblue.css'   => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב CologneBlue בלבד */',
-'monobook.css'      => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Monobook בלבד */',
-'myskin.css'        => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב MySkin בלבד */',
-'chick.css'         => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Chick בלבד */',
-'simple.css'        => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Simple בלבד */',
-'modern.css'        => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Modern בלבד */',
-'vector.css'        => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Vector בלבד */',
-'print.css'         => '/* הסגנונות הנכתבים כאן ישפיעו על הפלט בהדפסה בלבד */',
-'handheld.css'      => '/* הסגנונות הנכתבים כאן ישפיעו על מכשירים ניידים המבוססים על העיצוב שבהגדרה $wgHandheldStyle בלבד */',
-'noscript.css'      => '/* הסגנונות הנכתבים כאן ישפיעו על משתמשים עם JavaScript מבוטל */',
-'autoconfirmed.css' => '/* הסגנונות הנכתבים כאן ישפיעו על משתמשים ותיקים בלבד */',
-'bot.css'           => '/* הסגנונות הנכתבים כאן ישפיעו על בוטים בלבד */',
-'sysop.css'         => '/* הסגנונות הנכתבים כאן ישפיעו על מפעילי מערכת בלבד */',
-'bureaucrat.css'    => '/* הסגנונות הנכתבים כאן ישפיעו על ביורוקרטים בלבד */',
+'common.css'      => '/* הסגנונות הנכתבים כאן ישפיעו על כל העיצובים */',
+'standard.css'    => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Standard בלבד */',
+'nostalgia.css'   => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Nostalgia בלבד */',
+'cologneblue.css' => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב CologneBlue בלבד */',
+'monobook.css'    => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Monobook בלבד */',
+'myskin.css'      => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב MySkin בלבד */',
+'chick.css'       => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Chick בלבד */',
+'simple.css'      => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Simple בלבד */',
+'modern.css'      => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Modern בלבד */',
+'vector.css'      => '/* הסגנונות הנכתבים כאן ישפיעו על העיצוב Vector בלבד */',
+'print.css'       => '/* הסגנונות הנכתבים כאן ישפיעו על הפלט בהדפסה בלבד */',
+'handheld.css'    => '/* הסגנונות הנכתבים כאן ישפיעו על מכשירים ניידים המבוססים על העיצוב שבהגדרה $wgHandheldStyle בלבד */',
+'noscript.css'    => '/* הסגנונות הנכתבים כאן ישפיעו על משתמשים עם JavaScript מבוטל */',
 
 # Scripts
-'common.js'        => '/* כל סקריפט JavaScript שנכתב כאן ירוץ עבור כל המשתמשים בכל טעינת עמוד */',
-'standard.js'      => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Standard */',
-'nostalgia.js'     => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Nostalgia */',
-'cologneblue.js'   => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב CologneBlue */',
-'monobook.js'      => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Monobook */',
-'myskin.js'        => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב MySkin */',
-'chick.js'         => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Chick */',
-'simple.js'        => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Simple */',
-'modern.js'        => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Modern */',
-'vector.js'        => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Vector */',
-'autoconfirmed.js' => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור משתמשים ותיקים */',
-'bot.js'           => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור בוטים */',
-'sysop.js'         => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור מפעילי מערכת */',
-'bureaucrat.js'    => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור ביורוקרטים */',
+'common.js'      => '/* כל סקריפט JavaScript שנכתב כאן ירוץ עבור כל המשתמשים בכל טעינת עמוד */',
+'standard.js'    => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Standard */',
+'nostalgia.js'   => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Nostalgia */',
+'cologneblue.js' => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב CologneBlue */',
+'monobook.js'    => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Monobook */',
+'myskin.js'      => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב MySkin */',
+'chick.js'       => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Chick */',
+'simple.js'      => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Simple */',
+'modern.js'      => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Modern */',
+'vector.js'      => '/* כל סקריפט JavaScript שנכתב כאן ירוץ רק עבור המשתמשים בעיצוב Vector */',
 
 # Metadata
 'nodublincore'      => 'Dublin Core RDF metadata מבוטל בשרת זה.',
@@ -3104,7 +3063,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'רוחב',
@@ -3119,13 +3084,11 @@ $1',
 'exif-ycbcrpositioning'            => 'מיקום Y ו־C',
 'exif-xresolution'                 => 'רזולוציה אופקית',
 'exif-yresolution'                 => 'רזולוציה אנכית',
-'exif-resolutionunit'              => 'יחידות מידה של רזולוציות X ו־Y',
 'exif-stripoffsets'                => 'מיקום מידע התמונה',
 'exif-rowsperstrip'                => 'מספר השורות לרצועה',
 'exif-stripbytecounts'             => 'בייטים לרצועה דחוסה',
 'exif-jpeginterchangeformat'       => 'יחס ל־JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'בייטים של מידע JPEG',
-'exif-transferfunction'            => 'פונקציית העברה',
 'exif-whitepoint'                  => 'נקודה לבנה צבעונית',
 'exif-primarychromaticities'       => 'צבעוניות ה־Primarity',
 'exif-ycbcrcoefficients'           => 'מקדמי פעולת הטרנספורמציה של מרחב הצבע',
@@ -3144,7 +3107,6 @@ $1',
 'exif-compressedbitsperpixel'      => 'שיטת דחיסת התמונה',
 'exif-pixelydimension'             => 'רוחב התמונה הנכון',
 'exif-pixelxdimension'             => 'גובה התמונה הנכון',
-'exif-makernote'                   => 'הערות היצרן',
 'exif-usercomment'                 => 'הערות המשתמש',
 'exif-relatedsoundfile'            => 'קובץ שמע מקושר',
 'exif-datetimeoriginal'            => 'התאריך והשעה של יצירת הקובץ',
@@ -3158,9 +3120,8 @@ $1',
 'exif-exposureprogram'             => 'תוכנית החשיפה',
 'exif-spectralsensitivity'         => 'רגישות הספקטרום',
 'exif-isospeedratings'             => 'דירוג מהירות ה־ISO',
-'exif-oecf'                        => 'מקדם המרה אופטו־אלקטרוני',
 'exif-shutterspeedvalue'           => 'מהירות צמצם',
-'exif-aperturevalue'               => 'מִפתח',
+'exif-aperturevalue'               => 'מִפתח APEX',
 'exif-brightnessvalue'             => 'בהירות',
 'exif-exposurebiasvalue'           => 'נטיית החשיפה',
 'exif-maxaperturevalue'            => 'גודל המִפתח המרבי',
@@ -3172,7 +3133,6 @@ $1',
 'exif-focallength-format'          => '$1 מ"מ',
 'exif-subjectarea'                 => 'נושא האזור',
 'exif-flashenergy'                 => 'אנרגיית המַבזק',
-'exif-spatialfrequencyresponse'    => 'תדירות התגובה המרחבית',
 'exif-focalplanexresolution'       => 'משטח הפוקוס ברזולוציה האופקית',
 'exif-focalplaneyresolution'       => 'משטח הפוקוס ברזולוציה האנכית',
 'exif-focalplaneresolutionunit'    => 'יחידת המידה של משטח הפוקוס ברזולוציה',
@@ -3181,7 +3141,6 @@ $1',
 'exif-sensingmethod'               => 'שיטת חישה',
 'exif-filesource'                  => 'מקור הקובץ',
 'exif-scenetype'                   => 'סוג הסצנה',
-'exif-cfapattern'                  => 'תבנית CFA',
 'exif-customrendered'              => 'עיבוד תמונה מותאם',
 'exif-exposuremode'                => 'מצב החשיפה',
 'exif-whitebalance'                => 'איזון צבע לבן',
@@ -3366,6 +3325,11 @@ $1',
 'exif-gpsspeed-k' => 'קילומטרים בשעה',
 'exif-gpsspeed-m' => 'מיילים בשעה',
 'exif-gpsspeed-n' => 'מיילים ימיים בשעה',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'קילומטרים',
+'exif-gpsdestdistance-m' => 'מיילים',
+'exif-gpsdestdistance-n' => 'מיילים ימיים',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'כיוון אמיתי',
@@ -3721,18 +3685,5 @@ $1',
 'htmlform-submit'              => 'שליחה',
 'htmlform-reset'               => 'ביטול השינויים',
 'htmlform-selectorother-other' => 'אחר',
-
-# Special:DisableAccount
-'disableaccount'             => 'ביטול חשבון משתמש',
-'disableaccount-user'        => 'שם משתמש:',
-'disableaccount-reason'      => 'סיבה:',
-'disableaccount-confirm'     => "ביטול חשבון משתמש זה.
-המשתמש לא יוכל להיכנס לחשבון, לאפס את הסיסמה, או לקבל הודעות בדואר אלקטרוני.
-אם המשתמש מחובר כעת לחשבון במקום כלשהו, הוא ייצא מהחשבון מיד.
-'''שימו לב שביטול חשבון הוא פעולה בלתי הפיכה ללא התערבות של מנהל מערכת.'''",
-'disableaccount-mustconfirm' => 'עליכם לאשר שאתם רוצים לבטל חשבון זה.',
-'disableaccount-nosuchuser'  => 'חשבון המשתמש "$1" אינו קיים.',
-'disableaccount-success'     => 'חשבון המשתמש "$1" בוטל.',
-'disableaccount-logentry'    => 'ביטל את חשבון המשתמש [[$1]] לזמן בלתי מוגבל',
 
 );

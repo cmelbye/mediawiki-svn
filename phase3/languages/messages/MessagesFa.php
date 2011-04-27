@@ -135,7 +135,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'فهرست_ربات‌ها' ),
 	'Popularpages'              => array( 'صفحه‌های_محبوب' ),
 	'Search'                    => array( 'جستجو' ),
-	'Resetpass'                 => array( 'از_نو_کردن_گذرواژه' ),
+	'ChangePassword'            => array( 'از_نو_کردن_گذرواژه' ),
 	'Withoutinterwiki'          => array( 'بدون_میان‌ویکی' ),
 	'MergeHistory'              => array( 'ادغام_تاریخچه' ),
 	'Filepath'                  => array( 'مسیر_پرونده' ),
@@ -919,16 +919,7 @@ $2',
 # E-mail sending
 'php-mail-error-unknown' => 'خطای ناشناخته در تابع  mail() پی‌اچ‌پی',
 
-# JavaScript password checks
-'password-strength'            => 'تخمین قدرت گذرواژه: $1',
-'password-strength-bad'        => 'بد',
-'password-strength-mediocre'   => 'متوسط',
-'password-strength-acceptable' => 'قابل قبول',
-'password-strength-good'       => 'خوب',
-'password-retype'              => 'گذرواژه را دوباره وارد کنید',
-'password-retype-mismatch'     => 'گذرواژه‌ها مطابقت ندارند.',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'تغییر گذرواژه',
 'resetpass_announce'        => 'شما با کد موقتی ارسال شده وارد شده‌اید.
 برای انجام فرایند ورود به سامانه باید گذروازهٔ جدیدی وارد کنید:',
@@ -1315,24 +1306,6 @@ $1",
 'suppressionlogtext' => 'در زیر فهرستی از آخرین حذف‌ها و قطع دسترسی‌هایی که حاوی محتوایی هستند که از مدیران پنهان شده‌اند را می‌بینید.
 برای مشاهدهٔ فهرستی از قطع دسترسی‌های فعال [[Special:IPBlockList|فهرست قطع‌دسترسی‌ها]] را ببینید.',
 
-# Revision move
-'moverevlogentry'              => '{{PLURAL:$3|یک نسخه|$3 نسخه}}را از $1 به $2 انتقال داد',
-'revisionmove'                 => 'انتقال نسخه‌ها از «$1»',
-'revmove-explain'              => 'نسخه‌های زیر از $1 به صفحهٔ هدف مشخص شده منتقل خواهند شد. اگر صفحهٔ مقصد وجود نداشته باشد، ساخته خواهد شد. در غیر این صورت، نسخه‌ها با تاریخچهٔ قبلی صفحه ادغام خواهند شد.',
-'revmove-legend'               => 'صفحهٔ مقصد و خلاصه ویرایش را مشخص کنید',
-'revmove-submit'               => 'انتقال نسخه‌ها به صفحهٔ انتخاب شده',
-'revisionmoveselectedversions' => 'انتقال نسخه‌های انتخاب شده',
-'revmove-reasonfield'          => 'دلیل:',
-'revmove-titlefield'           => 'صفحه مقصد:',
-'revmove-badparam-title'       => 'پارامترهای بد',
-'revmove-badparam'             => 'درخواست شما شامل پارامترهای غیر مجاز یا ناکافی است. لطفاً دکمهٔ «بازگشت» را بزنید و دوباره تلاش کنید.',
-'revmove-norevisions-title'    => 'نسخه نهایی غیر مجاز',
-'revmove-norevisions'          => 'شما یک یا چند نسخه هدف را برای انجام این عمل مشخص نکرده‌اید یا نسخه‌های مشخص شده وجود ندارند.',
-'revmove-nullmove-title'       => 'عنوان بد',
-'revmove-nullmove'             => 'صفحه‌های مبدأ و مقصد یکی هستند. لطفاً دکمهٔ «بازگشت» را بزنید و عنوان غیر از «$1» وارد کنید.',
-'revmove-success-existing'     => '{{PLURAL:$1|یک نسخه از [[$2]]|$1 نسخه از [[$2]]}} به صفحهٔ [[$3]] که از قبل وجود داشت انتقال {{PLURAL:$1|یافته‌است|یافته‌اند}}.',
-'revmove-success-created'      => '{{PLURAL:$1|یک نسخه از [[$2]]|$1 نسخه از [[$2]]}} به صفحهٔ تازه ساخته شده [[$3]] انتقال {{PLURAL:$1|یافته‌است|یافته‌اند}}.',
-
 # History merging
 'mergehistory'                     => 'ادغام تاریخچه صفحه‌ها',
 'mergehistory-header'              => "این صفحه به شما این امکان را می‌دهد که نسخه‌های تاریخچهٔ یک مقاله را با یک مقاله دیگر ادغام کنید.
@@ -1673,8 +1646,6 @@ $1",
 'right-reset-passwords'       => 'از نو تنظیم کردن گذرواژهٔ دیگر کاربران',
 'right-override-export-depth' => 'برون‌ریزی صفحه‌ها شامل صفحه‌های پیوند شده تا عمق ۵',
 'right-sendemail'             => 'ارسال پست الکترونیک به دیگر کاربران',
-'right-revisionmove'          => 'ادغام نسخه‌ها',
-'right-disableaccount'        => 'غیر فعال کردن حساب‌ها',
 
 # User rights log
 'rightslog'      => 'سیاههٔ اختیارات کاربر',
@@ -1717,7 +1688,6 @@ $1",
 'action-userrights'           => 'ویرایش همهٔ اختیارات کاربری',
 'action-userrights-interwiki' => 'ویرایش اختیارات کاربری کاربران یک ویکی دیگر',
 'action-siteadmin'            => 'قفل کردن و باز کردن پایگاه داده',
-'action-revisionmove'         => 'ادغام نسخه‌ها',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|تغییر|تغییر}}',
@@ -1922,22 +1892,23 @@ $1',
 'uploadstash-refresh'  => 'تازه کردن فهرست پرونده‌ها',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'منع دسترسی',
-'img-auth-nopathinfo'   => 'PATH_INFO موجود نیست.
+'img-auth-accessdenied'     => 'منع دسترسی',
+'img-auth-nopathinfo'       => 'PATH_INFO موجود نیست.
 کارساز شما برای رد کردن این مقدار تنظیم نشده‌است.
 ممکن است کارساز مبتنی بر سی‌جی‌آی باشد و از img_auth پشتیبانی نکند.
 http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
-'img-auth-notindir'     => 'مسیر درخواست شده در شاخهٔ بارگذاری تنظیم نشده‌است.',
-'img-auth-badtitle'     => 'امکان ایجاد یک عنوان مجاز از «$1» وجود ندارد.',
-'img-auth-nologinnWL'   => 'شما به سامانه وارد نشده‌اید و «$1» در فهرست سفید قرار ندارد.',
-'img-auth-nofile'       => 'پرونده «$1» وجود ندارد.',
-'img-auth-isdir'        => 'شما می‌خواهید به شاخهٔ «$1» دسترسی پیدا کنید.
+'img-auth-notindir'         => 'مسیر درخواست شده در شاخهٔ بارگذاری تنظیم نشده‌است.',
+'img-auth-badtitle'         => 'امکان ایجاد یک عنوان مجاز از «$1» وجود ندارد.',
+'img-auth-nologinnWL'       => 'شما به سامانه وارد نشده‌اید و «$1» در فهرست سفید قرار ندارد.',
+'img-auth-nofile'           => 'پرونده «$1» وجود ندارد.',
+'img-auth-isdir'            => 'شما می‌خواهید به شاخهٔ «$1» دسترسی پیدا کنید.
 تنها دسترسی به پرونده مجاز است.',
-'img-auth-streaming'    => 'در حال جاری ساختن «$1».',
-'img-auth-public'       => 'عملکرد img_auth.php برونداد پرونده‌ها از یک ویکی خصوصی است.
+'img-auth-streaming'        => 'در حال جاری ساختن «$1».',
+'img-auth-public'           => 'عملکرد img_auth.php برونداد پرونده‌ها از یک ویکی خصوصی است.
 این ویکی به عنوان یک ویکی عمومی تنظیم شده‌است.
 برای امنیت بهینه، img_auth.php غیر فعال است.',
-'img-auth-noread'       => 'کاربر دسترسی خواندن «$1» را ندارد.',
+'img-auth-noread'           => 'کاربر دسترسی خواندن «$1» را ندارد.',
+'img-auth-bad-query-string' => 'آدرس اینترنتی شامل یک رشتهٔ نامعتبر درخواست است.',
 
 # HTTP errors
 'http-invalid-url'      => 'نشانی نامعتبر: $1',
@@ -2300,6 +2271,10 @@ http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
 یا تصمیم گرفته از کاربران دیگر پست الکترونیکی دریافت نکند.',
 'nowikiemailtitle'     => 'اجازهٔ ارسال نامهٔ الکترونیکی داده نشده‌است',
 'nowikiemailtext'      => 'این کاربر انتخاب کرده که از دیگر کاربران نامهٔ الکترونیکی دریافت نکند.',
+'emailnotarget'        => 'نام کاربری غیر موجود یا نامعتبر برای گیرنده.',
+'emailtarget'          => 'نام کاربری دریافت‌کننده را وارد کنید',
+'emailusername'        => 'نام کاربری:',
+'emailusernamesubmit'  => 'ارسال',
 'email-legend'         => 'ارسال نامه الکترونیکی به یک کاربر دیگر {{SITENAME}}',
 'emailfrom'            => 'از:',
 'emailto'              => 'به:',
@@ -3142,14 +3117,20 @@ $1',
 'metadata-help'     => 'این پرونده حاوی اطلاعات اضافه‌ای است که احتمالاً توسط دوربین دیجیتالی‌ یا پویشگری که در ایجاد یا دیجیتالی‌کردن آن به کار رفته‌است، افزوده شده‌است. اگر پرونده از وضعیت ابتدایی‌اش تغییر داده شده باشد آنگاه ممکن است شرح و تفصیلات موجود اطلاعات عکس را تماماً بازتاب ندهد.',
 'metadata-expand'   => 'نمایش جزئیات تفصیلی',
 'metadata-collapse' => 'نهفتن جزئیات تفصیلی',
-'metadata-fields'   => 'فرادادهٔ EXIF نشان داده شده در این پیغام وقتی جدول فراداده‌های تصویر جمع شده باشد هم نمایش داده می‌شوند. بقیهٔ موارد تنها زمانی نشان داده می‌شوند که جدول یاد شده باز شود.
+'metadata-fields'   => 'فرادادهٔ تصویر نشان داده شده در این پیغام وقتی جدول فراداده‌های تصویر جمع شده باشد هم نمایش داده می‌شود. بقیهٔ موارد تنها زمانی نشان داده می‌شوند که جدول یاد شده باز شود.
 * make
 * model
 * datetimeoriginal
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'عرض',
@@ -3164,13 +3145,11 @@ $1',
 'exif-ycbcrpositioning'            => 'موقعیت Y و C',
 'exif-xresolution'                 => 'تفکیک‌پذیری افقی',
 'exif-yresolution'                 => 'تفکیک‌پذیری عمودی',
-'exif-resolutionunit'              => 'واحد تفکیک‌پذیری X و Y',
 'exif-stripoffsets'                => 'جایگاه داده‌های تصویر',
 'exif-rowsperstrip'                => 'تعداد ردیف‌ها در هر نوار',
 'exif-stripbytecounts'             => 'بایت در هر نوار فشرده',
 'exif-jpeginterchangeformat'       => 'جابه‌جایی نسبت به JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'بایت دادهٔ JPEG',
-'exif-transferfunction'            => 'تابع تبدیل',
 'exif-whitepoint'                  => 'رنگینگی نقطهٔ سفید',
 'exif-primarychromaticities'       => 'رنگ‌پذیری اولویت‌ها',
 'exif-ycbcrcoefficients'           => 'ضرایب ماتریس تبدیل فضای رنگی',
@@ -3187,9 +3166,8 @@ $1',
 'exif-colorspace'                  => 'فضای رنگی',
 'exif-componentsconfiguration'     => 'معنی هر یک از مؤلفه‌ها',
 'exif-compressedbitsperpixel'      => 'حالت فشرده‌سازی تصویر',
-'exif-pixelydimension'             => 'عرض تصویر معتبر',
-'exif-pixelxdimension'             => 'طول تصویر معتبر',
-'exif-makernote'                   => 'تذکرات شرکت سازنده',
+'exif-pixelydimension'             => 'پهنای تصویر',
+'exif-pixelxdimension'             => 'بلندی تصویر',
 'exif-usercomment'                 => 'توضیحات کاربر',
 'exif-relatedsoundfile'            => 'پروندهٔ صوتی مربوط',
 'exif-datetimeoriginal'            => 'تاریخ و زمان تولید داده‌ها',
@@ -3203,10 +3181,9 @@ $1',
 'exif-exposureprogram'             => 'برنامهٔ نوردهی',
 'exif-spectralsensitivity'         => 'حساسیت طیفی',
 'exif-isospeedratings'             => 'درجه‌بندی سرعت ایزو',
-'exif-oecf'                        => 'عامل تبدیل نوری‌-الکترونیک',
-'exif-shutterspeedvalue'           => 'سرعت شاتر',
-'exif-aperturevalue'               => 'اندازهٔ دیافراگم',
-'exif-brightnessvalue'             => 'روشنی',
+'exif-shutterspeedvalue'           => 'سرعت آپکس شاتر',
+'exif-aperturevalue'               => 'اندازهٔ آپکس دیافراگم',
+'exif-brightnessvalue'             => 'روشنایی آپکس',
 'exif-exposurebiasvalue'           => 'خطای نوردهی',
 'exif-maxaperturevalue'            => 'حداکثر گشادگی زمین',
 'exif-subjectdistance'             => 'فاصلهٔ سوژه',
@@ -3217,7 +3194,6 @@ $1',
 'exif-focallength-format'          => '$1 میلی‌متر',
 'exif-subjectarea'                 => 'مساحت جسم',
 'exif-flashenergy'                 => 'قدرت فلاش',
-'exif-spatialfrequencyresponse'    => 'پاسخ بسامد فاصله‌ای',
 'exif-focalplanexresolution'       => 'تفکیک‌پذیری X صفحهٔ کانونی',
 'exif-focalplaneyresolution'       => 'تفکیک‌پذیری Y صفحهٔ کانونی',
 'exif-focalplaneresolutionunit'    => 'واحد تفکیک‌پذیری صفحهٔ کانونی',
@@ -3226,7 +3202,6 @@ $1',
 'exif-sensingmethod'               => 'روش حسگری',
 'exif-filesource'                  => 'منبع پرونده',
 'exif-scenetype'                   => 'نوع صحنه',
-'exif-cfapattern'                  => 'الگوی CFA',
 'exif-customrendered'              => 'ظهور عکس سفارشی',
 'exif-exposuremode'                => 'حالت نوردهی',
 'exif-whitebalance'                => 'تعادل رنگ سفید (white balance)',
@@ -3271,10 +3246,76 @@ $1',
 'exif-gpsareainformation'          => 'نام ناحیهٔ جی‌پی‌اس',
 'exif-gpsdatestamp'                => 'تاریخ جی‌پی‌اس',
 'exif-gpsdifferential'             => 'تصحیح جزئی جی‌پی‌اس',
+'exif-jpegfilecomment'             => 'توضیحات پرونده JPEG',
+'exif-keywords'                    => 'واژه‌های کلیدی',
+'exif-worldregioncreated'          => 'منطقه‌ای از جهان که تصویر در آن گرفته شده',
+'exif-countrycreated'              => 'کشوری که تصویر در آن گرفته شده',
+'exif-countrycodecreated'          => 'کد کشوری که تصویر در آن گرفته شده',
+'exif-provinceorstatecreated'      => 'استان یا ایالتی که تصویر در آن گرفته شده',
+'exif-citycreated'                 => 'شهری که تصویر در آن گرفته شده',
+'exif-sublocationcreated'          => 'بخشی از شهر که تصویر در آن گرفته شده',
+'exif-worldregiondest'             => 'منقطه جهان نمایش داده شده',
+'exif-countrydest'                 => 'کشور نمایش داده شده',
+'exif-countrycodedest'             => 'کد کشور نمایش داده شده',
+'exif-provinceorstatedest'         => 'استان یا ایالت نمایش داده شده',
+'exif-citydest'                    => 'شهر نمایش داده شده',
+'exif-sublocationdest'             => 'بخش شهر نمایش داده شده',
 'exif-objectname'                  => 'عنوان کوتاه',
+'exif-specialinstructions'         => 'دستورالعمل‌های ویژه',
+'exif-headline'                    => 'عنوان',
+'exif-credit'                      => 'صاحب امتیاز/ارائه کننده',
+'exif-source'                      => 'منبع',
+'exif-editstatus'                  => 'وضعیت تحریریه تصویر',
+'exif-urgency'                     => 'فوریت',
+'exif-fixtureidentifier'           => 'نام ستون نشریه',
+'exif-locationdest'                => 'محل به تصویر کشیده شده',
+'exif-locationdestcode'            => 'کد محل به تصویر کشیده شده',
+'exif-objectcycle'                 => 'زمان روز که این رسانه برای آن در نظر گرفته شده',
+'exif-contact'                     => 'اطلاعات تماس',
+'exif-writer'                      => 'نویسنده',
+'exif-languagecode'                => 'زبان',
+'exif-iimversion'                  => 'نسخه IIM',
+'exif-iimcategory'                 => 'رده',
+'exif-iimsupplementalcategory'     => 'رده‌های تکمیلی',
+'exif-datetimeexpires'             => 'استفاده تا تاریخ',
+'exif-datetimereleased'            => 'منتشر شده در',
+'exif-originaltransmissionref'     => 'کد محل انتقال اصلی',
+'exif-identifier'                  => 'شناسه',
+'exif-lens'                        => 'لنز مورد استفاده',
+'exif-serialnumber'                => 'شماره سریال دوربین',
+'exif-cameraownername'             => 'صاحب دوربین',
+'exif-label'                       => 'برچسب',
+'exif-datetimemetadata'            => 'تاریخی که فراداده آخرین بار تغییر یافته',
+'exif-nickname'                    => 'نام غیررسمی تصویر',
+'exif-rating'                      => 'امتیاز (از 5)',
+'exif-rightscertificate'           => 'گواهینامه مدیریت حقوق',
+'exif-copyrighted'                 => 'وضعیت حق تکثیر',
+'exif-copyrightowner'              => 'دارندهٔ حق تکثیر',
+'exif-usageterms'                  => 'شرایط استفاده',
+'exif-webstatement'                => 'نسخه برخط اعلامیه حق تکثیر',
+'exif-originaldocumentid'          => 'شناسه منحصر به فرد سند اصلی',
+'exif-licenseurl'                  => 'نشانی اینترنتی برای مجوز حق تکثیر',
+'exif-morepermissionsurl'          => 'اطلاعات مجوزهای جایگزین',
+'exif-attributionurl'              => 'در زمان استفاده مجدد، لطفاً پیوند دهید به',
+'exif-preferredattributionname'    => 'در زمان استفاده مجدد، لطفاً اعتبار دهید به',
+'exif-pngfilecomment'              => 'توضیحات پرونده PNG',
+'exif-disclaimer'                  => 'تکذیب‌نامه',
+'exif-contentwarning'              => 'هشدار محتوا',
+'exif-giffilecomment'              => 'توضیحات پرونده GIF',
+'exif-intellectualgenre'           => 'نوع مورد',
+'exif-subjectnewscode'             => 'کد موضوع',
+'exif-scenecode'                   => 'IPTC کد صحنه',
+'exif-event'                       => 'رویداد به تصویر کشیده شده',
+'exif-organisationinimage'         => 'سازمان به تصویر کشیده شده',
+'exif-personinimage'               => 'فرد به تصویر کشیده شده',
+'exif-originalimageheight'         => 'بلندی تصویر قبل از برش دادن',
+'exif-originalimagewidth'          => 'پهنای تصویر قبل از برش دادن',
 
 # EXIF attributes
 'exif-compression-1' => 'غیرفشرده',
+
+'exif-copyrighted-true'  => 'دارای حق تکثیر',
+'exif-copyrighted-false' => 'مالکیت عمومی',
 
 'exif-unknowndate' => 'تاریخ نامعلوم',
 
@@ -3292,6 +3333,8 @@ $1',
 
 'exif-xyresolution-i' => '$1 نقطه در اینچ',
 'exif-xyresolution-c' => '$1 نقطه در سانتی‌متر',
+
+'exif-colorspace-65535' => 'تنظیم نشده',
 
 'exif-componentsconfiguration-0' => 'وجود ندارد',
 
@@ -3356,6 +3399,8 @@ $1',
 'exif-sensingmethod-7' => 'حسگر سه‌خطی',
 'exif-sensingmethod-8' => 'حسگر خطی ترتیبی رنگ‌ها',
 
+'exif-filesource-3' => 'دوربین عکاسی دیجیتال',
+
 'exif-scenetype-1' => 'تصویر مستقیماً عکاسی شده',
 
 'exif-customrendered-0' => 'ظهور عادی',
@@ -3404,6 +3449,10 @@ $1',
 'exif-gpslongitude-e' => 'طول جغرافیایی شرقی',
 'exif-gpslongitude-w' => 'طول جغرافیایی غربی',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '$1 {{PLURAL:$1|متر|متر}} بالاتر از سطح دریا',
+'exif-gpsaltitude-below-sealevel' => '$1 {{PLURAL:$1|متر|متر}} پایین‌تر از سطح دریا',
+
 'exif-gpsstatus-a' => 'در حال اندازه‌گیری',
 'exif-gpsstatus-v' => 'مقایسه‌پذیری اندازه‌گیری',
 
@@ -3415,9 +3464,63 @@ $1',
 'exif-gpsspeed-m' => 'مایل بر ساعت',
 'exif-gpsspeed-n' => 'گره',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'کیلومتر',
+'exif-gpsdestdistance-m' => 'مایل',
+'exif-gpsdestdistance-n' => 'مایل دریایی',
+
+'exif-gpsdop-excellent' => 'عالی ($1)',
+'exif-gpsdop-good'      => 'خوب ($1)',
+'exif-gpsdop-moderate'  => 'متوسط ($1)',
+'exif-gpsdop-fair'      => 'نه چندان خوب ($1)',
+'exif-gpsdop-poor'      => 'ضعیف ($1)',
+
+'exif-objectcycle-a' => 'تنها صبح',
+'exif-objectcycle-p' => 'تنها عصر',
+'exif-objectcycle-b' => 'صبح و عصر',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'جهت درست',
 'exif-gpsdirection-m' => 'جهت مغناطیسی',
+
+'exif-ycbcrpositioning-1' => 'وسط‌چین شده',
+'exif-ycbcrpositioning-2' => 'اشتراکی',
+
+'exif-dc-contributor' => 'مشارکت‌کنندگان',
+'exif-dc-coverage'    => 'محدوده مکانی و یا زمانی رسانه',
+'exif-dc-date'        => 'تاریخ (ها)',
+'exif-dc-publisher'   => 'ناشر',
+'exif-dc-relation'    => 'رسانه‌های مرتبط',
+'exif-dc-rights'      => 'حقوق',
+'exif-dc-source'      => 'رسانه منبع',
+'exif-dc-type'        => 'نوع رسانه',
+
+'exif-rating-rejected' => 'رد شده',
+
+'exif-isospeedratings-overflow' => 'بزرگتر از ۶۵۵۳۵',
+
+'exif-iimcategory-ace' => 'هنر، فرهنگ و سرگرمی',
+'exif-iimcategory-clj' => 'جنایت و قانون',
+'exif-iimcategory-dis' => 'بلایا و حوادث',
+'exif-iimcategory-fin' => 'اقتصاد و تجارت',
+'exif-iimcategory-edu' => 'آموزش',
+'exif-iimcategory-evn' => 'محیط زیست',
+'exif-iimcategory-hth' => 'سلامت',
+'exif-iimcategory-hum' => 'علاقه بشر',
+'exif-iimcategory-lab' => 'کار',
+'exif-iimcategory-lif' => 'شیوه زندگی و اوقات فراغت',
+'exif-iimcategory-pol' => 'سیاست',
+'exif-iimcategory-rel' => 'مذهب و اعتقاد',
+'exif-iimcategory-sci' => 'علم و فناوری',
+'exif-iimcategory-soi' => 'مسائل اجتماعی',
+'exif-iimcategory-spo' => 'ورزش',
+'exif-iimcategory-war' => 'جنگ ، درگیری و ناآرامی',
+'exif-iimcategory-wea' => 'آب و هوا',
+
+'exif-urgency-normal' => 'عادی ($1)',
+'exif-urgency-low'    => 'کم ($1)',
+'exif-urgency-high'   => 'زیاد ($1)',
+'exif-urgency-other'  => 'اولویت تعریف شده توسط کاربر ($1)',
 
 # External editor support
 'edit-externally'      => 'ویرایش این پرونده با استفاده از ویرایشگر خارجی',
@@ -3777,18 +3880,5 @@ $1',
 # SQLite database support
 'sqlite-has-fts' => '$1 با پشتیبانی از جستجو در متن کامل',
 'sqlite-no-fts'  => '$1 بدون پشتیبانی از جستجو در متن کامل',
-
-# Special:DisableAccount
-'disableaccount'             => 'غیر فعال کردن یک حساب کاربری',
-'disableaccount-user'        => 'نام کاربری:',
-'disableaccount-reason'      => 'دلیل:',
-'disableaccount-confirm'     => "غیر فعال کردن این حساب کاربری.
-این کاربر قادر به ورود به سامانه نخواهد بود، نمی‌تواند گذرواژه را تعویض کند و همچنین نمی‌تواند پست الکترونیکی دریافت کند. 
-اگر این کاربر در حال حاضر وارد سیستم شده باشد به سرعت از سیستم خارج می‌شود.
-''توجه داشته باشید که غیر فعال کردن یک حساب کاربری بدون دخالت مدیر سامانه قابل برگشت است.''",
-'disableaccount-mustconfirm' => 'شما باید تأیید کنید که مایل به غیر فعال کردن این حساب کاربری هستید.',
-'disableaccount-nosuchuser'  => 'حساب کاربری "$1" وجود ندارد.',
-'disableaccount-success'     => 'حساب کاربری "$1" برای همیشه غیر فعال شده است.',
-'disableaccount-logentry'    => 'حساب کاربری [[$1]] برای همیشه غیر فعال شده است',
 
 );

@@ -174,7 +174,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Bots' ),
 	'Popularpages'              => array( 'Miehts_affjeroofe_Sigge' ),
 	'Search'                    => array( 'Sök', 'Söök', 'Söke', 'Sööke' ),
-	'Resetpass'                 => array( 'Neu_Passwood' ),
+	'ChangePassword'            => array( 'Neu_Passwood' ),
 	'Withoutinterwiki'          => array( 'Ohne_Shproche_Lenks' ),
 	'MergeHistory'              => array( 'Versione_zosammeschmieße' ),
 	'Filepath'                  => array( 'Dateipaad' ),
@@ -750,16 +750,7 @@ Et süht us, wi wann ene kappodde Brauser udder <i lang=\"en\">proxy</i>ẞööv
 # E-mail sending
 'php-mail-error-unknown' => 'Nit bekannte Fähler met dä Funxjohn <code lang="en">mail()</code> vum PHP',
 
-# JavaScript password checks
-'password-strength'            => 'Dat Passwoot $1 (jeschäz)',
-'password-strength-bad'        => 'es <span style="text-transform:uppercase">schlääsch</span>',
-'password-strength-mediocre'   => 'es jet schlapp',
-'password-strength-acceptable' => 'kammer bruche',
-'password-strength-good'       => 'es joot',
-'password-retype'              => 'Noch ens dat Passwood',
-'password-retype-mismatch'     => 'De Paßwööter sin unejaal',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Passwood tuusche udder neu ußjävve',
 'resetpass_announce'        => 'De beß jez enjelogg med ennem Zweschepasswoot, wat De övver e-mail krääje häs. Dat kanns De nit einfar_esu behallde. Alsu donn jetz e neu Passwoot för op Duur aanjevve.',
 'resetpass_text'            => '<!-- Donn der Täx hee dobei -->',
@@ -777,6 +768,10 @@ Et süht us, wi wann ene kappodde Brauser udder <i lang=\"en\">proxy</i>ẞööv
 Müjjelesch, Do häs Ding Passwood ald jetuusch, künnt och sin,
 Do häs Der enzwesche e neuZweschepasswood jehollt.',
 'resetpass-temp-password'   => 'Zweschepasswood:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Paßwoot zeröcksetze',
+'passwordreset-username' => 'Metmaacher Name:',
 
 # Edit page toolbar
 'bold_sample'     => 'Fätte Schreff',
@@ -1197,26 +1192,6 @@ Do kanns kein Enndrääsch vör de Wiki_Köbeße verschteijsche, der oohne noch 
 'suppressionlogtext' => 'Heh noh kütt et Logboch fum Versteiche, woh Versione fun Sigge, Zosammefassunge, Quelle, Metmaachername un Metmaacher-Sperre ze fenge sin, di fun de Oure vun de Öffentleschkeit, un och fun de Wiki-Köbesse verstoche woodte, udder widder zeröck op nommaal jebraat woodte.
 Loor en de [[Special:IPBlockList|{{int:ipblocklist}}]] öm ze sinn, wää un wat em Momang wie jesperrt es.',
 
-# Revision move
-'moverevlogentry'              => 'hät {{PLURAL:$3|ein Version|$3 Versione|kein Version}} vun „$1“ noh „$2“ ömjenannt.',
-'revisionmove'                 => 'Versione vun „$1“ ömnänne',
-'revisionmove-backlink'        => '←&nbsp;$1',
-'revmove-explain'              => 'Heh di Versione wääde vun „$1“ noh de aanjejovve Sigg ömjetrocke. Wann di Sigg no_nit doh es, weet se aanjelaat. Söns wääde de Versione zwesche die entzotteet, di ald doh sin.',
-'revmove-legend'               => 'Zielsigg un Jrond aanjävve',
-'revmove-submit'               => 'Lohß jonn!',
-'revisionmoveselectedversions' => 'Ußjesoht Versione ömnänne',
-'revmove-reasonfield'          => 'Jrond:',
-'revmove-titlefield'           => 'Zielsigg:',
-'revmove-badparam-title'       => 'Kapodde Aanjabe',
-'revmove-badparam'             => 'Dat sin zoh winnisch udder verkehte Parrameetere.
-Jang retuur, un donn_et norr_ens probeere.',
-'revmove-norevisions-title'    => 'Enem Ziel sing Version es nit jöltesch',
-'revmove-norevisions'          => 'Do häs kein Version udder Versione ußjesoht, udder di aanjejovve Version udder Versione jidd_et nit.',
-'revmove-nullmove-title'       => 'Dä Tittel es onjöltesch',
-'revmove-nullmove'             => 'Mer kann kein Version vun ein Sigg op desellve Sigg ömträcke. Jangk retuur un söhk en annder Sigg uß, wi „$1“.',
-'revmove-success-existing'     => '{{PLURAL:$1|Ein Version|$1 Versione|Kei Version}} vun dä Sigg „[[$2]]“ {{PLURAL:$1|es|sin|wood}} noh dä Sigg „[[$3]]“ ömjetrocke{{PLURAL:$1|&#32;woode|&#32;woode|}}, di et allerdengs alld joof.',
-'revmove-success-created'      => '{{PLURAL:$1|Ein Version|$1 Versione|Kei Version}} vun dä Sigg „[[$2]]“ {{PLURAL:$1|es|sin|wood}} noh dä neu aanjelaate Sigg „[[$3]]“ ömjetrocke{{PLURAL:$1|&#32;woode.|&#32;woode.|.}}',
-
 # History merging
 'mergehistory'                     => 'Versione fun Sigge zosamme schmiiße',
 'mergehistory-header'              => 'Met hee dä Sündersigge kanns Du de Versione fun en Urshprongssigg met de Versione fun en neuer Zielsigg zosamme läje. Donn drop aade, dat der Zosammehang fun dä Versione am Engk reschtesch es.',
@@ -1565,8 +1540,6 @@ Ene zohfällesch ußjewörfelte Schlößel, dää De nämme künnß, wöhr: <cod
 'right-reset-passwords'       => 'Enem andere Metmaacher et Paßwoot zeröck setze',
 'right-override-export-depth' => 'Beim Sigge Expoteere de Sigge metnämme, woh Lingks drop jon — beß fönef Schredde wigk',
 'right-sendemail'             => '<i lang="en">e-mail</i> aan ander Metmaacher schecke',
-'right-revisionmove'          => 'Versione ömnänne',
-'right-disableaccount'        => 'Zohjäng för Metmaacher still lääje',
 
 # User rights log
 'rightslog'      => 'Logboch för Änderunge aan Metmaacher-Räächde',
@@ -1609,7 +1582,6 @@ Ene zohfällesch ußjewörfelte Schlößel, dää De nämme künnß, wöhr: <cod
 'action-userrights'           => 'alle Metmaacher ier Rääschte ze ändere',
 'action-userrights-interwiki' => 'dä Metmaacher fun ander Wikis ier Rääschte ze ändere',
 'action-siteadmin'            => 'de Datebank ze sperre udder widder freizejävve',
-'action-revisionmove'         => 'Versione ömzenänne',
 
 # Recent changes
 'nchanges'                          => '{{PLURAL:$1|Ein Änderung|$1 Änderunge|Kein Änderung}}',
@@ -2994,39 +2966,39 @@ Esu kam_mer noch en Aanmerkung en „{{int:summary}}“ maache.',
 'tooltip-summary'                 => 'Jif en koote Zesammefassung en',
 
 # Stylesheets
-'common.css'        => '/* CSS heh aan dä Stell hät Uswirkunge op all Ovverflääsche */',
-'standard.css'      => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Klassesch“ */',
-'nostalgia.css'     => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Nostaljesch“ */',
-'cologneblue.css'   => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Kölsch Blau“ */',
-'monobook.css'      => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Monobooch“ */',
-'myskin.css'        => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Ming Skin“ */',
-'chick.css'         => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Höhnsche“ */',
-'simple.css'        => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Eijfach“ */',
-'modern.css'        => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Modern“ */',
-'vector.css'        => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Vector“ */',
-'print.css'         => '/* CSS heh aan dä Stell wirrek nur op et Sigge Drökke */',
-'handheld.css'      => '/* dat CSS hee wirrek sesch uß op su jeannte Handheld-Apparaate, opjebout op de Ovverflääsch uß $wgHandheldStyle */',
-'noscript.css'      => '/* Dat CSS heh aan dä Stell krijje nur de Metmaacher met affjeschaldt JavaSkrepp jescheck */',
-'autoconfirmed.css' => '/* Dat CSS heh aan dä Stell krijje nur de automattesch beshtääteshte Metmacher jescheck */',
-'bot.css'           => '/* Dat CSS heh aan dä Stell krijje nur de Bot-Projrammee jescheck */',
-'sysop.css'         => '/* Dat CSS heh aan dä Stell krijje nur dem Wiki sing Köbeße jescheck */',
-'bureaucrat.css'    => '/* Dat CSS heh aan dä Stell krijje nur de Bürrokraate jescheck */',
+'common.css'              => '/* CSS heh aan dä Stell hät Uswirkunge op all Ovverflääsche */',
+'standard.css'            => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Klassesch“ */',
+'nostalgia.css'           => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Nostaljesch“ */',
+'cologneblue.css'         => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Kölsch Blau“ */',
+'monobook.css'            => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Monobooch“ */',
+'myskin.css'              => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Ming Skin“ */',
+'chick.css'               => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Höhnsche“ */',
+'simple.css'              => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Eijfach“ */',
+'modern.css'              => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Modern“ */',
+'vector.css'              => '/* CSS heh aan dä Stell wirrek nur op de Ovverflääsch „Vector“ */',
+'print.css'               => '/* CSS heh aan dä Stell wirrek nur op et Sigge Drökke */',
+'handheld.css'            => '/* dat CSS hee wirrek sesch uß op su jeannte Handheld-Apparaate, opjebout op de Ovverflääsch uß $wgHandheldStyle */',
+'noscript.css'            => '/* Dat CSS heh aan dä Stell krijje nur de Metmaacher met affjeschaldt JavaSkrepp jescheck */',
+'group-autoconfirmed.css' => '/* Dat CSS heh aan dä Stell krijje nur de automattesch beshtääteshte Metmacher jescheck */',
+'group-bot.css'           => '/* Dat CSS heh aan dä Stell krijje nur de Bot-Projrammee jescheck */',
+'group-sysop.css'         => '/* Dat CSS heh aan dä Stell krijje nur dem Wiki sing Köbeße jescheck */',
+'group-bureaucrat.css'    => '/* Dat CSS heh aan dä Stell krijje nur de Bürrokraate jescheck */',
 
 # Scripts
-'common.js'        => '/* Jedes JavaScrip hee kütt für jede Metmaacher in jede Sigg erinn */',
-'standard.js'      => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Klassesch" jescheck */',
-'nostalgia.js'     => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Nostaljesch" jescheck */',
-'cologneblue.js'   => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Kölsch Blou" jescheck */',
-'monobook.js'      => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Monnobooch" jescheck */',
-'myskin.js'        => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Ming Skin" jescheck */',
-'chick.js'         => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Höhnsche" jescheck */',
-'simple.js'        => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Eijfach" jescheck */',
-'modern.js'        => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Modern" jescheck */',
-'vector.js'        => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Vector" jescheck */',
-'autoconfirmed.js' => '/* De JavaSkreppte fun hee krijje bloß de autemattesch beshtääteschte Metmaacher jescheck */',
-'bot.js'           => '/* De JavaSkreppte fun hee krijje bloß de Bots jescheck */',
-'sysop.js'         => '/* De JavaSkreppte fun hee krijje bloß de Wiki_Köbeße jescheck */',
-'bureaucrat.js'    => '/* De JavaSkreppte fun hee krijje bloß de Bürrokraate jescheck */',
+'common.js'              => '/* Jedes JavaScrip hee kütt für jede Metmaacher in jede Sigg erinn */',
+'standard.js'            => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Klassesch" jescheck */',
+'nostalgia.js'           => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Nostaljesch" jescheck */',
+'cologneblue.js'         => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Kölsch Blou" jescheck */',
+'monobook.js'            => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Monnobooch" jescheck */',
+'myskin.js'              => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Ming Skin" jescheck */',
+'chick.js'               => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Höhnsche" jescheck */',
+'simple.js'              => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Eijfach" jescheck */',
+'modern.js'              => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Modern" jescheck */',
+'vector.js'              => '/* De JavaSkrippte fun hee krijje alle Sigge met de Ovverflääsch "Vector" jescheck */',
+'group-autoconfirmed.js' => '/* De JavaSkreppte fun hee krijje bloß de autemattesch beshtääteschte Metmaacher jescheck */',
+'group-bot.js'           => '/* De JavaSkreppte fun hee krijje bloß de Bots jescheck */',
+'group-sysop.js'         => '/* De JavaSkreppte fun hee krijje bloß de Wiki_Köbeße jescheck */',
+'group-bureaucrat.js'    => '/* De JavaSkreppte fun hee krijje bloß de Bürrokraate jescheck */',
 
 # Metadata
 'nodublincore'      => 'De RDF_Meta_Daate vun de „Dublin Core“ Aat sin avjeschalt.',
@@ -3160,7 +3132,13 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Breejd',
@@ -3175,13 +3153,11 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 'exif-ycbcrpositioning'            => 'Y un C Posizjioneerung',
 'exif-xresolution'                 => 'Oplösung fun Lenks noh Räähß',
 'exif-yresolution'                 => 'Oplösung fun Bovve noh Onge',
-'exif-resolutionunit'              => 'De Moßeinheit för de Oplösung en X- un Y-Reschtong',
 'exif-stripoffsets'                => 'Der Aanfang fun de Date fun däm Beld en dä Dattei',
 'exif-rowsperstrip'                => 'De Aanzahl Reije en jedem Striefe',
 'exif-stripbytecounts'             => 'De Aanzahl Bytes en jedem kompremierte Striefe',
 'exif-jpeginterchangeformat'       => 'Bytes Affshtand zom JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Bytes aan JPEG-Date',
-'exif-transferfunction'            => 'Övverdrarongsfungxjohn',
 'exif-whitepoint'                  => 'Fun Hand met Messung',
 'exif-primarychromaticities'       => 'De drei Houpfärve ier Färf-Intensität',
 'exif-ycbcrcoefficients'           => 'YCbCr-Geweeschte',
@@ -3198,9 +3174,8 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 'exif-colorspace'                  => 'Färveroum',
 'exif-componentsconfiguration'     => 'Bedüggening fun all de enkele Komponente',
 'exif-compressedbitsperpixel'      => 'Aat fun de Kompreßjohn fun däm Beld',
-'exif-pixelydimension'             => 'Pixelle jöltije Beld-Breed',
-'exif-pixelxdimension'             => 'Pixelle jöltije Beld-Hühde',
-'exif-makernote'                   => 'Aanmerkong fum Hersteller',
+'exif-pixelydimension'             => 'De jöltije Beld-Breede en Pixelle',
+'exif-pixelxdimension'             => 'De jöltije Beld-Hühde en Pixelle',
 'exif-usercomment'                 => 'Aanmerkong fum Aanwender',
 'exif-relatedsoundfile'            => 'De Tondatei, di do bei jehööt',
 'exif-datetimeoriginal'            => 'Zickpunk fun de Opzeischnong fun de Date',
@@ -3214,10 +3189,9 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 'exif-exposureprogram'             => 'Beleeshtungsprojramm',
 'exif-spectralsensitivity'         => 'Emfendleschkeit för et Färvespäktrom',
 'exif-isospeedratings'             => 'Dem Fillem odder Sensor sing Emfindlischkeit (als ISO Wäät)',
-'exif-oecf'                        => 'Dä Leesch-Elletronesche Ömrechnungsfaktor',
-'exif-shutterspeedvalue'           => 'Jeschwendieschkeit fum Verschoß bem Beleeschte',
-'exif-aperturevalue'               => 'De Blend iere Wäät',
-'exif-brightnessvalue'             => 'De Hellishkeit',
+'exif-shutterspeedvalue'           => 'De Jeschwendeschkeit fum Verschloß bem Beleeschte en APEX Einheite',
+'exif-aperturevalue'               => 'De Blend iere Wäät en APEX Einheite',
+'exif-brightnessvalue'             => 'De Hellishkeit en APEX Einheite',
 'exif-exposurebiasvalue'           => 'Förjejovve Beleeschtung',
 'exif-maxaperturevalue'            => 'De Jrözte Blend ier Öffnong',
 'exif-subjectdistance'             => 'Affshtand nohm Motif',
@@ -3227,7 +3201,6 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 'exif-focallength'                 => 'De Brennwigde fun de Lenß',
 'exif-subjectarea'                 => 'Em Motiv singe Bereich',
 'exif-flashenergy'                 => 'Dem Bletz sing Ennäjii',
-'exif-spatialfrequencyresponse'    => 'De Kamera ier Winkel-Oplösung fun de Oots-Frequenz',
 'exif-focalplanexresolution'       => 'De Kammera ierem Sensor sing räächs-links-Oplösung',
 'exif-focalplaneyresolution'       => 'De Kammera ierem Sensor sing bovve-unge-Oplösung',
 'exif-focalplaneresolutionunit'    => 'De Oplösung fum Sensor ier Moß-Einheit',
@@ -3236,7 +3209,6 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 'exif-sensingmethod'               => 'De Metood, woh der Kammera ier Sensor met messe deit',
 'exif-filesource'                  => 'Dä Datei ier Quell',
 'exif-scenetype'                   => 'Dä Tüp för de Darstellung udder der Szenopbou',
-'exif-cfapattern'                  => 'CFA-Muster',
 'exif-customrendered'              => 'Däm Maacher sing eije Aat, et Beld ze beärrbeide',
 'exif-exposuremode'                => 'Beleeschtungs-Aat',
 'exif-whitebalance'                => 'Wießaffjleich',
@@ -3281,11 +3253,67 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 'exif-gpsareainformation'          => 'Dä Name fum GPS-Jebeet',
 'exif-gpsdatestamp'                => 'GPS-Dattum',
 'exif-gpsdifferential'             => 'De Differenzjahl-Bereschtijong fum GPS',
-'exif-objectname'                  => 'Tittel en koot',
+'exif-jpegfilecomment'             => 'Aanmärkong uss ene <i lang="en">JPEG</i>-Dattei',
+'exif-keywords'                    => 'Schlößelwööter',
+'exif-worldregioncreated'          => 'De Rejoon op de Ääd, woh dat Fotto jeknips wood',
+'exif-countrycreated'              => 'Et Land, woh dat Fotto jeknips wood',
+'exif-countrycodecreated'          => 'Et Köözel för dat Land, woh dat Fotto jeknips wood',
+'exif-provinceorstatecreated'      => 'De Provins, et Bundesland, der Bundsshtaat udder esu, woh dat Fotto jeknips wood',
+'exif-citycreated'                 => 'De Shtadt, woh dat Fotto jeknips wood',
+'exif-sublocationcreated'          => 'Et Veedel, udder de Shtrooß, udder esu, en dä Shtadt, woh dat Fotto jeknips wood',
+'exif-worldregiondest'             => 'De jezeishte Rejoon op de Ääd',
+'exif-countrydest'                 => 'Et jezeishte Land',
+'exif-countrycodedest'             => 'Et Köözel för et jezeishte Land',
+'exif-provinceorstatedest'         => 'De jezeishte Provins, et jezeishte Bundesland, der jezeishte Bundesstaat, un esu wigger',
+'exif-citydest'                    => 'De jezeishte Shtadt',
+'exif-sublocationdest'             => 'Et jezeishte Veedel, udder de jezeishte Shtrooß, udder esu',
+'exif-objectname'                  => 'Der Tittel en koot',
+'exif-specialinstructions'         => 'Extra Aanweisonge',
+'exif-headline'                    => 'Övverschreff',
+'exif-source'                      => 'Hääkunf, Besezer',
+'exif-locationdest'                => 'Dä volle Name vum jezeishte Oot udder Plaz',
+'exif-locationdestcode'            => 'Dä Kopod vum jezeishte Oot udder Plaz',
+'exif-objectcycle'                 => 'De Daachszick, för wann dat Denge zom Verdeile jedaach es',
+'exif-writer'                      => 'Schriiver',
+'exif-languagecode'                => 'Shprooch',
+'exif-iimversion'                  => 'Dem <i lang="en">IIM</i> sing Version',
+'exif-iimcategory'                 => 'Saachjrupp udder Zoot',
+'exif-iimsupplementalcategory'     => 'Extra Saachjroppe udder Zoote',
+'exif-datetimeexpires'             => 'Nit mieh verwende noh',
+'exif-datetimereleased'            => 'Öffentlesch jemaat aam',
+'exif-identifier'                  => 'Kännong',
+'exif-lens'                        => 'De jebruchte Lens',
+'exif-serialnumber'                => 'Däm Knipskaste sing Seerije-Nommer',
+'exif-cameraownername'             => 'Däm Knipskaste singe Besetzer',
+'exif-datetimemetadata'            => 'Et Dattum vun de läzde Änderong vun de Metta_Daate',
+'exif-nickname'                    => 'Jeläufijje Name för dat Beld',
+'exif-rating'                      => 'Enschäzong (uß 5)',
+'exif-rightscertificate'           => 'Zächtifikaat för de dijitaale Rääschdeverwalldong',
+'exif-copyrighted'                 => 'Zohshtand vum Urhävver singe Rääschde',
+'exif-copyrightowner'              => 'Besezer vum Urhävver singe Rääschde',
+'exif-usageterms'                  => 'Räjelle för et Benöze',
+'exif-webstatement'                => 'Aanjaabe em Internet övver em  Urhävver sing Rääschde',
+'exif-originaldocumentid'          => 'En eijmohleje Kännong för et Ojinaal',
+'exif-licenseurl'                  => 'En <i lang="en">URL</i> för de Lizänz',
+'exif-morepermissionsurl'          => 'Övver zohsäzlejje Lizänze',
+'exif-attributionurl'              => 'Wann De dat Wärk sellver bruchs, leng op',
+'exif-preferredattributionname'    => 'Wann De dat Wärk bruchs, donn en Danksaarung dobei, aan',
+'exif-pngfilecomment'              => 'Aanmärkong uss ene <i lang="en">PNG</i>-Dattei',
+'exif-giffilecomment'              => 'Aanmärkong uss ene <i lang="en">GIF</i>-Dattei',
+'exif-intellectualgenre'           => 'De Zoot vun Enhallt',
+'exif-scenecode'                   => 'Dä <i lang="en">IPTC</i>-Kood för Zoot vun wat mer süht',
+'exif-event'                       => 'Der jezeishte Aanlaß',
+'exif-organisationinimage'         => 'De jezeishte Ojanisazjuhn udder Ferma',
+'exif-personinimage'               => 'Der jezeishte Minsch',
+'exif-originalimageheight'         => 'De Hühde vum Beld, ih dat es zohjeschnedde wood, en Pixelle',
+'exif-originalimagewidth'          => 'De Breede vum Beld, ih dat es zohjeschnedde wood, en Pixelle',
 
 # EXIF attributes
 'exif-compression-1' => 'Oohne Kompressjuhn',
 'exif-compression-6' => '<i lang="en">JPEG</i>',
+
+'exif-copyrighted-true'  => 'Häd_en Urhävverrääsch',
+'exif-copyrighted-false' => 'Es en de Allmende (jemeinfrei, <i lang="en">public domain</i>)',
 
 'exif-photometricinterpretation-6' => '<i lang="en">YCbCr</i>',
 
@@ -3306,7 +3334,8 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 'exif-xyresolution-i' => '{{PLURAL:$1|eine Punk|$1 Punkte|keine Punk}} pro Zoll',
 'exif-xyresolution-c' => '{{PLURAL:$1|eine Punk|$1 Punkte|keine Punk}} pro Zenntimeeter',
 
-'exif-colorspace-1' => '<i lang="en">sRGB</i>',
+'exif-colorspace-1'     => '<i lang="en">sRGB</i>',
+'exif-colorspace-65535' => 'De Färve sin nit kallibreert',
 
 'exif-componentsconfiguration-0' => 'Jidd_et nit',
 
@@ -3372,7 +3401,7 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 'exif-sensingmethod-7' => 'Ene trilinejare sequenzjelle Sensor fö Färve',
 'exif-sensingmethod-8' => 'Ene linejare sequenzjelle Sensor fö Färve',
 
-'exif-filesource-3' => 'DSC',
+'exif-filesource-3' => 'Ene onbewääschlesche dijitaale Knepskaste (<i lang="en">DSC</i>)',
 
 'exif-scenetype-1' => 'Normal — e tirek fotmafeet Beld',
 
@@ -3422,6 +3451,10 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 'exif-gpslongitude-e' => 'Läng ößlesch noh_m GPS',
 'exif-gpslongitude-w' => 'Läng weßlesch noh_m GPS',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '{{PLURAL:$1|Eine|$1|Keine}} Meter övver em Meer',
+'exif-gpsaltitude-below-sealevel' => '{{PLURAL:$1|Eine|$1|Keine}} Meter onger em Meer',
+
 'exif-gpsstatus-a' => 'De Messung fum GPS es aam Loufe',
 'exif-gpsstatus-v' => 'Engeropperabilität fun Messunge noh_m GPS',
 
@@ -3433,9 +3466,63 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 'exif-gpsspeed-m' => 'Miehle en de Shtondt noh_m GPS',
 'exif-gpsspeed-n' => 'Knote noh_m GPS',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Killometer',
+'exif-gpsdestdistance-m' => 'Meile',
+'exif-gpsdestdistance-n' => 'Seemeile',
+
+'exif-gpsdop-excellent' => 'Supper ($1)',
+'exif-gpsdop-good'      => 'Jood ($1)',
+'exif-gpsdop-moderate'  => 'Et jeiht ($1)',
+'exif-gpsdop-fair'      => 'Schlapp ($1)',
+'exif-gpsdop-poor'      => 'Schlääsch ($1)',
+
+'exif-objectcycle-a' => 'Bloß es Murjens',
+'exif-objectcycle-p' => 'Bloß es Oovens',
+'exif-objectcycle-b' => 'Es Murjens un es Oovens',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Wohre Rechtung noh_m GPS',
 'exif-gpsdirection-m' => 'Mangneetesche Rechtung noh_m GPS',
+
+'exif-ycbcrpositioning-1' => 'En de Medde',
+'exif-ycbcrpositioning-2' => 'Dropjesaz',
+
+'exif-dc-contributor' => 'Metwerker, Metmaacher',
+'exif-dc-coverage'    => 'Zick un Jääjend, woh dat Meedijum dren jehööt',
+'exif-dc-date'        => 'Dattum udder Daate',
+'exif-dc-publisher'   => 'Verläjer udder Veröffentlescher',
+'exif-dc-relation'    => 'Medije, di domet zosamme hange',
+'exif-dc-rights'      => 'Rääschde',
+'exif-dc-source'      => 'Dat Beld, wo et her kütt',
+'exif-dc-type'        => 'Meedije_Zoot',
+
+'exif-rating-rejected' => 'Affjelehnt',
+
+'exif-isospeedratings-overflow' => 'Övver 65535',
+
+'exif-iimcategory-ace' => 'Kunß, Kultuur, Vermaache',
+'exif-iimcategory-clj' => 'Verbräsche, Rääsch',
+'exif-iimcategory-dis' => 'Onjlöck, Onfäll, Kattaßtroofe',
+'exif-iimcategory-fin' => 'Jeschäff, Weetschaffte',
+'exif-iimcategory-edu' => 'Ußbeldong. Liehre',
+'exif-iimcategory-evn' => 'Ömwält, Natuur',
+'exif-iimcategory-hth' => 'Jesondheit',
+'exif-iimcategory-hum' => 'Enträße vun de Minsche',
+'exif-iimcategory-lab' => 'Ärbeid',
+'exif-iimcategory-lif' => 'Freije Zigg',
+'exif-iimcategory-pol' => 'Poletek',
+'exif-iimcategory-rel' => 'Jlaube un Jläuve',
+'exif-iimcategory-sci' => 'Weßeschavv un Täschnek',
+'exif-iimcategory-soi' => 'Meddenander vun de Minsche',
+'exif-iimcategory-spo' => 'Shpocht',
+'exif-iimcategory-war' => 'Kreesch, Zängk, Opshtänd',
+'exif-iimcategory-wea' => 'Wädder',
+
+'exif-urgency-normal' => 'Nommaal ($1)',
+'exif-urgency-low'    => 'Klein ($1)',
+'exif-urgency-high'   => 'Huh ($1)',
+'exif-urgency-other'  => 'Selfs faßjelaat ($1)',
 
 # External editor support
 'edit-externally'      => 'Dun de Datei met enem externe Projramm bei Dr om Rechner bearbeide',
@@ -3788,18 +3875,5 @@ die De häs han welle. Se künnt jet ällder un nit mieh aktoäll sin.',
 # SQLite database support
 'sqlite-has-fts' => 'Version $1 (un kann en janze Täxte söhke)',
 'sqlite-no-fts'  => 'Version $1 (kann ävver nit en janze Täxte söhke)',
-
-# Special:DisableAccount
-'disableaccount'             => 'Enem Metmaacher singe Zohjang stell lääje',
-'disableaccount-user'        => 'Metmaacher Name:',
-'disableaccount-reason'      => 'Woröm?',
-'disableaccount-confirm'     => "Däm Metmaacher singe Zohjang op Duur stell lääje.
-Dä Metmaacher kann dann nit mieh enlogge, sing Paßwoot ändere, udder <i lang=\"en\">e-mail</i> krijje.
-Wann dä Metmaacher ööhnzwoh enjelogg es, flüsh hä tirag_eruß.
-'''Opjepaß:''' ''Ene stell jelaate Zohjang kam_mer der ohne Hölp vun enem Administrator vum ẞööver vum Wiki nit widder aan et Loufe krijje.''",
-'disableaccount-mustconfirm' => 'Do moß bestäätije, dat De däm Metmaacher singe Zohjang op Duur stell lääje wells.',
-'disableaccount-nosuchuser'  => 'Ene Metmaacher „$1“ ham_mer nit.',
-'disableaccount-success'     => 'Däm Metmaacher „$1“ singe Zohjang es op Duur stell jelaat.',
-'disableaccount-logentry'    => 'hät däm Metmaacher [[$1]] singe Zohjang op Duur stell jelaat.',
 
 );

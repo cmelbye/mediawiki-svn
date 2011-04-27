@@ -480,7 +480,7 @@ Per piasè, ve drent anmò dop che te l'ricevüü.",
 'accountcreatedtext'      => "'L cünt del druvat $1 l'è bele pruntaa.",
 'loginlanguagelabel'      => 'Lengua: $1',
 
-# Password reset dialog
+# Change password dialog
 'oldpassword' => "Paròla d'urdin végja:",
 'newpassword' => "Paròla d'urdin növa:",
 'retypenew'   => "Scriv ancamò la paròla d'urdin növa:",
@@ -1341,7 +1341,13 @@ I ligam che i vegnen dopu, in sü l'istessa riga, i vegnen cónsideraa di ecezi�
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'Redatá chest archivi cunt un prugramari da fö',

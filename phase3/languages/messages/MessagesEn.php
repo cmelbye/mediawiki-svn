@@ -376,13 +376,13 @@ $specialPageAliases = array(
 	'Booksources'               => array( 'BookSources' ),
 	'BrokenRedirects'           => array( 'BrokenRedirects' ),
 	'Categories'                => array( 'Categories' ),
+	'ChangePassword'            => array( 'ChangePassword', 'ResetPass', 'ResetPassword' ),
 	'ComparePages'              => array( 'ComparePages' ),
 	'Confirmemail'              => array( 'ConfirmEmail' ),
 	'Contributions'             => array( 'Contributions', 'Contribs' ),
 	'CreateAccount'             => array( 'CreateAccount' ),
 	'Deadendpages'              => array( 'DeadendPages' ),
 	'DeletedContributions'      => array( 'DeletedContributions' ),
-	'DisableAccount'            => array( 'DisableAccount' ),
 	'Disambiguations'           => array( 'Disambiguations' ),
 	'DoubleRedirects'           => array( 'DoubleRedirects' ),
 	'EditWatchlist'             => array( 'EditWatchlist' ),
@@ -420,6 +420,7 @@ $specialPageAliases = array(
 	'Myuploads'                 => array( 'MyUploads' ),
 	'Newimages'                 => array( 'NewFiles', 'NewImages' ),
 	'Newpages'                  => array( 'NewPages' ),
+	'PasswordReset'             => array( 'PasswordReset' ),
 	'PermanentLink'             => array( 'PermanentLink', 'PermaLink' ),
 	'Popularpages'              => array( 'PopularPages' ),
 	'Preferences'               => array( 'Preferences' ),
@@ -430,7 +431,6 @@ $specialPageAliases = array(
 	'Randomredirect'            => array( 'RandomRedirect' ),
 	'Recentchanges'             => array( 'RecentChanges' ),
 	'Recentchangeslinked'       => array( 'RecentChangesLinked', 'RelatedChanges' ),
-	'Resetpass'                 => array( 'ChangePassword', 'ResetPass', 'ResetPassword' ),
 	'Revisiondelete'            => array( 'RevisionDelete' ),
 	'RevisionMove'              => array( 'RevisionMove' ),
 	'Search'                    => array( 'Search' ),
@@ -749,6 +749,7 @@ XHTML id names.
 'listingcontinuesabbrev'         => 'cont.',
 'index-category'                 => 'Indexed pages',
 'noindex-category'               => 'Noindexed pages',
+'broken-file-category'           => 'Pages with broken file links',
 
 'linkprefix'        => '/^(.*?)([a-zA-Z\\x80-\\xff]+)$/sD', # only translate this message to other languages if you have to change it
 'mainpagetext'      => "'''MediaWiki has been successfully installed.'''",
@@ -1061,6 +1062,7 @@ Do not forget to change your [[Special:Preferences|{{SITENAME}} preferences]].',
 'createaccount'              => 'Create account',
 'gotaccount'                 => 'Already have an account? $1.',
 'gotaccountlink'             => 'Log in',
+'userlogin-resetlink'        => 'Forgotten your login details?',
 'createaccountmail'          => 'By e-mail',
 'createaccountreason'        => 'Reason:',
 'badretype'                  => 'The passwords you entered do not match.',
@@ -1155,16 +1157,7 @@ Please wait before trying again.',
 'php-mail-error'         => '$1', # do not translate or duplicate this message to other languages
 'php-mail-error-unknown' => "Unknown error in PHP's mail() function",
 
-# JavaScript password checks
-'password-strength'            => 'Estimated password strength: $1',
-'password-strength-bad'        => 'BAD',
-'password-strength-mediocre'   => 'mediocre',
-'password-strength-acceptable' => 'acceptable',
-'password-strength-good'       => 'good',
-'password-retype'              => 'Retype password here',
-'password-retype-mismatch'     => 'Passwords do not match',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Change password',
 'resetpass_announce'        => 'You logged in with a temporary e-mailed code.
 To finish logging in, you must set a new password here:',
@@ -1183,6 +1176,40 @@ Now logging you in...',
 'resetpass-wrong-oldpass'   => 'Invalid temporary or current password.
 You may have already successfully changed your password or requested a new temporary password.',
 'resetpass-temp-password'   => 'Temporary password:',
+
+# Special:PasswordReset
+'passwordreset'                => 'Reset password',
+'passwordreset-text'           => 'Complete this form to receive an e-mail reminder of your account details.',
+'passwordreset-legend'         => 'Reset password',
+'passwordreset-disabled'       => 'Password resets have been disabled on this wiki.',
+'passwordreset-pretext'        => '{{PLURAL:$1||Enter one of the pieces of data below}}',
+'passwordreset-username'       => 'Username:',
+'passwordreset-email'          => 'E-mail address:',
+'passwordreset-emailtitle'     => 'Account details on {{SITENAME}}',
+'passwordreset-emailtext-ip'   => 'Someone (probably you, from IP address $1) requested a reminder of your
+account details for {{SITENAME}} ($4). The following user {{PLURAL:$3|account is|accounts are}}
+associated with this e-mail address:
+
+$2
+
+{{PLURAL:$3|This temporary password|These temporary passwords}} will expire in {{PLURAL:$5|one day|$5 days}}.
+You should log in and choose a new password now. If someone else made this
+request, or if you have remembered your original password, and you no longer
+wish to change it, you may ignore this message and continue using your old
+password.',
+'passwordreset-emailtext-user' => 'User $1 on {{SITENAME}} requested a reminder of your account details for {{SITENAME}}
+($4). The following user {{PLURAL:$3|account is|accounts are}} associated with this e-mail address:
+
+$2
+
+{{PLURAL:$3|This temporary password|These temporary passwords}} will expire in {{PLURAL:$5|one day|$5 days}}.
+You should log in and choose a new password now. If someone else made this
+request, or if you have remembered your original password, and you no longer
+wish to change it, you may ignore this message and continue using your old
+password.',
+'passwordreset-emailelement'   => 'Username: $1
+Temporary password: $2',
+'passwordreset-emailsent'      => 'A reminder e-mail has been sent.',
 
 # Edit page toolbar
 'bold_sample'     => 'Bold text',
@@ -1578,27 +1605,6 @@ Please check the logs.',
 'suppressionlogtext' => 'Below is a list of deletions and blocks involving content hidden from administrators.
 See the [[Special:BlockList|IP block list]] for the list of currently operational bans and blocks.',
 
-# Revision move
-'moverevlogentry'              => 'moved {{PLURAL:$3|one revision|$3 revisions}} from $1 to $2',
-'revisionmove'                 => 'Move revisions from "$1"',
-'revisionmove-backlink'        => '← $1', # only translate this message to other languages if you have to change it
-'revmove-explain'              => 'The following revisions will be moved from $1 to the specified target page. If the target does not exist, it is created. Otherwise, these revisions will be merged into the page history.',
-'revmove-legend'               => 'Set target page and summary',
-'revmove-submit'               => 'Move revisions to selected page',
-'revisionmoveselectedversions' => 'Move selected revisions',
-'revmove-reasonfield'          => 'Reason:',
-'revmove-titlefield'           => 'Target page:',
-'revmove-badparam-title'       => 'Bad parameters',
-'revmove-badparam'             => 'Your request contains illegal or insufficient parameters.
-Go back to the previous page and try again.',
-'revmove-norevisions-title'    => 'Invalid target revision',
-'revmove-norevisions'          => 'You have not specified one or more target revisions to perform this function or the specified revision does not exist.',
-'revmove-nullmove-title'       => 'Bad title',
-'revmove-nullmove'             => 'The target page cannot be the same as the source page.
-Go back to the previous page and choose a different name from "$1".',
-'revmove-success-existing'     => '{{PLURAL:$1|One revision from [[$2]] has|$1 revisions from [[$2]] have}} been moved to the existing page [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|One revision from [[$2]] has|$1 revisions from [[$2]] have}} been moved to the newly created page [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Merge page histories',
 'mergehistory-header'              => 'This page lets you merge revisions of the history of one source page into a newer page.
@@ -1967,8 +1973,6 @@ If you choose to provide it, this will be used for giving you attribution for yo
 'right-reset-passwords'       => "Reset other users' passwords",
 'right-override-export-depth' => 'Export pages including linked pages up to a depth of 5',
 'right-sendemail'             => 'Send e-mail to other users',
-'right-revisionmove'          => 'Move revisions',
-'right-disableaccount'        => 'Disable accounts',
 
 # User rights log
 'rightslog'      => 'User rights log',
@@ -2011,7 +2015,6 @@ If you choose to provide it, this will be used for giving you attribution for yo
 'action-userrights'           => 'edit all user rights',
 'action-userrights-interwiki' => 'edit user rights of users on other wikis',
 'action-siteadmin'            => 'lock or unlock the database',
-'action-revisionmove'         => 'move revisions',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|change|changes}}',
@@ -3494,39 +3497,39 @@ You can view its source',
 'tooltip-summary'                 => 'Enter a short summary',
 
 # Stylesheets
-'common.css'        => '/* CSS placed here will be applied to all skins */', # only translate this message to other languages if you have to change it
-'standard.css'      => '/* CSS placed here will affect users of the Standard skin */', # only translate this message to other languages if you have to change it
-'nostalgia.css'     => '/* CSS placed here will affect users of the Nostalgia skin */', # only translate this message to other languages if you have to change it
-'cologneblue.css'   => '/* CSS placed here will affect users of the Cologne Blue skin */', # only translate this message to other languages if you have to change it
-'monobook.css'      => '/* CSS placed here will affect users of the Monobook skin */', # only translate this message to other languages if you have to change it
-'myskin.css'        => '/* CSS placed here will affect users of the MySkin skin */', # only translate this message to other languages if you have to change it
-'chick.css'         => '/* CSS placed here will affect users of the Chick skin */', # only translate this message to other languages if you have to change it
-'simple.css'        => '/* CSS placed here will affect users of the Simple skin */', # only translate this message to other languages if you have to change it
-'modern.css'        => '/* CSS placed here will affect users of the Modern skin */', # only translate this message to other languages if you have to change it
-'vector.css'        => '/* CSS placed here will affect users of the Vector skin */', # only translate this message to other languages if you have to change it
-'print.css'         => '/* CSS placed here will affect the print output */', # only translate this message to other languages if you have to change it
-'handheld.css'      => '/* CSS placed here will affect handheld devices based on the skin configured in $wgHandheldStyle */', # only translate this message to other languages if you have to change it
-'noscript.css'      => '/* CSS placed here will affect users with JavaScript disabled */', # only translate this message to other languages if you have to change it
-'autoconfirmed.css' => '/* CSS placed here will affect autoconfirmed users only */', # only translate this message to other languages if you have to change it
-'bot.css'           => '/* CSS placed here will affect bots only */', # only translate this message to other languages if you have to change it
-'sysop.css'         => '/* CSS placed here will affect sysops only */', # only translate this message to other languages if you have to change it
-'bureaucrat.css'    => '/* CSS placed here will affect bureaucrats only */', # only translate this message to other languages if you have to change it
+'common.css'              => '/* CSS placed here will be applied to all skins */', # only translate this message to other languages if you have to change it
+'standard.css'            => '/* CSS placed here will affect users of the Standard skin */', # only translate this message to other languages if you have to change it
+'nostalgia.css'           => '/* CSS placed here will affect users of the Nostalgia skin */', # only translate this message to other languages if you have to change it
+'cologneblue.css'         => '/* CSS placed here will affect users of the Cologne Blue skin */', # only translate this message to other languages if you have to change it
+'monobook.css'            => '/* CSS placed here will affect users of the Monobook skin */', # only translate this message to other languages if you have to change it
+'myskin.css'              => '/* CSS placed here will affect users of the MySkin skin */', # only translate this message to other languages if you have to change it
+'chick.css'               => '/* CSS placed here will affect users of the Chick skin */', # only translate this message to other languages if you have to change it
+'simple.css'              => '/* CSS placed here will affect users of the Simple skin */', # only translate this message to other languages if you have to change it
+'modern.css'              => '/* CSS placed here will affect users of the Modern skin */', # only translate this message to other languages if you have to change it
+'vector.css'              => '/* CSS placed here will affect users of the Vector skin */', # only translate this message to other languages if you have to change it
+'print.css'               => '/* CSS placed here will affect the print output */', # only translate this message to other languages if you have to change it
+'handheld.css'            => '/* CSS placed here will affect handheld devices based on the skin configured in $wgHandheldStyle */', # only translate this message to other languages if you have to change it
+'noscript.css'            => '/* CSS placed here will affect users with JavaScript disabled */', # only translate this message to other languages if you have to change it
+'group-autoconfirmed.css' => '/* CSS placed here will affect autoconfirmed users only */', # only translate this message to other languages if you have to change it
+'group-bot.css'           => '/* CSS placed here will affect bots only */', # only translate this message to other languages if you have to change it
+'group-sysop.css'         => '/* CSS placed here will affect sysops only */', # only translate this message to other languages if you have to change it
+'group-bureaucrat.css'    => '/* CSS placed here will affect bureaucrats only */', # only translate this message to other languages if you have to change it
 
 # Scripts
-'common.js'        => '/* Any JavaScript here will be loaded for all users on every page load. */', # only translate this message to other languages if you have to change it
-'standard.js'      => '/* Any JavaScript here will be loaded for users using the Standard skin */', # only translate this message to other languages if you have to change it
-'nostalgia.js'     => '/* Any JavaScript here will be loaded for users using the Nostalgia skin */', # only translate this message to other languages if you have to change it
-'cologneblue.js'   => '/* Any JavaScript here will be loaded for users using the Cologne Blue skin */', # only translate this message to other languages if you have to change it
-'monobook.js'      => '/* Any JavaScript here will be loaded for users using the MonoBook skin */', # only translate this message to other languages if you have to change it
-'myskin.js'        => '/* Any JavaScript here will be loaded for users using the MySkin skin */', # only translate this message to other languages if you have to change it
-'chick.js'         => '/* Any JavaScript here will be loaded for users using the Chick skin */', # only translate this message to other languages if you have to change it
-'simple.js'        => '/* Any JavaScript here will be loaded for users using the Simple skin */', # only translate this message to other languages if you have to change it
-'modern.js'        => '/* Any JavaScript here will be loaded for users using the Modern skin */', # only translate this message to other languages if you have to change it
-'vector.js'        => '/* Any JavaScript here will be loaded for users using the Vector skin */', # only translate this message to other languages if you have to change it
-'autoconfirmed.js' => '/* Any JavaScript here will be loaded for autoconfirmed users only */', # only translate this message to other languages if you have to change it
-'bot.js'           => '/* Any JavaScript here will be loaded for bots only */', # only translate this message to other languages if you have to change it
-'sysop.js'         => '/* Any JavaScript here will be loaded for sysops only */', # only translate this message to other languages if you have to change it
-'bureaucrat.js'    => '/* Any JavaScript here will be loaded for bureaucrats only */', # only translate this message to other languages if you have to change it
+'common.js'              => '/* Any JavaScript here will be loaded for all users on every page load. */', # only translate this message to other languages if you have to change it
+'standard.js'            => '/* Any JavaScript here will be loaded for users using the Standard skin */', # only translate this message to other languages if you have to change it
+'nostalgia.js'           => '/* Any JavaScript here will be loaded for users using the Nostalgia skin */', # only translate this message to other languages if you have to change it
+'cologneblue.js'         => '/* Any JavaScript here will be loaded for users using the Cologne Blue skin */', # only translate this message to other languages if you have to change it
+'monobook.js'            => '/* Any JavaScript here will be loaded for users using the MonoBook skin */', # only translate this message to other languages if you have to change it
+'myskin.js'              => '/* Any JavaScript here will be loaded for users using the MySkin skin */', # only translate this message to other languages if you have to change it
+'chick.js'               => '/* Any JavaScript here will be loaded for users using the Chick skin */', # only translate this message to other languages if you have to change it
+'simple.js'              => '/* Any JavaScript here will be loaded for users using the Simple skin */', # only translate this message to other languages if you have to change it
+'modern.js'              => '/* Any JavaScript here will be loaded for users using the Modern skin */', # only translate this message to other languages if you have to change it
+'vector.js'              => '/* Any JavaScript here will be loaded for users using the Vector skin */', # only translate this message to other languages if you have to change it
+'group-autoconfirmed.js' => '/* Any JavaScript here will be loaded for autoconfirmed users only */', # only translate this message to other languages if you have to change it
+'group-bot.js'           => '/* Any JavaScript here will be loaded for bots only */', # only translate this message to other languages if you have to change it
+'group-sysop.js'         => '/* Any JavaScript here will be loaded for sysops only */', # only translate this message to other languages if you have to change it
+'group-bureaucrat.js'    => '/* Any JavaScript here will be loaded for bureaucrats only */', # only translate this message to other languages if you have to change it
 
 # Metadata
 'nodublincore'      => 'Dublin Core RDF metadata disabled for this server.',
@@ -3700,12 +3703,12 @@ Variants for Chinese language
 'variantname-tg'      => 'tg', # only translate this message to other languages if you have to change it
 
 # Metadata
-'metadata'          => 'Metadata',
-'metadata-help'     => 'This file contains additional information, probably added from the digital camera or scanner used to create or digitize it.
+'metadata'                  => 'Metadata',
+'metadata-help'             => 'This file contains additional information, probably added from the digital camera or scanner used to create or digitize it.
 If the file has been modified from its original state, some details may not fully reflect the modified file.',
-'metadata-expand'   => 'Show extended details',
-'metadata-collapse' => 'Hide extended details',
-'metadata-fields'   => 'EXIF metadata fields listed in this message will be included on image page display when the metadata table is collapsed.
+'metadata-expand'           => 'Show extended details',
+'metadata-collapse'         => 'Hide extended details',
+'metadata-fields'           => 'Image metadata fields listed in this message will be included on image page display when the metadata table is collapsed.
 Others will be hidden by default.
 * make
 * model
@@ -3713,7 +3716,15 @@ Others will be hidden by default.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
+'metadata-langitem'         => "'''$2:''' $1", # only translate this message to other languages if you have to change it
+'metadata-langitem-default' => '$1', # only translate this message to other languages if you have to change it
 
 # EXIF tags
 'exif-imagewidth'                  => 'Width',
@@ -3728,13 +3739,11 @@ Others will be hidden by default.
 'exif-ycbcrpositioning'            => 'Y and C positioning',
 'exif-xresolution'                 => 'Horizontal resolution',
 'exif-yresolution'                 => 'Vertical resolution',
-'exif-resolutionunit'              => 'Unit of X and Y resolution',
 'exif-stripoffsets'                => 'Image data location',
 'exif-rowsperstrip'                => 'Number of rows per strip',
 'exif-stripbytecounts'             => 'Bytes per compressed strip',
 'exif-jpeginterchangeformat'       => 'Offset to JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Bytes of JPEG data',
-'exif-transferfunction'            => 'Transfer function',
 'exif-whitepoint'                  => 'White point chromaticity',
 'exif-primarychromaticities'       => 'Chromaticities of primarities',
 'exif-ycbcrcoefficients'           => 'Color space transformation matrix coefficients',
@@ -3751,9 +3760,8 @@ Others will be hidden by default.
 'exif-colorspace'                  => 'Color space',
 'exif-componentsconfiguration'     => 'Meaning of each component',
 'exif-compressedbitsperpixel'      => 'Image compression mode',
-'exif-pixelydimension'             => 'Valid image width',
-'exif-pixelxdimension'             => 'Valid image height',
-'exif-makernote'                   => 'Manufacturer notes',
+'exif-pixelydimension'             => 'Image width',
+'exif-pixelxdimension'             => 'Image height',
 'exif-usercomment'                 => 'User comments',
 'exif-relatedsoundfile'            => 'Related audio file',
 'exif-datetimeoriginal'            => 'Date and time of data generation',
@@ -3768,11 +3776,10 @@ Others will be hidden by default.
 'exif-exposureprogram'             => 'Exposure Program',
 'exif-spectralsensitivity'         => 'Spectral sensitivity',
 'exif-isospeedratings'             => 'ISO speed rating',
-'exif-oecf'                        => 'Optoelectronic conversion factor',
-'exif-shutterspeedvalue'           => 'Shutter speed',
-'exif-aperturevalue'               => 'Aperture',
-'exif-brightnessvalue'             => 'Brightness',
-'exif-exposurebiasvalue'           => 'Exposure bias',
+'exif-shutterspeedvalue'           => 'APEX shutter speed',
+'exif-aperturevalue'               => 'APEX aperture',
+'exif-brightnessvalue'             => 'APEX brightness',
+'exif-exposurebiasvalue'           => 'APEX exposure bias',
 'exif-maxaperturevalue'            => 'Maximum land aperture',
 'exif-subjectdistance'             => 'Subject distance',
 'exif-meteringmode'                => 'Metering mode',
@@ -3782,7 +3789,6 @@ Others will be hidden by default.
 'exif-focallength-format'          => '$1 mm', # only translate this message to other languages if you have to change it
 'exif-subjectarea'                 => 'Subject area',
 'exif-flashenergy'                 => 'Flash energy',
-'exif-spatialfrequencyresponse'    => 'Spatial frequency response',
 'exif-focalplanexresolution'       => 'Focal plane X resolution',
 'exif-focalplaneyresolution'       => 'Focal plane Y resolution',
 'exif-focalplaneresolutionunit'    => 'Focal plane resolution unit',
@@ -3791,7 +3797,6 @@ Others will be hidden by default.
 'exif-sensingmethod'               => 'Sensing method',
 'exif-filesource'                  => 'File source',
 'exif-scenetype'                   => 'Scene type',
-'exif-cfapattern'                  => 'CFA pattern',
 'exif-customrendered'              => 'Custom image processing',
 'exif-exposuremode'                => 'Exposure mode',
 'exif-whitebalance'                => 'White balance',
@@ -3836,16 +3841,94 @@ Others will be hidden by default.
 'exif-gpsareainformation'          => 'Name of GPS area',
 'exif-gpsdatestamp'                => 'GPS date',
 'exif-gpsdifferential'             => 'GPS differential correction',
+'exif-coordinate-format'           => '$1° $2′ $3″ $4', # only translate this message to other languages if you have to change it
+'exif-jpegfilecomment'             => 'JPEG file comment',
+'exif-keywords'                    => 'Keywords',
+'exif-worldregioncreated'          => 'World region that the picture was taken in',
+'exif-countrycreated'              => 'Country that the picture was taken in',
+'exif-countrycodecreated'          => 'Code for the country that the picture was taken in',
+'exif-provinceorstatecreated'      => 'Province or state that the picture was taken in',
+'exif-citycreated'                 => 'City that the picture was taken in',
+'exif-sublocationcreated'          => 'Sublocation of the city that the picture was taken in',
+'exif-worldregiondest'             => 'World region shown',
+'exif-countrydest'                 => 'Country shown',
+'exif-countrycodedest'             => 'Code for country shown',
+'exif-provinceorstatedest'         => 'Province or state shown',
+'exif-citydest'                    => 'City shown',
+'exif-sublocationdest'             => 'Sublocation of city shown',
 'exif-objectname'                  => 'Short title',
+'exif-specialinstructions'         => 'Special instructions',
+'exif-headline'                    => 'Headline',
+'exif-credit'                      => 'Credit/Provider',
+'exif-source'                      => 'Source',
+'exif-editstatus'                  => 'Editorial status of image',
+'exif-urgency'                     => 'Urgency',
+'exif-fixtureidentifier'           => 'Fixture name',
+'exif-locationdest'                => 'Location depicted',
+'exif-locationdestcode'            => 'Code of location depicted',
+'exif-objectcycle'                 => 'Time of day that media is intended for',
+'exif-contact'                     => 'Contact information',
+'exif-writer'                      => 'Writer',
+'exif-languagecode'                => 'Language',
+'exif-iimversion'                  => 'IIM version',
+'exif-iimcategory'                 => 'Category',
+'exif-iimsupplementalcategory'     => 'Supplemental categories',
+'exif-datetimeexpires'             => 'Do not use after',
+'exif-datetimereleased'            => 'Released on',
+'exif-originaltransmissionref'     => 'Original transmission location code',
+'exif-identifier'                  => 'Identifier',
+'exif-lens'                        => 'Lens used',
+'exif-serialnumber'                => 'Serial number of camera',
+'exif-cameraownername'             => 'Owner of camera',
+'exif-label'                       => 'Label',
+'exif-datetimemetadata'            => 'Date metadata was last modified',
+'exif-nickname'                    => 'Informal name of image',
+'exif-rating'                      => 'Rating (out of 5)',
+'exif-rightscertificate'           => 'Rights management certificate',
+'exif-copyrighted'                 => 'Copyright status',
+'exif-copyrightowner'              => 'Copyright owner',
+'exif-usageterms'                  => 'Usage terms',
+'exif-webstatement'                => 'Online copyright statement',
+'exif-originaldocumentid'          => 'Unique ID of original document',
+'exif-licenseurl'                  => 'URL for copyright license',
+'exif-morepermissionsurl'          => 'Alternative licensing information',
+'exif-attributionurl'              => 'When re-using this work, please link to',
+'exif-preferredattributionname'    => 'When re-using this work, please credit',
+'exif-pngfilecomment'              => 'PNG file comment',
+'exif-disclaimer'                  => 'Disclaimer',
+'exif-contentwarning'              => 'Content warning',
+'exif-giffilecomment'              => 'GIF file comment',
+'exif-intellectualgenre'           => 'Type of item',
+'exif-subjectnewscode'             => 'Subject code',
+'exif-scenecode'                   => 'IPTC scene code',
+'exif-event'                       => 'Event depicted',
+'exif-organisationinimage'         => 'Organization depicted',
+'exif-personinimage'               => 'Person depicted',
+'exif-originalimageheight'         => 'Height of image before it was cropped',
+'exif-originalimagewidth'          => 'Width of image before it was cropped',
 
 # Make & model, can be wikified in order to link to the camera and model name
-'exif-make-value'     => '$1', # do not translate or duplicate this message to other languages
-'exif-model-value'    => '$1', # do not translate or duplicate this message to other languages
-'exif-software-value' => '$1', # do not translate or duplicate this message to other languages
+'exif-make-value'             => '$1', # do not translate or duplicate this message to other languages
+'exif-model-value'            => '$1', # do not translate or duplicate this message to other languages
+'exif-software-value'         => '$1', # do not translate or duplicate this message to other languages
+'exif-software-version-value' => '$1 (Version $2)', # do not translate or duplicate this message to other languages
+'exif-contact-value'          => '$1
+
+$2
+<div class="adr">
+$3
+
+$4, $5, $6 $7
+</div>
+$8', # only translate this message to other languages if you have to change it
+'exif-subjectnewscode-value'  => '$2 ($1)', # only translate this message to other languages if you have to change it
 
 # EXIF attributes
 'exif-compression-1' => 'Uncompressed',
 'exif-compression-6' => 'JPEG', # only translate this message to other languages if you have to change it
+
+'exif-copyrighted-true'  => 'Copyrighted',
+'exif-copyrighted-false' => 'Public domain',
 
 'exif-photometricinterpretation-2' => 'RGB', # only translate this message to other languages if you have to change it
 'exif-photometricinterpretation-6' => 'YCbCr', # only translate this message to other languages if you have to change it
@@ -3867,8 +3950,8 @@ Others will be hidden by default.
 'exif-xyresolution-i' => '$1 dpi', # only translate this message to other languages if you have to change it
 'exif-xyresolution-c' => '$1 dpc', # only translate this message to other languages if you have to change it
 
-'exif-colorspace-1'      => 'sRGB', # only translate this message to other languages if you have to change it
-'exif-colorspace-ffff.h' => 'FFFF.H', # only translate this message to other languages if you have to change it
+'exif-colorspace-1'     => 'sRGB', # only translate this message to other languages if you have to change it
+'exif-colorspace-65535' => 'Uncalibrated',
 
 'exif-componentsconfiguration-0' => 'does not exist',
 'exif-componentsconfiguration-1' => 'Y', # only translate this message to other languages if you have to change it
@@ -3892,9 +3975,9 @@ Others will be hidden by default.
 
 'exif-meteringmode-0'   => 'Unknown',
 'exif-meteringmode-1'   => 'Average',
-'exif-meteringmode-2'   => 'CenterWeightedAverage',
+'exif-meteringmode-2'   => 'Center weighted average',
 'exif-meteringmode-3'   => 'Spot',
-'exif-meteringmode-4'   => 'MultiSpot',
+'exif-meteringmode-4'   => 'Multi-Spot',
 'exif-meteringmode-5'   => 'Pattern',
 'exif-meteringmode-6'   => 'Partial',
 'exif-meteringmode-255' => 'Other',
@@ -3943,7 +4026,7 @@ Others will be hidden by default.
 'exif-sensingmethod-7' => 'Trilinear sensor',
 'exif-sensingmethod-8' => 'Color sequential linear sensor',
 
-'exif-filesource-3' => 'DSC', # only translate this message to other languages if you have to change it
+'exif-filesource-3' => 'Digital still camera',
 
 'exif-scenetype-1' => 'A directly photographed image',
 
@@ -3993,6 +4076,10 @@ Others will be hidden by default.
 'exif-gpslongitude-e' => 'East longitude',
 'exif-gpslongitude-w' => 'West longitude',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '$1 {{PLURAL:$1|meter|meters}} above sea level',
+'exif-gpsaltitude-below-sealevel' => '$1 {{PLURAL:$1|meter|meters}} below sea level',
+
 'exif-gpsstatus-a' => 'Measurement in progress',
 'exif-gpsstatus-v' => 'Measurement interoperability',
 
@@ -4004,9 +4091,65 @@ Others will be hidden by default.
 'exif-gpsspeed-m' => 'Miles per hour',
 'exif-gpsspeed-n' => 'Knots',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometres',
+'exif-gpsdestdistance-m' => 'Miles',
+'exif-gpsdestdistance-n' => 'Nautical miles',
+
+'exif-gpsdop-excellent' => 'Excellent ($1)',
+'exif-gpsdop-good'      => 'Good ($1)',
+'exif-gpsdop-moderate'  => 'Moderate ($1)',
+'exif-gpsdop-fair'      => 'Fair ($1)',
+'exif-gpsdop-poor'      => 'Poor ($1)',
+
+'exif-objectcycle-a' => 'Morning only',
+'exif-objectcycle-p' => 'Evening only',
+'exif-objectcycle-b' => 'Both morning and evening',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'True direction',
 'exif-gpsdirection-m' => 'Magnetic direction',
+
+'exif-ycbcrpositioning-1' => 'Centered',
+'exif-ycbcrpositioning-2' => 'Co-sited',
+
+'exif-dc-contributor' => 'Contributors',
+'exif-dc-coverage'    => 'Spatial or temporal scope of media',
+'exif-dc-date'        => 'Date(s)',
+'exif-dc-publisher'   => 'Publisher',
+'exif-dc-relation'    => 'Related media',
+'exif-dc-rights'      => 'Rights',
+'exif-dc-source'      => 'Source media',
+'exif-dc-type'        => 'Type of media',
+
+'exif-rating-rejected' => 'Rejected',
+
+'exif-isospeedratings-overflow' => 'Greater than 65535',
+
+'exif-maxaperturevalue-value' => '$1 APEX (f/$2)', # only translate this message to other languages if you have to change it
+
+'exif-iimcategory-ace' => 'Arts, culture and entertainment',
+'exif-iimcategory-clj' => 'Crime and law',
+'exif-iimcategory-dis' => 'Disasters and accidents',
+'exif-iimcategory-fin' => 'Economy and business',
+'exif-iimcategory-edu' => 'Education',
+'exif-iimcategory-evn' => 'Environment',
+'exif-iimcategory-hth' => 'Health',
+'exif-iimcategory-hum' => 'Human interest',
+'exif-iimcategory-lab' => 'Labour',
+'exif-iimcategory-lif' => 'Lifestyle and leisure',
+'exif-iimcategory-pol' => 'Politics',
+'exif-iimcategory-rel' => 'Religion and belief',
+'exif-iimcategory-sci' => 'Science and technology',
+'exif-iimcategory-soi' => 'Social issues',
+'exif-iimcategory-spo' => 'Sports',
+'exif-iimcategory-war' => 'War, conflict and unrest',
+'exif-iimcategory-wea' => 'Weather',
+
+'exif-urgency-normal' => 'Normal ($1)',
+'exif-urgency-low'    => 'Low ($1)',
+'exif-urgency-high'   => 'High ($1)',
+'exif-urgency-other'  => 'User-defined priority ($1)',
 
 # External editor support
 'edit-externally'      => 'Edit this file using an external application',
@@ -4423,18 +4566,5 @@ This site is experiencing technical difficulties.',
 # SQLite database support
 'sqlite-has-fts' => '$1 with full-text search support',
 'sqlite-no-fts'  => '$1 without full-text search support',
-
-# Special:DisableAccount
-'disableaccount'             => 'Disable a user account',
-'disableaccount-user'        => 'Username:',
-'disableaccount-reason'      => 'Reason:',
-'disableaccount-confirm'     => "Disable this user account.
-The user will not be able to log in, reset their password, or receive e-mail notifications.
-If the user is currently logged in anywhere, they will be immediately logged out.
-''Note that disabling an account is not reversible without system administrator intervention.''",
-'disableaccount-mustconfirm' => 'You must confirm that you wish to disable this account.',
-'disableaccount-nosuchuser'  => 'The user account "$1" does not exist.',
-'disableaccount-success'     => 'The user account "$1" has been permanently disabled.',
-'disableaccount-logentry'    => 'permanently disabled the user account [[$1]]',
 
 );

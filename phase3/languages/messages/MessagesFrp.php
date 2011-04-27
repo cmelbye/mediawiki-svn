@@ -129,7 +129,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Lista_ux_bots', 'ListaUxBots' ),
 	'Popularpages'              => array( 'Pâges_les_ples_consultâs', 'PâgesLesPlesConsultâs' ),
 	'Search'                    => array( 'Rechèrchiér', 'Rechèrche' ),
-	'Resetpass'                 => array( 'Changement_de_mot_de_pâssa', 'ChangementDeMotDePâssa' ),
+	'ChangePassword'            => array( 'Changement_de_mot_de_pâssa', 'ChangementDeMotDePâssa' ),
 	'Withoutinterwiki'          => array( 'Pâges_sen_lims_entèrlengoues', 'PâgesSenLimsEntèrlengoues', 'Pâges_sen_lims_entèrvouiqui', 'PâgesSenLimsEntèrvouiqui' ),
 	'MergeHistory'              => array( 'Fusionar_los_historicos', 'FusionarLosHistoricos' ),
 	'Filepath'                  => array( 'Chemin_d\'accès_du_fichiér', 'CheminDAccèsDuFichiér' ),
@@ -806,16 +806,7 @@ Volyéd atendre devant que tornar èprovar.',
 # E-mail sending
 'php-mail-error-unknown' => 'Èrror encognua dens la fonccion mail() de PHP.',
 
-# JavaScript password checks
-'password-strength'            => 'Nivél de sècuritât du mot de pâssa : $1',
-'password-strength-bad'        => 'FÊBLO',
-'password-strength-mediocre'   => 'prod moyen',
-'password-strength-acceptable' => 'accèptâblo',
-'password-strength-good'       => 'fôrt',
-'password-retype'              => 'Confirmâd lo mot de pâssa ique',
-'password-retype-mismatch'     => 'Los mots de pâssa sont pas pariérs',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Changiér lo mot de pâssa',
 'resetpass_announce'        => 'Vos vos éte branchiê avouéc un mot de pâssa temporèro mandâ per mèssageria èlèctronica.
 Por chavonar lo branchement, vos dête buchiér un mot de pâssa novél ique :',
@@ -1214,26 +1205,6 @@ Volyéd controlar los jornals.',
 'suppressionlogtext' => 'Vê-que la lista de les suprèssions et des blocâjos qu’ont de contegnu cachiê ux administrators.
 Vêde la [[Special:IPBlockList|lista ux utilisators et a les adrèces IP blocâs]] por vêre los banissements et los blocâjos que sont ora opèracionèls.',
 
-# Revision move
-'moverevlogentry'              => 'at dèplaciê {{PLURAL:$3|yona vèrsion|$3 vèrsions}} de $1 a $2',
-'revisionmove'                 => 'Dèplaciér des vèrsions dês « $1 »',
-'revmove-explain'              => 'Cetes vèrsions seront dèplaciês de $1 vers la pâge ciba spècefiâ. Se la ciba ègziste pas, serat fêta, ôtrament celes vèrsions seront fusionâs avouéc l’historico de la pâge.',
-'revmove-legend'               => 'Buchiéd la pâge ciba et pués la rêson',
-'revmove-submit'               => 'Dèplaciér les vèrsions vers la pâge chouèsia',
-'revisionmoveselectedversions' => 'Dèplaciér les vèrsions chouèsies',
-'revmove-reasonfield'          => 'Rêson :',
-'revmove-titlefield'           => 'Pâge ciba :',
-'revmove-badparam-title'       => 'Crouyos paramètres',
-'revmove-badparam'             => 'Voutra requéta contint des paramètres ilègâls ou ben ensufisents.
-Volyéd clicar dessus « Devant » et pués tornâd èprovar.',
-'revmove-norevisions-title'    => 'Vèrsion ciba envalida',
-'revmove-norevisions'          => 'Vos éd pas spècefiâ yona ou ben un mouél de vèrsions cibes por fâre cela fonccionalitât ou ben la vèrsion spècefiâ ègziste pas.',
-'revmove-nullmove-title'       => 'Crouyo titro',
-'revmove-nullmove'             => 'Les pâges sôrsa et ciba sont pariéres.
-Volyéd clicar dessus « Devant » et pués buchiéd un nom de pâge difèrent de « $1 ».',
-'revmove-success-existing'     => '{{PLURAL:$1|Yona vèrsion de [[$2]] at étâ dèplaciê|$1 vèrsions de [[$2]] ont étâ dèplaciês}} vers la pâge ègzistenta [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Yona vèrsion de [[$2]] at étâ dèplaciê|$1 vèrsions de [[$2]] ont étâ dèplaciês}} vers la pâge [[$3]] novèlament fêta.',
-
 # History merging
 'mergehistory'                     => 'Fusionar los historicos de les pâges',
 'mergehistory-header'              => 'Ceta pâge vos pèrmèt de fusionar des vèrsions de l’historico d’una pâge d’origina vers una pâge novèla.
@@ -1571,8 +1542,6 @@ Ceta enformacion serat publica.',
 'right-reset-passwords'       => 'Changiér lo mot de pâssa d’ôtros utilisators',
 'right-override-export-depth' => 'Èxportar les pâges en encllusent les pâges liyês tant qu’a una provondior de 5 nivéls',
 'right-sendemail'             => 'Mandar un mèssâjo ux ôtros utilisators',
-'right-revisionmove'          => 'Dèplaciér des vèrsions',
-'right-disableaccount'        => 'Dèsactivar des comptos',
 
 # User rights log
 'rightslog'      => 'Jornal des changements de statut d’utilisator',
@@ -1615,7 +1584,6 @@ Ceta enformacion serat publica.',
 'action-userrights'           => 'changiér tôs los drêts d’utilisator',
 'action-userrights-interwiki' => 'changiér los drêts ux utilisators sur d’ôtros vouiquis',
 'action-siteadmin'            => 'vèrrolyér ou ben dèvèrrolyér la bâsa de balyês',
-'action-revisionmove'         => 'dèplaciér des vèrsions',
 
 # Recent changes
 'nchanges'                          => '$1 changement{{PLURAL:$1||s}}',
@@ -3102,7 +3070,13 @@ Los ôtros champs seront cachiês per dèfôt.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Largior',
@@ -3117,13 +3091,11 @@ Los ôtros champs seront cachiês per dèfôt.
 'exif-ycbcrpositioning'            => 'Posicionement Y et C',
 'exif-xresolution'                 => 'Rèsolucion plana',
 'exif-yresolution'                 => 'Rèsolucion drêta',
-'exif-resolutionunit'              => 'Unitât de rèsolucion plana et drêta',
 'exif-stripoffsets'                => 'Emplacement de les balyês de l’émâge',
 'exif-rowsperstrip'                => 'Nombro de legnes per benda',
 'exif-stripbytecounts'             => 'Talye en octèts per benda',
 'exif-jpeginterchangeformat'       => 'Posicion du SOI JPEG',
 'exif-jpeginterchangeformatlength' => 'Talye en octèts de les balyês JPEG',
-'exif-transferfunction'            => 'Fonccion de transfèrt',
 'exif-whitepoint'                  => 'Cromaticitât du pouent blanc',
 'exif-primarychromaticities'       => 'Cromaticitât de les colors primères',
 'exif-ycbcrcoefficients'           => 'Factors de la matrice de transformacion de l’èspâço colorimètrico',
@@ -3142,7 +3114,6 @@ Los ôtros champs seront cachiês per dèfôt.
 'exif-compressedbitsperpixel'      => 'Fôrma de comprèssion de l’émâge',
 'exif-pixelydimension'             => 'Largior d’émâge valida',
 'exif-pixelxdimension'             => 'Hôtior d’émâge valida',
-'exif-makernote'                   => 'Notes u fabrecant',
 'exif-usercomment'                 => 'Comentèros a l’utilisator',
 'exif-relatedsoundfile'            => 'Fichiér ôdiô associyê',
 'exif-datetimeoriginal'            => 'Dâta et hora de la g·ènèracion de les balyês',
@@ -3156,7 +3127,6 @@ Los ôtros champs seront cachiês per dèfôt.
 'exif-exposureprogram'             => 'Programo d’èxposicion',
 'exif-spectralsensitivity'         => 'Sensibilitât spèctrâla',
 'exif-isospeedratings'             => 'Sensibilitât ISO',
-'exif-oecf'                        => 'Factor de convèrsion optoèlèctronico',
 'exif-shutterspeedvalue'           => 'Vitèsse d’ètopâ',
 'exif-aperturevalue'               => 'Uvèrtura',
 'exif-brightnessvalue'             => 'Luminositât',
@@ -3169,7 +3139,6 @@ Los ôtros champs seront cachiês per dèfôt.
 'exif-focallength'                 => 'Longior focâla',
 'exif-subjectarea'                 => 'Emplacement du sujèt',
 'exif-flashenergy'                 => 'Nèrf de l’èludo',
-'exif-spatialfrequencyresponse'    => 'Rèponsa en frèquence espaciâla',
 'exif-focalplanexresolution'       => 'Rèsolucion plana de la vision focâla',
 'exif-focalplaneyresolution'       => 'Rèsolucion drêta de la vision focâla',
 'exif-focalplaneresolutionunit'    => 'Unitât de rèsolucion de la vision focâla',
@@ -3178,7 +3147,6 @@ Los ôtros champs seront cachiês per dèfôt.
 'exif-sensingmethod'               => 'Tipo de captior',
 'exif-filesource'                  => 'Sôrsa du fichiér',
 'exif-scenetype'                   => 'Tipo de scèna',
-'exif-cfapattern'                  => 'Modèlo CFA',
 'exif-customrendered'              => 'Rendu d’émâge pèrsonalisâ',
 'exif-exposuremode'                => 'Fôrma d’èxposicion',
 'exif-whitebalance'                => 'Balance des blancs',
@@ -3242,7 +3210,7 @@ Los ôtros champs seront cachiês per dèfôt.
 'exif-planarconfiguration-1' => 'Balyês ategnentes',
 'exif-planarconfiguration-2' => 'Balyês sèparâs',
 
-'exif-colorspace-ffff.h' => 'Pas calibrâ',
+'exif-colorspace-65535' => 'Pas calibrâ',
 
 'exif-componentsconfiguration-0' => 'Ègziste pas',
 'exif-componentsconfiguration-5' => 'V',
@@ -3368,6 +3336,11 @@ Los ôtros champs seront cachiês per dèfôt.
 'exif-gpsspeed-k' => 'Kilomètres per hora',
 'exif-gpsspeed-m' => 'Miles per hora',
 'exif-gpsspeed-n' => 'Nuods',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilomètres',
+'exif-gpsdestdistance-m' => 'Miles',
+'exif-gpsdestdistance-n' => 'Miles marins',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Veré dirèccion',
@@ -3738,18 +3711,5 @@ Buchiéd lo nom du fichiér sen lo prèfixo « {{ns:file}}: ».',
 # SQLite database support
 'sqlite-has-fts' => '$1 avouéc rechèrche en tèxto complèt recognua',
 'sqlite-no-fts'  => '$1 sen rechèrche en tèxto complèt recognua',
-
-# Special:DisableAccount
-'disableaccount'             => 'Dèsactivar un compto utilisator',
-'disableaccount-user'        => 'Nom d’utilisator :',
-'disableaccount-reason'      => 'Rêson :',
-'disableaccount-confirm'     => "Dèsactivar cél compto utilisator.
-L’utilisator porrat pas més sè branchiér, ni tornar inicialisar son mot de pâssa, ni recêvre des notificacions per mèssageria èlèctronica.
-Se l’utilisator est orendrêt branchiê a quârqu’un sens, serat dèbranchiê d’abôrd.
-''Notâd que la dèsactivacion d’un compto est pas revèrsibla sen entèrvencion d’un administrator sistèmo.''",
-'disableaccount-mustconfirm' => 'Vos dête confirmar que vos souhètâd dèsactivar cél compto.',
-'disableaccount-nosuchuser'  => 'Lo compto utilisator « $1 » ègziste pas.',
-'disableaccount-success'     => 'Lo compto utilisator « $1 » at étâ dèsactivâ por de bon.',
-'disableaccount-logentry'    => 'at dèsactivâ por de bon lo compto utilisator [[$1]]',
 
 );

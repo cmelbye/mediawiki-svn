@@ -488,7 +488,7 @@ Meka 'email' staksa icde vlevefa staava zo staksatar.",
 'createaccount-title'        => 'Pataredura koe {{SITENAME}}',
 'loginlanguagelabel'         => 'Ava : $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Va patabeksa betal !',
 'resetpass_announce'        => "Rin kan ugalorafa 'email' beksa va int pilkomodayal.
 Ta da wan zo pilkomodal, va warzaf remravlem batlize gobazel :",
@@ -1970,7 +1970,13 @@ Kotari milconhafi gluyasiki roklon zo krafiar.',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Mantuca',
@@ -1987,7 +1993,6 @@ Kotari milconhafi gluyasiki roklon zo krafiar.',
 'exif-rowsperstrip'                => 'Blayblayon conhota',
 'exif-jpeginterchangeformat'       => 'Position du SOI JPEG',
 'exif-jpeginterchangeformatlength' => 'Taille en octet des données JPEG',
-'exif-transferfunction'            => 'Arburerafli',
 'exif-datetime'                    => 'Evla is bartiv va betara va iyeltak',
 'exif-imagedescription'            => 'Ewavavergumvelt',
 'exif-make'                        => 'Iasik va de',
@@ -2000,7 +2005,6 @@ Kotari milconhafi gluyasiki roklon zo krafiar.',
 'exif-compressedbitsperpixel'      => 'Ewavaraxivaracave',
 'exif-pixelydimension'             => 'Mante ke enafa ewava',
 'exif-pixelxdimension'             => 'Ontine ke enafa ewava',
-'exif-makernote'                   => 'Notes du fabricant',
 'exif-usercomment'                 => 'Favesikaf sebuks',
 'exif-relatedsoundfile'            => 'Fichier audio lié',
 'exif-datetimeoriginal'            => 'Viel is gemelt ke nasbara va origeem',
@@ -2021,7 +2025,6 @@ Kotari milconhafi gluyasiki roklon zo krafiar.',
 'exif-sensingmethod'               => 'Siakranuva',
 'exif-filesource'                  => 'Iyeltakklita',
 'exif-scenetype'                   => 'Nakilord',
-'exif-cfapattern'                  => 'CFA fum',
 'exif-exposuremode'                => 'Konedirinda',
 'exif-whitebalance'                => 'Balance des blancs',
 'exif-gaincontrol'                 => 'Stujera va nakila',

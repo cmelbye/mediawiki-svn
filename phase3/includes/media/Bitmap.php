@@ -670,105 +670,6 @@ class BitmapHandler extends ImageHandler {
 		imagejpeg( $dst_image, $thumbPath, 95 );
 	}
 
-
-	function getMetadata( $image, $filename ) {
-		global $wgShowEXIF;
-		if ( $wgShowEXIF && file_exists( $filename ) ) {
-			$exif = new Exif( $filename );
-			$data = $exif->getFilteredData();
-			if ( $data ) {
-				$data['MEDIAWIKI_EXIF_VERSION'] = Exif::version();
-				return serialize( $data );
-			} else {
-				return '0';
-			}
-		} else {
-			return '';
-		}
-	}
-
-	function getMetadataType( $image ) {
-		return 'exif';
-	}
-
-	function isMetadataValid( $image, $metadata ) {
-		global $wgShowEXIF;
-		if ( !$wgShowEXIF ) {
-			# Metadata disabled and so an empty field is expected
-			return true;
-		}
-		if ( $metadata === '0' ) {
-			# Special value indicating that there is no EXIF data in the file
-			return true;
-		}
-		wfSuppressWarnings();
-		$exif = unserialize( $metadata );
-		wfRestoreWarnings();
-		if ( !isset( $exif['MEDIAWIKI_EXIF_VERSION'] ) ||
-			$exif['MEDIAWIKI_EXIF_VERSION'] != Exif::version() )
-		{
-			# Wrong version
-			wfDebug( __METHOD__ . ": wrong version\n" );
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Get a list of EXIF metadata items which should be displayed when
-	 * the metadata table is collapsed.
-	 *
-	 * @return array of strings
-	 * @access private
-	 */
-	function visibleMetadataFields() {
-		$fields = array();
-		$lines = explode( "\n", wfMsgForContent( 'metadata-fields' ) );
-		foreach ( $lines as $line ) {
-			$matches = array();
-			if ( preg_match( '/^\\*\s*(.*?)\s*$/', $line, $matches ) ) {
-				$fields[] = $matches[1];
-			}
-		}
-		$fields = array_map( 'strtolower', $fields );
-		return $fields;
-	}
-
-	/**
-	 * @param $image File
-	 * @return array|bool
-	 */
-	function formatMetadata( $image ) {
-		$result = array(
-			'visible' => array(),
-			'collapsed' => array()
-		);
-		$metadata = $image->getMetadata();
-		if ( !$metadata ) {
-			return false;
-		}
-		$exif = unserialize( $metadata );
-		if ( !$exif ) {
-			return false;
-		}
-		unset( $exif['MEDIAWIKI_EXIF_VERSION'] );
-		$format = new FormatExif( $exif );
-
-		$formatted = $format->getFormattedData();
-		// Sort fields into visible and collapsed
-		$visibleFields = $this->visibleMetadataFields();
-		foreach ( $formatted as $name => $value ) {
-			$tag = strtolower( $name );
-			self::addMeta( $result,
-				in_array( $tag, $visibleFields ) ? 'visible' : 'collapsed',
-				'exif',
-				$tag,
-				$value
-			);
-		}
-		return $result;
-	}
-	
 	/**
 	 * Try to read out the orientation of the file and return the angle that 
 	 * the file needs to be rotated to be viewed
@@ -797,6 +698,7 @@ class BitmapHandler extends ImageHandler {
 		}
 		return 0;
 	}
+
 	/**
 	 * Returns whether the current scaler supports rotation (im and gd do)
 	 * 

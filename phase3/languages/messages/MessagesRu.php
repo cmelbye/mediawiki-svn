@@ -774,16 +774,7 @@ $2',
 # E-mail sending
 'php-mail-error-unknown' => 'Неизвестная ошибка в PHP-функции mail()',
 
-# JavaScript password checks
-'password-strength'            => 'Оценка стойкости пароля: $1',
-'password-strength-bad'        => 'ПЛОХАЯ',
-'password-strength-mediocre'   => 'посредственная',
-'password-strength-acceptable' => 'приемлемая',
-'password-strength-good'       => 'хорошая',
-'password-retype'              => 'Повторите набор пароля',
-'password-retype-mismatch'     => 'Пароли не совпадают',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Изменение пароля',
 'resetpass_announce'        => 'Вы представились с помощью временного пароля, полученного по электронной почте. Для завершения входа в систему, вы должны установить новый пароль.',
 'resetpass_text'            => '<!-- Добавьте сюда текст -->',
@@ -800,6 +791,10 @@ $2',
 'resetpass-wrong-oldpass'   => 'Неправильный временный или текущий пароль.
 Возможно, вы уже успешно изменили пароль, или запросили новый временный пароль.',
 'resetpass-temp-password'   => 'Временный пароль:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Сброс пароля',
+'passwordreset-username' => 'Имя участника:',
 
 # Edit page toolbar
 'bold_sample'     => 'Полужирное начертание',
@@ -1166,24 +1161,6 @@ $1",
 'suppressionlogtext' => 'Ниже представлен список недавних удалений и блокировок, включающих скрытые от администраторов материалы.
 См. [[Special:IPBlockList|список IP-блокировок]], чтобы просмотреть список текущих блокировок.',
 
-# Revision move
-'moverevlogentry'              => 'перенёс {{PLURAL:$3|$3 версию|$3 версии|$3 версий}} из $1 в $2',
-'revisionmove'                 => 'Перенос версий из «$1»',
-'revmove-explain'              => 'Следующие версии страниц будут перенесены со страницы $1 на указанную целевую страницу. Если целевой страницы не существует, то она будет создана. Иначе, эти версии будут добавлены в историю изменений страницы.',
-'revmove-legend'               => 'Установка целевой страницы и описания',
-'revmove-submit'               => 'Перенести версии на выбранную страницу',
-'revisionmoveselectedversions' => 'Перенести выбранные версии',
-'revmove-reasonfield'          => 'Причина:',
-'revmove-titlefield'           => 'Целевая страница:',
-'revmove-badparam-title'       => 'Плохие параметры',
-'revmove-badparam'             => 'Ваш запрос содержит недопустимые значения параметров, или значения параметров не заданы. Пожалуйста, нажмите кнопку «Назад» и попробуйте ещё раз.',
-'revmove-norevisions-title'    => 'Недопустимая целевая версия',
-'revmove-norevisions'          => 'Для выполнения этой функции вы не указали одну или несколько целевых версий, или указанные версии не существуют.',
-'revmove-nullmove-title'       => 'Плохое название',
-'revmove-nullmove'             => 'Исходная и целевая страницы совпадают. Пожалуйста, нажмите кнопку «Назад» и введите название страницы, отличное от «$1».',
-'revmove-success-existing'     => '{{PLURAL:$1|$1 версия страницы [[$2]] была перенесена|$1 версии страницы [[$2]] были перенесены|$1 версий страниц [[$2]] были перенесены}} на существующую страницу [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|$1 версия страницы [[$2]] была перенесена|$1 версии страницы [[$2]] были перенесены|$1 версий страниц [[$2]] были перенесены}} на новую страницу [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Объединение историй правок',
 'mergehistory-header'              => 'Эта страница позволяет вам объединить историю правок двух различных страниц.
@@ -1522,8 +1499,6 @@ $1",
 'right-reset-passwords'       => 'сбрасывание паролей других участников',
 'right-override-export-depth' => 'экспортирование страниц, включая связанные страницы с глубиной до 5',
 'right-sendemail'             => 'отправлять электронную почту другим участникам',
-'right-revisionmove'          => 'перенос версий страниц',
-'right-disableaccount'        => 'отключить учётные записи',
 
 # User rights log
 'rightslog'      => 'Журнал прав участника',
@@ -1566,7 +1541,6 @@ $1",
 'action-userrights'           => 'изменение всех прав участника',
 'action-userrights-interwiki' => 'изменение прав участников в других вики',
 'action-siteadmin'            => 'блокировка и разблокировка базы данных',
-'action-revisionmove'         => 'перенос версий страниц',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|изменение|изменения|изменений}}',
@@ -3013,14 +2987,20 @@ $1',
 'metadata-help'     => 'Файл содержит дополнительные данные, обычно добавляемые цифровыми камерами или сканерами. Если файл после создания редактировался, то некоторые параметры могут не соответствовать текущему изображению.',
 'metadata-expand'   => 'Показать дополнительные данные',
 'metadata-collapse' => 'Скрыть дополнительные данные',
-'metadata-fields'   => 'Поля метаданных, перечисленные в этом списке, будут показаны на странице изображения по умолчанию, остальные будут скрыты.
+'metadata-fields'   => 'Поля метаданных изображения, перечисленные в этом списке, будут показаны на странице изображения при свёрнутой таблице метаданных. Остальные поля будут по умолчанию скрыты.
 * make
 * model
 * datetimeoriginal
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Ширина',
@@ -3035,13 +3015,11 @@ $1',
 'exif-ycbcrpositioning'            => 'Порядок размещения компонент Y и C',
 'exif-xresolution'                 => 'Горизонтальное разрешение',
 'exif-yresolution'                 => 'Вертикальное разрешение',
-'exif-resolutionunit'              => 'Единица измерения разрешения',
 'exif-stripoffsets'                => 'Положение блока данных',
 'exif-rowsperstrip'                => 'Количество строк в 1 блоке',
 'exif-stripbytecounts'             => 'Размер сжатого блока',
 'exif-jpeginterchangeformat'       => 'Положение начала блока preview',
 'exif-jpeginterchangeformatlength' => 'Размер данных блока preview',
-'exif-transferfunction'            => 'Функция преобразования цветового пространства',
 'exif-whitepoint'                  => 'Цветность белой точки',
 'exif-primarychromaticities'       => 'Цветность основных цветов',
 'exif-ycbcrcoefficients'           => 'Коэффициенты преобразования цветовой модели',
@@ -3058,9 +3036,8 @@ $1',
 'exif-colorspace'                  => 'Цветовое пространство',
 'exif-componentsconfiguration'     => 'Конфигурация цветовых компонентов',
 'exif-compressedbitsperpixel'      => 'Глубина цвета после сжатия',
-'exif-pixelydimension'             => 'Полная высота изображения',
-'exif-pixelxdimension'             => 'Полная ширина изображения',
-'exif-makernote'                   => 'Дополнительные данные производителя',
+'exif-pixelydimension'             => 'Ширина изображения',
+'exif-pixelxdimension'             => 'Высота изображения',
 'exif-usercomment'                 => 'Дополнительный комментарий',
 'exif-relatedsoundfile'            => 'Файл звукового комментария',
 'exif-datetimeoriginal'            => 'Оригинальные дата и время',
@@ -3074,10 +3051,9 @@ $1',
 'exif-exposureprogram'             => 'Программа экспозиции',
 'exif-spectralsensitivity'         => 'Спектральная чувствительность',
 'exif-isospeedratings'             => 'Светочувствительность ISO',
-'exif-oecf'                        => 'OECF (коэффициент оптоэлектрического преобразования)',
-'exif-shutterspeedvalue'           => 'Выдержка',
-'exif-aperturevalue'               => 'Диафрагма',
-'exif-brightnessvalue'             => 'Яркость',
+'exif-shutterspeedvalue'           => 'Выдержка в APEX',
+'exif-aperturevalue'               => 'Диафрагма в APEX',
+'exif-brightnessvalue'             => 'Яркость в APEX',
 'exif-exposurebiasvalue'           => 'Компенсация экспозиции',
 'exif-maxaperturevalue'            => 'Минимальное число диафрагмы',
 'exif-subjectdistance'             => 'Расстояние до объекта',
@@ -3088,7 +3064,6 @@ $1',
 'exif-focallength-format'          => '$1 мм',
 'exif-subjectarea'                 => 'Положение и площадь объекта съёмки',
 'exif-flashenergy'                 => 'Энергия вспышки',
-'exif-spatialfrequencyresponse'    => 'Пространственная частотная характеристика',
 'exif-focalplanexresolution'       => 'Разрешение по X в фокальной плоскости',
 'exif-focalplaneyresolution'       => 'Разрешение по Y в фокальной плоскости',
 'exif-focalplaneresolutionunit'    => 'Единица измерения разрешения в фокальной плоскости',
@@ -3097,7 +3072,6 @@ $1',
 'exif-sensingmethod'               => 'Тип сенсора',
 'exif-filesource'                  => 'Источник файла',
 'exif-scenetype'                   => 'Тип сцены',
-'exif-cfapattern'                  => 'Тип цветового фильтра',
 'exif-customrendered'              => 'Дополнительная обработка',
 'exif-exposuremode'                => 'Режим выбора экспозиции',
 'exif-whitebalance'                => 'Баланс белого',
@@ -3142,10 +3116,76 @@ $1',
 'exif-gpsareainformation'          => 'Название области GPS',
 'exif-gpsdatestamp'                => 'Дата',
 'exif-gpsdifferential'             => 'Дифференциальная поправка',
+'exif-jpegfilecomment'             => 'Примечание JPEG-файла',
+'exif-keywords'                    => 'Ключевые слова',
+'exif-worldregioncreated'          => 'Регион мира, где была сделана фотография',
+'exif-countrycreated'              => 'Страна, где была сделана фотография',
+'exif-countrycodecreated'          => 'Код страны, где была сделана фотография',
+'exif-provinceorstatecreated'      => 'Область, провинция или штат, где была сделана фотография',
+'exif-citycreated'                 => 'Город, где была сделана фотография',
+'exif-sublocationcreated'          => 'Район города, где была сделана фоторафия',
+'exif-worldregiondest'             => 'Изображённый регион мира',
+'exif-countrydest'                 => 'Изображённая страна',
+'exif-countrycodedest'             => 'Код изображённой страны',
+'exif-provinceorstatedest'         => 'Изображённая область, провинция или штат',
+'exif-citydest'                    => 'Изображённый город',
+'exif-sublocationdest'             => 'Изображённый район города',
 'exif-objectname'                  => 'Краткое название',
+'exif-specialinstructions'         => 'Особые указания',
+'exif-headline'                    => 'Заголовок',
+'exif-credit'                      => 'Поставщик, кто предоставил изображение',
+'exif-source'                      => 'Источник',
+'exif-editstatus'                  => 'Редакционный статус изображения',
+'exif-urgency'                     => 'Актуальность',
+'exif-fixtureidentifier'           => 'Название колонки',
+'exif-locationdest'                => 'Изображённое место',
+'exif-locationdestcode'            => 'Код изображённого места',
+'exif-objectcycle'                 => 'Время суток, для которого предназначено изображение',
+'exif-contact'                     => 'Контактная информация',
+'exif-writer'                      => 'Автор текста',
+'exif-languagecode'                => 'Язык',
+'exif-iimversion'                  => 'Версия IIM',
+'exif-iimcategory'                 => 'Категория',
+'exif-iimsupplementalcategory'     => 'Дополнительные категории',
+'exif-datetimeexpires'             => 'Не использовать после',
+'exif-datetimereleased'            => 'Дата выхода',
+'exif-originaltransmissionref'     => 'Код исходного места передачи',
+'exif-identifier'                  => 'Идентификатор',
+'exif-lens'                        => 'Использованный объектив',
+'exif-serialnumber'                => 'Серийный номер камеры',
+'exif-cameraownername'             => 'Владелец камеры',
+'exif-label'                       => 'Обозначение',
+'exif-datetimemetadata'            => 'Дата последнего изменения метаданных',
+'exif-nickname'                    => 'Неформальное название изображения',
+'exif-rating'                      => 'Оценка (из 5)',
+'exif-rightscertificate'           => 'Сертификат управления правами',
+'exif-copyrighted'                 => 'Авторско-правовой статус:',
+'exif-copyrightowner'              => 'Владелец авторских прав',
+'exif-usageterms'                  => 'Условия использования',
+'exif-webstatement'                => 'Положение об авторских правах в Интернете',
+'exif-originaldocumentid'          => 'Уникальный идентификатор исходного документа',
+'exif-licenseurl'                  => 'URL авторской лицензии',
+'exif-morepermissionsurl'          => 'Альтернативная лицензионная информация',
+'exif-attributionurl'              => 'При использовании этой работы, пожалуйста, ссылайтесь на',
+'exif-preferredattributionname'    => 'При использовании этой работы, пожалуйста, указывайте',
+'exif-pngfilecomment'              => 'Примечание к PNG-файлу',
+'exif-disclaimer'                  => 'Отказ от ответственности',
+'exif-contentwarning'              => 'Предупреждение о содержании',
+'exif-giffilecomment'              => 'Примечание GIF-файла',
+'exif-intellectualgenre'           => 'Тип объекта',
+'exif-subjectnewscode'             => 'Код темы',
+'exif-scenecode'                   => 'Код сцены IPTC',
+'exif-event'                       => 'Изображённое событие',
+'exif-organisationinimage'         => 'Изображённая организация',
+'exif-personinimage'               => 'Изображённый человек',
+'exif-originalimageheight'         => 'Высота изображения до кадрирования',
+'exif-originalimagewidth'          => 'Ширина изображения до кадрирования',
 
 # EXIF attributes
 'exif-compression-1' => 'Несжатый',
+
+'exif-copyrighted-true'  => 'Охраняется авторским правом',
+'exif-copyrighted-false' => 'Общественное достояние',
 
 'exif-unknowndate' => 'Неизвестная дата',
 
@@ -3163,6 +3203,8 @@ $1',
 
 'exif-xyresolution-i' => '$1 точек на дюйм',
 'exif-xyresolution-c' => '$1 точек на сантиметр',
+
+'exif-colorspace-65535' => 'Некалиброванное',
 
 'exif-componentsconfiguration-0' => 'не существует',
 
@@ -3277,6 +3319,10 @@ $1',
 'exif-gpslongitude-e' => 'восточной долготы',
 'exif-gpslongitude-w' => 'западной долготы',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '$1 {{PLURAL:$1|метр|метра|метров}} над уровнем моря',
+'exif-gpsaltitude-below-sealevel' => '$1 {{PLURAL:$1|метр|метра|метров}} ниже уровня моря',
+
 'exif-gpsstatus-a' => 'Измерение не закончено',
 'exif-gpsstatus-v' => 'Готов к передаче данных',
 
@@ -3288,9 +3334,63 @@ $1',
 'exif-gpsspeed-m' => 'миль/час',
 'exif-gpsspeed-n' => 'узлов',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Километров',
+'exif-gpsdestdistance-m' => 'Миль',
+'exif-gpsdestdistance-n' => 'Морских миль',
+
+'exif-gpsdop-excellent' => 'Отличная ($1)',
+'exif-gpsdop-good'      => 'Хорошая ($1)',
+'exif-gpsdop-moderate'  => 'Средняя ($1)',
+'exif-gpsdop-fair'      => 'Ниже среднего ($1)',
+'exif-gpsdop-poor'      => 'Плохая ($1)',
+
+'exif-objectcycle-a' => 'Только утром',
+'exif-objectcycle-p' => 'Только вечером',
+'exif-objectcycle-b' => 'Утром и вечером',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'истинный',
 'exif-gpsdirection-m' => 'магнитный',
+
+'exif-ycbcrpositioning-1' => 'Центрированный',
+'exif-ycbcrpositioning-2' => 'CO-sited',
+
+'exif-dc-contributor' => 'Соавторы',
+'exif-dc-coverage'    => 'Пространственные или временные рамки медиа',
+'exif-dc-date'        => 'Дата(ы)',
+'exif-dc-publisher'   => 'Издатель',
+'exif-dc-relation'    => 'Связанные медиа',
+'exif-dc-rights'      => 'Права',
+'exif-dc-source'      => 'Исходное медиа',
+'exif-dc-type'        => 'Тип медиа',
+
+'exif-rating-rejected' => 'Отклонено',
+
+'exif-isospeedratings-overflow' => 'Более 65535',
+
+'exif-iimcategory-ace' => 'Искусство, культура и развлечения',
+'exif-iimcategory-clj' => 'Преступность и закон',
+'exif-iimcategory-dis' => 'Катастрофы и аварии',
+'exif-iimcategory-fin' => 'Экономика и бизнес',
+'exif-iimcategory-edu' => 'Образование',
+'exif-iimcategory-evn' => 'Окружающая среда',
+'exif-iimcategory-hth' => 'Здоровье',
+'exif-iimcategory-hum' => 'Примечательные истории',
+'exif-iimcategory-lab' => 'Труд',
+'exif-iimcategory-lif' => 'Образ жизни и досуг',
+'exif-iimcategory-pol' => 'Политика',
+'exif-iimcategory-rel' => 'Религия и вера',
+'exif-iimcategory-sci' => 'Наука и техника',
+'exif-iimcategory-soi' => 'Социальные вопросы',
+'exif-iimcategory-spo' => 'Спорт',
+'exif-iimcategory-war' => 'Войны, конфликты и беспорядки',
+'exif-iimcategory-wea' => 'Погода',
+
+'exif-urgency-normal' => 'Обычная ($1)',
+'exif-urgency-low'    => 'Низкая ($1)',
+'exif-urgency-high'   => 'Высокая ($1)',
+'exif-urgency-other'  => 'Определённый пользователем приоритет ($1)',
 
 # External editor support
 'edit-externally'      => 'Редактировать этот файл, используя внешнюю программу',
@@ -3642,18 +3742,5 @@ MediaWiki распространяется в надежде, что она бу
 # SQLite database support
 'sqlite-has-fts' => '$1 с поддержкой полнотекстового поиска',
 'sqlite-no-fts'  => '$1 без поддержки полнотекстового поиска',
-
-# Special:DisableAccount
-'disableaccount'             => 'Отключение учётной записи участника',
-'disableaccount-user'        => 'Имя участника:',
-'disableaccount-reason'      => 'Причина:',
-'disableaccount-confirm'     => "Отключение этой учетной записи участника. 
-Участник не сможет войти в систему, сбросить свой пароль, получать уведомления по электронной почте. 
-Если участник в данный момент уже совершил вход в систему, то его сеанс будет немедленно прерван.
-''Обратите внимание, что отключение учётной записи нельзя отменить без вмешательства системного администратора.''",
-'disableaccount-mustconfirm' => 'Вы должны подтвердить, что вы хотите отключить эту учётную запись.',
-'disableaccount-nosuchuser'  => 'Не существует учетной записи участника «$1».',
-'disableaccount-success'     => 'Учетная запись участника «$1» была отключена навсегда.',
-'disableaccount-logentry'    => 'навсегда отключил учётную запись [[$1]]',
 
 );

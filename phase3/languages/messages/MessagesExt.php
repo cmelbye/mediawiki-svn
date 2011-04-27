@@ -466,7 +466,7 @@ Eberias entral ena tu cuenta i chambal la tu consínia.
 Si s\'á criau la cuenta ebiu a angún marru, inora esti mensahi.',
 'loginlanguagelabel'         => 'Palra: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Escambial la consínia',
 'resetpass_announce'        => 'As entrau ena tu cuenta con una consínia temporal. Pol favol, escrebi una nueva consínia aquí:',
 'resetpass_text'            => '<!-- Aquí s´escrebi el testu -->',
@@ -2068,7 +2068,13 @@ Cualisquiel otru atihu ena mesma línia se consierará ececión, p.s. páhinas o
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Anchón',
@@ -2083,7 +2089,6 @@ Cualisquiel otru atihu ena mesma línia se consierará ececión, p.s. páhinas o
 'exif-xresolution'                 => 'Resolución orizontal',
 'exif-yresolution'                 => 'Resolución vertical',
 'exif-jpeginterchangeformatlength' => 'Bytes de datus JPEG',
-'exif-transferfunction'            => 'Hunción de trasferencia',
 'exif-whitepoint'                  => 'Cromaciá e puntu brancu',
 'exif-primarychromaticities'       => 'Cromaciais primarias',
 'exif-imagedescription'            => 'Entítulu la imáhin',
@@ -2099,7 +2104,6 @@ Cualisquiel otru atihu ena mesma línia se consierará ececión, p.s. páhinas o
 'exif-compressedbitsperpixel'      => 'Mó de compresión la imahin',
 'exif-pixelydimension'             => 'Anchón la imahin premitiu',
 'exif-pixelxdimension'             => 'Artu la imahin premitiu',
-'exif-makernote'                   => 'Notas el fabricanti',
 'exif-usercomment'                 => 'Comentárius del usuáriu',
 'exif-relatedsoundfile'            => "Archivu d'audiu relacionau",
 'exif-datetimeoriginal'            => 'Fecha i ora la heneración los datus',
@@ -2118,7 +2122,6 @@ Cualisquiel otru atihu ena mesma línia se consierará ececión, p.s. páhinas o
 'exif-sensingmethod'               => 'Métu e sensol',
 'exif-filesource'                  => 'Coigu el archivu',
 'exif-scenetype'                   => "Crasi d'escena",
-'exif-cfapattern'                  => 'Patrón CFA',
 'exif-customrendered'              => "Procesamientu d'imahin presonalizau",
 'exif-exposuremode'                => "Mó d'esposición",
 'exif-whitebalance'                => 'Balanci e brancu',

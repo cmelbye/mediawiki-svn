@@ -549,16 +549,7 @@ $2',
 # E-mail sending
 'php-mail-error-unknown' => 'Невядомая памылка ў функцыі PHP-пошты',
 
-# JavaScript password checks
-'password-strength'            => 'Ацэнка сілы пароля: $1',
-'password-strength-bad'        => 'СЛАБА',
-'password-strength-mediocre'   => 'ледзьве-ледзьве',
-'password-strength-acceptable' => 'нядрэнна',
-'password-strength-good'       => 'добра',
-'password-retype'              => 'Тут трэба паўтарыць пароль',
-'password-retype-mismatch'     => 'Неаднолькавыя паролі',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Змяніць пароль',
 'resetpass_announce'        => 'Вы ўвайшлі ў сістэму пад тымчасовым паролем, прысланым эл.поштай. Каб правільна аформіць уваход, належыць вызначыць новы пароль вось тут:',
 'resetpass_header'          => 'Змяніць пароль рахунку',
@@ -896,18 +887,6 @@ $2',
 'suppressionlogtext' => 'Ніжэй пералічаныя сціранні і блокі, якія датычаць зместу, скрытага ад адміністратараў.
 Бач актуальныя забароны і блокі ў [[Special:IPBlockList|спісе блокаў IP]].',
 
-# Revision move
-'revmove-legend'               => 'Устанавіць мэтавую старонку і рэзюмэ',
-'revisionmoveselectedversions' => 'Перамясціць выбраныя змены',
-'revmove-reasonfield'          => 'Прычына:',
-'revmove-titlefield'           => 'Мэтавая старонка:',
-'revmove-badparam-title'       => 'Дрэнныя параметры',
-'revmove-badparam'             => 'Параметры Вашага запыту недапушчальныя або недастатковыя.
-Вярнуцца на папярэднюю старонку і паспрабуйце зноў.',
-'revmove-norevisions-title'    => 'Недапушчальная мэтавая версія',
-'revmove-norevisions'          => 'Вы не пазначылі адну або некалькі мэтавых версій для выканання гэтай функцыі або пэўнай версіі не існуе.',
-'revmove-nullmove-title'       => 'Няправільная назва',
-
 # History merging
 'mergehistory'                     => "Аб'яднаць гісторыі старонак",
 'mergehistory-header'              => "Тут можна аб'ядноўваць версіі з гісторыі адной старонкі ў іншую, навейшую старонку.
@@ -1232,7 +1211,6 @@ $2',
 'right-reset-passwords'       => 'Скідаць паролі іншых удзельнікаў',
 'right-override-export-depth' => 'Экспартаваць старонкі, у тым ліку звязаныя, да глыбіні спасылак 5.',
 'right-sendemail'             => 'Адправіць па электроннай пошце іншым карыстальнікам',
-'right-revisionmove'          => 'Перамясціць версіі',
 
 # User rights log
 'rightslog'      => 'Журнал правоў удзельнікаў',
@@ -1275,7 +1253,6 @@ $2',
 'action-userrights'           => 'мяняць усе дазволы ўдзельніка',
 'action-userrights-interwiki' => 'мяняць дазволы ўдзельнікаў на іншых вікі',
 'action-siteadmin'            => 'зачыняць і адчыняць базу даных',
-'action-revisionmove'         => 'перамясціць версіі',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|мена|менаў}}',
@@ -2529,7 +2506,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Шырыня',
@@ -2541,13 +2524,11 @@ $1',
 'exif-ycbcrpositioning'            => 'Размяшчэнне Y і C',
 'exif-xresolution'                 => 'Гарызантальнае разрозненне',
 'exif-yresolution'                 => 'Вертыкальнае разрозненне',
-'exif-resolutionunit'              => 'Адзінка вымярэння разрозненняў X і Y',
 'exif-stripoffsets'                => 'Водступ палосаў выявы',
 'exif-rowsperstrip'                => 'Радкоў на паласу',
 'exif-stripbytecounts'             => 'Байтаў на сціснутую паласу',
 'exif-jpeginterchangeformat'       => 'Водступ пачатку даных JPEG (SOI)',
 'exif-jpeginterchangeformatlength' => 'байтаў даных JPEG',
-'exif-transferfunction'            => 'Функцыя пераносу',
 'exif-ycbcrcoefficients'           => 'Каэфіцыенты матрыцы пераўтварэння каляровай прасторы',
 'exif-referenceblackwhite'         => 'Пара апорных велічыняў, белая і чорная',
 'exif-datetime'                    => 'Дата і час змянення файла',
@@ -2564,7 +2545,6 @@ $1',
 'exif-compressedbitsperpixel'      => 'Лад сціскання выявы',
 'exif-pixelydimension'             => 'Дапушчальная шырыня выявы',
 'exif-pixelxdimension'             => 'Дапушчальная вышыня выявы',
-'exif-makernote'                   => 'Заўвагі вытворцы',
 'exif-usercomment'                 => 'Заўвагі карыстальніка',
 'exif-relatedsoundfile'            => 'Дачынены гукавы файл',
 'exif-datetimeoriginal'            => 'Дата і час стварэння дадзеных',
@@ -2578,7 +2558,6 @@ $1',
 'exif-exposureprogram'             => 'Лад вытрымкі',
 'exif-spectralsensitivity'         => 'Спектральная адчувальнасць',
 'exif-isospeedratings'             => 'Клас хуткасці ISO',
-'exif-oecf'                        => 'Множнік оптаэлектроннага ператварэння',
 'exif-shutterspeedvalue'           => 'Хуткасць форткі*',
 'exif-aperturevalue'               => 'Апертура',
 'exif-brightnessvalue'             => 'Яркасць',
@@ -2598,7 +2577,6 @@ $1',
 'exif-sensingmethod'               => 'Метад вымярэння',
 'exif-filesource'                  => 'Крыніца файла',
 'exif-scenetype'                   => 'Тып прадмета',
-'exif-cfapattern'                  => 'Масіў колеравых фільтраў (CFA pattern)',
 'exif-customrendered'              => 'Адмысловая апрацоўка выявы',
 'exif-exposuremode'                => 'Рэжым вытрымкі',
 'exif-whitebalance'                => 'Баланс белага',
@@ -3045,18 +3023,5 @@ MediaWiki распаўсюджваецца, спадзеючыся на прыд
 'htmlform-submit'              => 'Падаць',
 'htmlform-reset'               => 'Адкаціць змяненні',
 'htmlform-selectorother-other' => 'Рознае',
-
-# Special:DisableAccount
-'disableaccount'             => 'Забараніць працу ўдзельніка',
-'disableaccount-user'        => 'Імя:',
-'disableaccount-reason'      => 'Прычына:',
-'disableaccount-confirm'     => "Забарона працы ўдзельніка.
-Удзельнік не зможа ўваходзіць у сістэму, мяняць свой пароль ці атрымліваць паведамленні з пляцоўкі праз эл.пошту.
-Калі ўдзельнік зараз ужо працуе ў сістэме, то яго сеанс працы будзе неадкладна спынены.
-''Заўважце, што забарона працы ўдзельніка можа быць скасаваная толькі ўдзельнікам з паўнамоцтвамі сістэмнага адміністратара.''",
-'disableaccount-mustconfirm' => 'Належыць пацвердзіць забарону працы гэтага ўдзельніка.',
-'disableaccount-nosuchuser'  => 'Не ўдалося знайсці ўліковыя даныя ўдзельніка "$1".',
-'disableaccount-success'     => 'Праца ўдзельніка "$1" забаронена бестэрмінова.',
-'disableaccount-logentry'    => 'бестэрмінова забараніў працу ўдзельніка [[$1]]',
 
 );

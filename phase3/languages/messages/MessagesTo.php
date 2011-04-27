@@ -316,7 +316,7 @@ Kapau naʻe kole ia ʻe he tokotaha kehe, pea ʻosi hoʻo manatuʻi ʻo e leatap
 'accountcreatedtext'         => 'Kuo fakatupu ʻa e tohi kau-ki-ai maʻa $1.',
 'loginlanguagelabel'         => 'Lea: $1',
 
-# Password reset dialog
+# Change password dialog
 'oldpassword' => 'Ko e leatapu motuʻa:',
 'newpassword' => 'Ko e leatapu foʻou:',
 'retypenew'   => 'Toe ʻai leatapu foʻou:',
@@ -1070,11 +1070,9 @@ Pea hoko ai pē hoʻo lava tānaki ha ʻuhinga ʻi he fakanounou',
 # EXIF tags
 'exif-xresolution'                 => 'Auiiki fakalava',
 'exif-yresolution'                 => 'Auiiki tuʻutonu',
-'exif-resolutionunit'              => 'ʻUniti auiiki ʻo e X mo e Y',
 'exif-jpeginterchangeformatlength' => 'ʻŪ valu meʻaʻilo JPEG',
 'exif-make'                        => 'Ko e tokotaha faʻu ʻo e meʻafaitā',
 'exif-artist'                      => 'Tokotaha faitā',
-'exif-makernote'                   => 'Tohi nounou ʻo e tokotaha faʻu',
 'exif-usercomment'                 => 'Fakamatala ʻo e ʻetita',
 'exif-brightnessvalue'             => 'Ngingila',
 'exif-lightsource'                 => 'Malama',

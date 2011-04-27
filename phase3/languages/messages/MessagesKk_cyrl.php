@@ -353,7 +353,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Боттар', 'Боттар_тізімі' ),
 	'Popularpages'              => array( 'Ең_көп_қаралған_беттер', 'Әйгілі_беттер' ),
 	'Search'                    => array( 'Іздеу' ),
-	'Resetpass'                 => array( 'Құпия_сөзді_қайтару' ),
+	'ChangePassword'            => array( 'Құпия_сөзді_қайтару' ),
 	'Withoutinterwiki'          => array( 'Уики-аралықсыздар' ),
 	'MergeHistory'              => array( 'Тарих_біріктіру' ),
 	'Filepath'                  => array( 'Файл_мекені' ),
@@ -805,7 +805,7 @@ $2',
 Егер бұл тіркелгі қателікпен жасалса, осы хабарға елемеуіңіз мүмкін.',
 'loginlanguagelabel'         => 'Тіл: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'           => 'Тіркелгінің құпия сөзін өзгерту',
 'resetpass_announce'  => 'Хатпен жіберілген уақытша кодымен кіргенсіз.
 Кіруіңізді бітіру үшін, жаңа құпия сөзіңізді мында енгізуіңіз жөн:',
@@ -2465,7 +2465,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Ені',
@@ -2480,13 +2486,11 @@ $1',
 'exif-ycbcrpositioning'            => 'Y құрашы және C құрашы мекендеуі',
 'exif-xresolution'                 => 'Дерелей ажыратылымдығы',
 'exif-yresolution'                 => 'Тірелей ажыратылымдығы',
-'exif-resolutionunit'              => 'X және Y бойынша ажыратылымдық бірлігі',
 'exif-stripoffsets'                => 'Сурет дереректерінің жайғасуы',
 'exif-rowsperstrip'                => 'Белдік сайын жол саны',
 'exif-stripbytecounts'             => 'Қысымдалған белдік сайын байт саны',
 'exif-jpeginterchangeformat'       => 'JPEG SOI дегенге ығысуы',
 'exif-jpeginterchangeformatlength' => 'JPEG деректерінің байт саны',
-'exif-transferfunction'            => 'Тасымалдау жетесі',
 'exif-whitepoint'                  => 'Ақ нүкте түстілігі',
 'exif-primarychromaticities'       => 'Алғы шептегі түстіліктері',
 'exif-ycbcrcoefficients'           => 'Түс аясын тасымалдау матрицалық еселіктері',
@@ -2505,7 +2509,6 @@ $1',
 'exif-compressedbitsperpixel'      => 'Сурет қысымдау тәртібі',
 'exif-pixelydimension'             => 'Суреттің жарамды ені',
 'exif-pixelxdimension'             => 'Суреттің жарамды биіктігі',
-'exif-makernote'                   => 'Өндірушінің аңғартпалары',
 'exif-usercomment'                 => 'Қатысушының мәндемелері',
 'exif-relatedsoundfile'            => 'Қатысты дыбыс файлы',
 'exif-datetimeoriginal'            => 'Жасалған кезі',
@@ -2519,7 +2522,6 @@ $1',
 'exif-exposureprogram'             => 'Ұсталым бағдарламасы',
 'exif-spectralsensitivity'         => 'Спектр бойынша сезгіштігі',
 'exif-isospeedratings'             => 'ISO жылдамдық жарнақтауы (жарық сезгіштігі)',
-'exif-oecf'                        => 'Оптоелектронды түрлету ықпалы',
 'exif-shutterspeedvalue'           => 'Жапқыш жылдамдылығы',
 'exif-aperturevalue'               => 'Саңылаулық',
 'exif-brightnessvalue'             => 'Жарықтылық',
@@ -2532,7 +2534,6 @@ $1',
 'exif-focallength'                 => 'Шоғырлау алшақтығы',
 'exif-subjectarea'                 => 'Нысана ауқымы',
 'exif-flashenergy'                 => 'Жарқылдағыш қарқыны',
-'exif-spatialfrequencyresponse'    => 'Кеңістік-жиілік әсершілігі',
 'exif-focalplanexresolution'       => 'Х бойынша шоғырлау жайпақтықтың ажыратылымдығы',
 'exif-focalplaneyresolution'       => 'Y бойынша шоғырлау жайпақтықтың ажыратылымдығы',
 'exif-focalplaneresolutionunit'    => 'Шоғырлау жайпақтықтың ажыратылымдық өлшемі',
@@ -2541,7 +2542,6 @@ $1',
 'exif-sensingmethod'               => 'Сенсордің өлшеу әдісі',
 'exif-filesource'                  => 'Файл қайнары',
 'exif-scenetype'                   => 'Сахна түрі',
-'exif-cfapattern'                  => 'CFA сүзгі кейіпі',
 'exif-customrendered'              => 'Қосымша сурет өңдетуі',
 'exif-exposuremode'                => 'Ұсталым тәртібі',
 'exif-whitebalance'                => 'Ақ түсінің тендестігі',

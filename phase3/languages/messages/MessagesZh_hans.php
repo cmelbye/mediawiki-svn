@@ -177,7 +177,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( '机器人列表' ),
 	'Popularpages'              => array( '热点页面' ),
 	'Search'                    => array( '搜索' ),
-	'Resetpass'                 => array( '修改密码' ),
+	'ChangePassword'            => array( '修改密码' ),
 	'Withoutinterwiki'          => array( '无跨维基链接页面' ),
 	'MergeHistory'              => array( '合并历史' ),
 	'Filepath'                  => array( '文件路径' ),
@@ -697,16 +697,7 @@ $2',
 # E-mail sending
 'php-mail-error-unknown' => '在 PHP 的 mail() 函数中的未知错误',
 
-# JavaScript password checks
-'password-strength'            => '预估密码强度： $1',
-'password-strength-bad'        => '差',
-'password-strength-mediocre'   => '一般',
-'password-strength-acceptable' => '可接受',
-'password-strength-good'       => '好',
-'password-retype'              => '再次输入密码',
-'password-retype-mismatch'     => '密码不匹配',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => '更改密码',
 'resetpass_announce'        => '您是通过发送到电子邮箱的临时密码登录的。要完成登录，请设定一个新的密码：',
 'resetpass_text'            => '<!-- 在此处添加文本 -->',
@@ -1064,26 +1055,6 @@ $1",
 'suppressionlogtext' => '以下是删除以及由操作员牵涉到内容封锁的列表。
 参看[[Special:IPBlockList|IP封锁名单]]去参看现时进行中的禁止以及封锁之名单。',
 
-# Revision move
-'moverevlogentry'              => '移动了$1的{{PLURAL:$3|一次修订版本|$3次修订版本}}至$2',
-'revisionmove'                 => '由 "$1" 移动修订版本',
-'revmove-explain'              => '以下的修订版本将会由$1移动至所指定的目标页面。如果目标不存在的话，它就将会建立。否则，这些的修订版本就将会合并到页面历史中。',
-'revmove-legend'               => '设置目标页面以及摘要',
-'revmove-submit'               => '移动修订版本到所选定的页面上',
-'revisionmoveselectedversions' => '移动已选取的修订版本',
-'revmove-reasonfield'          => '理由：',
-'revmove-titlefield'           => '目标页面：',
-'revmove-badparam-title'       => '坏的参数',
-'revmove-badparam'             => '您的请求含有不合法的者不足的参数。
-请返回先前的页面再试。',
-'revmove-norevisions-title'    => '无效的目标修订版本',
-'revmove-norevisions'          => '您尚未指定一个或者多个目标修订版本去做这项功能或者所指定的修订版本不存在。',
-'revmove-nullmove-title'       => '坏的标题',
-'revmove-nullmove'             => '目标页面不可以跟来源页面相同。
-请返回先前的页面再输入跟 "$1" 不相同的名字。',
-'revmove-success-existing'     => '由[[$2]]中的{{PLURAL:$1|一次修订版本|$1次修订版本}}已经移动至现有的页面[[$3]]。',
-'revmove-success-created'      => '由[[$2]]中的{{PLURAL:$1|一次修订版本|$1次修订版本}}已经移动至新建的页面[[$3]]。',
-
 # History merging
 'mergehistory'                     => '合并页面历史',
 'mergehistory-header'              => '这一页可以让您将来源页面的修订历史合并到新页面中去。
@@ -1418,8 +1389,6 @@ $1",
 'right-reset-passwords'       => '重设其他用户的密码',
 'right-override-export-depth' => '导出含有五层深度链接页面之页面',
 'right-sendemail'             => '发电子邮件给其他用户',
-'right-revisionmove'          => '移动修订版本',
-'right-disableaccount'        => '禁用账户',
 
 # User rights log
 'rightslog'      => '用户权限日志',
@@ -1462,7 +1431,6 @@ $1",
 'action-userrights'           => '编辑所有的权限',
 'action-userrights-interwiki' => '编辑在其它wiki上用户的权限',
 'action-siteadmin'            => '锁定和解除锁定数据库',
-'action-revisionmove'         => '移动修订',
 
 # Recent changes
 'nchanges'                          => '$1次更改',
@@ -1655,16 +1623,17 @@ $1',
 'uploadstash-refresh'  => '更新文件清单',
 
 # img_auth script messages
-'img-auth-accessdenied' => '拒绝访问',
-'img-auth-nopathinfo'   => 'PATH_INFO遗失。您的服务器尚未设置传送该信息。它可能是基于CGI的，因而不支持img_auth。参见http://www.mediawiki.org/wiki/Manual:Image_Authorization<nowiki></nowiki>。',
-'img-auth-notindir'     => '在已设置的上传目录中找不到请求的路径。',
-'img-auth-badtitle'     => '无法为“$1”创建合法的标题。',
-'img-auth-nologinnWL'   => '您尚未登录，且“$1”不在白名单上。',
-'img-auth-nofile'       => '文件“$1”不存在。',
-'img-auth-isdir'        => '您正试图访问目录“$1”。您只能访问文件。',
-'img-auth-streaming'    => '流式化“$1”中。',
-'img-auth-public'       => 'img_auth.php的功能是从私有wiki输出文件。但本wiki已被设置为公共wiki。出于安全考虑，img_auth.php已被停用。',
-'img-auth-noread'       => '用户无权读取“$1”。',
+'img-auth-accessdenied'     => '拒绝访问',
+'img-auth-nopathinfo'       => 'PATH_INFO遗失。您的服务器尚未设置传送该信息。它可能是基于CGI的，因而不支持img_auth。参见http://www.mediawiki.org/wiki/Manual:Image_Authorization<nowiki></nowiki>。',
+'img-auth-notindir'         => '在已设置的上传目录中找不到请求的路径。',
+'img-auth-badtitle'         => '无法为“$1”创建合法的标题。',
+'img-auth-nologinnWL'       => '您尚未登录，且“$1”不在白名单上。',
+'img-auth-nofile'           => '文件“$1”不存在。',
+'img-auth-isdir'            => '您正试图访问目录“$1”。您只能访问文件。',
+'img-auth-streaming'        => '流式化“$1”中。',
+'img-auth-public'           => 'img_auth.php的功能是从私有wiki输出文件。但本wiki已被设置为公共wiki。出于安全考虑，img_auth.php已被停用。',
+'img-auth-noread'           => '用户无权读取“$1”。',
+'img-auth-bad-query-string' => 'URL 有一个无效的查询字符串。',
 
 # HTTP errors
 'http-invalid-url'      => '无效URL：$1',
@@ -2029,6 +1998,10 @@ Template:消除歧義',
 'noemailtext'          => '该用户还没有指定一个有效的电子邮件地址。',
 'nowikiemailtitle'     => '不容许电子邮件',
 'nowikiemailtext'      => '这位用户选择不接收其他用户的电子邮件。',
+'emailnotarget'        => '收件人不存在或无效的用户名。',
+'emailtarget'          => '输入收件人的用户名',
+'emailusername'        => '用户名：',
+'emailusernamesubmit'  => '提交',
 'email-legend'         => '发一封电子邮件至另一位{{SITENAME}}用户',
 'emailfrom'            => '发件人：',
 'emailto'              => '收件人：',
@@ -2902,7 +2875,13 @@ Variants for Chinese language
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => '宽度',
@@ -2917,13 +2896,11 @@ Variants for Chinese language
 'exif-ycbcrpositioning'            => '黄色和洋红配置',
 'exif-xresolution'                 => '水平分辨率',
 'exif-yresolution'                 => '垂直分辨率',
-'exif-resolutionunit'              => 'X和Y轴分辨率单位',
 'exif-stripoffsets'                => '图像数据区',
 'exif-rowsperstrip'                => '每带行数',
 'exif-stripbytecounts'             => '每压缩带字节数',
 'exif-jpeginterchangeformat'       => 'JPEG SOI偏移',
 'exif-jpeginterchangeformatlength' => 'JPEG数据字节',
-'exif-transferfunction'            => '转移功能',
 'exif-whitepoint'                  => '白点色度',
 'exif-primarychromaticities'       => '主要色度',
 'exif-ycbcrcoefficients'           => '颜色空间转换矩阵系数',
@@ -2942,7 +2919,6 @@ Variants for Chinese language
 'exif-compressedbitsperpixel'      => '图像压缩模式',
 'exif-pixelydimension'             => '有效图像宽度',
 'exif-pixelxdimension'             => '有效图像高度',
-'exif-makernote'                   => '制造商注释',
 'exif-usercomment'                 => '用户注释',
 'exif-relatedsoundfile'            => '相关的音频文件',
 'exif-datetimeoriginal'            => '数据产生时间',
@@ -2956,7 +2932,6 @@ Variants for Chinese language
 'exif-exposureprogram'             => '曝光模式',
 'exif-spectralsensitivity'         => '感光',
 'exif-isospeedratings'             => 'ISO速率',
-'exif-oecf'                        => '光电转换因子',
 'exif-shutterspeedvalue'           => '快门速度',
 'exif-aperturevalue'               => '光圈',
 'exif-brightnessvalue'             => '亮度',
@@ -2969,7 +2944,6 @@ Variants for Chinese language
 'exif-focallength'                 => '焦距',
 'exif-subjectarea'                 => '主体区域',
 'exif-flashenergy'                 => '闪光灯强度',
-'exif-spatialfrequencyresponse'    => '空间频率响应',
 'exif-focalplanexresolution'       => 'X轴焦平面分辨率',
 'exif-focalplaneyresolution'       => 'Y轴焦平面分辨率',
 'exif-focalplaneresolutionunit'    => '焦平面分辨率单位',
@@ -2978,7 +2952,6 @@ Variants for Chinese language
 'exif-sensingmethod'               => '感光模式',
 'exif-filesource'                  => '文件源',
 'exif-scenetype'                   => '场景类型',
-'exif-cfapattern'                  => 'CFA模式',
 'exif-customrendered'              => '自定义图像处理',
 'exif-exposuremode'                => '曝光模式',
 'exif-whitebalance'                => '白平衡',
@@ -3165,6 +3138,11 @@ Variants for Chinese language
 'exif-gpsspeed-m' => '英里每小时',
 'exif-gpsspeed-n' => '海里每小时（节）',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => '公里',
+'exif-gpsdestdistance-m' => '英里',
+'exif-gpsdestdistance-n' => '海里',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => '真方位',
 'exif-gpsdirection-m' => '地磁方位',
@@ -3255,11 +3233,12 @@ $1',
 'trackbackdeleteok' => '该引用已被成功删除。',
 
 # Delete conflict
-'deletedwhileediting' => "'''警告'''：此页在您开始编辑之后已经被删除！",
-'confirmrecreate'     => "在您开始编辑这个页面后，用户[[User:$1|$1]] （[[User talk:$1|讨论]]）以下列原因删除了这个页面：
+'deletedwhileediting'      => "'''警告'''：此页在您开始编辑之后已经被删除！",
+'confirmrecreate'          => "在您开始编辑这个页面后，用户[[User:$1|$1]] （[[User talk:$1|讨论]]）以下列原因删除了这个页面：
 : ''$2''
 请确认在您重新创建页面前三思。",
-'recreate'            => '重建',
+'confirmrecreate-noreason' => '用户 [[User:$1|$1]]（[[User talk:$1|talk]]） 在您开始编辑之后删除此页面。请确认您确实要重新创建此页面。',
+'recreate'                 => '重建',
 
 # action=purge
 'confirm_purge_button' => '确定',
@@ -3467,17 +3446,5 @@ MediaWiki是基于使用目的而加以发布，然而不负任何担保责任�
 # SQLite database support
 'sqlite-has-fts' => '带全文搜索的版本$1',
 'sqlite-no-fts'  => '不带全文搜索的版本$1',
-
-# Special:DisableAccount
-'disableaccount'             => '禁用用户账户',
-'disableaccount-user'        => '用户名：',
-'disableaccount-reason'      => '理由：',
-'disableaccount-confirm'     => "禁用此用户账户。
-该用户将无法登录、重置其密码或收到电子邮件通知。如果用户当前仍保持登录，其账户将被强制退出。
-''留意若无系统管理员的干预，被禁用的账户不可重新启用。''",
-'disableaccount-mustconfirm' => '请确认您的确要禁用此账户。',
-'disableaccount-nosuchuser'  => '用户账户“$1”不存在。',
-'disableaccount-success'     => '用户账户“$1”已被永久禁用。',
-'disableaccount-logentry'    => '永久禁用用户账户[[$1]]',
 
 );

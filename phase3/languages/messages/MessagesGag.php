@@ -362,7 +362,7 @@ O zamana kadar ani e-maildaki instrukțiyalar yapılmaycêk hem doorulanmaycêk 
 'createaccount-title'        => '{{SITENAME}} için esap açılışı',
 'loginlanguagelabel'         => 'Dil: $1',
 
-# Password reset dialog
+# Change password dialog
 'retypenew'           => 'Eni parolu tekrar girin',
 'resetpass_forbidden' => 'Saytında parol yok nicä diiştirilsin',
 
@@ -1004,7 +1004,13 @@ Herliim fayl diiştirildi yaratılıştan sora, bir takım parametrlär var nic�
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'Kompyuterinizdäki uygulamaklarlan faylı düz',

@@ -38,7 +38,9 @@ class ForeignAPIFile extends File {
 		$data = $repo->fetchImageQuery( array(
                         'titles' => 'File:' . $title->getDBKey(),
                         'iiprop' => self::getProps(),
-                        'prop' => 'imageinfo' ) );
+                        'prop' => 'imageinfo',
+			'iimetadataversion' => mediaHandler::getMetadataVersion()
+			 ) );
 
 		$info = $repo->getImageInfo( $data );
 
@@ -194,7 +196,7 @@ class ForeignAPIFile extends File {
 			$handle = opendir( $dir );
 			if ( $handle ) {
 				while ( false !== ( $file = readdir($handle) ) ) {
-					if ( $file{0} != '.'  ) {
+					if ( $file[0] != '.'  ) {
 						$files[] = $file;
 					}
 				}

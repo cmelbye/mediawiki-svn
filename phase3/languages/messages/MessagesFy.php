@@ -593,7 +593,7 @@ Negearje it berjocht as dizze brûker sûnder jo meiwitten oanmakke is.',
 Jo moatte efkes wachtsje foar't jo it op'e nij besykje kinne.",
 'loginlanguagelabel'         => 'Taal: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Wachtwurd feroarje',
 'resetpass_announce'        => "Jo binne oanmeld mei in tydlike koade dy't jo per e-mail tastjoerd is. Fier in nij wachtwurd yn om it oanmelden ôf te meitsjen.",
 'resetpass_header'          => 'Wachtwurd feroarje',
@@ -2228,7 +2228,13 @@ Alle folgjende links dy't op deselde rigel steane, wurde behannele as útsûnder
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-samplesperpixel'        => 'Oantal komponinten',
@@ -2239,7 +2245,6 @@ Alle folgjende links dy't op deselde rigel steane, wurde behannele as útsûnder
 'exif-artist'                 => 'Auteur',
 'exif-colorspace'             => 'Kleurromte',
 'exif-compressedbitsperpixel' => 'Ofbylding kompresjemetoade',
-'exif-makernote'              => 'Opmerkings fan makker',
 'exif-usercomment'            => 'Opmerkings',
 'exif-relatedsoundfile'       => 'Besibbe audiotriem',
 'exif-exposuretime-format'    => '$1 sek ($2)',

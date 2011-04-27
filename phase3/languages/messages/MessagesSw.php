@@ -615,16 +615,7 @@ Tafadhali subiri kwanza kabla ya kujaribu tena.',
 'loginlanguagelabel'         => 'Lugha: $1',
 'suspicious-userlogout'      => 'Ombi lako la kutoka kwenye akaunti yako limehiniwa, kwa sababu inaonekana kwamba ombi lilitumwa na kivinjari kilichoharibika au seva ya kuwakilisha yenye kache.',
 
-# JavaScript password checks
-'password-strength'            => 'Nguvu ya neno la siri: $1',
-'password-strength-bad'        => 'MBAYA',
-'password-strength-mediocre'   => 'hafifu',
-'password-strength-acceptable' => 'inakubalika',
-'password-strength-good'       => 'nzuri',
-'password-retype'              => 'Andika tena neno la siri',
-'password-retype-mismatch'     => 'Maneno ya siri ni tofauti',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Kubadilisha neno la siri',
 'resetpass_announce'        => 'Umeingia na kodi za barua pepe za muda tu.
 Kumalizia kuingia ndani, ni lazima urekebishe neno la siri jipya hapa:',
@@ -968,19 +959,6 @@ Haliwezi kufichwa.',
 'suppressionlogtext' => 'Hapo chini panaonyeshwa orodha ya matukio ya ufutaji na ya uzuio ambayo maelezo yao yamefichwa kutoka kwa wakabidhi.
 Tazama [[Special:IPBlockList|orodha ya uzuio wa IP]] kuona orodha ya zuio zilizopo sasa hivi.',
 
-# Revision move
-'moverevlogentry'              => 'alihamisha {{PLURAL:$3|pitio moja|mapitio $3}} kutoka $1 kwenda $2',
-'revisionmove'                 => 'Hamisha mapitio kutoka "$1"',
-'revmove-legend'               => 'Weka ukurasa unaolengwa pamoja na muhtasari',
-'revmove-submit'               => 'Hamisha mapitio kwenda ukurasa uliochaguliwa',
-'revisionmoveselectedversions' => 'Hamisha mapitio yaliyochaguliwa',
-'revmove-reasonfield'          => 'Sababu:',
-'revmove-titlefield'           => 'Ukurasa unaolengwa',
-'revmove-norevisions-title'    => 'Pitio lililolengwa ni batili',
-'revmove-nullmove-title'       => 'Jina halifai',
-'revmove-success-existing'     => '{{PLURAL:$1|Pitio moja kutoka [[$2]] limehamishwa|mapitio $1 kutoka kwa [[$2]] yamehamishwa}} kwenda ukurasa uliopo tayari unaoitwa [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Pitio moja kutoka [[$2]] limehamishwa|mapitio $1 kutoka [[$2]] yamehamishwa}} kwenda ukurasa mpya unaoitwa [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Unganisha historia za kurasa',
 'mergehistory-box'                 => 'Unganisha mapitio ya kurasa mbili:',
@@ -1293,7 +1271,6 @@ Pia unaweza kuchagua kuwawezesha watumiaji wengine wawasiliane nawe kwa kupitia 
 'right-userrights-interwiki' => 'Kuhariri wezo za watumiaji kwenye wiki zingine',
 'right-siteadmin'            => 'Kufunga na kufungua hifadhidata',
 'right-sendemail'            => 'Kutuma barua-pepe kwa watumiaji wengine',
-'right-revisionmove'         => 'Kuhamisha mapitio',
 
 # User rights log
 'rightslog'      => 'Kumbukumbu za vyeo vya watumiaji',
@@ -1330,7 +1307,6 @@ Pia unaweza kuchagua kuwawezesha watumiaji wengine wawasiliane nawe kwa kupitia 
 'action-userrights'           => 'kubadilisha wezo zote za watumiaji',
 'action-userrights-interwiki' => 'kuhariri wezo za watumiaji kwenye wiki zingine',
 'action-siteadmin'            => 'kufunga na kufungua hifadhidata',
-'action-revisionmove'         => 'kuhamisha mapitio',
 
 # Recent changes
 'nchanges'                          => '{{PLURAL:$1|badiliko|mabadiliko}} $1',
@@ -1876,6 +1852,10 @@ Anwani yako ya barua pepe ulioitaja katika [[Special:Preferences|mapendekezo yak
 'noemailtext'          => 'Mtumiaji huyu hajataja anwani sahihi ya barua pepe.',
 'nowikiemailtitle'     => 'Barua pepe haziruhusiwi',
 'nowikiemailtext'      => 'Mtumiaji huyu hajakubali kupokea barua pepe kutoka kwa watumiaji wengine.',
+'emailnotarget'        => 'Jina la mpokeaji uliloweka halipatikani',
+'emailtarget'          => 'Andika jina la mtumiaji la mpokeaji',
+'emailusername'        => 'Jina la mtumiaji:',
+'emailusernamesubmit'  => 'Wasilisha',
 'email-legend'         => 'Tuma barua pepe kwa mtumiaji mwingine wa {{SITENAME}}',
 'emailfrom'            => 'Kutoka kwa:',
 'emailto'              => 'Kwa:',
@@ -2519,7 +2499,13 @@ likifupishwa. Nyuga zingine zitafichwa kama chaguo-msingi.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Upana',
@@ -2534,7 +2520,6 @@ likifupishwa. Nyuga zingine zitafichwa kama chaguo-msingi.
 'exif-copyright'                   => 'Mwenye hatimiliki',
 'exif-exifversion'                 => 'Mtindo wa Exif',
 'exif-componentsconfiguration'     => 'Maana ya kila kijenzi',
-'exif-makernote'                   => 'Maelezo ya mtengenezaji',
 'exif-usercomment'                 => 'Maoni ya mtumiaji',
 'exif-relatedsoundfile'            => 'Faili la sauti linalohusika',
 'exif-lightsource'                 => 'Mwanga',
@@ -2702,11 +2687,12 @@ Ishara hizi za uthibitisho zitaishia mnamo $4.',
 'scarytranscludetoolong' => '[URL ni ndefu mno]',
 
 # Delete conflict
-'deletedwhileediting' => "'''Ilani''': Ukurasa huu ulifutwa ulipokwisha kuanza huuhariri!",
-'confirmrecreate'     => "Mtumiaji [[User:$1|$1]] ([[User talk:$1|majadiliano]]) aliufuta ukurasa huu wakati umeshaanza kuuhariri, akaandika sababu hii ya kufuta:
+'deletedwhileediting'      => "'''Ilani''': Ukurasa huu ulifutwa ulipokwisha kuanza huuhariri!",
+'confirmrecreate'          => "Mtumiaji [[User:$1|$1]] ([[User talk:$1|majadiliano]]) aliufuta ukurasa huu wakati umeshaanza kuuhariri, akaandika sababu hii ya kufuta:
 : ''$2''
 Tafadhali uthibitishe kwamba kweli unataka kuanzisha ukurasa huu upya.",
-'recreate'            => 'Anzisha upya',
+'confirmrecreate-noreason' => 'Mtumiaji [[User:$1|$1]] ([[User talk:$1|majadiliano]]) aliufuta ukurasa huu wakati umeshaanza kuuhariri. Tafadhali uthibitishe kwamba kweli unataka kuanzisha ukurasa huu upya.',
+'recreate'                 => 'Anzisha upya',
 
 # action=purge
 'confirm_purge_button' => 'Sawa',
@@ -2872,9 +2858,5 @@ Tovuti hii inapata matatatizo wakati huu.',
 'htmlform-submit'              => 'Wasilisha',
 'htmlform-reset'               => 'Tengua mabadiliko',
 'htmlform-selectorother-other' => 'Nyingine',
-
-# Special:DisableAccount
-'disableaccount-user'   => 'Jina la mtumiaji:',
-'disableaccount-reason' => 'Sababu:',
 
 );

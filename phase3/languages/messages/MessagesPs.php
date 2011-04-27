@@ -86,7 +86,7 @@ $specialPageAliases = array(
 	'Mycontributions'           => array( 'زماونډې' ),
 	'Popularpages'              => array( 'نامتومخونه' ),
 	'Search'                    => array( 'پلټنه' ),
-	'Resetpass'                 => array( 'پټنوم_بدلول،_پټنوم_بيا_پر_ځای_کول،_د_بيا_پر_ځای_کولو_پاسپورټ' ),
+	'ChangePassword'            => array( 'پټنوم_بدلول،_پټنوم_بيا_پر_ځای_کول،_د_بيا_پر_ځای_کولو_پاسپورټ' ),
 	'Blankpage'                 => array( 'تش_مخ' ),
 	'LinkSearch'                => array( 'د_تړنې_پلټنه' ),
 	'DeletedContributions'      => array( 'ړنګې_شوي_ونډې' ),
@@ -610,16 +610,7 @@ $1',
 'usernamehasherror'          => 'کارن-نوم نشي کېدلای چې کرښکې لوښې ولري',
 'loginlanguagelabel'         => 'ژبه: $1',
 
-# JavaScript password checks
-'password-strength'            => 'د پټنوم اټکليز سېک: $1',
-'password-strength-bad'        => 'بد',
-'password-strength-mediocre'   => 'منځګوړی',
-'password-strength-acceptable' => 'د منلو وړ',
-'password-strength-good'       => 'ښه',
-'password-retype'              => 'پټنوم بيا وليکه',
-'password-retype-mismatch'     => 'پټنوم مو کټ مټ د يو بل سره سمون نه خوري',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'پټنوم بدلول',
 'resetpass_header'          => 'د ګڼون پټنوم بدلول',
 'oldpassword'               => 'زوړ پټنوم:',
@@ -849,14 +840,6 @@ $1',
 'revdelete-reasonotherlist'  => 'بل سبب',
 'revdelete-edit-reasonlist'  => 'د ړنګولو سببونه سمول',
 'revdelete-offender'         => 'د مخکتنې ليکوال:',
-
-# Revision move
-'revmove-submit'               => 'بڼې ټاکلي مخ ته لېږدول',
-'revisionmoveselectedversions' => 'ټاکلې بڼې لېږدول',
-'revmove-reasonfield'          => 'سبب:',
-'revmove-titlefield'           => 'د موخې مخ:',
-'revmove-badparam-title'       => 'بد پاراميترونه',
-'revmove-nullmove-title'       => 'بد سرليک',
 
 # History merging
 'mergehistory'                     => 'د مخ پېښليکونه سره يوځای کول',
@@ -1105,7 +1088,6 @@ $1',
 'right-userrights-interwiki' => 'په نورو ويکي ګانو د نورو کارنانو  کارن-رښتې سمول',
 'right-reset-passwords'      => 'د نورو کارنانو پټتوري بياامستل',
 'right-sendemail'            => 'نورو کارنانو ته برېښليک لېږل',
-'right-disableaccount'       => 'ګڼونونه ناچارنول',
 
 # User rights log
 'rightslog'     => 'د کارن د رښتو يادښت',
@@ -2039,7 +2021,13 @@ $UNWATCHURL  نه ليدنه وکړۍ
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'         => 'سوروالی',
@@ -2308,18 +2296,5 @@ $5
 'htmlform-submit'              => 'سپارل',
 'htmlform-reset'               => 'بدلونونه ناکړل',
 'htmlform-selectorother-other' => 'بل',
-
-# Special:DisableAccount
-'disableaccount'             => 'د يو کارن ګڼون ناچارنول',
-'disableaccount-user'        => 'کارن-نوم:',
-'disableaccount-reason'      => 'سبب:',
-'disableaccount-confirm'     => "د کارن دا ګڼون ناچارنول.
-د دې ګڼون کارن به و نه توانېږي چې غونډال کې ننوځي، خپل پټنوم پرځاي کړي، او يا د خبراوي برېښليک ترلاسه کړي.
-که دم مهال د دې ګڼون کارن له هر ځای نه پرليکه وي، هغه به سمدلاسه د غونډال نه ووځي.
-''دا مه هېروۍ چې د يوه ګڼون ناچارنولو چاره بېرته پرشا نه ګرځي تر هاغه پورې چې د غونډال د پازوال منځګړتوب پکې نه وي.''",
-'disableaccount-mustconfirm' => 'تاسې بايد د دې چارې پخلی وکړی چې تاسې همدا ګڼون ناچارنول غواړۍ.',
-'disableaccount-nosuchuser'  => 'د "$1" کارن ګڼون نشته.',
-'disableaccount-success'     => 'د "$1" کارن ګڼون د تل لپاره ناچارن شو.',
-'disableaccount-logentry'    => 'د تل لپاره د [[$1]] د کارن ګڼون ناچارنول',
 
 );

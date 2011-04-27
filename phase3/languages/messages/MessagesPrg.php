@@ -476,7 +476,7 @@ Tu mazzi ignōritun šin waīstin, ik rekkens pastāi teīktan blāndas paggan.'
 Gēideis biskin, pirzdau tu wīrst bandāwuns etkūmps.',
 'loginlanguagelabel'         => 'Bilā: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Kitawīdinais kliptaswīrdan',
 'resetpass_announce'        => 'Tū assei engūbuns(si) sen kīsmingiskan kliptaswīrdan gaūtan pra e-mail. Kāi wangīnlai enēisenes prōcesan, ensadinnais nāunan kliptaswīrdan stwi:',
 'resetpass_header'          => 'Kitawīdinais kliptaswīrdan per swajjan rekkenan',
@@ -2318,7 +2318,13 @@ Kitāi wīrst būwusis kliptan auprestaminai.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Plattu',
@@ -2332,13 +2338,11 @@ Kitāi wīrst būwusis kliptan auprestaminai.
 'exif-ycbcrpositioning'            => 'Y be C poziciōni',
 'exif-xresolution'                 => 'Uricōntala rezoluciōni',
 'exif-yresolution'                 => 'Wertikāla rezoluciōni',
-'exif-resolutionunit'              => 'X be Y rezōluciōnis aīnibi',
 'exif-stripoffsets'                => 'Bildis dātas deīktan',
 'exif-rowsperstrip'                => 'Rīndas gīrbis per bildes sawīnzlin',
 'exif-stripbytecounts'             => 'Bāitas gīrbis per bildis sawīnzlin',
 'exif-jpeginterchangeformat'       => 'Pirmas JPEG SOI bāitas poziciōni',
 'exif-jpeginterchangeformatlength' => 'JPEG dātas bāitan gīrbis',
-'exif-transferfunction'            => 'Prawesnas funkciōni',
 'exif-whitepoint'                  => 'Gaīliskwas punkts',
 'exif-primarychromaticities'       => 'Trīs galwas bārwis',
 'exif-ycbcrcoefficients'           => 'Bārwin plattibis iz RGB en YCbCr prawartīnsenes matrica',
@@ -2357,7 +2361,6 @@ Kitāi wīrst būwusis kliptan auprestaminai.
 'exif-compressedbitsperpixel'      => 'Bildes kōmpresiōnis wīds',
 'exif-pixelydimension'             => 'Tikrōmiskan bildes plattu',
 'exif-pixelxdimension'             => 'Tikrōmiskan bildes aūktan',
-'exif-makernote'                   => 'Tikīntajas endirīsenei',
 'exif-usercomment'                 => 'Tērpautajas kumentārai',
 'exif-relatedsoundfile'            => 'Sēitan audiō zūrbrukis',
 'exif-datetimeoriginal'            => 'Ōriginālas teīksnas dātan be kerdā',
@@ -2379,7 +2382,6 @@ Kitāi wīrst būwusis kliptan auprestaminai.
 'exif-focallength'                 => 'Pellanas etālisku',
 'exif-subjectarea'                 => 'Ōbjaktas areālin',
 'exif-flashenergy'                 => 'Blicces energīja',
-'exif-spatialfrequencyresponse'    => 'Plattibiskas deznes etrāsenis',
 'exif-focalplanexresolution'       => 'Pellanas plassas X rezōluciōni',
 'exif-focalplaneyresolution'       => 'Pellanas plassas Y rezōluciōni',
 'exif-focalplaneresolutionunit'    => 'Pellanas plassas rezōluciōnis aīnibi',
@@ -2387,7 +2389,6 @@ Kitāi wīrst būwusis kliptan auprestaminai.
 'exif-sensingmethod'               => 'Mattausnas metōdi',
 'exif-filesource'                  => 'Zūrbrukes aps',
 'exif-scenetype'                   => 'Widāklis tīps',
-'exif-cfapattern'                  => 'CFA šablōni',
 'exif-whitebalance'                => 'Gaīliskwas balanss',
 'exif-digitalzoomratio'            => 'Digitālas mūisesinsenes kōeficiēnts',
 'exif-focallengthin35mmfilm'       => 'Pellanas etālisku per 35 mm filman',

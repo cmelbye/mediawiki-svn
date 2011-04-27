@@ -123,7 +123,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'LisWobo' ),
 	'Popularpages'              => array( 'PajPopilè' ),
 	'Search'                    => array( 'Chache', 'Fouye' ),
-	'Resetpass'                 => array( 'ChanjeMopas', 'ResètMopas' ),
+	'ChangePassword'            => array( 'ChanjeMopas', 'ResètMopas' ),
 	'Withoutinterwiki'          => array( 'SanEntèwiki' ),
 	'MergeHistory'              => array( 'FizyoneIstwa' ),
 	'Filepath'                  => array( 'ChemenFichye' ),
@@ -621,16 +621,7 @@ Pa pòte atansyon pou mesaj sa si kont sa kreye pa erè.',
 # E-mail sending
 'php-mail-error-unknown' => 'Erè nou pa konnen nan fonksyon mail() PHP a.',
 
-# JavaScript password checks
-'password-strength'            => 'Fòs mopas la: $1',
-'password-strength-bad'        => 'MOVE',
-'password-strength-mediocre'   => 'pa bon menm',
-'password-strength-acceptable' => 'akseptab',
-'password-strength-good'       => 'bon',
-'password-retype'              => 'Mete mopas ou an ankò :',
-'password-retype-mismatch'     => 'Mopas yo pa koresponn',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Chanje mopas ou an',
 'resetpass_announce'        => 'Ou konekte ou ak yon mopas ki valab yon moman; mopas sa te voye pa imèl. Pou ou kapab fini anrejistreman an, ou dwe mete yon nouvo mopas la :',
 'resetpass_header'          => 'Chanje mopas kont ou an',
@@ -1402,7 +1393,13 @@ Nenpòt lòt lyen nan menm liy nan konsidere kòm yon eksèpsyon, i.e. paj kote 
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'Modifye fichye sa a nan aplikasyon pa ou (ki pa nan sistèm an, sou machin ou pa egzanp).',

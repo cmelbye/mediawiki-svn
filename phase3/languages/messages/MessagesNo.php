@@ -163,7 +163,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Robotliste', 'Liste_over_roboter' ),
 	'Popularpages'              => array( 'Populære_sider' ),
 	'Search'                    => array( 'Søk' ),
-	'Resetpass'                 => array( 'Endre_passord', 'TIlbakestill_passord' ),
+	'ChangePassword'            => array( 'Endre_passord', 'TIlbakestill_passord' ),
 	'Withoutinterwiki'          => array( 'Uten_interwiki' ),
 	'MergeHistory'              => array( 'Flett_historikk' ),
 	'Filepath'                  => array( 'Filsti' ),
@@ -715,16 +715,7 @@ Du kan ignorere denne beskjeden dersom kontoen ble opprettet ved en feil.',
 # E-mail sending
 'php-mail-error-unknown' => 'Ukjent feil i PHPs mail()-funksjon',
 
-# JavaScript password checks
-'password-strength'            => 'Passordstyrke: $1',
-'password-strength-bad'        => 'DÅRLIG',
-'password-strength-mediocre'   => 'middels',
-'password-strength-acceptable' => 'akseptabel',
-'password-strength-good'       => 'god',
-'password-retype'              => 'Gjenta passord',
-'password-retype-mismatch'     => 'Passordene er ikke like',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Endre passord',
 'resetpass_announce'        => 'Du logget inn med en midlertidig e-postkode. For å fullføre innloggingen må du oppgi et nytt passord her:',
 'resetpass_text'            => '<!-- Legg til tekst her -->',
@@ -741,6 +732,10 @@ Du kan ignorere denne beskjeden dersom kontoen ble opprettet ved en feil.',
 'resetpass-wrong-oldpass'   => 'Feil midlertidig eller nåværende passord.
 Du kan ha allerede byttet passordet, eller bedt om et nytt midlertidig passord.',
 'resetpass-temp-password'   => 'Midlertidig passord:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Passordresetting',
+'passwordreset-username' => 'Brukernavn:',
 
 # Edit page toolbar
 'bold_sample'     => 'Fet tekst',
@@ -1099,24 +1094,6 @@ Vennligst sjekk loggen.',
 'suppressionlogtext' => 'Nedenfor er en liste over sider og blokkeringer med innhold skjult fra administratorer.
 Se [[Special:IPBlockList|blokkeringslisten]] for oversikten over nåværende blokkeringer.',
 
-# Revision move
-'moverevlogentry'              => 'flyttet {{PLURAL:$3|én revisjon|$3 revisjoner}} fra $1 til $2',
-'revisionmove'                 => 'Flytt revisjoner fra «$1»',
-'revmove-explain'              => 'Følgende revisjoner vil flyttes fra $1 til den gitte målsiden. Om målsiden ikke eksisterer vil den bli opprettet. Hvis den finnes vil disse revisjonene flettes med målsidens historikk.',
-'revmove-legend'               => 'Sett målside og sammendrag',
-'revmove-submit'               => 'Flytt revisjoner til valgte side',
-'revisionmoveselectedversions' => 'Flytt valgte revisjoner',
-'revmove-reasonfield'          => 'Årsak:',
-'revmove-titlefield'           => 'Målside:',
-'revmove-badparam-title'       => 'Ugyldige parametere',
-'revmove-badparam'             => 'Forespørselen din har ugyldige eller utilstrekkelige parametere. Trykk «tilbake» og prøv igjen.',
-'revmove-norevisions-title'    => 'Ugyldig målrevisjon',
-'revmove-norevisions'          => 'Du har ikke oppgitt noen målrevisjon(er) å utføre denne funksjonen på, ellers finnes ikke den gitte revisjonen.',
-'revmove-nullmove-title'       => 'Ugyldig tittel',
-'revmove-nullmove'             => 'Kilde- og målside er identiske. Trykk «tilbake» og skriv inn et annet sidenavn enn «$1».',
-'revmove-success-existing'     => '{{PLURAL:$1|Én revisjon|$1 revisjoner}} fra [[$2]] ble flyttet til den eksisterende siden [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Én revisjon|$1 revisjoner}} fra [[$2]] ble flyttet til den nyopprettede siden [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Flett sidehistorikker',
 'mergehistory-header'              => 'Denne siden lar deg flette historikken til to sider.
@@ -1454,8 +1431,6 @@ Den kan maks inneholde $1 {{PLURAL:$1|tegn|tegn}}.',
 'right-reset-passwords'       => 'Nullstille andre brukeres passord',
 'right-override-export-depth' => 'Eksporter sider inkludert lenkede sider til en dypde på 5',
 'right-sendemail'             => 'Send e-post til andre brukere',
-'right-revisionmove'          => 'Flytte revisjoner',
-'right-disableaccount'        => 'Deaktivere kontoer',
 
 # User rights log
 'rightslog'      => 'Brukerrettighetslogg',
@@ -1498,7 +1473,6 @@ Den kan maks inneholde $1 {{PLURAL:$1|tegn|tegn}}.',
 'action-userrights'           => 'redigere alle brukerrettigheter',
 'action-userrights-interwiki' => 'endre brukerrettigheter for brukere på andre wikier',
 'action-siteadmin'            => 'låse eller låse opp databasen',
-'action-revisionmove'         => 'flytte revisjoner',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|endring|endringer}}',
@@ -2077,6 +2051,9 @@ Den e-postadressen du har satt i [[Special:Preferences|innstillingene dine]] vil
 'noemailtext'          => 'Dene brukeren har ikke oppgitt en gyldig e-postadresse.',
 'nowikiemailtitle'     => 'Ingen e-post tillatt',
 'nowikiemailtext'      => 'Denne brukeren har valgt å ikke motta e-post fra andre brukere.',
+'emailtarget'          => 'Skriv inn brukernavnet på mottakeren',
+'emailusername'        => 'Brukernavn:',
+'emailusernamesubmit'  => 'Send',
 'email-legend'         => 'Send en e-post til en annen {{SITENAME}}-bruker',
 'emailfrom'            => 'Fra:',
 'emailto'              => 'Til:',
@@ -2677,7 +2654,8 @@ Besøk [http://translatewiki.net translatewiki.net] om du ønsker å bidra med o
 'import-interwiki-namespace' => 'Målnavnerom:',
 'import-upload-filename'     => 'Filnavn:',
 'import-comment'             => 'Kommentar:',
-'importtext'                 => 'Importer fila fra kildewikien med [[Special:Export|eksporteringsverktøyet]], lagre den på den egen datamaskin, og last den opp hit.',
+'importtext'                 => 'Importer fila fra kildewikien med [[Special:Export|eksporteringsverktøyet]].
+Lagre den på din egen datamaskin og last den opp her.',
 'importstart'                => 'Importerer sider&nbsp;…',
 'import-revision-count'      => '({{PLURAL:$1|Én revisjon|$1 revisjoner}})',
 'importnopages'              => 'Ingen sider å importere.',
@@ -2925,7 +2903,7 @@ Alle andre lenker på samme linje anses for å være unntak, altså sider der fi
 Hvis filen har blitt forandret fra utgangspunktet, kan enkelte detaljer være unøyaktige.',
 'metadata-expand'   => 'Vis utvidede detaljer',
 'metadata-collapse' => 'Skjul utvidede detaljer',
-'metadata-fields'   => 'EXIF-metadatafelt listet i denne meldingen inkluderes på bildesiden mens metadatatabellen er slått sammen.
+'metadata-fields'   => 'Bildemetadatafelt listet i denne meldingen inkluderes på bildesiden når metadatatabellen er slått sammen.
 Andre vil skjules som standard.
 * make
 * model
@@ -2933,7 +2911,13 @@ Andre vil skjules som standard.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Bredde',
@@ -2948,13 +2932,11 @@ Andre vil skjules som standard.
 'exif-ycbcrpositioning'            => 'Y- og C-posisjonering',
 'exif-xresolution'                 => 'Horisontal oppløsning',
 'exif-yresolution'                 => 'Vertikal oppløsning',
-'exif-resolutionunit'              => 'Enhet for X- og Y-oppløsning',
 'exif-stripoffsets'                => 'Plassering for bildedata',
 'exif-rowsperstrip'                => 'Antall rader per stripe',
 'exif-stripbytecounts'             => 'Antall byte per kompresserte stripe',
 'exif-jpeginterchangeformat'       => 'Offset til JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Byte med JPEG-data',
-'exif-transferfunction'            => 'Overføringsfunksjon',
 'exif-whitepoint'                  => 'Hvitpunktkromatisitet',
 'exif-primarychromaticities'       => 'Primærfargenes renhet',
 'exif-ycbcrcoefficients'           => 'Koeffisienter fr fargeromstransformasjonsmatrise',
@@ -2971,9 +2953,8 @@ Andre vil skjules som standard.
 'exif-colorspace'                  => 'Fargerom',
 'exif-componentsconfiguration'     => 'Betydning av hver komponent',
 'exif-compressedbitsperpixel'      => 'Bildekompresjonsmodus',
-'exif-pixelydimension'             => 'Gyldig bildebredde',
-'exif-pixelxdimension'             => 'Gyldig bildehøyde',
-'exif-makernote'                   => 'Fabrikkmerknader',
+'exif-pixelydimension'             => 'Bildebredde',
+'exif-pixelxdimension'             => 'Bildehøyde',
 'exif-usercomment'                 => 'Brukerkommentarer',
 'exif-relatedsoundfile'            => 'Relatert lydfil',
 'exif-datetimeoriginal'            => 'Dato og tid for datagenerering',
@@ -2987,10 +2968,9 @@ Andre vil skjules som standard.
 'exif-exposureprogram'             => 'Eksponeringsprogram',
 'exif-spectralsensitivity'         => 'Spektralsensitivitet',
 'exif-isospeedratings'             => 'Filmhastighet (ISO)',
-'exif-oecf'                        => 'Optoelektronisk konversjonsfaktor',
-'exif-shutterspeedvalue'           => 'Lukkerhastighet',
-'exif-aperturevalue'               => 'Apertur',
-'exif-brightnessvalue'             => 'Lysstyrke',
+'exif-shutterspeedvalue'           => 'APEX lukkerhastighet',
+'exif-aperturevalue'               => 'APEX blenderåpning',
+'exif-brightnessvalue'             => 'APEX lysstyrke',
 'exif-exposurebiasvalue'           => 'Eksponeringsbias',
 'exif-maxaperturevalue'            => 'Maksimal blender',
 'exif-subjectdistance'             => 'Avstand til subjekt',
@@ -3000,7 +2980,6 @@ Andre vil skjules som standard.
 'exif-focallength'                 => 'Linsens brennvidde',
 'exif-subjectarea'                 => 'Motivområde',
 'exif-flashenergy'                 => 'Blitsenergi',
-'exif-spatialfrequencyresponse'    => 'Romslig frekvensrespons',
 'exif-focalplanexresolution'       => 'Oppløsning i fokalplan X',
 'exif-focalplaneyresolution'       => 'Oppløsning i fokalplan Y',
 'exif-focalplaneresolutionunit'    => 'Enhet for oppløsning i fokalplan',
@@ -3009,7 +2988,6 @@ Andre vil skjules som standard.
 'exif-sensingmethod'               => 'Avkjenningsmetode',
 'exif-filesource'                  => 'Filkilde',
 'exif-scenetype'                   => 'Scenetype',
-'exif-cfapattern'                  => 'CFA-mønster',
 'exif-customrendered'              => 'Tilpasset bildebehandling',
 'exif-exposuremode'                => 'Eksponeringsmodus',
 'exif-whitebalance'                => 'Hvit balanse',
@@ -3054,6 +3032,7 @@ Andre vil skjules som standard.
 'exif-gpsareainformation'          => 'Navn på GPS-område',
 'exif-gpsdatestamp'                => 'GPS-dato',
 'exif-gpsdifferential'             => 'Differentiell GPS-korreksjon',
+'exif-keywords'                    => 'Nøkkelord',
 'exif-objectname'                  => 'Kort tittel',
 
 # EXIF attributes
@@ -3196,6 +3175,11 @@ Rotert 90° mot klokka og vridd vertikalt',
 'exif-gpsspeed-k' => 'Kilometer per time',
 'exif-gpsspeed-m' => 'Miles per time',
 'exif-gpsspeed-n' => 'Knop',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometer',
+'exif-gpsdestdistance-m' => 'Miles',
+'exif-gpsdestdistance-n' => 'Nautiske mil',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Sann retning',
@@ -3516,18 +3500,5 @@ Normale spesialsider.
 # SQLite database support
 'sqlite-has-fts' => '$1 med støtte for fulltekstsøk',
 'sqlite-no-fts'  => '$1 uten støtte for fulltekstsøk',
-
-# Special:DisableAccount
-'disableaccount'             => 'Deaktiver en brukerkonto',
-'disableaccount-user'        => 'Brukernavn:',
-'disableaccount-reason'      => 'Årsak:',
-'disableaccount-confirm'     => "Deaktiver denne brukerkontoen.
-Brukeren vil ikke kunne logge inn, tilbakestille sitt passord eller motta e-postvarsler.
-Om denne brukeren er pålogget et sted vil den umiddelbart bli logget ut.
-''Merk at å deaktivere en konto ikke er reversibelt uten inngripen fra en systemadministrator.''",
-'disableaccount-mustconfirm' => 'Du må bekrefte at du vil deaktivere denne kontoen.',
-'disableaccount-nosuchuser'  => 'Brukerkontoen «$1» finnes ikke.',
-'disableaccount-success'     => 'Brukerkontoen «$1» har blitt permanent deaktivert.',
-'disableaccount-logentry'    => 'deaktiverte brukerkontoen [[$1]] permanent',
 
 );

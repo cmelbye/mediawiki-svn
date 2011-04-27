@@ -350,7 +350,7 @@ Du bør loĝge på og ændre din adgangskode straks æfter du harst modtaget æ 
 
 Før en e-mail ken modtages åf andre brugere åf æ {{SITENAME}}-mailfunksje, skel æ adresse og dens tilhørsførholt til denne bruger bekræftes. Følg venlegst anvesnengerne i denne mail.',
 
-# Password reset dialog
+# Change password dialog
 'retypenew' => 'Gentag ny adgangskode',
 
 # Edit page toolbar
@@ -840,7 +840,13 @@ Kun endholtet åf æ liste (lenjer startende ve *) bliver brugt. Den første hen
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => "Redigær denne gøret ve'n utsende redigærstøme",

@@ -446,7 +446,7 @@ Agar in hisob iştibohe soxta şudaast, in nomaro nodida bigired.',
 Lutfan peş az on, ki dubora taloş kuned, sabr kuned.',
 'loginlanguagelabel'      => 'Zabon: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass_announce'        => 'Şumo bo kodi muvaqatī ba sistem vurud şudaed. Baroi ançom dodani vurudşavī, şumo bojad kalimai uburī çadidro inço vorid kuned:',
 'resetpass_header'          => 'Taƣjiri guzarvoƶai hisob',
 'oldpassword'               => 'Kalimai kūhnai ubur:',
@@ -1914,7 +1914,13 @@ Faqat satrhoe, ki bo * şurū' şavand ba nazar girifta meşavand. Avvalin pajva
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength",
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude",
 
 # EXIF tags
 'exif-imagewidth'                  => "Vase'ī",
@@ -1929,13 +1935,11 @@ Faqat satrhoe, ki bo * şurū' şavand ba nazar girifta meşavand. Avvalin pajva
 'exif-ycbcrpositioning'            => 'Mavqeijati Y va C',
 'exif-xresolution'                 => 'Tahlilpaziriji ufuqī',
 'exif-yresolution'                 => 'Tahlilpaziriji amudī',
-'exif-resolutionunit'              => 'Vohidi tafkikpaziriji X va Y',
 'exif-stripoffsets'                => 'Çojgohi dodahoi aks',
 'exif-rowsperstrip'                => "Te'dodi radifho dar har navor",
 'exif-stripbytecounts'             => 'Bajt dar har navori fişurda',
 'exif-jpeginterchangeformat'       => "Çab'ai çoji nisbat ba JPEG SOI",
 'exif-jpeginterchangeformatlength' => 'Bajt dodai JPEG',
-'exif-transferfunction'            => 'Tobeijati tabdil',
 'exif-whitepoint'                  => 'Ranginagiji nuqtai safed',
 'exif-primarychromaticities'       => 'Rangpaziriji avvalijatho',
 'exif-ycbcrcoefficients'           => 'Zarbkunandahoi matrisi tabdili fazoi rang',
@@ -1954,7 +1958,6 @@ Faqat satrhoe, ki bo * şurū' şavand ba nazar girifta meşavand. Avvalin pajva
 'exif-compressedbitsperpixel'      => 'Holati fişurdasoziji aks',
 'exif-pixelydimension'             => "Arzi aksi mū'tabar",
 'exif-pixelxdimension'             => "Tūli aksi mū'tabar",
-'exif-makernote'                   => 'Tavzehoti şirkati sozanda',
 'exif-usercomment'                 => 'Tavzehoti korbar',
 'exif-relatedsoundfile'            => 'Parvandai sabti aloqamand',
 'exif-datetimeoriginal'            => "Ta'rix va vaqti tavlidi dodaho",
@@ -1968,7 +1971,6 @@ Faqat satrhoe, ki bo * şurū' şavand ba nazar girifta meşavand. Avvalin pajva
 'exif-exposureprogram'             => 'Barnomai Nurdihī',
 'exif-spectralsensitivity'         => 'Hasosijati tifī',
 'exif-isospeedratings'             => "Daraçabandiji sur'ati ISO",
-'exif-oecf'                        => 'Amali tabdili nurī-elektronī',
 'exif-shutterspeedvalue'           => "Sur'ati parda",
 'exif-aperturevalue'               => 'Andozai diafragm',
 'exif-brightnessvalue'             => 'Ravşanī',
@@ -1981,7 +1983,6 @@ Faqat satrhoe, ki bo * şurū' şavand ba nazar girifta meşavand. Avvalin pajva
 'exif-focallength'                 => 'Fosilai markaziji adasī',
 'exif-subjectarea'                 => 'Masohati çism',
 'exif-flashenergy'                 => 'Qudrati fleş',
-'exif-spatialfrequencyresponse'    => 'Posuxi fosilai fazogī',
 'exif-focalplanexresolution'       => 'Safhai markaziji X tafkikpazirī',
 'exif-focalplaneyresolution'       => 'Safhai markaziji Y tafkikpazirī',
 'exif-focalplaneresolutionunit'    => 'Vohidi tafkikpaziriji safhai markazī',
@@ -1990,7 +1991,6 @@ Faqat satrhoe, ki bo * şurū' şavand ba nazar girifta meşavand. Avvalin pajva
 'exif-sensingmethod'               => 'Ravişi hisgarī',
 'exif-filesource'                  => 'Manbai parvanda',
 'exif-scenetype'                   => "Nav'i sahna",
-'exif-cfapattern'                  => 'Qolabi CFA',
 'exif-customrendered'              => 'Pardozişi aks',
 'exif-exposuremode'                => 'Holati nurdihī',
 'exif-whitebalance'                => 'Muvozinai rangi safed',

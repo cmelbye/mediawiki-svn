@@ -144,7 +144,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Automata' ),
 	'Popularpages'              => array( 'Paginae saepe monstratae' ),
 	'Search'                    => array( 'Quaerere' ),
-	'Resetpass'                 => array( 'Tesseram novam creare' ),
+	'ChangePassword'            => array( 'Tesseram novam creare' ),
 	'Withoutinterwiki'          => array( 'Paginae sine nexibus ad linguas alias', 'Paginae sine nexibus intervicis' ),
 	'MergeHistory'              => array( 'Historias paginarum confundere' ),
 	'Invalidateemail'           => array( 'Adfimationem inscriptionis electronicae abrogare' ),
@@ -548,7 +548,7 @@ Plurimas non licet creare. Ergo, ex hoc loco IP rationes plurimas hodie creari n
 Hunc nuntium ignorare potes, si nolis hac ratione uti.',
 'loginlanguagelabel'         => 'Lingua: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Tesseram mutare',
 'resetpass_header'          => 'Tesseram rationis mutare',
 'oldpassword'               => 'Tessera vetus:',
@@ -2041,9 +2041,7 @@ Paginae nomen petitum "[[:$1]]" iam existit. Vin tu eam delere ut pagina illic m
 'exif-ycbcrpositioning'            => 'situatio Y et C',
 'exif-xresolution'                 => 'Resolutio horizontalis',
 'exif-yresolution'                 => 'Resolutio verticalis',
-'exif-resolutionunit'              => 'Unitum resolutionis X et Y',
 'exif-jpeginterchangeformatlength' => 'Chiliocteti datorum JPEG',
-'exif-transferfunction'            => 'Functio transferentiae',
 'exif-whitepoint'                  => 'Chromaticitas puncti albi',
 'exif-primarychromaticities'       => 'Chromaticitates primariae',
 'exif-imagedescription'            => 'Descriptio imaginis',
@@ -2051,8 +2049,8 @@ Paginae nomen petitum "[[:$1]]" iam existit. Vin tu eam delere ut pagina illic m
 'exif-artist'                      => 'Auctor',
 'exif-exifversion'                 => 'Emendatio Exif',
 'exif-colorspace'                  => 'Spatium colorimetricum',
-'exif-pixelydimension'             => 'Bona amplitudo imaginis',
-'exif-pixelxdimension'             => 'Bona altitudo imaginis',
+'exif-pixelydimension'             => 'Amplitudo imaginis',
+'exif-pixelxdimension'             => 'Altitudo imaginis',
 'exif-usercomment'                 => 'Adnota usoris',
 'exif-relatedsoundfile'            => 'Fasciculus soni relatus',
 'exif-datetimeoriginal'            => 'Dies et tempus creationis',
@@ -2061,10 +2059,9 @@ Paginae nomen petitum "[[:$1]]" iam existit. Vin tu eam delere ut pagina illic m
 'exif-fnumber'                     => 'Numerus F',
 'exif-exposureprogram'             => 'Programma expositionis',
 'exif-spectralsensitivity'         => 'Sensitivitas spectralis',
-'exif-oecf'                        => 'Factor conversionis optico-electronicae',
-'exif-shutterspeedvalue'           => 'Celeritas foriculae',
-'exif-aperturevalue'               => 'Apertura',
-'exif-brightnessvalue'             => 'Luminositas',
+'exif-shutterspeedvalue'           => 'Celeritas foriculae APEX',
+'exif-aperturevalue'               => 'Apertura APEX',
+'exif-brightnessvalue'             => 'Luminositas APEX',
 'exif-exposurebiasvalue'           => 'Obliquitas expositionis',
 'exif-meteringmode'                => 'Modus mensurae',
 'exif-lightsource'                 => 'Fons lucis',
@@ -2078,7 +2075,6 @@ Paginae nomen petitum "[[:$1]]" iam existit. Vin tu eam delere ut pagina illic m
 'exif-sensingmethod'               => 'Methodus sensationis',
 'exif-filesource'                  => 'Fons fasciculi',
 'exif-scenetype'                   => 'Typus scaenae',
-'exif-cfapattern'                  => 'exemplar CFA',
 'exif-exposuremode'                => 'Modus expositionis',
 'exif-whitebalance'                => 'Compensatio Alba',
 'exif-gaincontrol'                 => 'Censura campi',
@@ -2209,6 +2205,11 @@ Paginae nomen petitum "[[:$1]]" iam existit. Vin tu eam delere ut pagina illic m
 'exif-gpsspeed-k' => 'Chiliometra per horam',
 'exif-gpsspeed-m' => 'Milia per horam',
 'exif-gpsspeed-n' => 'Nodi',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometra',
+'exif-gpsdestdistance-m' => 'Milia',
+'exif-gpsdestdistance-n' => 'Milia nautica',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Directio vera',

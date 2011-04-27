@@ -10,13 +10,10 @@ class ImagePage extends Article {
 	/**
 	 * @var File
 	 */
-	/* private */ var $img;
-	/**
-	 * @var File
-	 */
-	/* private */ var $displayImg;
-	/* private */ var $repo;
-	/* private */ var $fileLoaded;
+	private $img;
+	private $displayImg;
+	private $repo;
+	private $fileLoaded;
 
 	var $mExtraDescription = false;
 	var $dupes;
@@ -156,7 +153,7 @@ class ImagePage extends Article {
 		if ( $showmeta ) {
 			$wgOut->addHTML( Xml::element( 'h2', array( 'id' => 'metadata' ), wfMsg( 'metadata' ) ) . "\n" );
 			$wgOut->addWikiText( $this->makeMetadataTable( $formattedMetadata ) );
-			$wgOut->addModules( array( 'mediawiki.legacy.metadata' ) );
+			$wgOut->addModules( array( 'mediawiki.action.view.metadata' ) );
 		}
 		
 		$css = $this->repo->getDescriptionStylesheetUrl();
@@ -268,7 +265,7 @@ class ImagePage extends Article {
 	 * FIXME: bad interface, see note on MediaHandler::formatMetadata().
 	 *
 	 * @param $metadata Array: the array containing the EXIF data
-	 * @return String
+	 * @return String The metadata table. This is treated as Wikitext (!)
 	 */
 	protected function makeMetadataTable( $metadata ) {
 		$r = "<div class=\"mw-imagepage-section-metadata\">";

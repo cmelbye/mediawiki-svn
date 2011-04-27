@@ -415,15 +415,7 @@ Ni mòżesz miec ju wicy.',
 'createaccount-title'        => 'Kònto ùsôdzoné dlô {{SITENAME}}',
 'loginlanguagelabel'         => 'Jãzëk: $1',
 
-# JavaScript password checks
-'password-strength-bad'        => 'LËCHÔ',
-'password-strength-mediocre'   => 'strzédnô',
-'password-strength-acceptable' => 'akceptowalnô',
-'password-strength-good'       => 'dobrô',
-'password-retype'              => 'Wpiszë parolã znowa',
-'password-retype-mismatch'     => 'Parole nie są równé',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Zmieni parolã',
 'oldpassword'               => 'Stôrô parola:',
 'newpassword'               => 'Nowô parola',
@@ -1253,7 +1245,13 @@ Jinszé pòla bãdą domëslno zataconé.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'Editëjë nen lopk brëkùjąc bùtnowi aplikacëji',

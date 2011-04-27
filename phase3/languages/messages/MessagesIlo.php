@@ -400,7 +400,7 @@ Saankan a makaaramid pay.',
 'createaccount-title'        => 'Panagaramid iti account para iti {{SITENAME}}',
 'loginlanguagelabel'         => 'Lengguahe: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'           => 'Sukatan ti pasesbalikas ti account',
 'resetpass_header'    => 'Sukatan ti pasesbalikas ti account',
 'oldpassword'         => 'Daan a pasesbalikas:',
@@ -1505,7 +1505,13 @@ ODagiti dadduma ket sigud a nakalemmeng.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Kaakaba',
@@ -1519,12 +1525,10 @@ ODagiti dadduma ket sigud a nakalemmeng.
 'exif-ycbcrpositioning'            => 'Y ken C positioning',
 'exif-xresolution'                 => 'Horizontal resolution',
 'exif-yresolution'                 => 'Vertical resolution',
-'exif-resolutionunit'              => 'Unit ti X ken Y resolution',
 'exif-stripoffsets'                => 'Image data location',
 'exif-stripbytecounts'             => 'Bytes per compressed strip',
 'exif-jpeginterchangeformat'       => 'Offset to JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Bytes ti JPEG data',
-'exif-transferfunction'            => 'Transfer function',
 'exif-whitepoint'                  => 'White point chromaticity',
 'exif-primarychromaticities'       => 'Chromaticities dagiti primarities',
 'exif-imagedescription'            => 'Titulo ti imahen',
@@ -1538,7 +1542,6 @@ ODagiti dadduma ket sigud a nakalemmeng.
 'exif-colorspace'                  => 'Color space',
 'exif-pixelydimension'             => 'Valido nga image width',
 'exif-pixelxdimension'             => 'Valido nga image height',
-'exif-makernote'                   => 'Manufacturer notes',
 'exif-usercomment'                 => 'Dagiti komento ti agar-aramat',
 'exif-relatedsoundfile'            => 'Mainaig nga audio file',
 'exif-datetimeoriginal'            => 'Petsa ken oras ti data generation',
@@ -1552,7 +1555,6 @@ ODagiti dadduma ket sigud a nakalemmeng.
 'exif-exposureprogram'             => 'Exposure Program',
 'exif-spectralsensitivity'         => 'Spectral sensitivity',
 'exif-isospeedratings'             => 'ISO speed rating',
-'exif-oecf'                        => 'Optoelectronic conversion factor',
 'exif-shutterspeedvalue'           => 'Shutter speed',
 'exif-aperturevalue'               => 'Aperture',
 'exif-brightnessvalue'             => 'Brightness',
@@ -1565,7 +1567,6 @@ ODagiti dadduma ket sigud a nakalemmeng.
 'exif-focallength'                 => 'Lens focal length',
 'exif-subjectarea'                 => 'Subject area',
 'exif-flashenergy'                 => 'Flash energy',
-'exif-spatialfrequencyresponse'    => 'Spatial frequency response',
 'exif-focalplanexresolution'       => 'Focal plane X resolution',
 'exif-focalplaneyresolution'       => 'Focal plane Y resolution',
 'exif-focalplaneresolutionunit'    => 'Focal plane resolution unit',
@@ -1574,7 +1575,6 @@ ODagiti dadduma ket sigud a nakalemmeng.
 'exif-sensingmethod'               => 'Sensing method',
 'exif-filesource'                  => 'Nagtaudan ti file',
 'exif-scenetype'                   => 'Scene type',
-'exif-cfapattern'                  => 'CFA pattern',
 'exif-customrendered'              => 'Custom image processing',
 'exif-exposuremode'                => 'Exposure mode',
 'exif-whitebalance'                => 'White Balance',

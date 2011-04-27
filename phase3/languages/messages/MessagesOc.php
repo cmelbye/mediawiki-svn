@@ -132,7 +132,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Lista_dels_Bòts', 'ListadelsBòts', 'Lista_dels_Bots', 'ListadelsBots' ),
 	'Popularpages'              => array( 'Paginas_mai_visitadas', 'Paginas_las_mai_visitadas', 'Paginasmaivisitadas' ),
 	'Search'                    => array( 'Recèrca', 'Recercar', 'Cercar' ),
-	'Resetpass'                 => array( 'Reïnicializacion_del_senhal', 'Reinicializaciondelsenhal' ),
+	'ChangePassword'            => array( 'Reïnicializacion_del_senhal', 'Reinicializaciondelsenhal' ),
 	'Withoutinterwiki'          => array( 'Sens_interwiki', 'Sensinterwiki', 'Sens_interwikis', 'Sensinterwikis' ),
 	'MergeHistory'              => array( 'Fusionar_l\'istoric', 'Fusionarlistoric' ),
 	'Filepath'                  => array( 'Camin_del_Fichièr', 'CamindelFichièr', 'CaminFichièr' ),
@@ -765,12 +765,7 @@ Esperatz abans d’ensajar tornamai.',
 'loginlanguagelabel'         => 'Lenga: $1',
 'suspicious-userlogout'      => 'Vòstra demanda de desconnexion es estada refusada perque sembla qu’es estada mandada per un navigador copat o la mesa en escondedor d’un proxy.',
 
-# JavaScript password checks
-'password-strength-good'   => 'corrècta',
-'password-retype'          => 'Picatz vòstre senhal tornarmai :',
-'password-retype-mismatch' => "Los senhals qu'avètz picats son pas identics.",
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Cambiar lo senhal del compte',
 'resetpass_announce'        => 'Vos sètz enregistrat amb un senhal temporari mandat per corrièr electronic. Per acabar l’enregistrament, vos cal picar un senhal novèl aicí :',
 'resetpass_text'            => '<!-- Apondètz lo tèxte aicí -->',
@@ -1135,9 +1130,6 @@ Verificatz los jornals.",
 # Suppression log
 'suppressionlog'     => 'Jornal de las supressions',
 'suppressionlogtext' => 'Çaijós, se tròba la tièra de las supressions e dels blocatges que comprenon las revisions amagadas als administrators. Vejatz [[Special:IPBlockList|la lista dels blocatges de las IP]] per la lista dels fòrabandiments e dels blocatges operacionals.',
-
-# Revision move
-'revmove-reasonfield' => 'Motiu :',
 
 # History merging
 'mergehistory'                     => "Fusion dels istorics d'una pagina",
@@ -2883,7 +2875,13 @@ Los autres ligams sus la meteissa linha son considerats coma d'excepcions, per e
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Largor',
@@ -2898,13 +2896,11 @@ Los autres ligams sus la meteissa linha son considerats coma d'excepcions, per e
 'exif-ycbcrpositioning'            => 'Posicionament YCbCr',
 'exif-xresolution'                 => 'Resolucion orizontala',
 'exif-yresolution'                 => 'Resolucion verticala',
-'exif-resolutionunit'              => 'Unitats de resolucion X e Y',
 'exif-stripoffsets'                => 'Emplaçament de las donadas de l’imatge',
 'exif-rowsperstrip'                => 'Nombre de linhas per benda',
 'exif-stripbytecounts'             => 'Talha en octets per benda',
 'exif-jpeginterchangeformat'       => 'Posicion del SOI JPEG',
 'exif-jpeginterchangeformatlength' => 'Talha en octet de las donadas JPEG',
-'exif-transferfunction'            => 'Foncion de transferiment',
 'exif-whitepoint'                  => 'Cromaticitat del punt blanc',
 'exif-primarychromaticities'       => 'Cromaticitats de las colors primàrias',
 'exif-ycbcrcoefficients'           => 'Coeficients de la matritz de transformacion de l’espaci colorimetric (YCbCr)',
@@ -2923,7 +2919,6 @@ Los autres ligams sus la meteissa linha son considerats coma d'excepcions, per e
 'exif-compressedbitsperpixel'      => 'Mòde de compression de l’imatge',
 'exif-pixelydimension'             => 'Largor d’imatge valida',
 'exif-pixelxdimension'             => 'Nautor d’imatge valida',
-'exif-makernote'                   => 'Nòtas del fabricant',
 'exif-usercomment'                 => "Comentaris de l'utilizaire",
 'exif-relatedsoundfile'            => 'Fichièr àudio associat',
 'exif-datetimeoriginal'            => 'Data e ora de la generacion de donadas',
@@ -2937,7 +2932,6 @@ Los autres ligams sus la meteissa linha son considerats coma d'excepcions, per e
 'exif-exposureprogram'             => 'Programa d’exposicion',
 'exif-spectralsensitivity'         => 'Sensibilitat espectrala',
 'exif-isospeedratings'             => 'Sensibilitat ISO',
-'exif-oecf'                        => 'Factor de conversion optoelectronic',
 'exif-shutterspeedvalue'           => 'Velocitat d’obturacion',
 'exif-aperturevalue'               => 'Dobertura',
 'exif-brightnessvalue'             => 'Luminositat',
@@ -2950,7 +2944,6 @@ Los autres ligams sus la meteissa linha son considerats coma d'excepcions, per e
 'exif-focallength'                 => 'Longor de focala',
 'exif-subjectarea'                 => 'Emplaçament del subjècte',
 'exif-flashenergy'                 => 'Energia del flash',
-'exif-spatialfrequencyresponse'    => 'Responsa en frequéncia espaciala',
 'exif-focalplanexresolution'       => 'Resolucion orizontala focala plana',
 'exif-focalplaneyresolution'       => 'Resolucion verticala focala plana',
 'exif-focalplaneresolutionunit'    => 'Unitat de resolucion de focala plana',
@@ -2959,7 +2952,6 @@ Los autres ligams sus la meteissa linha son considerats coma d'excepcions, per e
 'exif-sensingmethod'               => 'Tipe de captador',
 'exif-filesource'                  => 'Font del fichièr',
 'exif-scenetype'                   => 'Tipe de scèna',
-'exif-cfapattern'                  => 'Matritz de filtratge de color',
 'exif-customrendered'              => 'Tractament d’imatge personalizat',
 'exif-exposuremode'                => 'Mòde d’exposicion',
 'exif-whitebalance'                => 'Balança dels blancs',
@@ -3022,7 +3014,7 @@ Los autres ligams sus la meteissa linha son considerats coma d'excepcions, per e
 'exif-planarconfiguration-1' => 'Donadas atenentas',
 'exif-planarconfiguration-2' => 'Donadas separadas',
 
-'exif-colorspace-ffff.h' => 'Pas calibrat',
+'exif-colorspace-65535' => 'Pas calibrat',
 
 'exif-componentsconfiguration-0' => 'existís pas',
 'exif-componentsconfiguration-5' => 'V',
@@ -3148,6 +3140,11 @@ Los autres ligams sus la meteissa linha son considerats coma d'excepcions, per e
 'exif-gpsspeed-k' => 'Quilomètres per ora',
 'exif-gpsspeed-m' => 'Miles per ora',
 'exif-gpsspeed-n' => 'Noses',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Quilomètres',
+'exif-gpsdestdistance-m' => 'Milas anglesas',
+'exif-gpsdestdistance-n' => 'Milas nauticas',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Direccion vertadièra',

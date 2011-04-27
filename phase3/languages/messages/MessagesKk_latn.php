@@ -356,7 +356,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Bottar', 'Bottar_tizimi' ),
 	'Popularpages'              => array( 'Eñ_köp_qaralğan_better', 'Äýgili_better' ),
 	'Search'                    => array( 'İzdew' ),
-	'Resetpass'                 => array( 'Qupïya_sözdi_qaýtarw' ),
+	'ChangePassword'            => array( 'Qupïya_sözdi_qaýtarw' ),
 	'Withoutinterwiki'          => array( 'Wïkï-aralıqsızdar' ),
 	'MergeHistory'              => array( 'Tarïx_biriktirw' ),
 	'Filepath'                  => array( 'Faýl_mekeni' ),
@@ -791,7 +791,7 @@ Jobağa kiriwiñiz jäne qupïya söziñizdi özgertwiñiz tïisti.
 Eger bul tirkelgi qatelikpen jasalsa, osı xabarğa elemewiñiz mümkin.',
 'loginlanguagelabel'         => 'Til: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'           => 'Tirkelginiñ qupïya sözin özgertw',
 'resetpass_announce'  => 'Xatpen jiberilgen waqıtşa kodımen kirgensiz.
 Kirwiñizdi bitirw üşin, jaña qupïya söziñizdi mında engizwiñiz jön:',
@@ -2442,7 +2442,13 @@ Basqaları ädepkiden jasırıladı.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Eni',
@@ -2457,13 +2463,11 @@ Basqaları ädepkiden jasırıladı.
 'exif-ycbcrpositioning'            => 'Y quraşı jäne C quraşı mekendewi',
 'exif-xresolution'                 => 'Dereleý ajıratılımdığı',
 'exif-yresolution'                 => 'Tireleý ajıratılımdığı',
-'exif-resolutionunit'              => 'X jäne Y boýınşa ajıratılımdıq birligi',
 'exif-stripoffsets'                => 'Swret dererekteriniñ jaýğaswı',
 'exif-rowsperstrip'                => 'Beldik saýın jol sanı',
 'exif-stripbytecounts'             => 'Qısımdalğan beldik saýın baýt sanı',
 'exif-jpeginterchangeformat'       => 'JPEG SOI degenge ığıswı',
 'exif-jpeginterchangeformatlength' => 'JPEG derekteriniñ baýt sanı',
-'exif-transferfunction'            => 'Tasımaldaw jetesi',
 'exif-whitepoint'                  => 'Aq nükte tüstiligi',
 'exif-primarychromaticities'       => 'Alğı şeptegi tüstilikteri',
 'exif-ycbcrcoefficients'           => 'Tüs ayasın tasımaldaw matrïcalıq eselikteri',
@@ -2482,7 +2486,6 @@ Basqaları ädepkiden jasırıladı.
 'exif-compressedbitsperpixel'      => 'Swret qısımdaw tärtibi',
 'exif-pixelydimension'             => 'Swrettiñ jaramdı eni',
 'exif-pixelxdimension'             => 'Swrettiñ jaramdı bïiktigi',
-'exif-makernote'                   => 'Öndirwşiniñ añğartpaları',
 'exif-usercomment'                 => 'Qatıswşınıñ mändemeleri',
 'exif-relatedsoundfile'            => 'Qatıstı dıbıs faýlı',
 'exif-datetimeoriginal'            => 'Jasalğan kezi',
@@ -2496,7 +2499,6 @@ Basqaları ädepkiden jasırıladı.
 'exif-exposureprogram'             => 'Ustalım bağdarlaması',
 'exif-spectralsensitivity'         => 'Spektr boýınşa sezgiştigi',
 'exif-isospeedratings'             => 'ISO jıldamdıq jarnaqtawı (jarıq sezgiştigi)',
-'exif-oecf'                        => 'Optoelektrondı türletw ıqpalı',
 'exif-shutterspeedvalue'           => 'Japqış jıldamdılığı',
 'exif-aperturevalue'               => 'Sañılawlıq',
 'exif-brightnessvalue'             => 'Jarıqtılıq',
@@ -2509,7 +2511,6 @@ Basqaları ädepkiden jasırıladı.
 'exif-focallength'                 => 'Şoğırlaw alşaqtığı',
 'exif-subjectarea'                 => 'Nısana awqımı',
 'exif-flashenergy'                 => 'Jarqıldağış qarqını',
-'exif-spatialfrequencyresponse'    => 'Keñistik-jïilik äserşiligi',
 'exif-focalplanexresolution'       => 'X boýınşa şoğırlaw jaýpaqtıqtıñ ajıratılımdığı',
 'exif-focalplaneyresolution'       => 'Y boýınşa şoğırlaw jaýpaqtıqtıñ ajıratılımdığı',
 'exif-focalplaneresolutionunit'    => 'Şoğırlaw jaýpaqtıqtıñ ajıratılımdıq ölşemi',
@@ -2518,7 +2519,6 @@ Basqaları ädepkiden jasırıladı.
 'exif-sensingmethod'               => 'Sensordiñ ölşew ädisi',
 'exif-filesource'                  => 'Faýl qaýnarı',
 'exif-scenetype'                   => 'Saxna türi',
-'exif-cfapattern'                  => 'CFA süzgi keýipi',
 'exif-customrendered'              => 'Qosımşa swret öñdetwi',
 'exif-exposuremode'                => 'Ustalım tärtibi',
 'exif-whitebalance'                => 'Aq tüsiniñ tendestigi',

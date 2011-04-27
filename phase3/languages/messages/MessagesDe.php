@@ -178,7 +178,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Bots' ),
 	'Popularpages'              => array( 'Beliebteste_Seiten' ),
 	'Search'                    => array( 'Suche' ),
-	'Resetpass'                 => array( 'Passwort_ändern', 'Passwort_zurücksetzen' ),
+	'ChangePassword'            => array( 'Passwort_ändern', 'Passwort_zurücksetzen' ),
 	'Withoutinterwiki'          => array( 'Fehlende_Interwikis' ),
 	'MergeHistory'              => array( 'Versionsgeschichten_vereinen' ),
 	'Filepath'                  => array( 'Dateipfad' ),
@@ -489,6 +489,7 @@ $messages = array(
 'listingcontinuesabbrev'         => '(Fortsetzung)',
 'index-category'                 => 'Indizierte Seiten',
 'noindex-category'               => 'Nichtindizierte Seiten',
+'broken-file-category'           => 'Seiten mit kaputten Dateilinks',
 
 'mainpagetext'      => "'''MediaWiki wurde erfolgreich installiert.'''",
 'mainpagedocfooter' => 'Hilfe zur Benutzung und Konfiguration der Wiki-Software findest du im [http://meta.wikimedia.org/wiki/Help:Contents Benutzerhandbuch].
@@ -786,6 +787,7 @@ Vergiss nicht, deine [[Special:Preferences|{{SITENAME}}-Einstellungen]] anzupass
 'createaccount'              => 'Benutzerkonto anlegen',
 'gotaccount'                 => "Du hast bereits ein Benutzerkonto? '''$1'''.",
 'gotaccountlink'             => 'Anmelden',
+'userlogin-resetlink'        => 'Die Anmeldedaten vergessen?',
 'createaccountmail'          => 'per E-Mail',
 'createaccountreason'        => 'Grund:',
 'badretype'                  => 'Die beiden Passwörter stimmen nicht überein.',
@@ -853,16 +855,7 @@ Bitte warte, bevor du es erneut probierst.',
 # E-mail sending
 'php-mail-error-unknown' => 'Unbekannter Fehler mit der Funktion mail() von PHP',
 
-# JavaScript password checks
-'password-strength'            => 'Geschätzte Passwortstärke: $1',
-'password-strength-bad'        => 'SCHLECHT',
-'password-strength-mediocre'   => 'mittelmäßig',
-'password-strength-acceptable' => 'akzeptabel',
-'password-strength-good'       => 'gut',
-'password-retype'              => 'Passwort wiederholen',
-'password-retype-mismatch'     => 'Passwörter stimmen nicht überein',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Passwort ändern',
 'resetpass_announce'        => 'Anmeldung mit dem per E-Mail zugesandten Code. Um die Anmeldung abzuschließen, musst du jetzt ein neues Passwort wählen.',
 'resetpass_text'            => '<!-- Ergänze den Text hier -->',
@@ -879,6 +872,30 @@ Bitte warte, bevor du es erneut probierst.',
 'resetpass-wrong-oldpass'   => 'Ungültiges temporäres oder aktuelles Passwort.
 Möglicherweise hast du dein Passwort bereits erfolgreich geändert oder ein neues temporäres Passwort beantragt.',
 'resetpass-temp-password'   => 'Temporäres Passwort:',
+
+# Special:PasswordReset
+'passwordreset'                => 'Passwort zurücksetzen',
+'passwordreset-text'           => 'Bitte dieses Formular ausfüllen, um per E-Mail eine Erinnerung zu den Anmeldeinformationen deines Benutzerkontos zu erhalten.',
+'passwordreset-legend'         => 'Passwort zurücksetzen',
+'passwordreset-disabled'       => 'Das Zurücksetzen von Passwörtern wurde in diesem Wiki deaktiviert.',
+'passwordreset-pretext'        => '{{PLURAL:$1||Gib eines der folgenden Daten ein}}',
+'passwordreset-username'       => 'Benutzername:',
+'passwordreset-email'          => 'E-Mail-Adresse:',
+'passwordreset-emailtitle'     => 'Benutzerkontoinformationen auf {{SITENAME}}',
+'passwordreset-emailtext-ip'   => 'Jemand mit der IP-Adresse $1, wahrscheinlich du selbst, hat eine Erinnerung an deine Benutzerkonteninformationen für {{SITENAME}} angefordert ($4). {{PLURAL:$3|Das folgende Benutzerkonto ist|Die folgenden Benutzerkonten sind}} mit dieser E-Mail-Adresse verknüpft:
+
+$2
+
+{{PLURAL:$3|Dieses temporäre Passwort läuft|Diese temporären Passwörter laufen}} innerhalb von {{PLURAL:$5|einem Tag|$5 Tagen}} ab.
+Du solltest dich anmelden und ein neues Passwort vergeben. Falls jemand anderes diese Anfrage getätigt hat oder du dich wieder an dein ursprüngliches Passwort erinnern kannst und es nicht länger ändern möchtest, kannst du diese Nachricht ignorieren und weiterhin dein altes Passwort benutzen.',
+'passwordreset-emailtext-user' => 'Benutzer $1 auf {{SITENAME}} hat eine Erinnerung an deine Benutzerkonteninformationen für {{SITENAME}} angefordert ($4). {{PLURAL:$3|Das folgende Benutzerkonto ist|Die folgenden Benutzerkonten sind}} mit dieser E-Mail-Adresse verknüpft:
+
+$2
+
+{{PLURAL:$3|Dieses temporäre Passwort läuft|Diese temporären Passwörter laufen}} innerhalb von {{PLURAL:$5|einem Tag|$5 Tagen}} ab. Du solltest dich anmelden und ein neues Passwort vergeben. Falls jemand anderes diese Anfrage getätigt hat oder du dich wieder an dein ursprüngliches Passwort erinnern kannst und es nicht ändern möchtest, kannst du diese Nachricht ignorieren und weiterhin dein altes Passwort benutzen.',
+'passwordreset-emailelement'   => 'Benutzername: $1
+Temporäres Passwort: $2',
+'passwordreset-emailsent'      => 'Eine Erinnerung wurde per E-Mail versandt.',
 
 # Edit page toolbar
 'bold_sample'     => 'Fetter Text',
@@ -1238,24 +1255,6 @@ Bitte prüfe die Logbücher.',
 'suppressionlogtext' => 'Dies ist das Logbuch der Oversight-Aktionen (Änderungen der Sichtbarkeit von Versionen, Bearbeitungskommentaren, Benutzernamen und Benutzersperren).
 Siehe die [[Special:IPBlockList|Liste der gesperrten IP-Adressen und Benutzernamen]] für aktuelle Sperren.',
 
-# Revision move
-'moverevlogentry'              => 'verschob {{PLURAL:$3|eine Version|$3 Versionen}} von $1 nach $2',
-'revisionmove'                 => 'Versionen verschieben von „$1“',
-'revmove-explain'              => 'Die folgenden Versionen werden von $1 zur angegebenen Zielseite verschoben. Falls die Zielseite nicht existiert, wird sie erstellt. Anderenfalls werden diese Versionen in der Versionsgeschichte zusammengeführt.',
-'revmove-legend'               => 'Zielseite und Zusammenfassung festlegen',
-'revmove-submit'               => 'Versionen zur ausgewählten Seite verschieben',
-'revisionmoveselectedversions' => 'Ausgewählte Versionen verschieben',
-'revmove-reasonfield'          => 'Grund:',
-'revmove-titlefield'           => 'Zielseite:',
-'revmove-badparam-title'       => 'Falsche Parameter',
-'revmove-badparam'             => 'Deine Anfrage enthält unerlaubte oder mangelhafte Parameter. Bitte klicke auf „zurück“ und versuche es erneut.',
-'revmove-norevisions-title'    => 'Ungültige Zielversion',
-'revmove-norevisions'          => 'Du hast keine Zielversion angegeben, um diese Aktion durchzuführen oder die angegebene Version existiert nicht.',
-'revmove-nullmove-title'       => 'Ungültiger Titel',
-'revmove-nullmove'             => 'Quell- und Zielseite sind identisch. Bitte klicke auf „zurück“ und gib einen anderen Seitennamen als „$1“ ein.',
-'revmove-success-existing'     => '{{PLURAL:$1|Eine Version von [[$2]] wurde|$1 Versionen von [[$2]] wurden}} zur existierenden Seite [[$3]] verschoben.',
-'revmove-success-created'      => '{{PLURAL:$1|Eine Version von [[$2]] wurde|$1 Versionen von [[$2]] wurden}} zur neu angelegten Seite [[$3]] verschoben.',
-
 # History merging
 'mergehistory'                     => 'Versionsgeschichten vereinen',
 'mergehistory-header'              => 'Mit dieser Spezialseite kannst du die Versionsgeschichte einer Ursprungsseite mit der Versionsgeschichte einer Zielseite vereinen.
@@ -1592,8 +1591,6 @@ Dies kann nicht mehr rückgängig gemacht werden.',
 'right-reset-passwords'       => 'Passwort eines anderen Benutzers zurücksetzen',
 'right-override-export-depth' => 'Exportiere Seiten einschließlich verlinkter Seiten bis zu einer Tiefe von 5',
 'right-sendemail'             => 'E-Mails an andere Benutzer senden',
-'right-revisionmove'          => 'Versionen verschieben',
-'right-disableaccount'        => 'Benutzerkonto deaktivieren',
 
 # User rights log
 'rightslog'      => 'Rechte-Logbuch',
@@ -1636,7 +1633,6 @@ Dies kann nicht mehr rückgängig gemacht werden.',
 'action-userrights'           => 'Benutzerrechte zu ändern',
 'action-userrights-interwiki' => 'die Rechte von Benutzern in anderen Wikis zu ändern',
 'action-siteadmin'            => 'die Datenbank zu sperren oder freizugeben',
-'action-revisionmove'         => 'Versionen zu verschieben',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|Änderung|Änderungen}}',
@@ -2503,7 +2499,7 @@ $1',
 'sp-contributions-talk'                => 'Diskussion',
 'sp-contributions-userrights'          => 'Benutzerrechteverwaltung',
 'sp-contributions-blocked-notice'      => '{{GENDER:$1|Dieser Benutzer|Diese Benutzerin|Dieser Benutzer}} ist derzeit gesperrt. Es folgt der aktuelle Eintrag aus dem Benutzersperr-Logbuch:',
-'sp-contributions-blocked-notice-anon' => 'Diese IP-Adresse ist zur Zeit gesperrt.
+'sp-contributions-blocked-notice-anon' => 'Diese IP-Adresse ist zurzeit gesperrt.
 Zur Information folgt der aktuelle Auszug aus dem Sperr-Logbuch:',
 'sp-contributions-search'              => 'Suche nach Benutzerbeiträgen',
 'sp-contributions-username'            => 'IP-Adresse oder Benutzername:',
@@ -2929,15 +2925,15 @@ Diese auf dem lokalen Rechner speichern und danach hier hochladen.',
 'tooltip-summary'                 => 'Gib eine kurze Zusammenfassung ein',
 
 # Stylesheets
-'common.css'      => '/* Das folgende CSS wird für alle Benutzeroberflächen geladen. */',
-'standard.css'    => '/* Das folgende CSS wird für Benutzer der Klassik-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'nostalgia.css'   => '/* Das folgende CSS wird für Benutzer der Nostalgie-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'cologneblue.css' => '/* Das folgende CSS wird für Benutzer der Kölnisch-Blau-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'monobook.css'    => '/* Das folgende CSS wird für Benutzer der Monobook-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'myskin.css'      => '/* Das folgende CSS wird für Benutzer der MySkin-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'chick.css'       => '/* Das folgende CSS wird für Benutzer der Küken-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'simple.css'      => '/* Das folgende CSS wird für Benutzer der Einfach-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'modern.css'      => '/* Das folgende CSS wird für Benutzer der Modern-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */
+'common.css'              => '/* Das folgende CSS wird für alle Benutzeroberflächen geladen. */',
+'standard.css'            => '/* Das folgende CSS wird für Benutzer der Klassik-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'nostalgia.css'           => '/* Das folgende CSS wird für Benutzer der Nostalgie-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'cologneblue.css'         => '/* Das folgende CSS wird für Benutzer der Kölnisch-Blau-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'monobook.css'            => '/* Das folgende CSS wird für Benutzer der Monobook-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'myskin.css'              => '/* Das folgende CSS wird für Benutzer der MySkin-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'chick.css'               => '/* Das folgende CSS wird für Benutzer der Küken-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'simple.css'              => '/* Das folgende CSS wird für Benutzer der Einfach-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'modern.css'              => '/* Das folgende CSS wird für Benutzer der Modern-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */
 
 /* Kleinschreibung in Navigationsbereichen verhindern */
 .portlet h5,
@@ -2947,23 +2943,30 @@ Diese auf dem lokalen Rechner speichern und danach hier hochladen.',
 #preftoc a {
     text-transform: none;
 }',
-'vector.css'      => '/* Das folgende CSS wird für Benutzer der Vector-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'print.css'       => '/* Das folgende CSS wird in der Druckausgabe geladen. */',
-'handheld.css'    => '/* Das folgende CSS wird für Handheld-Geräte, basierend auf der in $wgHandheldStyle konfigurierten Benutzeroberfläche, geladen. */',
-'noscript.css'    => '/* Das folgende CSS wirkt sich für Benutzer aus, die JavaScript deaktiviert haben */',
-'bureaucrat.css'  => '/* Das folgende CSS wird nur für Bürokraten geladen. */',
+'vector.css'              => '/* Das folgende CSS wird für Benutzer der Vector-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'print.css'               => '/* Das folgende CSS wird in der Druckausgabe geladen. */',
+'handheld.css'            => '/* Das folgende CSS wird für Handheld-Geräte, basierend auf der in $wgHandheldStyle konfigurierten Benutzeroberfläche, geladen. */',
+'noscript.css'            => '/* Das folgende CSS wirkt sich für Benutzer aus, die JavaScript deaktiviert haben */',
+'group-autoconfirmed.css' => '/* CSS an dieser Stelle wirkt sich nur auf automatisch bestätigte Benutzer aus */',
+'group-bot.css'           => '/* CSS an dieser Stelle wirkt sich nur auf Bots aus */',
+'group-sysop.css'         => '/* CSS an dieser Stelle wirkt sich nur auf Administratoren aus */',
+'group-bureaucrat.css'    => '/* Das folgende CSS wird nur für Bürokraten geladen. */',
 
 # Scripts
-'common.js'      => '/* Das folgende JavaScript wird für alle Benutzer geladen. */',
-'standard.js'    => '/* Das folgende JavaScript wird für Benutzer der Klassik-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'nostalgia.js'   => '/* Das folgende JavaScript wird für Benutzer der Nostalgie-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'cologneblue.js' => '/* Das folgende JavaScript wird für Benutzer der Kölnisch-Blau-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'monobook.js'    => '/* Das folgende JavaScript wird für Benutzer der Monobook-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'myskin.js'      => '/* Das folgende JavaScript wird für Benutzer der MySkin-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'chick.js'       => '/* Das folgende JavaScript wird für Benutzer der Küken-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'simple.js'      => '/* Das folgende JavaScript wird für Benutzer der Einfach-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'modern.js'      => '/* Das folgende JavaScript wird für Benutzer der Modern-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'vector.js'      => '/* Das folgende JavaScript wird für Benutzer der Vector-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'common.js'              => '/* Das folgende JavaScript wird für alle Benutzer geladen. */',
+'standard.js'            => '/* Das folgende JavaScript wird für Benutzer der Klassik-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'nostalgia.js'           => '/* Das folgende JavaScript wird für Benutzer der Nostalgie-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'cologneblue.js'         => '/* Das folgende JavaScript wird für Benutzer der Kölnisch-Blau-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'monobook.js'            => '/* Das folgende JavaScript wird für Benutzer der Monobook-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'myskin.js'              => '/* Das folgende JavaScript wird für Benutzer der MySkin-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'chick.js'               => '/* Das folgende JavaScript wird für Benutzer der Küken-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'simple.js'              => '/* Das folgende JavaScript wird für Benutzer der Einfach-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'modern.js'              => '/* Das folgende JavaScript wird für Benutzer der Modern-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'vector.js'              => '/* Das folgende JavaScript wird für Benutzer der Vector-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'group-autoconfirmed.js' => '/* Das folgende JavaScript wird nur für automatisch bestätigte Benutzer geladen. */',
+'group-bot.js'           => '/* Das folgende JavaScript wird nur für Bots geladen. */',
+'group-sysop.js'         => '/* Das folgende JavaScript wird nur für Administratoren geladen. */',
+'group-bureaucrat.js'    => '/* Das folgende JavaScript wird nur für Bürokraten geladen. */',
 
 # Metadata
 'nodublincore'      => 'Dublin-Core-RDF-Metadaten sind auf diesem Server deaktiviert.',
@@ -3087,14 +3090,21 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'metadata-help'     => 'Diese Datei enthält weitere Informationen, die in der Regel von der Digitalkamera oder dem verwendeten Scanner stammen. Durch nachträgliche Bearbeitung der Originaldatei können einige Details verändert worden sein.',
 'metadata-expand'   => 'Erweiterte Details einblenden',
 'metadata-collapse' => 'Erweiterte Details ausblenden',
-'metadata-fields'   => 'Die folgenden Felder der EXIF-Metadaten in diesem MediaWiki-Systemtext werden auf Bildbeschreibungsseiten angezeigt; weitere standardmäßig „eingeklappte“ Details können angezeigt werden.
+'metadata-fields'   => 'Die folgenden Felder der EXIF-Metadaten, die in diesem MediaWiki-Systemtext angegeben sind, werden auf Bildbeschreibungsseiten mit eingeklappter Metadatentabelle angezeigt.
+Weitere werden standardmäßig nicht angezeigt.
 * make
 * model
 * datetimeoriginal
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Breite',
@@ -3109,13 +3119,11 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'exif-ycbcrpositioning'            => 'Y und C Positionierung',
 'exif-xresolution'                 => 'Horizontale Auflösung',
 'exif-yresolution'                 => 'Vertikale Auflösung',
-'exif-resolutionunit'              => 'Maßeinheit der Auflösung',
 'exif-stripoffsets'                => 'Bilddaten-Versatz',
 'exif-rowsperstrip'                => 'Anzahl Zeilen pro Streifen',
 'exif-stripbytecounts'             => 'Bytes pro komprimiertem Streifen',
 'exif-jpeginterchangeformat'       => 'Offset zu JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Größe der JPEG-Daten in Bytes',
-'exif-transferfunction'            => 'Übertragungsfunktion',
 'exif-whitepoint'                  => 'Manuell mit Messung',
 'exif-primarychromaticities'       => 'Primäre Farbart',
 'exif-ycbcrcoefficients'           => 'YCbCr-Koeffizienten',
@@ -3132,9 +3140,8 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'exif-colorspace'                  => 'Farbraum',
 'exif-componentsconfiguration'     => 'Bedeutung einzelner Komponenten',
 'exif-compressedbitsperpixel'      => 'Komprimierte Bits pro Pixel',
-'exif-pixelydimension'             => 'Gültige Bildbreite',
-'exif-pixelxdimension'             => 'Gültige Bildhöhe',
-'exif-makernote'                   => 'Herstellernotiz',
+'exif-pixelydimension'             => 'Bildbreite',
+'exif-pixelxdimension'             => 'Bildhöhe',
 'exif-usercomment'                 => 'Benutzerkommentare',
 'exif-relatedsoundfile'            => 'Zugehörige Tondatei',
 'exif-datetimeoriginal'            => 'Erfassungszeitpunkt',
@@ -3148,10 +3155,9 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'exif-exposureprogram'             => 'Belichtungsprogramm',
 'exif-spectralsensitivity'         => 'Spectral Sensitivity',
 'exif-isospeedratings'             => 'Film- oder Sensorempfindlichkeit (ISO)',
-'exif-oecf'                        => 'Optoelektronischer Umrechnungsfaktor',
-'exif-shutterspeedvalue'           => 'Belichtungszeitwert',
-'exif-aperturevalue'               => 'Blendenwert',
-'exif-brightnessvalue'             => 'Helligkeitswert',
+'exif-shutterspeedvalue'           => 'APEX-Belichtungszeitwert',
+'exif-aperturevalue'               => 'APEX-Blendenwert',
+'exif-brightnessvalue'             => 'APEX-Helligkeitswert',
 'exif-exposurebiasvalue'           => 'Belichtungsvorgabe',
 'exif-maxaperturevalue'            => 'Größte Blende',
 'exif-subjectdistance'             => 'Entfernung',
@@ -3161,7 +3167,6 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'exif-focallength'                 => 'Brennweite',
 'exif-subjectarea'                 => 'Bereich',
 'exif-flashenergy'                 => 'Blitzstärke',
-'exif-spatialfrequencyresponse'    => 'Spatial-Frequenz',
 'exif-focalplanexresolution'       => 'Sensorauflösung horizontal',
 'exif-focalplaneyresolution'       => 'Sensorauflösung vertikal',
 'exif-focalplaneresolutionunit'    => 'Einheit der Sensorauflösung',
@@ -3170,7 +3175,6 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'exif-sensingmethod'               => 'Messmethode',
 'exif-filesource'                  => 'Quelle der Datei',
 'exif-scenetype'                   => 'Szenentyp',
-'exif-cfapattern'                  => 'CFA-Muster',
 'exif-customrendered'              => 'Benutzerdefinierte Bildverarbeitung',
 'exif-exposuremode'                => 'Belichtungsmodus',
 'exif-whitebalance'                => 'Weißabgleich',
@@ -3215,10 +3219,76 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'exif-gpsareainformation'          => 'Name des GPS-Gebietes',
 'exif-gpsdatestamp'                => 'GPS-Datum',
 'exif-gpsdifferential'             => 'GPS-Differentialkorrektur',
+'exif-jpegfilecomment'             => 'JPEG-Dateikommentar',
+'exif-keywords'                    => 'Stichwörter',
+'exif-worldregioncreated'          => 'Weltregion in der das Foto aufgenommen wurde',
+'exif-countrycreated'              => 'Staat in dem das Foto aufgenommen wurde',
+'exif-countrycodecreated'          => 'Code für den Staat in dem das Foto aufgenommen wurde',
+'exif-provinceorstatecreated'      => 'Provinz oder Gliedstaat in dem das Foto aufgenommen wurde',
+'exif-citycreated'                 => 'Stadt in der das Foto aufgenommen wurde',
+'exif-sublocationcreated'          => 'Bereich der Stadt in der das Foto aufgenommen wurde',
+'exif-worldregiondest'             => 'Gezeigte Weltregionen',
+'exif-countrydest'                 => 'Gezeigter Staat',
+'exif-countrycodedest'             => 'Code für den gezeigten Staat',
+'exif-provinceorstatedest'         => 'Gezeigte Provinz oder angezeigter Gliedstaat',
+'exif-citydest'                    => 'Gezeigte Stadt',
+'exif-sublocationdest'             => 'Bereich der gezeigten Stadt',
 'exif-objectname'                  => 'Kurztitel',
+'exif-specialinstructions'         => 'Besondere Anweisungen',
+'exif-headline'                    => 'Titel',
+'exif-credit'                      => 'Namensnennung/ Veröffentlicher',
+'exif-source'                      => 'Quelle',
+'exif-editstatus'                  => 'Redaktioneller Status des Fotos',
+'exif-urgency'                     => 'Dringlichkeit',
+'exif-fixtureidentifier'           => 'Spaltenname',
+'exif-locationdest'                => 'Dargestellter Standort',
+'exif-locationdestcode'            => 'Code für den dargestellten Standort',
+'exif-objectcycle'                 => 'Veröffentlichungszeitraum während eines Tages für den dieses Medium bestimmt ist',
+'exif-contact'                     => 'Kontaktinformationen',
+'exif-writer'                      => 'Verfasser',
+'exif-languagecode'                => 'Sprache',
+'exif-iimversion'                  => 'IIM-Version',
+'exif-iimcategory'                 => 'Kategorie',
+'exif-iimsupplementalcategory'     => 'Zusätzliche Kategorien',
+'exif-datetimeexpires'             => 'Nicht verwenden nach',
+'exif-datetimereleased'            => 'Veröffentlicht am',
+'exif-originaltransmissionref'     => 'Code des Standorts von dem das Foto übermittelt wurde',
+'exif-identifier'                  => 'Kennung',
+'exif-lens'                        => 'Verwendetes Objektiv',
+'exif-serialnumber'                => 'Seriennummer der Kamera',
+'exif-cameraownername'             => 'Kamerabesitzer',
+'exif-label'                       => 'Bezeichnung',
+'exif-datetimemetadata'            => 'Datum zu dem die Metadaten letztmalig geändert wurden',
+'exif-nickname'                    => 'Gebräuchlicher Name des Fotos',
+'exif-rating'                      => 'Bewertung (aus 5)',
+'exif-rightscertificate'           => 'Rechteverwaltungszertifikat',
+'exif-copyrighted'                 => 'Urheberrechtsstatus',
+'exif-copyrightowner'              => 'Urheberrechtsinhaber',
+'exif-usageterms'                  => 'Nutzungsbedingungen',
+'exif-webstatement'                => 'Online-Urheberrechtsangabe',
+'exif-originaldocumentid'          => 'Eindeutige Kennung des ursprünglichen Dokuments',
+'exif-licenseurl'                  => 'URL der Urheberrechtsangabe (Lizenz)',
+'exif-morepermissionsurl'          => 'Alternative Lizenzinformationen',
+'exif-attributionurl'              => 'Bei Weiterverwendung dieses Werks, bitte verlinken auf:',
+'exif-preferredattributionname'    => 'Bei Weiterverwendung dieses Werks, bitte benennen:',
+'exif-pngfilecomment'              => 'PNG-Dateikommentar',
+'exif-disclaimer'                  => 'Haftungsausschluss',
+'exif-contentwarning'              => 'Inhaltswarnung',
+'exif-giffilecomment'              => 'GIF-Dateikommentar',
+'exif-intellectualgenre'           => 'Art des Mediums',
+'exif-subjectnewscode'             => 'Themencode',
+'exif-scenecode'                   => 'IPTC-Ansichtcode',
+'exif-event'                       => 'Dargestelltes Ereignis',
+'exif-organisationinimage'         => 'Dargestellte Organisation',
+'exif-personinimage'               => 'Dargestellte Person',
+'exif-originalimageheight'         => 'Bildhöhe vor dem Zuschneiden',
+'exif-originalimagewidth'          => 'Bildbreite vor dem Zuschneiden',
 
 # EXIF attributes
 'exif-compression-1' => 'Unkomprimiert',
+
+'exif-copyrighted-true'  => 'Geschützt',
+'exif-copyrighted-false' => 'Gemeinfrei',
 
 'exif-unknowndate' => 'Unbekanntes Datum',
 
@@ -3233,6 +3303,8 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 
 'exif-planarconfiguration-1' => 'Grobformat',
 'exif-planarconfiguration-2' => 'Planarformat',
+
+'exif-colorspace-65535' => 'Nicht kalibriert',
 
 'exif-componentsconfiguration-0' => 'Existiert nicht',
 
@@ -3297,6 +3369,8 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'exif-sensingmethod-7' => 'Trilinearer Sensor',
 'exif-sensingmethod-8' => 'Farbraum linear sequentieller Sensor',
 
+'exif-filesource-3' => 'Digitale Standbildkamera',
+
 'exif-scenetype-1' => 'Normal',
 
 'exif-customrendered-0' => 'Standard',
@@ -3345,6 +3419,10 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'exif-gpslongitude-e' => 'östl. Länge',
 'exif-gpslongitude-w' => 'westl. Länge',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '$1 {{plural:$1|Meter|Meter}} über dem Meeresspiegel',
+'exif-gpsaltitude-below-sealevel' => '$1 {{plural:$1|Meter|Meter}} unter dem Meeresspiegel',
+
 'exif-gpsstatus-a' => 'Messung läuft',
 'exif-gpsstatus-v' => 'Interoperabilität von Messungen',
 
@@ -3356,9 +3434,63 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'exif-gpsspeed-m' => 'mph',
 'exif-gpsspeed-n' => 'Knoten',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometer',
+'exif-gpsdestdistance-m' => 'Meilen',
+'exif-gpsdestdistance-n' => 'Nautische Meilen',
+
+'exif-gpsdop-excellent' => 'Ausgezeichnet ($1)',
+'exif-gpsdop-good'      => 'Gut ($1)',
+'exif-gpsdop-moderate'  => 'Mittel ($1)',
+'exif-gpsdop-fair'      => 'Akzeptabel ($1)',
+'exif-gpsdop-poor'      => 'Schwach ($1)',
+
+'exif-objectcycle-a' => 'Nur morgens',
+'exif-objectcycle-p' => 'Nur abends',
+'exif-objectcycle-b' => 'Sowohl morgens und abends',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Tatsächliche Richtung',
 'exif-gpsdirection-m' => 'Magnetische Richtung',
+
+'exif-ycbcrpositioning-1' => 'Zentriert',
+'exif-ycbcrpositioning-2' => 'Benachbart',
+
+'exif-dc-contributor' => 'Beteiligte',
+'exif-dc-coverage'    => 'Örtlicher oder zeitlicher Rahmen des Mediums',
+'exif-dc-date'        => 'Datumsangaben',
+'exif-dc-publisher'   => 'Veröffentlicher',
+'exif-dc-relation'    => 'Ähnliche Medien',
+'exif-dc-rights'      => 'Rechte',
+'exif-dc-source'      => 'Medienherkunft',
+'exif-dc-type'        => 'Medientyp',
+
+'exif-rating-rejected' => 'Abgelehnt',
+
+'exif-isospeedratings-overflow' => 'Größer als 65535',
+
+'exif-iimcategory-ace' => 'Kunst, Kultur und Unterhaltung',
+'exif-iimcategory-clj' => 'Kriminalität und Recht',
+'exif-iimcategory-dis' => 'Katastrophen und Unfälle',
+'exif-iimcategory-fin' => 'Wirtschaft und Geschäfte',
+'exif-iimcategory-edu' => 'Bildung',
+'exif-iimcategory-evn' => 'Umwelt',
+'exif-iimcategory-hth' => 'Gesundheit',
+'exif-iimcategory-hum' => 'Interessensgebiet',
+'exif-iimcategory-lab' => 'Arbeit',
+'exif-iimcategory-lif' => 'Lifestyle und Freizeit',
+'exif-iimcategory-pol' => 'Politik',
+'exif-iimcategory-rel' => 'Religion und Glaube',
+'exif-iimcategory-sci' => 'Wissenschaft und Technologie',
+'exif-iimcategory-soi' => 'Soziale Themen',
+'exif-iimcategory-spo' => 'Sport',
+'exif-iimcategory-war' => 'Krieg, Konflikte und Unruhen',
+'exif-iimcategory-wea' => 'Wetter',
+
+'exif-urgency-normal' => 'Normal ($1)',
+'exif-urgency-low'    => 'Niedrig ($1)',
+'exif-urgency-high'   => 'Hoch ($1)',
+'exif-urgency-other'  => 'Benutzerdefinierte Priorität ($1)',
 
 # External editor support
 'edit-externally'      => 'Diese Datei mit einem externen Programm bearbeiten',
@@ -3664,18 +3796,5 @@ Die Eingabe muss ohne den Zusatz „{{ns:file}}:“ erfolgen.',
 # SQLite database support
 'sqlite-has-fts' => 'Version $1 mit Unterstützung für die Volltextsuche',
 'sqlite-no-fts'  => 'Version $1 ohne Unterstützung für die Volltextsuche',
-
-# Special:DisableAccount
-'disableaccount'             => 'Ein Benutzerkonto deaktivieren',
-'disableaccount-user'        => 'Benutzername:',
-'disableaccount-reason'      => 'Grund:',
-'disableaccount-confirm'     => "Deaktivieren dieses Benutzerkontos.
-Der Benutzer wird nicht mehr in der Lage sein sich anzumelden, das Passwort zurückzusetzen oder E-Mail-Benachrichtigungen zu empfangen.
-Sofern der Benutzer momentan angemeldet ist, wird er umgehend abgemeldet.
-''Es ist zu beachten, das die Deaktivierung eines Benutzerkontos nicht mehr ohne das Eingreifen eines Systemadministrators rückgängig gemacht werden kann.''",
-'disableaccount-mustconfirm' => 'Die Deaktivierung dieses Benutzerkontos muss nun bestätigt werden.',
-'disableaccount-nosuchuser'  => 'Das Benutzerkonto „$1“ ist nicht vorhanden.',
-'disableaccount-success'     => 'Das Benutzerkonto „$1“ wurde dauerhaft deaktiviert.',
-'disableaccount-logentry'    => 'deaktivierte das Benutzerkonto [[$1]] dauerhaft',
 
 );

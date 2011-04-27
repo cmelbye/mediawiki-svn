@@ -118,7 +118,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Lista_de_robots' ),
 	'Popularpages'              => array( 'Paginas_popular' ),
 	'Search'                    => array( 'Recerca' ),
-	'Resetpass'                 => array( 'Cambiar_contrasigno' ),
+	'ChangePassword'            => array( 'Cambiar_contrasigno' ),
 	'Withoutinterwiki'          => array( 'Sin_interwiki' ),
 	'MergeHistory'              => array( 'Fusionar_historia' ),
 	'Filepath'                  => array( 'Cammino_al_file' ),
@@ -435,7 +435,7 @@ $1',
 # Short words for each namespace, by default used in the namespace tab in monobook
 'nstab-main'      => 'Pagina',
 'nstab-user'      => 'Pagina de usator',
-'nstab-media'     => 'Pagina de media',
+'nstab-media'     => 'Pagina multimedia',
 'nstab-special'   => 'Pagina special',
 'nstab-project'   => 'Pagina de projecto',
 'nstab-image'     => 'File',
@@ -640,16 +640,7 @@ Per favor attende ante de probar lo novemente.',
 # E-mail sending
 'php-mail-error-unknown' => 'Error incognite in le function mail() de PHP',
 
-# JavaScript password checks
-'password-strength'            => 'Estimation del securitate del contrasigno: $1',
-'password-strength-bad'        => 'MAL',
-'password-strength-mediocre'   => 'mediocre',
-'password-strength-acceptable' => 'acceptabile',
-'password-strength-good'       => 'bon',
-'password-retype'              => 'Repete contrasigno hic',
-'password-retype-mismatch'     => 'Le contrasignos non es identic',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Cambiar contrasigno',
 'resetpass_announce'        => 'Tu ha aperite un session con un codice temporari que tu recipeva in e-mail.
 Pro completar le accesso, tu debe definir un nove contrasigno hic:',
@@ -667,6 +658,10 @@ Pro completar le accesso, tu debe definir un nove contrasigno hic:',
 'resetpass-wrong-oldpass'   => 'Le contrasigno temporari o actual es invalide.
 Es possibile que tu ha ja cambiate tu contrasigno o requestate un nove contrasigno temporari.',
 'resetpass-temp-password'   => 'Contrasigno temporari:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Reinitialisar contrasigno',
+'passwordreset-username' => 'Nomine de usator:',
 
 # Edit page toolbar
 'bold_sample'     => 'Texto grasse',
@@ -1045,25 +1040,6 @@ Per favor verifica le registros.',
 'suppressionlogtext' => 'Infra es un lista de deletiones e blocadas que involve contento que es celate de administratores.
 Vide le [[Special:IPBlockList|lista de blocadas IP]] pro le lista de bannimentos e blocadas actualmente in operation.',
 
-# Revision move
-'moverevlogentry'              => 'displaciava {{PLURAL:$3|un version|$3 versiones}} de $1 a $2',
-'revisionmove'                 => 'Displaciar versiones de "$1"',
-'revisionmove-backlink'        => '← $1',
-'revmove-explain'              => 'Le sequente versiones essera displaciate de $1 al pagina de destination specificate. Si le destination non existe, illo essera create. Alteremente, iste versiones essera fusionate con le historia del pagina.',
-'revmove-legend'               => 'Entrar pagina de destination e summario',
-'revmove-submit'               => 'Displaciar versiones al pagina seligite',
-'revisionmoveselectedversions' => 'Displaciar versiones seligite',
-'revmove-reasonfield'          => 'Motivo:',
-'revmove-titlefield'           => 'Pagina de destination:',
-'revmove-badparam-title'       => 'Parametros incorrecte',
-'revmove-badparam'             => 'Tu requesta contine parametros invalide o insufficiente. Per favor preme "retro" e reproba.',
-'revmove-norevisions-title'    => 'Le version de destination es invalide',
-'revmove-norevisions'          => 'Tu non ha specificate un o plus versiones de destination pro executar iste function o le version specificate non existe.',
-'revmove-nullmove-title'       => 'Titulo invalide',
-'revmove-nullmove'             => 'Le paginas de origine e de destination es identic. Per favor preme "retro" e entra un nomine de pagina differente de "$1".',
-'revmove-success-existing'     => '{{PLURAL:$1|Un version|$1 versiones}} de [[$2]] ha essite displaciate al pagina existente [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Un version|$1 versiones}} de [[$2]] ha essite displaciate al nove pagina [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Fusionar historias del paginas',
 'mergehistory-header'              => 'Iste pagina te permitte fusionar versiones del historia de un pagina de origine in un pagina plus nove.
@@ -1406,8 +1382,6 @@ Si tu opta pro dar lo, isto essera usate pro dar te attribution pro tu contribut
 'right-reset-passwords'       => 'Redefinir le contrasigno de altere usatores',
 'right-override-export-depth' => 'Exportar paginas includente paginas ligate usque a un profunditate de 5',
 'right-sendemail'             => 'Inviar e-mail a altere usatores',
-'right-revisionmove'          => 'Displaciar versiones',
-'right-disableaccount'        => 'Disactivar contos',
 
 # User rights log
 'rightslog'      => 'Registro de derectos de usator',
@@ -1450,7 +1424,6 @@ Si tu opta pro dar lo, isto essera usate pro dar te attribution pro tu contribut
 'action-userrights'           => 'modificar tote le derectos de usator',
 'action-userrights-interwiki' => 'modificar le derectos de usatores in altere wikis',
 'action-siteadmin'            => 'blocar e disblocar le base de datos',
-'action-revisionmove'         => 'displaciar versiones',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|modification|modificationes}}',
@@ -2944,7 +2917,7 @@ Omne ligamines posterior in le mesme linea es considerate como exceptiones, i.e.
 Si le file ha essite modificate ab su stato original, es possibile que alcun detalios non reflecte completemente le file modificate.',
 'metadata-expand'   => 'Revelar detalios extense',
 'metadata-collapse' => 'Celar detalios extense',
-'metadata-fields'   => 'Le campos de metadatos EXIF listate in iste message essera includite in le visualisation del pagina de imagine quando le tabula de metadatos es collabite.
+'metadata-fields'   => 'Le campos de metadatos de imagine listate in iste message essera includite in le visualisation del pagina de imagine quando le tabula de metadatos es plicate.
 Le alteres essera initialmente celate.
 * make
 * model
@@ -2952,7 +2925,13 @@ Le alteres essera initialmente celate.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Latitude',
@@ -2967,13 +2946,11 @@ Le alteres essera initialmente celate.
 'exif-ycbcrpositioning'            => 'Positionamento Y e C',
 'exif-xresolution'                 => 'Resolution horizontal',
 'exif-yresolution'                 => 'Resolution vertical',
-'exif-resolutionunit'              => 'Unitate de resolution X e Y',
 'exif-stripoffsets'                => 'Location del datos del imagine',
 'exif-rowsperstrip'                => 'Numero de lineas per banda',
 'exif-stripbytecounts'             => 'Bytes per banda comprimite',
 'exif-jpeginterchangeformat'       => 'Position de JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Bytes del datos JPEG',
-'exif-transferfunction'            => 'Function de transferimento',
 'exif-whitepoint'                  => 'Chromaticitate del puncto blanc',
 'exif-primarychromaticities'       => 'Chromaticitates del colores primari',
 'exif-ycbcrcoefficients'           => 'Coefficientes del matrice de transformation del spatio de colores',
@@ -2990,9 +2967,8 @@ Le alteres essera initialmente celate.
 'exif-colorspace'                  => 'Spatio de colores',
 'exif-componentsconfiguration'     => 'Significato de cata componente',
 'exif-compressedbitsperpixel'      => 'Modo de compression del imagine',
-'exif-pixelydimension'             => 'Latitude valide del imagine',
-'exif-pixelxdimension'             => 'Altitude valide del imagine',
-'exif-makernote'                   => 'Notas del fabricante',
+'exif-pixelydimension'             => 'Latitude del imagine',
+'exif-pixelxdimension'             => 'Altitude del imagine',
 'exif-usercomment'                 => 'Commentos del usator',
 'exif-relatedsoundfile'            => 'File audio connexe',
 'exif-datetimeoriginal'            => 'Data e hora del generation del datos',
@@ -3006,10 +2982,9 @@ Le alteres essera initialmente celate.
 'exif-exposureprogram'             => 'Programma de exposition',
 'exif-spectralsensitivity'         => 'Sensibilitate spectral',
 'exif-isospeedratings'             => 'Classification de velocitate ISO',
-'exif-oecf'                        => 'Factor de conversion optoelectronic',
-'exif-shutterspeedvalue'           => 'Velocitate del obturator',
-'exif-aperturevalue'               => 'Apertura',
-'exif-brightnessvalue'             => 'Luminositate',
+'exif-shutterspeedvalue'           => 'Velocitate del obturator in unitates APEX',
+'exif-aperturevalue'               => 'Latitude del apertura in unitates APEX',
+'exif-brightnessvalue'             => 'Luminositate in unitates APEX',
 'exif-exposurebiasvalue'           => 'Correction de exposition',
 'exif-maxaperturevalue'            => 'Apertura maxime pro terra',
 'exif-subjectdistance'             => 'Distantia del subjecto',
@@ -3019,7 +2994,6 @@ Le alteres essera initialmente celate.
 'exif-focallength'                 => 'Longitude focal del lente',
 'exif-subjectarea'                 => 'Area de subjecto',
 'exif-flashenergy'                 => 'Energia del flash',
-'exif-spatialfrequencyresponse'    => 'Responsa de frequentia spatial',
 'exif-focalplanexresolution'       => 'Resolution X del plano focal',
 'exif-focalplaneyresolution'       => 'Resolution Y del plano focal',
 'exif-focalplaneresolutionunit'    => 'Unitate del resolution del plano focal',
@@ -3028,7 +3002,6 @@ Le alteres essera initialmente celate.
 'exif-sensingmethod'               => 'Methodo de sensor',
 'exif-filesource'                  => 'Origine del file',
 'exif-scenetype'                   => 'Typo de scena',
-'exif-cfapattern'                  => 'Patrono CFA',
 'exif-customrendered'              => 'Processamento de imagines personalisate',
 'exif-exposuremode'                => 'Modo de exposition',
 'exif-whitebalance'                => 'Balancia de blanc',
@@ -3073,10 +3046,76 @@ Le alteres essera initialmente celate.
 'exif-gpsareainformation'          => 'Nomine de area GPS',
 'exif-gpsdatestamp'                => 'Data GPS',
 'exif-gpsdifferential'             => 'Correction differential GPS',
+'exif-jpegfilecomment'             => 'Commento del file JPEG',
+'exif-keywords'                    => 'Parolas-clave',
+'exif-worldregioncreated'          => 'Region del mundo ubi le photo esseva prendite',
+'exif-countrycreated'              => 'Pais ubi le photo esseva prendite',
+'exif-countrycodecreated'          => 'Codice pro le pais ubi le photo esseva prendite',
+'exif-provinceorstatecreated'      => 'Provincia o stato ubi le photo esseva prendite',
+'exif-citycreated'                 => 'Citate ubi le photo esseva prendite',
+'exif-sublocationcreated'          => 'Sublocalitate del citate ubi le photo esseva prendite',
+'exif-worldregiondest'             => 'Region del mundo monstrate',
+'exif-countrydest'                 => 'Pais monstrate',
+'exif-countrycodedest'             => 'Codice pro pais monstrate',
+'exif-provinceorstatedest'         => 'Provincia o stato monstrate',
+'exif-citydest'                    => 'Citate monstrate',
+'exif-sublocationdest'             => 'Sublocalitate del citate monstrate',
 'exif-objectname'                  => 'Titulo curte',
+'exif-specialinstructions'         => 'Instructiones special',
+'exif-headline'                    => 'Titulo',
+'exif-credit'                      => 'Credito/Fornitor',
+'exif-source'                      => 'Origine',
+'exif-editstatus'                  => 'Stato redactorial del imagine',
+'exif-urgency'                     => 'Urgentia',
+'exif-fixtureidentifier'           => 'Nomine del rubrica',
+'exif-locationdest'                => 'Loco representate',
+'exif-locationdestcode'            => 'Codice del loco representate',
+'exif-objectcycle'                 => 'Horas del die a que iste objecto es destinate',
+'exif-contact'                     => 'Informationes de contacto',
+'exif-writer'                      => 'Scriptor',
+'exif-languagecode'                => 'Lingua',
+'exif-iimversion'                  => 'Version de IIM',
+'exif-iimcategory'                 => 'Categoria',
+'exif-iimsupplementalcategory'     => 'Categorias supplementari',
+'exif-datetimeexpires'             => 'Non usar post',
+'exif-datetimereleased'            => 'Data de publication',
+'exif-originaltransmissionref'     => 'Codice de localitate del transmission original',
+'exif-identifier'                  => 'Identificator',
+'exif-lens'                        => 'Objectivo usate',
+'exif-serialnumber'                => 'Numero de serie del camera',
+'exif-cameraownername'             => 'Proprietario del camera',
+'exif-label'                       => 'Etiquetta',
+'exif-datetimemetadata'            => 'Data del ultime modification del metadatos',
+'exif-nickname'                    => 'Nomine informal del imagine',
+'exif-rating'                      => 'Evalutation (1-5)',
+'exif-rightscertificate'           => 'Certificato de gestion de derectos',
+'exif-copyrighted'                 => 'Stato de copyright',
+'exif-copyrightowner'              => 'Titular del copyright',
+'exif-usageterms'                  => 'Conditiones de uso',
+'exif-webstatement'                => 'Declaration in linea de copyright',
+'exif-originaldocumentid'          => 'ID unic del documento original',
+'exif-licenseurl'                  => 'URL pro licentia de copyright',
+'exif-morepermissionsurl'          => 'Information alternative de licentia',
+'exif-attributionurl'              => 'Si tu re-usa iste obra, per favor insere un ligamine a',
+'exif-preferredattributionname'    => 'Si tu re-usa iste obra, per favor da recognoscentia a',
+'exif-pngfilecomment'              => 'Commento del file PNG',
+'exif-disclaimer'                  => 'Repudiation',
+'exif-contentwarning'              => 'Advertimento de contento',
+'exif-giffilecomment'              => 'Commento del file GIF',
+'exif-intellectualgenre'           => 'Typo de elemento',
+'exif-subjectnewscode'             => 'Codice de subjecto',
+'exif-scenecode'                   => 'Codice de scena IPTC',
+'exif-event'                       => 'Evento representate',
+'exif-organisationinimage'         => 'Organisation representate',
+'exif-personinimage'               => 'Persona representate',
+'exif-originalimageheight'         => 'Altitude del imagine ante taliar',
+'exif-originalimagewidth'          => 'Latitude del imagine ante taliar',
 
 # EXIF attributes
 'exif-compression-1' => 'Non comprimite',
+
+'exif-copyrighted-true'  => 'Sub copyright',
+'exif-copyrighted-false' => 'Dominio public',
 
 'exif-unknowndate' => 'Data incognite',
 
@@ -3091,6 +3130,8 @@ Le alteres essera initialmente celate.
 
 'exif-planarconfiguration-1' => 'formato a blocos (chunky)',
 'exif-planarconfiguration-2' => 'formato planar',
+
+'exif-colorspace-65535' => 'Non calibrate',
 
 'exif-componentsconfiguration-0' => 'non existe',
 
@@ -3155,6 +3196,8 @@ Le alteres essera initialmente celate.
 'exif-sensingmethod-7' => 'Sensor trilinear',
 'exif-sensingmethod-8' => 'Sensor de color linear sequential',
 
+'exif-filesource-3' => 'Camera photographic digital',
+
 'exif-scenetype-1' => 'Un imagine directemente photographiate',
 
 'exif-customrendered-0' => 'Processo normal',
@@ -3203,6 +3246,10 @@ Le alteres essera initialmente celate.
 'exif-gpslongitude-e' => 'Longitude est',
 'exif-gpslongitude-w' => 'Longitude west',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '$1 {{PLURAL:$1|metro|metros}} super le nivello del mar',
+'exif-gpsaltitude-below-sealevel' => '$1 {{PLURAL:$1|metro|metros}} sub le nivello del mar',
+
 'exif-gpsstatus-a' => 'Mesura in curso',
 'exif-gpsstatus-v' => 'Interoperabilitate del mesura',
 
@@ -3214,9 +3261,63 @@ Le alteres essera initialmente celate.
 'exif-gpsspeed-m' => 'Millias per hora',
 'exif-gpsspeed-n' => 'Nodos',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometros',
+'exif-gpsdestdistance-m' => 'Millias',
+'exif-gpsdestdistance-n' => 'Millias nautic',
+
+'exif-gpsdop-excellent' => 'Excellente ($1)',
+'exif-gpsdop-good'      => 'Bon ($1)',
+'exif-gpsdop-moderate'  => 'Moderate ($1)',
+'exif-gpsdop-fair'      => 'Acceptabile ($1)',
+'exif-gpsdop-poor'      => 'Mal ($1)',
+
+'exif-objectcycle-a' => 'Matino solmente',
+'exif-objectcycle-p' => 'Vespere solmente',
+'exif-objectcycle-b' => 'Matino e vespere',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Direction real',
 'exif-gpsdirection-m' => 'Direction magnetic',
+
+'exif-ycbcrpositioning-1' => 'Centrate',
+'exif-ycbcrpositioning-2' => 'Co-situate',
+
+'exif-dc-contributor' => 'Contributores',
+'exif-dc-coverage'    => 'Scopo spatial o temporal del objecto',
+'exif-dc-date'        => 'Data(s)',
+'exif-dc-publisher'   => 'Editor',
+'exif-dc-relation'    => 'Objectos connexe',
+'exif-dc-rights'      => 'Derectos',
+'exif-dc-source'      => 'Objecto original',
+'exif-dc-type'        => 'Typo de objecto',
+
+'exif-rating-rejected' => 'Rejectate',
+
+'exif-isospeedratings-overflow' => 'Superior a 65535',
+
+'exif-iimcategory-ace' => 'Arte, cultura e intertenimento',
+'exif-iimcategory-clj' => 'Crimine e lege',
+'exif-iimcategory-dis' => 'Catastrophes e accidentes',
+'exif-iimcategory-fin' => 'Economia e negotios',
+'exif-iimcategory-edu' => 'Education',
+'exif-iimcategory-evn' => 'Ambiente',
+'exif-iimcategory-hth' => 'Sanitate',
+'exif-iimcategory-hum' => 'Interesse human',
+'exif-iimcategory-lab' => 'Labor',
+'exif-iimcategory-lif' => 'Stilo de vita e tempore libere',
+'exif-iimcategory-pol' => 'Politica',
+'exif-iimcategory-rel' => 'Religion e credentia',
+'exif-iimcategory-sci' => 'Scientia e technologia',
+'exif-iimcategory-soi' => 'Questiones social',
+'exif-iimcategory-spo' => 'Sport',
+'exif-iimcategory-war' => 'Guerra, conflicto e perturbation',
+'exif-iimcategory-wea' => 'Meteo',
+
+'exif-urgency-normal' => 'Normal ($1)',
+'exif-urgency-low'    => 'Basse ($1)',
+'exif-urgency-high'   => 'Alte ($1)',
+'exif-urgency-other'  => 'Prioritate definite per usator ($1)',
 
 # External editor support
 'edit-externally'      => 'Modificar iste file con un programma externe',
@@ -3519,18 +3620,5 @@ Entra le nomine del file sin le prefixo "{{ns:file}}:".',
 # SQLite database support
 'sqlite-has-fts' => '$1 con supporto de recerca de texto integre',
 'sqlite-no-fts'  => '$1 sin supporto de recerca de texto integre',
-
-# Special:DisableAccount
-'disableaccount'             => 'Disactivar un conto de usator',
-'disableaccount-user'        => 'Nomine de usator:',
-'disableaccount-reason'      => 'Motivo:',
-'disableaccount-confirm'     => "Disactivar iste conto de usator.
-Le usator non potera aperir session, ni reinitialisar su contrasigno, ni reciper notificationes per e-mail.
-Si le usator es actualmente authenticate alicubi, su session essera immediatemente claudite.
-''Nota que le disactivation de un conto de usator non es reversibile sin intervention de un administrator del systema.''",
-'disableaccount-mustconfirm' => 'Tu debe confirmar que tu vole disactivar iste conto.',
-'disableaccount-nosuchuser'  => 'Le conto de usator "$1" non existe.',
-'disableaccount-success'     => 'Le conto de usator "$1" ha essite disactivate permanentemente.',
-'disableaccount-logentry'    => 'disactivava permanentemente le conto de usator [[$1]]',
 
 );

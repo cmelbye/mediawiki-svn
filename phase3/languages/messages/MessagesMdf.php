@@ -131,7 +131,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'ЛувомаРоботт програпне' ),
 	'Popularpages'              => array( 'СидестаЛопатне' ),
 	'Search'                    => array( 'Вешендема' ),
-	'Resetpass'                 => array( 'ПолафттСувама', 'ПолафттСувама вал' ),
+	'ChangePassword'            => array( 'ПолафттСувама', 'ПолафттСувама вал' ),
 	'Withoutinterwiki'          => array( 'Интервикифтома' ),
 	'MergeHistory'              => array( 'ШоворемсИсториять' ),
 	'Filepath'                  => array( 'ФайлКиц' ),
@@ -581,7 +581,7 @@ $2',
 Эняльттяма, учт аф ламос тага весть тяряфтома инголе.',
 'loginlanguagelabel'         => 'Кяль: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Полафтомс сувама валцень',
 'resetpass_announce'        => 'Тон сувать ёткопингонь сувама валть вельде кона сась электрононь адресозот. Сувама аделаманди тондейть эряви путомс тязк од сувама вал:',
 'resetpass_header'          => 'Полафтомс сувама валцень',
@@ -2361,7 +2361,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Келец',
@@ -2376,13 +2382,11 @@ $1',
 'exif-ycbcrpositioning'            => 'Y ди C арафтомасна',
 'exif-xresolution'                 => 'Горизонталень сидец',
 'exif-yresolution'                 => 'Вертикалень сидец',
-'exif-resolutionunit'              => 'X ди Y сидеснон ункстама тяшксне',
 'exif-stripoffsets'                => 'Архтома информациеть вастоц',
 'exif-rowsperstrip'                => 'Курнятнень луфкссна фкя киксс',
 'exif-stripbytecounts'             => 'Байтт фкя компрезияфтф китьксс',
 'exif-jpeginterchangeformat'       => 'JPEG SOI-нди офсетсь',
 'exif-jpeginterchangeformatlength' => 'JPEG информациень байтт',
-'exif-transferfunction'            => 'Пачфтема функциесь',
 'exif-whitepoint'                  => 'Акша коряс ункстамась',
 'exif-primarychromaticities'       => 'Васень тюснень ункстамась',
 'exif-ycbcrcoefficients'           => 'Тюс ёткнень илякстомома кепотьксть коефициентоц',
@@ -2401,7 +2405,6 @@ $1',
 'exif-compressedbitsperpixel'      => 'Архтофксонь компрезийамась',
 'exif-pixelydimension'             => 'Кондясти архтофксонь келец',
 'exif-pixelxdimension'             => 'Кондясти архтофксонь серец',
-'exif-makernote'                   => 'Нолдайть тяштьксонза',
 'exif-usercomment'                 => 'Тиить тяштьксонза',
 'exif-relatedsoundfile'            => 'Сотф аудио файлсь',
 'exif-datetimeoriginal'            => 'Шинь тиевомать шись ди пингсь',
@@ -2415,7 +2418,6 @@ $1',
 'exif-exposureprogram'             => 'Экспозициень програмсь',
 'exif-spectralsensitivity'         => 'Спектрань марьсемась',
 'exif-isospeedratings'             => 'ISO куроксшинь пялькснемась',
-'exif-oecf'                        => 'Оптоэлектрононь конверзиеть факторсь',
 'exif-shutterspeedvalue'           => 'Эрьхтема таватксонь куроксшись',
 'exif-aperturevalue'               => 'Апертурсь',
 'exif-brightnessvalue'             => 'Валдоксши',
@@ -2428,7 +2430,6 @@ $1',
 'exif-focallength'                 => 'Линзатнень фокусснон ётканза',
 'exif-subjectarea'                 => 'Субъектонь вастсь',
 'exif-flashenergy'                 => 'Кьфчядефксонь эрьгац',
-'exif-spatialfrequencyresponse'    => 'Ушепотма сидешинь карактеристиксь',
 'exif-focalplanexresolution'       => 'Фокусонь ён X сидец',
 'exif-focalplaneyresolution'       => 'Фокусонь ён Y сидец',
 'exif-focalplaneresolutionunit'    => 'Фокусонь ён сиденц ункстамась',
@@ -2437,7 +2438,6 @@ $1',
 'exif-sensingmethod'               => 'Марьсема методсь',
 'exif-filesource'                  => 'Файлонь лисьмоц',
 'exif-scenetype'                   => 'Эрьхтефксонь няйфсь',
-'exif-cfapattern'                  => 'CFA шаблон',
 'exif-customrendered'              => 'Кърдань эрьхтефксонь латцемась',
 'exif-exposuremode'                => 'Экспозициень режимсь',
 'exif-whitebalance'                => 'Акша тюсонь балансоц',

@@ -8,6 +8,7 @@
  * @file
  *
  * @author Aleator
+ * @author BroOk
  * @author Cedric31
  * @author Davidpar
  * @author El libre
@@ -171,7 +172,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Bots' ),
 	'Popularpages'              => array( 'Pàgines populars' ),
 	'Search'                    => array( 'Cerca' ),
-	'Resetpass'                 => array( 'Reinicia contrasenya' ),
+	'ChangePassword'            => array( 'Reinicia contrasenya' ),
 	'Withoutinterwiki'          => array( 'Sense interwiki' ),
 	'MergeHistory'              => array( 'Fusiona historial' ),
 	'Blankpage'                 => array( 'Pàgina en blanc', 'Blanc' ),
@@ -669,16 +670,7 @@ Si us plau, esperi abans de tornar-ho a intentar.",
 # E-mail sending
 'php-mail-error-unknown' => 'Error desconegut en la funció mail() de PHP',
 
-# JavaScript password checks
-'password-strength'            => 'Força estimada de la contrasenya: $1',
-'password-strength-bad'        => 'DOLENT',
-'password-strength-mediocre'   => 'mediocre',
-'password-strength-acceptable' => 'acceptable',
-'password-strength-good'       => 'bo',
-'password-retype'              => 'Escriviu una altra vegada la contrasenya aquí',
-'password-retype-mismatch'     => 'Les contrasenyes no coincideixen.',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Canvia la contrasenya',
 'resetpass_announce'        => 'Heu iniciat la sessió amb un codi temporal enviat per correu electrònic. Per a finalitzar-la, heu de definir una nova contrasenya ací:',
 'resetpass_text'            => '<!-- Afegiu-hi un text -->',
@@ -1011,7 +1003,7 @@ Els altres administradors de {{SITENAME}} encara podran accedir al contingut ama
 'revdelete-submit'            => 'Aplica a {{PLURAL:$1|la revisió seleccionada|les revisions seleccionades}}',
 'revdelete-logentry'          => "s'ha canviat la visibilitat de la revisió de [[$1]]",
 'logdelete-logentry'          => "s'ha canviat la visibilitat de [[$1]]",
-'revdelete-success'           => "'''La visibilitat d'aquesta revissió s'ha actualitzat correctament .'''",
+'revdelete-success'           => "'''La visibilitat d'aquesta revisió s'ha actualitzat correctament.'''",
 'revdelete-failure'           => "'''La visibilitat de la revisió no ha pogut actualitzar-se:'''
 $1",
 'logdelete-success'           => "'''S'ha establert correctament la visibilitat d'aquest element.'''",
@@ -1055,24 +1047,6 @@ Si us plau, verifica els registres.",
 # Suppression log
 'suppressionlog'     => 'Registre de supressió',
 'suppressionlogtext' => 'A continuació hi ha una llista de les eliminacions i bloquejos que impliquen un contingut amagat als administradors. Vegeu la [[Special:IPBlockList|llista de bloquejos]] per a consultar la llista de bandejos i bloquejos actualment en curs.',
-
-# Revision move
-'moverevlogentry'              => "{{PLURAL:$3|s'ha mogut una revisió|s'han mogut $3 revisions}} des de $1 a $2",
-'revisionmove'                 => 'Moure revisions des de «$1»',
-'revmove-explain'              => "Les següents revisions seran traslladades des de $1 a la pàgina de destinació especificada. Si la destinació no existeix, es crearà. En cas contrari, aquestes revisions es fusionaran amb l'historial de la pàgina.",
-'revmove-legend'               => 'Establir pàgina de destinació i resum',
-'revmove-submit'               => 'Moure revisions a la pàgina seleccionada',
-'revisionmoveselectedversions' => 'Moure revisions seleccionades',
-'revmove-reasonfield'          => 'Motiu:',
-'revmove-titlefield'           => 'Pàgina de destinació:',
-'revmove-badparam-title'       => 'paràmetres inadequats',
-'revmove-badparam'             => 'La soŀlicitud conté paràmetres insuficients o erronis. Torneu enrere i intenteu-ho de nou.',
-'revmove-norevisions-title'    => 'Revisió especificada no vàlida',
-'revmove-norevisions'          => 'No heu especificat una o més revisions on aplicar aquesta funció o bé les revisions especificades no existeixen.',
-'revmove-nullmove-title'       => 'Títol inadequat',
-'revmove-nullmove'             => "Les pàgines d'origen i de destinació són idèntiques. Torneu enrere i escriviu una pàgina diferent de «$1».",
-'revmove-success-existing'     => '{{PLURAL:$1|Una revisió de [[$2]] ha estat traslladada|$1 revisions de [[$2]] han estat traslladades}} a la pàgina existent [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Una revisió de [[$2]] ha estat traslladada|$1 revisions de [[$2]] han estat traslladades}} a la nova pàgina [[$3]].',
 
 # History merging
 'mergehistory'                     => 'Fusiona els historials de les pàgines',
@@ -1410,8 +1384,6 @@ Ha de tenir com a molt {{PLURAL:$1|un caràcter|$1 caràcters}}.',
 'right-reset-passwords'       => "Reiniciar la contrasenya d'altres usuaris",
 'right-override-export-depth' => 'Exportar pàgines incloent aquelles enllaçades fins a una fondària de 5',
 'right-sendemail'             => 'Enviar missatges de correu electrònic a altres usuaris',
-'right-revisionmove'          => 'Moure revisions',
-'right-disableaccount'        => 'Desactivar comptes',
 
 # User rights log
 'rightslog'      => "Registre dels permisos d'usuari",
@@ -1454,7 +1426,6 @@ Ha de tenir com a molt {{PLURAL:$1|un caràcter|$1 caràcters}}.',
 'action-userrights'           => "modificar tots els permisos d'usuari",
 'action-userrights-interwiki' => "modificar permisos d'usuari en altres wikis",
 'action-siteadmin'            => 'bloquejar o desbloquejar la base de dades',
-'action-revisionmove'         => 'moure revisions',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|canvi|canvis}}',
@@ -1646,22 +1617,23 @@ No s'hi ha pogut comprovar la seguretat.",
 'uploadstash-refresh'  => 'Actualitza la llista de fitxers',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Accés denegat',
-'img-auth-nopathinfo'   => 'Falta PATH_INFO.
+'img-auth-accessdenied'     => 'Accés denegat',
+'img-auth-nopathinfo'       => 'Falta PATH_INFO.
 El vostre servidor no està configurat per a tractar aquesta informació.
 Pot estar basat en CGI i no soportar img_auth.
 Vegeu http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => "No s'ha trobat la ruta sol·licitada al directori de càrrega configurat.",
-'img-auth-badtitle'     => 'No s\'ha pogut construir un títol vàlid a partir de "$1".',
-'img-auth-nologinnWL'   => 'No has iniciat sessió i "$1" no està a la llista blanca.',
-'img-auth-nofile'       => 'No existeix el fitxer "$1".',
-'img-auth-isdir'        => 'Esteu intentant accedir al directori «$1».
+'img-auth-notindir'         => "No s'ha trobat la ruta sol·licitada al directori de càrrega configurat.",
+'img-auth-badtitle'         => 'No s\'ha pogut construir un títol vàlid a partir de "$1".',
+'img-auth-nologinnWL'       => 'No has iniciat sessió i "$1" no està a la llista blanca.',
+'img-auth-nofile'           => 'No existeix el fitxer "$1".',
+'img-auth-isdir'            => 'Esteu intentant accedir al directori «$1».
 Només teniu permès accedir als fitxers.',
-'img-auth-streaming'    => 'Lectura corrent de "$1".',
-'img-auth-public'       => "La funció de img_auth.php és de sortida de fitxers d'un lloc wiki privat.
+'img-auth-streaming'        => 'Lectura corrent de "$1".',
+'img-auth-public'           => "La funció de img_auth.php és de sortida de fitxers d'un lloc wiki privat.
 Aquest wiki està configurat com a wiki públic.
 Per seguretat, img_auth.php està desactivat.",
-'img-auth-noread'       => 'L\'usuari no té accés a la lectura de "$1".',
+'img-auth-noread'           => 'L\'usuari no té accés a la lectura de "$1".',
+'img-auth-bad-query-string' => 'La direcció té una cadena de consulta invàlid.',
 
 # HTTP errors
 'http-invalid-url'      => 'URL incorrecta: $1',
@@ -2020,6 +1992,10 @@ L'adreça electrònica que heu entrat en [[Special:Preferences|les vostres prefe
 'noemailtext'          => 'Aquest usuari no ha especificat una adreça electrònica vàlida.',
 'nowikiemailtitle'     => 'No es permet el correu electrònic',
 'nowikiemailtext'      => "Aquest usuari ha escollit no rebre missatges electrònics d'altres usuaris.",
+'emailnotarget'        => "Nom d'usuari inexistent o no vàlid per al destinatari.",
+'emailtarget'          => "Introduïu el nom d'usuari del destinatari",
+'emailusername'        => "Nom d'usuari:",
+'emailusernamesubmit'  => 'Enviar',
 'email-legend'         => 'Enviar un correu electrònic a un altre usuari de {{SITENAME}}',
 'emailfrom'            => 'De:',
 'emailto'              => 'Per a:',
@@ -2501,7 +2477,7 @@ Assegureu-vos de verificar els redireccionaments [[Special:DoubleRedirects|doble
 
 Sigueu responsable de fer que els enllaços continuen apuntant cap a on se suposa que han d'anar. 
 
-Tingueu en compte que la página '''no''' serà traslladada si ja existeix una pàgina amb el títol nou proposat, tret del cas que la página és buida o no n'hi ha un historial de redireccionaments. 
+Tingueu en compte que la pàgina '''no''' serà traslladada si ja existeix una pàgina amb el títol nou proposat, tret del cas que la pàgina és buida o no n'hi ha un historial de redireccionaments. 
 
 Això significa que si reanomeneu per equivocació una pàgina amb el seu nom anterior no ho podreu fer, ja que no es pot sobreescriure una pàgina existent.
  
@@ -2541,7 +2517,7 @@ Incorporeu-les manualment, si us plau.",
 'movepage-page-moved'          => 'La pàgina $1 ha estat traslladada a $2.',
 'movepage-page-unmoved'        => "La pàgina $1 no s'ha pogut moure a $2.",
 'movepage-max-pages'           => "{{PLURAL:$1|S'ha mogut una pàgina|S'han mogut $1 pàgines}} que és el nombre màxim, i per tant no se'n mourà automàticament cap més.",
-'1movedto2'                    => 'a reanomenat [[$1]] com a [[$2]]',
+'1movedto2'                    => 'ha reanomenat [[$1]] com a [[$2]]',
 '1movedto2_redir'              => 'ha reanomenat [[$1]] com a [[$2]] sobre una redirecció',
 'move-redirect-suppressed'     => 'redirecció suprimida',
 'movelogpage'                  => 'Registre de reanomenaments',
@@ -2872,7 +2848,13 @@ La resta d'enllaços de la línia són les excepcions, és a dir, les pàgines o
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Amplada',
@@ -2887,13 +2869,11 @@ La resta d'enllaços de la línia són les excepcions, és a dir, les pàgines o
 'exif-ycbcrpositioning'            => 'Posició YCbCr',
 'exif-xresolution'                 => 'Resolució horitzontal',
 'exif-yresolution'                 => 'Resolució vertical',
-'exif-resolutionunit'              => 'Unitats de les resolucions X i Y',
 'exif-stripoffsets'                => 'Ubicació de les dades de la imatge',
 'exif-rowsperstrip'                => 'Nombre de fileres per franja',
 'exif-stripbytecounts'             => 'Octets per franja comprimida',
 'exif-jpeginterchangeformat'       => 'Ancorament del JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Octets de dades JPEG',
-'exif-transferfunction'            => 'Funció de transferència',
 'exif-whitepoint'                  => 'Cromositat del punt blanc',
 'exif-primarychromaticities'       => 'Coordenada cromàtica del color primari',
 'exif-ycbcrcoefficients'           => "Quoficients de la matriu de transformació de l'espai colorimètric",
@@ -2912,7 +2892,6 @@ La resta d'enllaços de la línia són les excepcions, és a dir, les pàgines o
 'exif-compressedbitsperpixel'      => "Mode de compressió d'imatge",
 'exif-pixelydimension'             => 'Amplada de la imatge',
 'exif-pixelxdimension'             => 'Alçada de la imatge',
-'exif-makernote'                   => 'Notes del fabricant',
 'exif-usercomment'                 => "Comentaris de l'usuari",
 'exif-relatedsoundfile'            => "Fitxer d'àudio relacionat",
 'exif-datetimeoriginal'            => 'Dia i hora de generació de les dades',
@@ -2926,10 +2905,9 @@ La resta d'enllaços de la línia són les excepcions, és a dir, les pàgines o
 'exif-exposureprogram'             => "Programa d'exposició",
 'exif-spectralsensitivity'         => 'Sensibilitat espectral',
 'exif-isospeedratings'             => 'Sensibilitat ISO',
-'exif-oecf'                        => 'Factor de conversió optoelectrònic',
-'exif-shutterspeedvalue'           => "Temps d'exposició",
-'exif-aperturevalue'               => 'Obertura',
-'exif-brightnessvalue'             => 'Brillantor',
+'exif-shutterspeedvalue'           => "APEX velocitat d'obturació",
+'exif-aperturevalue'               => 'APEX obertura',
+'exif-brightnessvalue'             => 'APEX brillantor',
 'exif-exposurebiasvalue'           => "Correcció d'exposició",
 'exif-maxaperturevalue'            => "Camp d'obertura màxim",
 'exif-subjectdistance'             => 'Distància del subjecte',
@@ -2939,7 +2917,6 @@ La resta d'enllaços de la línia són les excepcions, és a dir, les pàgines o
 'exif-focallength'                 => 'Longitud focal de la lent',
 'exif-subjectarea'                 => 'Enquadre del subjecte',
 'exif-flashenergy'                 => 'Energia del flaix',
-'exif-spatialfrequencyresponse'    => 'Resposta en freqüència espacial',
 'exif-focalplanexresolution'       => 'Resolució X del pla focal',
 'exif-focalplaneyresolution'       => 'Resolució Y del pla focal',
 'exif-focalplaneresolutionunit'    => 'Unitat de resolució del pla focal',
@@ -2948,7 +2925,6 @@ La resta d'enllaços de la línia són les excepcions, és a dir, les pàgines o
 'exif-sensingmethod'               => 'Mètode de detecció',
 'exif-filesource'                  => 'Font del fitxer',
 'exif-scenetype'                   => "Tipus d'escena",
-'exif-cfapattern'                  => 'Patró CFA',
 'exif-customrendered'              => "Processament d'imatge personalitzat",
 'exif-exposuremode'                => "Mode d'exposició",
 'exif-whitebalance'                => 'Balanç de blancs',
@@ -2993,7 +2969,64 @@ La resta d'enllaços de la línia són les excepcions, és a dir, les pàgines o
 'exif-gpsareainformation'          => "Nom de l'àrea GPS",
 'exif-gpsdatestamp'                => 'Data GPS',
 'exif-gpsdifferential'             => 'Correcció diferencial GPS',
+'exif-jpegfilecomment'             => 'Comentari del fitxer JPEG',
+'exif-keywords'                    => 'Paraules clau',
+'exif-worldregioncreated'          => 'Regió del món on la foto va ser presa',
+'exif-countrycreated'              => 'País on la foto va ser presa',
+'exif-countrycodecreated'          => 'Codi del país on la foto va ser presa',
+'exif-provinceorstatecreated'      => 'Província o estat on la foto va ser presa',
+'exif-citycreated'                 => 'Ciutat on la foto va ser presa',
+'exif-sublocationcreated'          => 'Sublocalització de la ciutat on la foto va ser presa',
+'exif-worldregiondest'             => 'Regió del món que mostra',
+'exif-countrydest'                 => 'País que mostra',
+'exif-countrycodedest'             => 'Codi del país que mostra',
+'exif-provinceorstatedest'         => 'Província o estat que mostra',
+'exif-citydest'                    => 'Ciutat que mostra',
+'exif-sublocationdest'             => 'Sublocalització de la ciutat que mostra',
 'exif-objectname'                  => 'Títol abreujat',
+'exif-specialinstructions'         => 'Instruccions especials',
+'exif-headline'                    => 'Encapçalament',
+'exif-credit'                      => 'Crèdit / Proveïdor',
+'exif-source'                      => 'Font',
+'exif-editstatus'                  => 'Estat de redacció de la imatge',
+'exif-urgency'                     => 'Urgència',
+'exif-fixtureidentifier'           => "Nom de l'accessori",
+'exif-locationdest'                => 'Ubicació representada',
+'exif-locationdestcode'            => 'Codi de la ubicació que mostra',
+'exif-objectcycle'                 => 'Hora del dia que els mitjans estan destinats a',
+'exif-contact'                     => 'Informació de contacte',
+'exif-writer'                      => 'Escriptor',
+'exif-languagecode'                => 'Idioma',
+'exif-iimversion'                  => 'IIM versió',
+'exif-iimcategory'                 => 'Categoria',
+'exif-iimsupplementalcategory'     => 'Categories suplementàries',
+'exif-datetimeexpires'             => 'No utilitzar després',
+'exif-datetimereleased'            => 'Data de llançament',
+'exif-originaltransmissionref'     => 'Transmissió original del codi de la ubicació',
+'exif-identifier'                  => 'Identificador',
+'exif-lens'                        => 'Objectiu utilitzat',
+'exif-serialnumber'                => 'Número de sèrie de la càmera',
+'exif-cameraownername'             => 'Propietari de la càmera',
+'exif-label'                       => 'Etiqueta',
+'exif-datetimemetadata'            => 'Data que la metadata ha estat modificada per última vegada',
+'exif-nickname'                    => "Nom informal de l'imatge",
+'exif-rating'                      => 'Valoració (sobre 5)',
+'exif-rightscertificate'           => 'Certificat de gestió de drets',
+'exif-copyrighted'                 => "Estat dels drets d'autor",
+'exif-copyrightowner'              => "Propietari dels drets d'autor",
+'exif-usageterms'                  => "Termes d'ús",
+'exif-webstatement'                => "Declaració de drets d'autor en línia",
+'exif-originaldocumentid'          => 'ID únic del document original',
+'exif-licenseurl'                  => "Direcció de llicències de drets d'autor",
+'exif-morepermissionsurl'          => 'Alternativa informació de llicència',
+'exif-attributionurl'              => 'Quan re-utilitzis aquest treball, si us plau posa un enllaç a',
+'exif-preferredattributionname'    => 'Quan re-utilitzis aquest treball, si us plau posa un credit a',
+'exif-pngfilecomment'              => 'Comentari del fitxer PNG',
+'exif-disclaimer'                  => 'Avís general',
+'exif-contentwarning'              => 'Advertència de contingut',
+'exif-giffilecomment'              => 'Comentari del fitxer GIF',
+'exif-intellectualgenre'           => "Tipus d'article",
+'exif-subjectnewscode'             => 'Codi del subjecte',
 
 # EXIF attributes
 'exif-compression-1' => 'Sense compressió',
@@ -3136,6 +3169,11 @@ La resta d'enllaços de la línia són les excepcions, és a dir, les pàgines o
 'exif-gpsspeed-k' => 'Quilòmetres per hora',
 'exif-gpsspeed-m' => 'Milles per hora',
 'exif-gpsspeed-n' => 'Nusos',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Quilòmetres',
+'exif-gpsdestdistance-m' => 'Milles',
+'exif-gpsdestdistance-n' => 'Milles nàutiques',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Direcció real',
@@ -3390,8 +3428,8 @@ Introduïu el nom del fitxer sense el prefix «{{ns:file}}:»",
 'external_image_whitelist' => " #Deixeu aquesta línia exactament igual com està<pre>
 #Poseu fragments d'expressions regulars (regexps) (només la part entre els //) a sota
 #Aquests fragments es correspondran amb les URL d'imatges externes
-#Se'n mostraran com a imatges si coincideixen, i sinò es mostraran com a enllaços
-#Les línies que començen amb un # es tracten com a comentaris
+#Se'n mostraran com a imatges si coincideixen, i sinó es mostraran com a enllaços
+#Les línies que comencen amb un # es tracten com a comentaris
 #S'hi distingeixen majúscules i minúscules
 
 #Poseu tots els fragments regex al damunt d'aquesta línia. Deixeu aquesta línia exactament com està</pre>",
@@ -3442,18 +3480,5 @@ Introduïu el nom del fitxer sense el prefix «{{ns:file}}:»",
 # SQLite database support
 'sqlite-has-fts' => '$1, amb suport de búsqueda de text íntegre',
 'sqlite-no-fts'  => '$1, sense supor de búsqueda de text íntegre',
-
-# Special:DisableAccount
-'disableaccount'             => "Deshabilita un compte d'usuari/a",
-'disableaccount-user'        => "Nom d'usuari/a :",
-'disableaccount-reason'      => 'Motiu:',
-'disableaccount-confirm'     => "Desactivació d'aquest compte d'usuari.
-L'usuari no podrà entrar al seu compte, recuperar la contrasenya o rebre notificacions per correu electònic.
-Si l'usuari està fent servir el compte actualment serà immediatament desconnectat.
-''Tingueu en compte que la desactivació d'un compte no és una operació reversible sense la intervenció d'algú amb accés al servidor del sistema.''",
-'disableaccount-mustconfirm' => 'Has de confirmar que vols desactivar aquest compte.',
-'disableaccount-nosuchuser'  => 'El compte d\'usuari/a "$1" no existeix.',
-'disableaccount-success'     => 'El compte d\'usuari/a "$1" ha estat permanentment deshabilitat.',
-'disableaccount-logentry'    => "ha deshabilitat permanentment el compte de {{GENDER:$1|l'usuari|la usuària}} [[$1]]",
 
 );

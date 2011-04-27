@@ -65,10 +65,11 @@ PHP if you have not done so prior to upgrading MediaWiki.
   math conversion after upgrading, obtain the Math extension from SVN or from
   http://www.mediawiki.org/wiki/Extension:Math and add to LocalSettings.php:
   require_once "$IP/extensions/Math/Math.php";
+* $wgProfiler is now a configuration array, see StartProfiler.sample for details
+* $wgProfiling has been removed
+* The spyc library is now no longer included in phase3
 
 === New features in 1.18 ===
-* Added a special page, disabled by default, that allows users with the
-  'disableaccount' privilege to permanently deactivate user accounts.
 * (bug 8130) Query pages should limit to content namespaces, not just main
   namespace
 * Search suggestions (other than in the Vector skin) will now use the HTML5
@@ -130,7 +131,8 @@ PHP if you have not done so prior to upgrading MediaWiki.
   AbortNewAccount separately.
 * Special:ListFiles is now transcludable.
 * (bug 13879) Special:Emailuser asks for suitable target user if called without.
-
+* (bug 16956) IPTC and XMP metadata now extracted from images
+* (bug 23816) A tracking category is now added for any pages with broken images.
 
 === Bug fixes in 1.18 ===
 * (bug 23119) WikiError class and subclasses are now marked as deprecated
@@ -222,9 +224,6 @@ PHP if you have not done so prior to upgrading MediaWiki.
 * (bug 15641) blocked administrators are now prevented from deleting or protecting
   their own talk page; and all blocked users are more comprehensively prevented
   from performing other actions
-* (bug 15641) Fixed positioning of permissions checks in Special:Import which
-  allowed users without the 'import' permission to import pages if they directly
-  submitted the form.
 * (bug 27893) Edit-on-doubleclick now applies only on view and purge actions;
   no longer triggers unexpectedly on delete, history etc.
 * (bug 28417) Fix PHP notice when importing revision without a listed id
@@ -233,6 +232,12 @@ PHP if you have not done so prior to upgrading MediaWiki.
 * (bug 28372) Fix bogus link to suppressed file versions in ForeignDBRepo
 * (bug 27473) Fix regression: bold, italic no longer interfere with linktrail for ca, kaa
 * (bug 28444) Fix regression: edit-on-doubleclick retains revision id again
+* &apos; character entity is now allowed in wikitext
+* UtfNormal::cleanUp on an invalid utf-8 sequence no longer returns false if intl installed.
+* (bug 28561) The css class small will no longer make nested elements even smaller.
+* (bug 13172) Array type exif data (like GPS) was not being extracted from images.
+* (bug 28532) wfMsgExt() and wfMsgWikiHtml() use $wgOut->parse()
+* (bug 16129) Transcluded special pages expose strip markers when they output parsed messages
 
 === API changes in 1.18 ===
 * (bug 26339) Throw warning when truncating an overlarge API result
@@ -329,6 +334,9 @@ PHP if you have not done so prior to upgrading MediaWiki.
 * (bug 27712) add parent_id to list=deletedrevs
 * (bug 28455) Add 'toponly' to recentchanges API module
 * (bug 26873) API: Add 'toponly' filter in usercontribs module
+* (bug 28586) YAML: strings that are the same as boolean literals
+* (bug 28591) Update/replace/supplement spyc (YAML parsing library)
+* YAML API output is now 1.2 compliant, using JSON as the formatter
 
 === Languages updated in 1.18 ===
 
@@ -336,9 +344,13 @@ MediaWiki supports over 330 languages. Many localisations are updated
 regularly. Below only new and removed languages are listed, as well as
 changes to languages because of Bugzilla reports.
 
-* Liv (Livonian) (new)
-* Tokipona: 'tp' language code no longer supported; 'tokipona' is still
-  valid, however.
+* Angika (anp) (new)
+* Brahui (brh) (new)
+* Central Dusun (new)
+* Jamaican Creole English (jam) (new)
+* Khowar (khw) (new)
+* Liv (liv) (new)
+* Tokipona (tp) (removed) 'tokipona' is still  valid.
 * (bug 17160) Gender specific display text for User namespace
 * Link trail added for sl and sh
 * (bug 27633) Add characters to linkTrail for Potuguese (pt and pt-br)

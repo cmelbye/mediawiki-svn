@@ -107,7 +107,7 @@ Negeer dit bericht als deze gebruiker zonder jouw medeweten is aangemaakt.',
 Wacht even voordat je het opnieuw probeert.',
 'suspicious-userlogout'      => 'Je verzoek om af te melden is genegeerd, omdat het lijkt alsof het verzoek is verzonden door een browser of cacheproxy die stuk is.',
 
-# Password reset dialog
+# Change password dialog
 'resetpass_announce'      => 'Je bent aangemeld met een tijdelijke code die je per e-mail is toegezonden.
 Voer een nieuw wachtwoord in om het aanmelden te voltooien:',
 'resetpass_success'       => 'Je wachtwoord is gewijzigd.
@@ -279,11 +279,6 @@ Je hebt geen toegang tot dit object.',
 'revdelete-modify-no-access'  => 'Er is een fout opgetreden bij het wijzigen van het object van $1 om $2 uur: dit object is gemarkeerd als "beschermd".
 Je hebt geen toegang tot dit object.',
 'revdelete-only-restricted'   => 'Er is een fout opgetreden bij het verbergen van het item van $1, $2: je kunt geen items onderdrukken uit het zicht van beheerders zonder ook een van de andere zichtbaarheidsopties te selecteren.',
-
-# Revision move
-'revmove-badparam'    => 'Je verzoek bevat ongeldige of onvoldoende parameters.
-Klik "Terug" en probeer het opnieuw.',
-'revmove-norevisions' => 'Je hebt geen versies aangegeven om deze handeling op uit te voeren of de aangegeven versie bestaat niet.',
 
 # History merging
 'mergehistory-header' => 'Via deze pagina kun je versies van de geschiedenis van een bronpagina naar een nieuwere pagina samenvoegen.

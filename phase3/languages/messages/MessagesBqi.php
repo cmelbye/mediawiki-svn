@@ -294,7 +294,7 @@ $1',
 لطفا بعد از دریافت آن داخل سیستم بوین.',
 'eauthentsent'            => 'یه نامه الکترونیکی سی تایید نشانی پست الکترونیکی به نشانی مورنظر ارسال وابید. قبل زه یو که نامه دیگری قابل ارسال به این نشانی بوه، وا دستورهایی که در آن نامه اویده را جهت تأیید ای مساله که ای نشانی مال ایسانه اجرا کنین.',
 
-# Password reset dialog
+# Change password dialog
 'retypenew' => 'تایپ دوباره رمز:',
 
 # Edit page toolbar
@@ -796,7 +796,13 @@ $2',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'اصلاح ای صفحه با استفاده زه یه ویرایشگر خارجی',

@@ -440,7 +440,7 @@ nebus siontamas ni vėinam žemiau ėšvardėntam puoslaugiō.',
 'createaccount-title'        => '{{SITENAME}} paskīruos kūrėms',
 'loginlanguagelabel'         => 'Kalba: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'               => 'Keistė slaptažuodi',
 'resetpass_header'        => 'Keistė paskīruos slaptažuodi',
 'oldpassword'             => 'Sens slaptažuodis:',
@@ -1733,7 +1733,13 @@ Vėsas kėtas nūoruodas tuo patiuo eilotie īr laikomas ėšėmtim, tas rēšk 
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'             => 'Platoms',

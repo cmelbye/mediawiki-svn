@@ -115,7 +115,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'RuranaAntachakuna' ),
 	'Popularpages'              => array( 'WatukuqsapaPanqa', 'RikuqsapaPanqa', 'QhawaqsapaPanqa' ),
 	'Search'                    => array( 'Maskay' ),
-	'Resetpass'                 => array( 'YaykunaRimataKutichiy' ),
+	'ChangePassword'            => array( 'YaykunaRimataKutichiy' ),
 	'Withoutinterwiki'          => array( 'Interwikinnaq', 'Wikipurannaq' ),
 	'MergeHistory'              => array( 'WinayKawsaytaHunuy' ),
 	'Filepath'                  => array( 'WillaniqiNan' ),
@@ -741,16 +741,7 @@ Kay willay pantasqa kaptinqa, qhawarparillay.',
 # E-mail sending
 'php-mail-error-unknown' => 'Mana riqsisqa pantasqa PHP mail() rurananpi',
 
-# JavaScript password checks
-'password-strength'            => 'Yaykuna rimap chhikaynasqa kallpan: $1',
-'password-strength-bad'        => 'MANAM ALLINCHU',
-'password-strength-mediocre'   => 'taksa kallpayuq',
-'password-strength-acceptable' => 'chaskina kallpayuq',
-'password-strength-good'       => 'allin',
-'password-retype'              => 'Yaykuna rimaykita kaypi musuqmanta yaykuchiy',
-'password-retype-mismatch'     => 'Yaykuna rimaykunaqa manam paqtanakunkuchu',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Ruraqpa yaykuna rimanta hukchay',
 'resetpass_announce'        => "E-chaskiwan kachasqa mit'alla yaykuna rimawanmi yaykurqunki. Ama hina kaspa, musuq yaykuna rimaykita qillqamuy:",
 'resetpass_text'            => '<!-- Añada texto aquí -->',
@@ -1112,24 +1103,6 @@ Ama hina kaspa, hallch'akunapi qhaway.",
 'suppressionlog'     => "Ñit'ipay hallch'asqa",
 'suppressionlogtext' => "Kay qatiq sutisuyupiqa ñaqha qullusqakunatam hark'asqakunatapas rikunki, kamachiqkunamanta pakasqa samiqniyuq. [[Special:IPBlockList|IP hark'ay sutisuyuta]] qhaway kunan hark'asqakunata rikunaykipaq.",
 
-# Revision move
-'moverevlogentry'              => '{{PLURAL:$3|huk musuqchasqa|$3 musuqchasqa}} astasqa $1-manta $2-man',
-'revisionmove'                 => 'Musuqchasqakunata "$1"-manta astay',
-'revmove-explain'              => "Kay qatiq musuqchasqakunaqa $1-manta akllasqa p'anqamanmi astasqa kanqa. Akllasqa p'anqa manaraq kaspanqa, kamarisqam kanqa. Ña kaspanqa, p'anqap wiñay kawsayninpi huñuchasqam kanqa.",
-'revmove-legend'               => "Taripana p'anqata willapuytapas churay",
-'revmove-submit'               => "Musuqchasqakunata akllasqa p'anqaman astay",
-'revisionmoveselectedversions' => 'Akllasqa musuqchasqakunata astay',
-'revmove-reasonfield'          => 'Kayrayku:',
-'revmove-titlefield'           => "Taripana p'anqa:",
-'revmove-badparam-title'       => 'Kuskanachina tupukunaqa manam allinchu',
-'revmove-badparam'             => 'Mañakuyniykipiqa mana allin kuskanachina tupukunam kachkan icha imapas illachkanmi. "Ñawpaqman" ñit\'ispa musuqmanta ruraykachay.',
-'revmove-norevisions-title'    => 'Akllasqa musuqchasqaqa manam allinchu',
-'revmove-norevisions'          => 'Taripana musuqchasqa sutikunataqa manam akllarqunki kayta ruranapaq icha akllasqayki musuqchasqa suti manam kanchu.',
-'revmove-nullmove-title'       => "P'anqap sutinqa manam allinchu",
-'revmove-nullmove'             => 'Pukyu p\'anqawan taripana p\'anqawanqa kaqllallam kachkan. "Ñawpaqman" ñit\'ispa mana "$1" hinalla kaq sutinta yaykuchiy.',
-'revmove-success-existing'     => "{{PLURAL:$1|Huk musuqchasqaqa [[$2]]-manta|$1 musuqchasqaqa [[$2]]-manta}} [[$3]] sutiyuq kachkaqña p'anqaman astasqa.",
-'revmove-success-created'      => "{{PLURAL:$1|Huk musuqchasqaqa [[$2]]-manta|$1 musuqchasqaqa [[$2]]-manta}} [[$3]] sutiyuq musuq p'anqaman astasqa.",
-
 # History merging
 'mergehistory'                     => "P'anqa wiñay kawsaykunata huñuy",
 'mergehistory-header'              => "Kay p'anqawanqa huk pukyu p'anqamanta llamk'apusqakunata huk taripana p'anqamanmi huñuyta atinki.
@@ -1465,8 +1438,6 @@ $1 {{PLURAL:$1|sanampamanta|sanampakunamanta}} aswan pisi kananmi.',
 'right-reset-passwords'       => 'Huk ruraqkunap yaykuna rimanta kutichiy',
 'right-override-export-depth' => "P'anqakunata hawaman quy, t'inkisqa p'anqakunatapas pichqa ñiqin t'inkipayasqakama",
 'right-sendemail'             => 'Huk ruraqkunaman e-chaskita kachay',
-'right-revisionmove'          => 'Musuqchasqakunata astay',
-'right-disableaccount'        => "Rakiqunakunata hark'ay",
 
 # User rights log
 'rightslog'      => 'Ruraqpa hayñinkunap hukyasqankuna',
@@ -1509,7 +1480,6 @@ $1 {{PLURAL:$1|sanampamanta|sanampakunamanta}} aswan pisi kananmi.',
 'action-userrights'           => "tukuy ruraqkunap hayñinkunata llamk'apuy",
 'action-userrights-interwiki' => "hawa wikikunapi ruraqkunap hayñinkunata llamk'apuy",
 'action-siteadmin'            => "willañiqintinta hark'ay icha paskay",
-'action-revisionmove'         => 'musuqchasqakunata astay',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|hukchasqa|hukchasqakuna}}',
@@ -2861,7 +2831,13 @@ Kikin siq'ipi ima qatiq t'inkillapas sapaqllatam hamut'arisqa, ahinataq siq'ipi 
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength",
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude",
 
 # EXIF tags
 'exif-imagewidth'                  => 'Suni kay',
@@ -2876,13 +2852,11 @@ Kikin siq'ipi ima qatiq t'inkillapas sapaqllatam hamut'arisqa, ahinataq siq'ipi 
 'exif-ycbcrpositioning'            => 'Y-ta C-tapas churamuy',
 'exif-xresolution'                 => "Siriqpa ch'irkukun",
 'exif-yresolution'                 => "Sayaqpa ch'irkukun",
-'exif-resolutionunit'              => "X, Y ch'irkukup tupun",
 'exif-stripoffsets'                => 'Rikcha willa churamuy',
 'exif-rowsperstrip'                => "Sinrukuna ch'imiman",
 'exif-stripbytecounts'             => "Bytekuna mat'isqa ch'imiman",
 'exif-jpeginterchangeformat'       => 'Ithiy JPEG SOI nisqaman',
 'exif-jpeginterchangeformatlength' => 'JPEG willa bytekuna',
-'exif-transferfunction'            => 'Wantuna rurana',
 'exif-whitepoint'                  => 'Yuraq iñupi ñawra kay',
 'exif-primarychromaticities'       => 'Qallarina ñawra kaykuna',
 'exif-ycbcrcoefficients'           => "Llimphi suyu tukuchina mamap q'iminanchankuna",
@@ -2901,7 +2875,6 @@ Kikin siq'ipi ima qatiq t'inkillapas sapaqllatam hamut'arisqa, ahinataq siq'ipi 
 'exif-compressedbitsperpixel'      => "Rikchap mat'isqa kaynin laya",
 'exif-pixelydimension'             => 'Rikchap chaniyuq suni kaynin',
 'exif-pixelxdimension'             => 'Rikchap chaniyuq hanaq kaynin',
-'exif-makernote'                   => 'Ruraqpa willasqankuna',
 'exif-usercomment'                 => "Llamk'achiqpa willayninkuna",
 'exif-relatedsoundfile'            => 'Ninachiq ruqyay willañiqi',
 'exif-datetimeoriginal'            => "Willakunap kamaynin p'unchaw, pacha",
@@ -2915,7 +2888,6 @@ Kikin siq'ipi ima qatiq t'inkillapas sapaqllatam hamut'arisqa, ahinataq siq'ipi 
 'exif-exposureprogram'             => 'Churapana wakichi',
 'exif-spectralsensitivity'         => 'Ispiktru musyaykuy',
 'exif-isospeedratings'             => 'ISO utqay chayninchay',
-'exif-oecf'                        => "Achkiy antañiqichana t'ikrana mink'aqi",
 'exif-shutterspeedvalue'           => "Wichq'aqpa utqaynin",
 'exif-aperturevalue'               => "Illa k'ichkina",
 'exif-brightnessvalue'             => "K'anchay",
@@ -2928,7 +2900,6 @@ Kikin siq'ipi ima qatiq t'inkillapas sapaqllatam hamut'arisqa, ahinataq siq'ipi 
 'exif-focallength'                 => 'Lintip rawray karu kaynin',
 'exif-subjectarea'                 => 'Rikchachasqap hawan',
 'exif-flashenergy'                 => 'Illapup michan',
-'exif-spatialfrequencyresponse'    => 'Ispasyal kutinchiqllap kutichiynin',
 'exif-focalplanexresolution'       => "Rawray p'alltap X ch'irkukun",
 'exif-focalplaneyresolution'       => "Rawray p'alltap Y ch'irkukun",
 'exif-focalplaneresolutionunit'    => "Rawray p'alltap ch'irkuku tupun",
@@ -2937,7 +2908,6 @@ Kikin siq'ipi ima qatiq t'inkillapas sapaqllatam hamut'arisqa, ahinataq siq'ipi 
 'exif-sensingmethod'               => 'Musyachiq laya',
 'exif-filesource'                  => 'Willañiqip pukyun',
 'exif-scenetype'                   => 'Rikuypacha laya',
-'exif-cfapattern'                  => 'CFA qatinalla',
 'exif-customrendered'              => "Rikcha llamk'apuyta sapaqchay",
 'exif-exposuremode'                => 'Churapay laya',
 'exif-whitebalance'                => 'Yuraq paqtaku',
@@ -3122,6 +3092,11 @@ Kikin siq'ipi ima qatiq t'inkillapas sapaqllatam hamut'arisqa, ahinataq siq'ipi 
 'exif-gpsspeed-k' => 'Kilumitru uraman',
 'exif-gpsspeed-m' => 'Milla uraman',
 'exif-gpsspeed-n' => 'Muqukuna',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilumitru (waranqa thatki)',
+'exif-gpsdestdistance-m' => 'Milla',
+'exif-gpsdestdistance-n' => "Wamp'una milla",
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Chiqap puririy',
@@ -3409,18 +3384,5 @@ Willañiqi sutita yaykuchispaqa ama \"{{ns:file}}:\" ñawpaq k'askaqta qillqamuy
 # SQLite database support
 'sqlite-has-fts' => "$1 hunt'a qillqa maskana yanapawan",
 'sqlite-no-fts'  => "$1 mana hunt'a qillqa maskana yanapawan",
-
-# Special:DisableAccount
-'disableaccount'             => "Ruraqpa rakiqunanta hark'ay",
-'disableaccount-user'        => 'Ruraqpa sutin:',
-'disableaccount-reason'      => 'Kayrayku:',
-'disableaccount-confirm'     => "Kay ruraqpa sutinta hark'ay.
-Ruraqqa manam yaykuyta atinqachu, manam yaykuna rimanta churamuyta atinqachu, manam e-chaski willaykunata chaskiyta atinchu.
-Maypipas yaykusqa kaspaqa, tuyllapi qarqusqam kanqa.
-''Qhawariy, ruraqpa sutinta hark'aspaykiqa manam t'ikrayta atinkichu llika kamachiq mana yanapachkaptin.''",
-'disableaccount-mustconfirm' => "Kay ruraqpa rakiqunanta hark'ayta munaspaykiqa, takyachinaykim tiyan.",
-'disableaccount-nosuchuser'  => '"$1" sutiyuq ruraqpa rakiqunanqa manam kanchu.',
-'disableaccount-success'     => '"$1" sutiyuq ruraqpa rakiqunanqa wiñaypaq hark\'asqam.',
-'disableaccount-logentry'    => "[[$1]] sutiyuq ruraqpa rakiqunanta wiñaypaq hark'an",
 
 );

@@ -90,7 +90,7 @@ in $wgDBservers, usually indicating a replication environment.' );
 					$delta,
 					$rate ) );
 
-				wfWaitForSlaves( 10 );
+				wfWaitForSlaves();
 			}
 		} else {
 			// Subselect should work on modern MySQLs etc

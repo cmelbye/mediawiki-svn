@@ -102,7 +102,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'SeznamBotov' ),
 	'Popularpages'              => array( 'PriljubljeneStrani' ),
 	'Search'                    => array( 'Iskanje' ),
-	'Resetpass'                 => array( 'SpremeniGeslo', 'PonastaviGeslo' ),
+	'ChangePassword'            => array( 'SpremeniGeslo', 'PonastaviGeslo' ),
 	'Withoutinterwiki'          => array( 'BrezInterwikijev' ),
 	'MergeHistory'              => array( 'ZdružiZgodovino' ),
 	'Filepath'                  => array( 'PotDatoteke' ),
@@ -682,16 +682,7 @@ Prosimo počakajte, preden poskusite znova.',
 # E-mail sending
 'php-mail-error-unknown' => 'Neznana napaka v funkciji PHP mail()',
 
-# JavaScript password checks
-'password-strength'            => 'Ocenjena moč gesla: $1',
-'password-strength-bad'        => 'SLABO',
-'password-strength-mediocre'   => 'povprečno',
-'password-strength-acceptable' => 'sprejemljivo',
-'password-strength-good'       => 'dobro',
-'password-retype'              => 'Ponovno vpišite geslo tukaj',
-'password-retype-mismatch'     => 'Gesli se ne ujemata',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Spremeni geslo',
 'resetpass_announce'        => 'Trenutno ste prijavljeni z začasno e-poštno kodo.
 Za zaključitev prijave, morate tukaj nastaviti novo geslo:',
@@ -1071,24 +1062,6 @@ Prosimo, preverite dnevnik.',
 'suppressionlogtext' => 'Spodaj je seznam izbrisov in blokiranj, ki vključuje vsebino skrito pred administratorji.
 Oglejte si [[Special:IPBlockList|seznam blokiranih IP-jev]] za seznam trenutno aktivnih prepovedi in blokiranj.',
 
-# Revision move
-'moverevlogentry'              => 'premaknil(-a) $3 {{PLURAL:$3|redakcijo|redakciji|redakcije|redakcij}} z $1 na $2',
-'revisionmove'                 => 'Premakni redakcije z »$1«',
-'revmove-explain'              => 'Naslednje redakcije bodo prestavljene s strani $1 na določeno ciljno stran. Če cilj ne obstaja, bo ustvarjen. V nasprotnem primeru bodo redakcije združene z zgodovino strani.',
-'revmove-legend'               => 'Določite ciljno stran in povzetek',
-'revmove-submit'               => 'Prestavi redakcije na izbrano stran',
-'revisionmoveselectedversions' => 'Prestavi izbrane redakcije',
-'revmove-reasonfield'          => 'Razlog:',
-'revmove-titlefield'           => 'Ciljna stran:',
-'revmove-badparam-title'       => 'Nepravilni parametri',
-'revmove-badparam'             => 'Vaša zahteva vsebuje neveljavne ali pomanjkljive parametre. Prosimo, izberite »nazaj« in poskusite znova.',
-'revmove-norevisions-title'    => 'Neveljavna ciljna redakcija',
-'revmove-norevisions'          => 'Niste določili ene ali več ciljnih redakcij za izvedbo te funkcije ali pa izbrana redakcija ne obstaja.',
-'revmove-nullmove-title'       => 'Nepravilen naslov',
-'revmove-nullmove'             => 'Izvorna in ciljna stran sta isti. Prosimo, kliknite »nazaj« in vnesite ime strani drugačno od »$1«.',
-'revmove-success-existing'     => '$1 {{PLURAL:$1|redakcija je bila s strani [[$2]] prestavljena|redakciji sta bili s strani [[$2]] prestavljeni|redakcije so bile s strani [[$2]] prestavljene|redakcij je bilo s strani [[$2]] prestavljenih}} na obstoječo stran [[$3]].',
-'revmove-success-created'      => '$1 {{PLURAL:$1|redakcija je bila s strani [[$2]] prestavljena|redakciji sta bili s strani [[$2]] prestavljeni|redakcije so bile s strani [[$2]] prestavljene|redakcij je bilo s strani [[$2]] prestavljenih}} na novo ustvarjeno stran [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Združi zgodovine strani',
 'mergehistory-header'              => 'Ta stran omogoča združevanje redakcij zgodovine ene izvorne strani v novejšo stran.
@@ -1432,8 +1405,6 @@ Podatek bo javno prikazan.',
 'right-reset-passwords'       => 'Ponastavljanje gesla drugih uporabnikov',
 'right-override-export-depth' => 'Izvoz strani, vključno s povezaimi straneh do globine 5',
 'right-sendemail'             => 'Pošiljanje e-pošte drugim uporabnikom',
-'right-revisionmove'          => 'Prestavi redakcije',
-'right-disableaccount'        => 'Onemogočanje računov',
 
 # User rights log
 'rightslog'      => 'Dnevnik uporabniških pravic',
@@ -1476,7 +1447,6 @@ Podatek bo javno prikazan.',
 'action-userrights'           => 'upravljanje vseh uporabnikovih pravic',
 'action-userrights-interwiki' => 'upravljanje uporabniških pravic za uporabnike drugih wikijev',
 'action-siteadmin'            => 'zaklenitev ali odklepanje podatkovne baze',
-'action-revisionmove'         => 'prestavitev redakcije',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|sprememba|spremembi|spremembe|sprememb|sprememb}}',
@@ -2926,7 +2896,7 @@ Vse nadaljne povezave v isti vrstici se štejejo za izjeme, tj. za strani, kjer 
 'metadata-help'     => 'Datoteka vsebuje še druge podatke, ki jih je verjetno dodal za njeno ustvaritev oziroma digitalizacijo uporabljeni fotografski aparat ali optični bralnik. Če je bila datoteka pozneje spremenjena, podatki sprememb morda ne izražajo popolnoma.',
 'metadata-expand'   => 'Razširi seznam',
 'metadata-collapse' => 'Skrči seznam',
-'metadata-fields'   => 'V skrčeni razpredelnici metapodatkov EXIF bodo prikazana le v tem sporočilu našteta polja.
+'metadata-fields'   => 'V skrčeni razpredelnici metapodatkov slike bodo prikazana le v tem sporočilu našteta polja.
 Druga bodo po privzetem skrita.
 * make
 * model
@@ -2934,7 +2904,13 @@ Druga bodo po privzetem skrita.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Širina',
@@ -2949,13 +2925,11 @@ Druga bodo po privzetem skrita.
 'exif-ycbcrpositioning'            => 'Razmestitev Y in C',
 'exif-xresolution'                 => 'Vodoravna ločljivost',
 'exif-yresolution'                 => 'Navpična ločljivost',
-'exif-resolutionunit'              => 'Enota ločljivosti X in Y',
 'exif-stripoffsets'                => 'Mesto podatkov slike',
 'exif-rowsperstrip'                => 'Število vrstic na pas',
 'exif-stripbytecounts'             => 'Zlogov na pas stiskanja',
 'exif-jpeginterchangeformat'       => 'Odtis na JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Zlogov JPEG-podatkov',
-'exif-transferfunction'            => 'Funkcija prenosa',
 'exif-whitepoint'                  => 'Kromatičnost bele točke',
 'exif-primarychromaticities'       => 'Kromatičnosti osnovnih barv',
 'exif-ycbcrcoefficients'           => 'Koeficient matrice transformacije barvnega prostora',
@@ -2972,9 +2946,8 @@ Druga bodo po privzetem skrita.
 'exif-colorspace'                  => 'Barvni prostor',
 'exif-componentsconfiguration'     => 'Pomen posameznih gradnikov',
 'exif-compressedbitsperpixel'      => 'Velikost točke po stiskanju (v bitih)',
-'exif-pixelydimension'             => 'Veljavna širina slike',
-'exif-pixelxdimension'             => 'Veljavna višina slike',
-'exif-makernote'                   => 'Opombe proizvajalca',
+'exif-pixelydimension'             => 'Širina slike',
+'exif-pixelxdimension'             => 'Višina slike',
 'exif-usercomment'                 => 'Uporabniške pripombe',
 'exif-relatedsoundfile'            => 'Pripadajoča zvočna datoteka',
 'exif-datetimeoriginal'            => 'Datum in čas ustvaritve podatkov',
@@ -2988,10 +2961,9 @@ Druga bodo po privzetem skrita.
 'exif-exposureprogram'             => 'Program osvetlitve',
 'exif-spectralsensitivity'         => 'Spektralna občutljivost',
 'exif-isospeedratings'             => 'Občutljivost filma ali tipala (ISO)',
-'exif-oecf'                        => 'Optoelektronski pretvorbeni faktor',
-'exif-shutterspeedvalue'           => 'Hitrost zaklopa',
-'exif-aperturevalue'               => 'Zaslonka',
-'exif-brightnessvalue'             => 'Svetlost',
+'exif-shutterspeedvalue'           => 'Hitrost zaklopa APEX',
+'exif-aperturevalue'               => 'Zaslonka APEX',
+'exif-brightnessvalue'             => 'Svetlost APEX',
 'exif-exposurebiasvalue'           => 'Popravek osvetlitve',
 'exif-maxaperturevalue'            => 'Največja vrednost zaslonke',
 'exif-subjectdistance'             => 'Oddaljenost predmeta',
@@ -3001,7 +2973,6 @@ Druga bodo po privzetem skrita.
 'exif-focallength'                 => 'Goriščna razdalja leč',
 'exif-subjectarea'                 => 'Površina predmeta',
 'exif-flashenergy'                 => 'Energija bliskavice',
-'exif-spatialfrequencyresponse'    => 'Odziv prostorske frekvence',
 'exif-focalplanexresolution'       => 'Ločljivost goriščne ravnine X',
 'exif-focalplaneyresolution'       => 'Ločljivost goriščne ravnine Y',
 'exif-focalplaneresolutionunit'    => 'Enota ločljivosti goriščne ravnine',
@@ -3010,7 +2981,6 @@ Druga bodo po privzetem skrita.
 'exif-sensingmethod'               => 'Zaznavni postopek',
 'exif-filesource'                  => 'Vir datoteke',
 'exif-scenetype'                   => 'Vrsta prizora',
-'exif-cfapattern'                  => 'Matrica filtracije barv',
 'exif-customrendered'              => 'Obdelava slike po meri',
 'exif-exposuremode'                => 'Nastavitev osvetlitve',
 'exif-whitebalance'                => 'Ravnotežje belega',
@@ -3055,10 +3025,42 @@ Druga bodo po privzetem skrita.
 'exif-gpsareainformation'          => 'Ime GPS-območja',
 'exif-gpsdatestamp'                => 'GPS-datum',
 'exif-gpsdifferential'             => 'Diferencialni popravek GPS',
+'exif-jpegfilecomment'             => 'Komentar datoteke JPEG',
+'exif-keywords'                    => 'Ključne besede',
+'exif-countrydest'                 => 'Prikazana država',
+'exif-citydest'                    => 'Prikazano mesto',
 'exif-objectname'                  => 'Kratek naslov',
+'exif-source'                      => 'Vir',
+'exif-contact'                     => 'Kontaktni podatki',
+'exif-writer'                      => 'Pisatelj',
+'exif-languagecode'                => 'Jezik',
+'exif-iimversion'                  => 'Različica IIM',
+'exif-iimcategory'                 => 'Kategorija',
+'exif-iimsupplementalcategory'     => 'Dodatne kategorije',
+'exif-datetimeexpires'             => 'Ne uporabljajte po',
+'exif-datetimereleased'            => 'Sproščeno',
+'exif-identifier'                  => 'Označevalnik',
+'exif-lens'                        => 'Uporabljen objektiv',
+'exif-serialnumber'                => 'Serijska številka fotoaparata',
+'exif-cameraownername'             => 'Lastnik fotoaparata',
+'exif-label'                       => 'Oznaka',
+'exif-datetimemetadata'            => 'Datum zadnje spremembe metapodatkov',
+'exif-nickname'                    => 'Neuradno ime slike',
+'exif-rating'                      => 'Ocena (od 5)',
+'exif-pngfilecomment'              => 'Komentar datoteke PNG',
+'exif-giffilecomment'              => 'Komentar datoteke GIF',
+'exif-scenecode'                   => 'Koda prizora IPTC',
+'exif-event'                       => 'Prikazan dogodek',
+'exif-organisationinimage'         => 'Prikazana organizacija',
+'exif-personinimage'               => 'Prikazana oseba',
+'exif-originalimageheight'         => 'Višina slike, preden je bila obrezana',
+'exif-originalimagewidth'          => 'Širina slike, preden je bila obrezana',
 
 # EXIF attributes
 'exif-compression-1' => 'Nestisnjeno',
+
+'exif-copyrighted-true'  => 'Avtorsko zaščiteno',
+'exif-copyrighted-false' => 'Javna last',
 
 'exif-unknowndate' => 'Neznan datum',
 
@@ -3076,6 +3078,8 @@ Druga bodo po privzetem skrita.
 
 'exif-xyresolution-i' => '$1 dpi ({{plural:$1|točka/palec|točki/palec|točke/palec|točk/palec|točk/palec}})',
 'exif-xyresolution-c' => '$1 dpc ({{plural:$1|točka/centimeter|točki/centimeter|točke/centimeter|točk/centimeter|točk/centimeter}})',
+
+'exif-colorspace-65535' => 'Neumerjeno',
 
 'exif-componentsconfiguration-0' => 'ne obstaja',
 
@@ -3188,6 +3192,10 @@ Druga bodo po privzetem skrita.
 'exif-gpslongitude-e' => 'Vzhodna zemljepisna dolžina',
 'exif-gpslongitude-w' => 'Zahodna zemljepisna dolžina',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '$1 {{PLURAL:$1|meter|metra|metre|metrov}} nad morsko gladino',
+'exif-gpsaltitude-below-sealevel' => '$1 {{PLURAL:$1|meter|metra|metre|metrov}} pod morsko gladino',
+
 'exif-gpsstatus-a' => 'Merjenje poteka',
 'exif-gpsstatus-v' => 'Interoperabilnost merjenja',
 
@@ -3199,9 +3207,58 @@ Druga bodo po privzetem skrita.
 'exif-gpsspeed-m' => 'Milje na uro',
 'exif-gpsspeed-n' => 'Vozli',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometrov',
+'exif-gpsdestdistance-m' => 'Milj',
+'exif-gpsdestdistance-n' => 'Navtičnih milj',
+
+'exif-gpsdop-excellent' => 'Izvrstno ($1)',
+'exif-gpsdop-good'      => 'Dobro ($1)',
+'exif-gpsdop-moderate'  => 'Zmerno ($1)',
+'exif-gpsdop-fair'      => 'Pošteno ($1)',
+'exif-gpsdop-poor'      => 'Slabo ($1)',
+
+'exif-objectcycle-a' => 'Samo zjutraj',
+'exif-objectcycle-p' => 'Samo popoldne',
+'exif-objectcycle-b' => 'Tako zjutraj kot popoldne',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Pravi azimut',
 'exif-gpsdirection-m' => 'Magnetni azimut',
+
+'exif-dc-contributor' => 'Sodelavci',
+'exif-dc-date'        => 'Datum(i)',
+'exif-dc-publisher'   => 'Založnik',
+'exif-dc-relation'    => 'Sorodna predstavnost',
+'exif-dc-rights'      => 'Pravice',
+'exif-dc-type'        => 'Vrsta predstavnosti',
+
+'exif-rating-rejected' => 'Zavrnjeno',
+
+'exif-isospeedratings-overflow' => 'Večje od 65535',
+
+'exif-iimcategory-ace' => 'Umetnost, kultura in zabava',
+'exif-iimcategory-clj' => 'Kriminal in pravo',
+'exif-iimcategory-dis' => 'Nesreče in nezgode',
+'exif-iimcategory-fin' => 'Ekonomija in poslovanje',
+'exif-iimcategory-edu' => 'Izobraževanje',
+'exif-iimcategory-evn' => 'Okolje',
+'exif-iimcategory-hth' => 'Zdravje',
+'exif-iimcategory-hum' => 'Zanimanja ljudi',
+'exif-iimcategory-lab' => 'Delo',
+'exif-iimcategory-lif' => 'Življenjski slog in prosti čas',
+'exif-iimcategory-pol' => 'Politika',
+'exif-iimcategory-rel' => 'Vera in prepričanja',
+'exif-iimcategory-sci' => 'Znanost in tehnologija',
+'exif-iimcategory-soi' => 'Družbena vprašanja',
+'exif-iimcategory-spo' => 'Športi',
+'exif-iimcategory-war' => 'Vojne, spori in nemiri',
+'exif-iimcategory-wea' => 'Vreme',
+
+'exif-urgency-normal' => 'Navadno ($1)',
+'exif-urgency-low'    => 'Nizko ($1)',
+'exif-urgency-high'   => 'Visoko ($1)',
+'exif-urgency-other'  => 'Uporabniško določena prednost ($1)',
 
 # External editor support
 'edit-externally'      => 'Uredite datoteko z uporabo zunanjega orodja',
@@ -3504,18 +3561,5 @@ Ta stran se sooča s tehničnimi težavami.',
 # SQLite database support
 'sqlite-has-fts' => '$1 s podporo iskanju polnih besedil',
 'sqlite-no-fts'  => '$1 brez podpore iskanju polnih besedil',
-
-# Special:DisableAccount
-'disableaccount'             => 'Onemogoči uporabniški račun',
-'disableaccount-user'        => 'Uporabniško ime:',
-'disableaccount-reason'      => 'Razlog:',
-'disableaccount-confirm'     => "Onemogočite ta uporabniški račun.
-Uporabnik se ne bo mogel prijaviti, ponastaviti svojega gesla ali prejemati e-poštnih obvestil.
-Če je uporabnik trenutno kjer koli prijavljen, bo nemudoma odjavljen.
-''Pomnite, da povrnitev onemogočitve računa ni mogoča brez posredovanja sistemskega upravljavca.''",
-'disableaccount-mustconfirm' => 'Potrditi morate, da želite onemogočiti ta račun.',
-'disableaccount-nosuchuser'  => 'Uporabniški račun »$1« ne obstaja.',
-'disableaccount-success'     => 'Uporabniški račun »$1« je trajno onemogočen.',
-'disableaccount-logentry'    => 'je trajno onemogočil(-a) uporabniški račun [[$1]]',
 
 );

@@ -338,7 +338,7 @@ j'm'escuse mais i feut prinde un aute nom.",
 'accountcreatedtext'      => "Ech conpte d'uzeu pou $1 o té créé.",
 'loginlanguagelabel'      => 'Langache: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => "Canger ch'mot d'passe",
 'resetpass_header'          => "Canger ch'mot d'passe dech conpte",
 'oldpassword'               => "Anthiu mot d'passe:",
@@ -849,7 +849,13 @@ Chés eutes cans is s'ront muchés pèr défeut.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength",
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude",
 
 # External editor support
 'edit-externally'      => "Éditer ch'fichié-lo aveuc eune éstérne aplicachon",

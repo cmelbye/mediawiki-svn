@@ -417,16 +417,7 @@ $messages = array(
 'login-abort-generic'      => 'Login ဝင်ခြင်း မအောင်မြင်ပါ - ထွက်သွားပြီ',
 'loginlanguagelabel'       => 'ဘာသာ: $1',
 
-# JavaScript password checks
-'password-strength'            => 'စကားဝှက်၏ ခန့်မှန်းခြေ လုံခြံုမှု - $1',
-'password-strength-bad'        => 'မကောင်း',
-'password-strength-mediocre'   => 'ဆိုးရွား',
-'password-strength-acceptable' => 'လက်ခံနိုင်',
-'password-strength-good'       => 'ကောင်း၏',
-'password-retype'              => 'ဤနေရာတွင် စကားဝှက်ပြန်ရိုက်ရန်',
-'password-retype-mismatch'     => 'စကားဝှက်နှစ်ခု  မကိုက်ညီပါ',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'စကားဝှက်ပြောင်းရန်',
 'resetpass_announce'        => 'သင်သည် ယာယီ စကားဝှက်ဖြင့် ဝင်ရောက်ခြင်းဖြစ်သည်။
 စကားဝှက် အသစ်အား ဤနေရာတွင်ရိုက်ပါ :',
@@ -595,16 +586,6 @@ Legend: '''({{int:cur}})''' = နောက်ဆုံးမူနှင့် �
 'revdelete-reasonotherlist'  => 'အခြား အကြောင်းပြချက်',
 'revdelete-edit-reasonlist'  => 'ဖျက်ပစ်လိုက်ရသော အကြောင်းရင်းများကို တည်းဖြတ်ရန်',
 'revdelete-offender'         => 'မူရေးသားသူ -',
-
-# Revision move
-'revisionmove'                 => '"$1" မှ တည်းဖြတ်မူများကို ရွှေ့ရန်',
-'revmove-legend'               => 'ရည်ရွယ်ရာစာမျက်နှာနှင့် အကျဉ်းချုပ်ကို သတ်မှတ်ရန်',
-'revmove-submit'               => 'မူများကို ရွေးချယ်ထားသောစာမျက်နှာသို့ ရွှေ့ရန်',
-'revisionmoveselectedversions' => 'ရွေးချယ်ထားသောမူများကို ရွှေ့ရန်',
-'revmove-reasonfield'          => 'အ​ကြောင်း​ပြ​ချက် -',
-'revmove-titlefield'           => 'ရည်ရွယ်ရာစာမျက်နှာ -',
-'revmove-norevisions-title'    => 'တရားမဝင်သော မူအမည်',
-'revmove-nullmove-title'       => 'ညံ့ဖျင်းသော ခေါင်းစဉ်',
 
 # History merging
 'mergehistory'                     => 'စာမျက်နှာရာဇဝင်များကို ပေါင်းရန်',
@@ -882,8 +863,6 @@ HTML tags ကို စစ်ဆေးပါ။',
 'right-userrights-interwiki' => 'အခြားဝီကီများမှ အသုံးပြုသူများ၏ အသုံးပြုသူအခွင့်အရေးများကို တည်းဖြတ်ရန်',
 'right-reset-passwords'      => 'အခြားအသုံးပြုသူများ၏ စကားဝှက်များကို ပြန်သတ်မှတ်ရန်',
 'right-sendemail'            => 'အခြားအသုံးပြုသူများကို အီးမေးပို့ရန်',
-'right-revisionmove'         => 'မူများကို ရွှေ့ရန်',
-'right-disableaccount'       => 'အကောင့်များပိတ်ရန်',
 
 # User rights log
 'rightslog'      => 'အသုံးပြုသူ၏ အခွင့်အရေးများ မှတ်တမ်း',
@@ -919,7 +898,6 @@ HTML tags ကို စစ်ဆေးပါ။',
 'action-mergehistory'         => 'ဤစာမျက်နှာ၏ရာဇဝင်ကို ပေါင်းရန်',
 'action-userrights'           => 'အသုံးပြုသူ၏အခွင့်အရေးများအားလုံးကို တည်းဖြတ်ရန်',
 'action-userrights-interwiki' => 'အခြားဝီကီများမှ အသုံးပြုသူများ၏ အသုံးပြုသူအခွင့်အရေးများကို တည်းဖြတ်ရန်',
-'action-revisionmove'         => 'မူများကို ရွှေ့ရန်',
 
 # Recent changes
 'nchanges'                          => 'ပြောင်းလဲချက် $1 {{PLURAL:$1|ခု|ခု}}',
@@ -970,6 +948,7 @@ HTML tags ကို စစ်ဆေးပါ။',
 'upload-tryagain'      => 'ပြုပြင်ထားသောဖိုင်၏ ဖော်ပြချက်ကို ထည့်သွင်းရန်',
 'uploadnologin'        => 'logged in ဝင်မထားပါ',
 'uploadnologintext'    => 'ဖိုင်များကို Upload တင်ရန် [[Special:UserLogin|logged in ဝင်ပြီး]] ဖြစ်ရမည်။',
+'uploaderror'          => 'အပ်လုပ်တင်ခြင်း အမှား',
 'upload-permitted'     => 'ခွင့်ပြုထားသော ဖိုင်အမျိုးအစား - $1။',
 'upload-preferred'     => 'အလေးပေးသော ဖိုင်အမျိုးအစား - $1။',
 'upload-prohibited'    => 'တားမြစ်ထားသော ဖိုင်အမျိုးအစား - $1။',
@@ -1170,6 +1149,7 @@ HTML tags ကို စစ်ဆေးပါ။',
 'wantedpages'             => 'အလိုရှိသော စာမျက်နှာများ',
 'wantedfiles'             => 'အလိုရှိသော ဖိုင်များ',
 'wantedtemplates'         => 'အလိုရှိသော တမ်းပလိတ်များ',
+'mostcategories'          => 'ကဏ္ဍအများဆုံးပါသော စာမျက်နှာများ',
 'prefixindex'             => 'ရှေ့ဆုံးမှ prefix ပါသော စာမျက်နှာ အားလုံး',
 'shortpages'              => 'စာမျက်နှာတို',
 'longpages'               => 'ရှည်လျားသောစာမျက်နှာများ',
@@ -1265,24 +1245,26 @@ HTML tags ကို စစ်ဆေးပါ။',
 'listgrouprights-removegroup-self-all' => 'မိမိ၏အကောင့်မှ အုပ်စုအားလုံးကို ဖယ်ရှားရန်',
 
 # E-mail user
-'mailnologin'      => 'ပို့ရန်လိပ်စာ မရှိပါ',
-'emailuser'        => 'ဤ​အ​သုံး​ပြု​သူ​အား​အီး​မေး​ပို့​ပါ​',
-'emailpage'        => 'အီးမေးအသုံးပြုသူ',
-'defemailsubject'  => '{{SITENAME}} အီးမေး',
-'usermaildisabled' => 'အသုံးပြုသူအီးမေးကို ပိတ်ထားသည်',
-'noemailtitle'     => 'အီးမေးလိပ်စာ မရှိပါ',
-'noemailtext'      => 'ဤအသုံးပြုသူသည် တရားဝင်သော အီးမေးလိပ်စာကို ဖောိပြထားခြင်း မရှိပါ။',
-'nowikiemailtitle' => 'မည်သည့်အီးမေးမှ ခွင့်မပြုပါ',
-'nowikiemailtext'  => 'ဤအသုံးပြုသူသည် အခြားအသုံးပြုသူများထံမှ အီးမေးကို လက်မခံရန် ရွေးချယ်ထားသည်။',
-'email-legend'     => 'အခြား {{SITENAME}} မှ အသုံးပြုသူကို အီးမေးပို့ရန်',
-'emailfrom'        => 'မှ -',
-'emailto'          => 'သို့ -',
-'emailsubject'     => 'အကြောင်းအရာ -',
-'emailmessage'     => 'စာသား -',
-'emailsend'        => 'ပို့',
-'emailccme'        => 'ကျွန်ုပ်ပို့လိုက်သော အီးမေးကော်ပီကို ကျွန်ုပ်ထံ ပြန်ပို့ပါ။',
-'emailsent'        => 'အီးမေးပို့လိုက်ပြီ',
-'emailsenttext'    => 'သင့်အီးမေးမက်ဆေ့ကို ပို့လိုက်ပြီးပြီ ဖြစ်သည်။',
+'mailnologin'         => 'ပို့ရန်လိပ်စာ မရှိပါ',
+'emailuser'           => 'ဤ​အ​သုံး​ပြု​သူ​အား​အီး​မေး​ပို့​ပါ​',
+'emailpage'           => 'အီးမေးအသုံးပြုသူ',
+'defemailsubject'     => '{{SITENAME}} အီးမေး',
+'usermaildisabled'    => 'အသုံးပြုသူအီးမေးကို ပိတ်ထားသည်',
+'noemailtitle'        => 'အီးမေးလိပ်စာ မရှိပါ',
+'noemailtext'         => 'ဤအသုံးပြုသူသည် တရားဝင်သော အီးမေးလိပ်စာကို ဖောိပြထားခြင်း မရှိပါ။',
+'nowikiemailtitle'    => 'မည်သည့်အီးမေးမှ ခွင့်မပြုပါ',
+'nowikiemailtext'     => 'ဤအသုံးပြုသူသည် အခြားအသုံးပြုသူများထံမှ အီးမေးကို လက်မခံရန် ရွေးချယ်ထားသည်။',
+'emailusername'       => 'အသုံးပြုသူအမည် -',
+'emailusernamesubmit' => 'ထည့်သွင်းရန်',
+'email-legend'        => 'အခြား {{SITENAME}} မှ အသုံးပြုသူကို အီးမေးပို့ရန်',
+'emailfrom'           => 'မှ -',
+'emailto'             => 'သို့ -',
+'emailsubject'        => 'အကြောင်းအရာ -',
+'emailmessage'        => 'စာသား -',
+'emailsend'           => 'ပို့',
+'emailccme'           => 'ကျွန်ုပ်ပို့လိုက်သော အီးမေးကော်ပီကို ကျွန်ုပ်ထံ ပြန်ပို့ပါ။',
+'emailsent'           => 'အီးမေးပို့လိုက်ပြီ',
+'emailsenttext'       => 'သင့်အီးမေးမက်ဆေ့ကို ပို့လိုက်ပြီးပြီ ဖြစ်သည်။',
 
 # Watchlist
 'watchlist'         => 'စောင့်ကြည့်စာရင်း',
@@ -1468,7 +1450,7 @@ HTML tags ကို စစ်ဆေးပါ။',
 'ipusubmit'                   => 'ဤပိတ်ပင်မှုကို ဖယ်ရှားရန်',
 'unblocked'                   => '[[User:$1|$1]] ကို ပိတ်ပင်ထားရာမှ ပြန်ဖွင့်ပေးလိုက်သည်',
 'unblocked-id'                => '$1 ကို ပိတ်ပင်ထားမှုကို ဖယ်ရှာလိုက်သည်',
-'ipblocklist'                 => 'IP addresses နှင့် အသုံးပြုသူအမည်ကို ပိတ်ပင်တားဆီးထားသည်။',
+'ipblocklist'                 => 'ပိတ်ပင်ထားသော အသုံးပြုသူများ',
 'ipblocklist-legend'          => 'ပိတ်ပင်ထားသော အသုံးပြုသူတစ်ဦးကို ရှာရန်',
 'ipblocklist-submit'          => 'ရှာ​ဖွေ​ရန်​',
 'ipblocklist-otherblocks'     => 'အခြား ပိတ်ပင်ထားမှု{{PLURAL:$1|ခု|ခု}}',
@@ -1704,7 +1686,13 @@ HTML tags ကို စစ်ဆေးပါ။',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'          => 'အကျယ်',
@@ -1718,7 +1706,6 @@ HTML tags ကို စစ်ဆေးပါ။',
 'exif-copyright'           => 'မူပိုင်ခွင့်ပိုင်ရှင်',
 'exif-pixelydimension'     => 'တရားဝင်ပုံအကျယ်',
 'exif-pixelxdimension'     => 'တရားဝင် ပုံအမြင့်',
-'exif-makernote'           => 'ထုတ်လုပ်သူမှတ်ချက်များ',
 'exif-usercomment'         => 'အသုံးပြုသူ မှတ်ချက်များ',
 'exif-relatedsoundfile'    => 'ဆက်နွယ်သော အသံဖိုင်',
 'exif-datetimeoriginal'    => 'ဒေတာဖန်တီးခဲ့သော နေ့စွဲနှင့် အချိန်',
@@ -1726,6 +1713,8 @@ HTML tags ကို စစ်ဆေးပါ။',
 'exif-shutterspeedvalue'   => 'ရှပ်တာ အမြန်နှုန်း',
 'exif-flash'               => 'ဖလက်ရှ်',
 'exif-filesource'          => 'ဖိုင်ရင်းမြစ်',
+'exif-gpslatitude'         => 'လတ္တီကျု',
+'exif-gpslongitude'        => 'လောင်ဂျီကျု',
 'exif-gpsaltitude'         => 'အမြင့်',
 'exif-gpsdatestamp'        => 'ဂျီပီအက်စ်ရက်စွဲ',
 
@@ -1885,17 +1874,9 @@ HTML tags ကို စစ်ဆေးပါ။',
 ဤဆိုက်သည် နည်းပညာပိုင်းဆိုင်ရာ အခက်အခဲများ ကြုံတွေ့နေရပါသည်။',
 
 # HTML forms
+'htmlform-required'            => 'ဤတန်ဖိုး လိုအပ်သည်',
 'htmlform-submit'              => 'ထည့်သွင်းရန်',
 'htmlform-reset'               => 'ပြောင်းလဲထားသည်များ မလုပ်တော့ရန်',
 'htmlform-selectorother-other' => 'အခြား',
-
-# Special:DisableAccount
-'disableaccount'             => 'အသုံးပြုသူအကောင့်တစ်ခုကို ပိတ်လိုက်သည်',
-'disableaccount-user'        => 'အသုံးပြုသူအမည် -',
-'disableaccount-reason'      => 'အကြောင်းပြချက် -',
-'disableaccount-mustconfirm' => 'ဤအကောင့်ကို ပိတ်လိုကြောင်း အတည်ပြုရမည် ဖြစ်သည်။',
-'disableaccount-nosuchuser'  => 'အသုံးပြုသူအကောင့် "$1" မတည်ရှိပါ။',
-'disableaccount-success'     => 'အသုံးပြုသူအကောင့် "$1" ကို ရာသက်ပန် ပိတ်ထားလိုက်သည်။',
-'disableaccount-logentry'    => 'အသုံးပြုသူအကောင့် [[$1]] ကို ရာသက်ပန် ပိတ်ပြီး',
 
 );

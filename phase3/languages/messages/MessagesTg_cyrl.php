@@ -534,7 +534,7 @@ $1',
 Лутфан пеш аз он, ки дубора талош кунед, сабр кунед.',
 'loginlanguagelabel'         => 'Забон: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Сифр кардани калимаи убурӣ ҳисоби корбарӣ',
 'resetpass_announce'        => 'Шумо бо коди мувақатӣ ба систем вуруд шудаед. Барои анҷом додани вурудшавӣ, шумо бояд калимаи убурӣ ҷадидро инҷо ворид кунед:',
 'resetpass_header'          => 'Тағйири гузарвожаи ҳисоб',
@@ -2121,7 +2121,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Васеъӣ',
@@ -2136,13 +2142,11 @@ $1',
 'exif-ycbcrpositioning'            => 'Мавқеияти Y ва C',
 'exif-xresolution'                 => 'Таҳлилпазирии уфуқӣ',
 'exif-yresolution'                 => 'Таҳлилпазирии амудӣ',
-'exif-resolutionunit'              => 'Воҳиди тафкикпазирии X ва Y',
 'exif-stripoffsets'                => 'Ҷойгоҳи додаҳои акс',
 'exif-rowsperstrip'                => 'Теъдоди радифҳо дар ҳар навор',
 'exif-stripbytecounts'             => 'Байт дар ҳар навори фишурда',
 'exif-jpeginterchangeformat'       => 'Ҷабъаи ҷойи нисбат ба JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Байт додаи JPEG',
-'exif-transferfunction'            => 'Тобеияти табдил',
 'exif-whitepoint'                  => 'Рангинагии нуқтаи сафед',
 'exif-primarychromaticities'       => 'Рангпазирии аввалиятҳо',
 'exif-ycbcrcoefficients'           => 'Зарбкунандаҳои матриси табдили фазои ранг',
@@ -2161,7 +2165,6 @@ $1',
 'exif-compressedbitsperpixel'      => 'Ҳолати фишурдасозии акс',
 'exif-pixelydimension'             => 'Арзи акси мӯътабар',
 'exif-pixelxdimension'             => 'Тӯли акси мӯътабар',
-'exif-makernote'                   => 'Тавзеҳоти ширкати созанда',
 'exif-usercomment'                 => 'Тавзеҳоти корбар',
 'exif-relatedsoundfile'            => 'Парвандаи сабти алоқаманд',
 'exif-datetimeoriginal'            => 'Таърих ва вақти тавлиди додаҳо',
@@ -2175,7 +2178,6 @@ $1',
 'exif-exposureprogram'             => 'Барномаи Нурдиҳӣ',
 'exif-spectralsensitivity'         => 'Ҳасосияти тифӣ',
 'exif-isospeedratings'             => 'Дараҷабандии суръати ISO',
-'exif-oecf'                        => 'Амали табдили нурӣ-электронӣ',
 'exif-shutterspeedvalue'           => 'Суръати парда',
 'exif-aperturevalue'               => 'Андозаи диафрагм',
 'exif-brightnessvalue'             => 'Равшанӣ',
@@ -2188,7 +2190,6 @@ $1',
 'exif-focallength'                 => 'Фосилаи марказии адасӣ',
 'exif-subjectarea'                 => 'Масоҳати ҷисм',
 'exif-flashenergy'                 => 'Қудрати флеш',
-'exif-spatialfrequencyresponse'    => 'Посухи фосилаи фазогӣ',
 'exif-focalplanexresolution'       => 'Сафҳаи марказии X тафкикпазирӣ',
 'exif-focalplaneyresolution'       => 'Сафҳаи марказии Y тафкикпазирӣ',
 'exif-focalplaneresolutionunit'    => 'Воҳиди тафкикпазирии сафҳаи марказӣ',
@@ -2197,7 +2198,6 @@ $1',
 'exif-sensingmethod'               => 'Равиши ҳисгарӣ',
 'exif-filesource'                  => 'Манбаи парванда',
 'exif-scenetype'                   => 'Навъи саҳна',
-'exif-cfapattern'                  => 'Қолаби CFA',
 'exif-customrendered'              => 'Пардозиши акс',
 'exif-exposuremode'                => 'Ҳолати нурдиҳӣ',
 'exif-whitebalance'                => 'Мувозинаи ранги сафед',

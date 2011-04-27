@@ -520,16 +520,7 @@ Palihog maghulat anay bag-o tilawan liwat.',
 # E-mail sending
 'php-mail-error-unknown' => 'Wala nahibaluan nga sala sa kapuslanan nga sulat() sang PHP.',
 
-# JavaScript password checks
-'password-strength'            => 'Paghaum-haom nga kakusogon sang pasword: $1',
-'password-strength-bad'        => 'MALAIN',
-'password-strength-mediocre'   => 'ordinaryo',
-'password-strength-acceptable' => 'mabaton',
-'password-strength-good'       => 'maayo',
-'password-retype'              => 'Ibutang liwat ang pasword dire',
-'password-retype-mismatch'     => 'Wala nagasanto ang mga pasword',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Ilisan ang pasword',
 'resetpass_announce'        => 'Nagsulod ka paagi sang temporary nga kod nga gin-email.
 Agod nga makatapos ka sa pagsulod, kinahanglan mo magbutang sang bag-o nga pasword dire:',
@@ -1349,7 +1340,13 @@ Ang iban ay pagataguon sang default.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'Islan ini nga file gamit ang eksternal nga aplikasyon',

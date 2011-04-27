@@ -129,7 +129,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'لیست روباتان' ),
 	'Popularpages'              => array( 'مردمی صفحات' ),
 	'Search'                    => array( 'گردگ' ),
-	'Resetpass'                 => array( 'تریتگ رمز' ),
+	'ChangePassword'            => array( 'تریتگ رمز' ),
 	'Withoutinterwiki'          => array( 'بی بین ویکی' ),
 	'MergeHistory'              => array( 'چندوبند تاریح' ),
 	'Filepath'                  => array( 'مسیر فایل' ),
@@ -604,7 +604,7 @@ $2',
 'login-throttled'            => 'شما په کلمه رمز ای حساب باز جهد کتت نوکی. لطفا صبر کنیت و. رندا جهد کنیت.',
 'loginlanguagelabel'         => 'زبان: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'کلمه رمزءَ‌عوض کن',
 'resetpass_announce'        => 'شما گون یک هنوکین کد ایمیل بوتگین وارد بوتءیت.
 په تمام کتن ورود، شما باید یک نوکین کلمه رمز اداں شرکنیت',
@@ -2606,7 +2606,13 @@ Variants for Chinese language
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'پهنات',
@@ -2621,13 +2627,11 @@ Variants for Chinese language
 'exif-ycbcrpositioning'            => 'جاگاه Y و C',
 'exif-xresolution'                 => 'افقی وضوح',
 'exif-yresolution'                 => 'وضوح عمودی',
-'exif-resolutionunit'              => 'واحد X وY وضوح',
 'exif-stripoffsets'                => 'جاگاه دیتای عکس',
 'exif-rowsperstrip'                => 'تعداد ردیف آن ته هر نوار',
 'exif-stripbytecounts'             => 'بایت ته هر نوار کمپرس بوتگین',
 'exif-jpeginterchangeformat'       => 'عوض کتن په JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'بیت آن دیتا جیی پی جی',
-'exif-transferfunction'            => 'عملگر جاه په جاهی',
 'exif-whitepoint'                  => 'رنگ پذیری نکته اسپیت',
 'exif-primarychromaticities'       => 'رنگ پذیری اولیگی',
 'exif-ycbcrcoefficients'           => ' ضرایب فضا رنگ جاه په جاهی ماتریکس',
@@ -2646,7 +2650,6 @@ Variants for Chinese language
 'exif-compressedbitsperpixel'      => 'مدل کمپرس کتن عکس',
 'exif-pixelydimension'             => 'معتبرین پهنات عکس',
 'exif-pixelxdimension'             => 'معتبرین ارتفاع عکس',
-'exif-makernote'                   => 'یادداشتان شرکنوک',
 'exif-usercomment'                 => 'نظرات کاربر',
 'exif-relatedsoundfile'            => 'مربوطین فایل صوتی',
 'exif-datetimeoriginal'            => 'تاریح و وهد شرکتن دیتا',
@@ -2661,7 +2664,6 @@ Variants for Chinese language
 'exif-exposureprogram'             => 'برنامه ته معرض بوتن',
 'exif-spectralsensitivity'         => 'حساسیت طیفی',
 'exif-isospeedratings'             => 'میزان سرعت ISO',
-'exif-oecf'                        => 'فاکتور تبدیل اوپتوالکترونیکی',
 'exif-shutterspeedvalue'           => 'سرعت شاتر',
 'exif-aperturevalue'               => 'پچ بیگ',
 'exif-brightnessvalue'             => 'روشنی',
@@ -2675,7 +2677,6 @@ Variants for Chinese language
 'exif-focallength-format'          => '$1م.م',
 'exif-subjectarea'                 => 'ناحیه شی',
 'exif-flashenergy'                 => 'قدرت فلاش',
-'exif-spatialfrequencyresponse'    => 'عکس العمل متداول فاصله ای',
 'exif-focalplanexresolution'       => 'وضوح X سطح کانونی',
 'exif-focalplaneyresolution'       => 'وضوح Y سطح کانونی',
 'exif-focalplaneresolutionunit'    => 'واحد وضوح سطح کانونی',
@@ -2684,7 +2685,6 @@ Variants for Chinese language
 'exif-sensingmethod'               => 'روش حس کتن',
 'exif-filesource'                  => 'منبع فایل',
 'exif-scenetype'                   => 'نوع صحنه',
-'exif-cfapattern'                  => 'الگو سی اف ای',
 'exif-customrendered'              => 'پردازش عکس سنت',
 'exif-exposuremode'                => 'مدل پچ بوگ دیافراگم',
 'exif-whitebalance'                => 'توازن اسپیت',
@@ -2889,6 +2889,11 @@ Variants for Chinese language
 'exif-gpsspeed-k' => 'کیلومتر ته ساعت',
 'exif-gpsspeed-m' => 'مایل ته ساعت',
 'exif-gpsspeed-n' => 'گرهنان',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'کیلومتر',
+'exif-gpsdestdistance-m' => 'مایل',
+'exif-gpsdestdistance-n' => 'دریایی مایل',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'جهت درست',

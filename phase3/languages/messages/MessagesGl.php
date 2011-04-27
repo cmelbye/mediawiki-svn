@@ -134,7 +134,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Lista_de_bots' ),
 	'Popularpages'              => array( 'Páxinas_populares' ),
 	'Search'                    => array( 'Procurar' ),
-	'Resetpass'                 => array( 'Cambiar_o_contrasinal' ),
+	'ChangePassword'            => array( 'Cambiar_o_contrasinal' ),
 	'Withoutinterwiki'          => array( 'Sen_interwiki' ),
 	'MergeHistory'              => array( 'Fusionar_os_historiais' ),
 	'Filepath'                  => array( 'Ruta_do_ficheiro' ),
@@ -713,16 +713,7 @@ Por favor, agarde antes de probar outra vez.',
 # E-mail sending
 'php-mail-error-unknown' => 'Erro descoñecido na función mail() do PHP',
 
-# JavaScript password checks
-'password-strength'            => 'Fortaleza estimada do contrasinal: $1',
-'password-strength-bad'        => 'MALA',
-'password-strength-mediocre'   => 'mediocre',
-'password-strength-acceptable' => 'aceptable',
-'password-strength-good'       => 'boa',
-'password-retype'              => 'Insira o seu contrasinal outra vez',
-'password-retype-mismatch'     => 'Os contrasinais non coinciden',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Cambiar o contrasinal',
 'resetpass_announce'        => 'Debe rexistrarse co código temporal que recibiu por correo electrónico. Para finalizar o rexistro debe indicar un novo contrasinal aquí:',
 'resetpass_text'            => '<!-- Engadir texto aquí -->',
@@ -739,6 +730,10 @@ Por favor, agarde antes de probar outra vez.',
 'resetpass-wrong-oldpass'   => 'O contrasinal temporal ou actual é incorrecto.
 Pode ser que xa cambiase o seu contrasinal ou que solicitase un novo contrasinal temporal.',
 'resetpass-temp-password'   => 'Contrasinal temporal:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Eliminar o contrasinal',
+'passwordreset-username' => 'Nome de usuario:',
 
 # Edit page toolbar
 'bold_sample'     => 'Texto en negra',
@@ -1113,24 +1108,6 @@ Por favor, comprobe o rexistros.',
 'suppressionlogtext' => 'Embaixo amósase unha lista coas eliminacións e cos bloqueos recentes, que inclúen contido oculto dos administradores.
 Vexa a [[Special:IPBlockList|lista de enderezos IP bloqueados]] para comprobar as prohibicións e os bloqueos vixentes.',
 
-# Revision move
-'moverevlogentry'              => 'moveu {{PLURAL:$3|unha revisión|$3 revisións}} de $1 a $2',
-'revisionmove'                 => 'Mover as revisións de "$1"',
-'revmove-explain'              => 'As seguintes revisións moveranse de "$1" á páxina de destino especificada. Se a páxina de destino non existe, esta será creada. En caso de existir, estas revisións fusionaranse co historial de revisións desa páxina.',
-'revmove-legend'               => 'Establecer a páxina de destino e o resumo',
-'revmove-submit'               => 'Mover as revisións á páxina seleccionada',
-'revisionmoveselectedversions' => 'Mover as revisións seleccionadas',
-'revmove-reasonfield'          => 'Motivo:',
-'revmove-titlefield'           => 'Páxina de destino:',
-'revmove-badparam-title'       => 'Parámetros incorrectos',
-'revmove-badparam'             => 'A súa solicitude contén parámetros insuficientes ou ilegais. Volva atrás e inténteo de novo.',
-'revmove-norevisions-title'    => 'A revisión especificada é incorrecta',
-'revmove-norevisions'          => 'Non especificou unha ou máis revisións sobre as que levar a cabo esta operación; ou poida tamén que a revisión especificada non exista.',
-'revmove-nullmove-title'       => 'Título incorrecto',
-'revmove-nullmove'             => 'As páxinas de orixe e destino son idénticas. Volva atrás e introduza un nome de páxina diferente de "$1".',
-'revmove-success-existing'     => '{{PLURAL:$1|Moveuse unha revisión de "[[$2]]"|Movéronse $1 revisións de "[[$2]]"}} á páxina "[[$3]]".',
-'revmove-success-created'      => '{{PLURAL:$1|Moveuse unha revisión de "[[$2]]"|Movéronse $1 revisións de "[[$2]]"}} á nova páxina "[[$3]]", creada hai uns intres.',
-
 # History merging
 'mergehistory'                     => 'Fusionar historiais das páxinas',
 'mergehistory-header'              => 'Esta páxina permítelle fusionar revisións dos historiais da páxina de orixe nunha nova páxina.
@@ -1470,8 +1447,6 @@ Ha de ter menos {{PLURAL:$1|dun carácter|de $1 caracteres}}.',
 'right-reset-passwords'       => 'Restablecer os contrasinais doutros usuarios',
 'right-override-export-depth' => 'Exportar páxinas incluíndo as páxinas ligadas ata unha profundidade de 5',
 'right-sendemail'             => 'Enviar correos electrónicos a outros usuarios',
-'right-revisionmove'          => 'Mover revisións',
-'right-disableaccount'        => 'Desactivar contas',
 
 # User rights log
 'rightslog'      => 'Rexistro de dereitos de usuario',
@@ -1514,13 +1489,12 @@ Ha de ter menos {{PLURAL:$1|dun carácter|de $1 caracteres}}.',
 'action-userrights'           => 'editar todos os permisos de usuario',
 'action-userrights-interwiki' => 'editar os permisos de usuario dos usuarios doutros wikis',
 'action-siteadmin'            => 'bloquear ou desbloquear a base de datos',
-'action-revisionmove'         => 'mover revisións',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|cambio|cambios}}',
 'recentchanges'                     => 'Cambios recentes',
 'recentchanges-legend'              => 'Opcións dos cambios',
-'recentchangestext'                 => 'Sigue, nesta páxina, as modificacións máis recentes no wiki.',
+'recentchangestext'                 => 'Siga, nesta páxina, as modificacións máis recentes no wiki.',
 'recentchanges-feed-description'    => 'Siga os cambios máis recentes deste wiki nesta fonte de novas.',
 'recentchanges-label-newpage'       => 'Esta edición creou unha nova páxina',
 'recentchanges-label-minor'         => 'Esta é unha edición pequena',
@@ -1733,22 +1707,23 @@ Non pode superar adecuadamente as comprobacións de seguridade.',
 'uploadstash-refresh'  => 'Actualizar a lista de ficheiros',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Acceso rexeitado',
-'img-auth-nopathinfo'   => 'Falta a PATH_INFO.
+'img-auth-accessdenied'     => 'Acceso rexeitado',
+'img-auth-nopathinfo'       => 'Falta a PATH_INFO.
 O seu servidor non está configurado para pasar esta información.
 Pode ser que estea baseado en CGI e non puidese soportar img_auth.
 Olle http://www.mediawiki.org/wiki/Manual:Image_Authorization para obter máis información.',
-'img-auth-notindir'     => 'A ruta solicitada non está no directorio de carga configurado.',
-'img-auth-badtitle'     => 'Non é posible construír un título válido a partir de "$1".',
-'img-auth-nologinnWL'   => 'Non accedeu ao sistema e "$1" non está na lista de branca.',
-'img-auth-nofile'       => 'O ficheiro "$1" non existe.',
-'img-auth-isdir'        => 'Está intentando acceder ao directorio "$1".
+'img-auth-notindir'         => 'A ruta solicitada non está no directorio de carga configurado.',
+'img-auth-badtitle'         => 'Non é posible construír un título válido a partir de "$1".',
+'img-auth-nologinnWL'       => 'Non accedeu ao sistema e "$1" non está na lista de branca.',
+'img-auth-nofile'           => 'O ficheiro "$1" non existe.',
+'img-auth-isdir'            => 'Está intentando acceder ao directorio "$1".
 Só se permite o acceso ao ficheiro.',
-'img-auth-streaming'    => 'Secuenciando "$1".',
-'img-auth-public'       => 'A función de img_auth.php é para ficheiros de saída desde un wiki privado.
+'img-auth-streaming'        => 'Secuenciando "$1".',
+'img-auth-public'           => 'A función de img_auth.php é para ficheiros de saída desde un wiki privado.
 Este wiki está configurado como público.
 Para unha seguridade óptima, img_auth.php está desactivado.',
-'img-auth-noread'       => 'O usuario non ten acceso á lectura de "$1".',
+'img-auth-noread'           => 'O usuario non ten acceso á lectura de "$1".',
+'img-auth-bad-query-string' => 'O enderezo URL ten unha secuencia de consulta incorrecta.',
 
 # HTTP errors
 'http-invalid-url'      => 'URL non válido: $1',
@@ -2110,6 +2085,10 @@ O correo electrónico que inseriu [[Special:Preferences|nas súas preferencias]]
 'noemailtext'          => 'Este usuario non especificou un enderezo de correo electrónico válido.',
 'nowikiemailtitle'     => 'Sen correo electrónico habilitado',
 'nowikiemailtext'      => 'Este usuario elixiu non recibir correos electrónicos doutros usuarios.',
+'emailnotarget'        => 'O nome de usuario do destinatario non existe ou é incorrecto.',
+'emailtarget'          => 'Introduza o nome de usuario do destinatario',
+'emailusername'        => 'Nome de usuario:',
+'emailusernamesubmit'  => 'Enviar',
 'email-legend'         => 'Enviar un correo electrónico a outro usuario de {{SITENAME}}',
 'emailfrom'            => 'De:',
 'emailto'              => 'Para:',
@@ -2854,7 +2833,7 @@ Gárdeo no seu disco duro e cárgueo aquí.',
 # Metadata
 'nodublincore'      => 'A opción de metadatos RDF do Dublin Core está desactivada neste servidor.',
 'nocreativecommons' => 'A opción de metadatos Creative Commons RDF está desactivada neste servidor.',
-'notacceptable'     => 'O servidor wiki non pode fornecer datos nun formato que o seu cliente poida ler.',
+'notacceptable'     => 'O servidor do wiki non pode fornecer os datos nun formato que o seu cliente poida ler.',
 
 # Attribution
 'anonymous'        => '{{PLURAL:$1|Usuario anónimo|Usuarios anónimos}} de {{SITENAME}}',
@@ -2976,7 +2955,7 @@ As ligazóns posteriores da mesma liña considéranse excepcións, isto é, páx
 'metadata-help'     => 'Este ficheiro contén información adicional, probabelmente engadida pola cámara dixital ou polo escáner usado para crear ou dixitalizar a imaxe. Se o ficheiro orixinal foi modificado, pode que algúns detalles non se reflictan no ficheiro modificado.',
 'metadata-expand'   => 'Mostrar os detalles',
 'metadata-collapse' => 'Agochar os detalles',
-'metadata-fields'   => 'Os campos de datos meta EXIF listados nesta mensaxe incluiranse ao exhibir a páxina da imaxe cando se reduza a táboa dos datos meta.
+'metadata-fields'   => 'Os campos de metadatos listados nesta mensaxe incluiranse na páxina da imaxe ao contraer a táboa dos metadatos.
 Os demais agocharanse por omisión.
 * make
 * model
@@ -2984,7 +2963,13 @@ Os demais agocharanse por omisión.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Ancho',
@@ -2999,13 +2984,11 @@ Os demais agocharanse por omisión.
 'exif-ycbcrpositioning'            => 'Posicionamentos Y e C',
 'exif-xresolution'                 => 'Resolución horizontal',
 'exif-yresolution'                 => 'Resolución vertical',
-'exif-resolutionunit'              => 'Unidade de resolución X e Y',
 'exif-stripoffsets'                => 'Localización dos datos da imaxe',
 'exif-rowsperstrip'                => 'Número de filas por tira',
 'exif-stripbytecounts'             => 'Bytes por tira comprimida',
 'exif-jpeginterchangeformat'       => 'Distancia ao inicio (SOI) do JPEG',
 'exif-jpeginterchangeformatlength' => 'Bytes de datos JPEG',
-'exif-transferfunction'            => 'Función de transferencia',
 'exif-whitepoint'                  => 'Coordenadas cromáticas de referencia do branco',
 'exif-primarychromaticities'       => 'Cromacidades primarias',
 'exif-ycbcrcoefficients'           => 'Coeficientes da matriz de transformación do espazo de cores',
@@ -3022,9 +3005,8 @@ Os demais agocharanse por omisión.
 'exif-colorspace'                  => 'Espazo de cor',
 'exif-componentsconfiguration'     => 'Significado de cada compoñente',
 'exif-compressedbitsperpixel'      => 'Modo de compresión da imaxe',
-'exif-pixelydimension'             => 'Ancho de imaxe válido',
-'exif-pixelxdimension'             => 'Altura de imaxe válida',
-'exif-makernote'                   => 'Notas do fabricante',
+'exif-pixelydimension'             => 'Ancho da imaxe',
+'exif-pixelxdimension'             => 'Altura da imaxe',
 'exif-usercomment'                 => 'Comentarios do usuario',
 'exif-relatedsoundfile'            => 'Ficheiro de son relacionado',
 'exif-datetimeoriginal'            => 'Data e hora de xeración do ficheiro',
@@ -3038,10 +3020,9 @@ Os demais agocharanse por omisión.
 'exif-exposureprogram'             => 'Programa de exposición',
 'exif-spectralsensitivity'         => 'Sensibilidade espectral',
 'exif-isospeedratings'             => 'Relación da velocidade ISO',
-'exif-oecf'                        => 'Factor de conversión optoelectrónica',
-'exif-shutterspeedvalue'           => 'Velocidade de obturación electrónica',
-'exif-aperturevalue'               => 'Apertura',
-'exif-brightnessvalue'             => 'Brillo',
+'exif-shutterspeedvalue'           => 'Velocidade de obturación APEX',
+'exif-aperturevalue'               => 'Apertura APEX',
+'exif-brightnessvalue'             => 'Brillo APEX',
 'exif-exposurebiasvalue'           => 'Corrección da exposición',
 'exif-maxaperturevalue'            => 'Máxima apertura do diafragma',
 'exif-subjectdistance'             => 'Distancia do suxeito',
@@ -3051,7 +3032,6 @@ Os demais agocharanse por omisión.
 'exif-focallength'                 => 'Lonxitude focal',
 'exif-subjectarea'                 => 'Área do suxeito',
 'exif-flashenergy'                 => 'Enerxía do flash',
-'exif-spatialfrequencyresponse'    => 'Resposta de frecuencia espacial',
 'exif-focalplanexresolution'       => 'Resolución X do plano focal',
 'exif-focalplaneyresolution'       => 'Resolución Y do plano focal',
 'exif-focalplaneresolutionunit'    => 'Unidade de resolución do plano focal',
@@ -3060,7 +3040,6 @@ Os demais agocharanse por omisión.
 'exif-sensingmethod'               => 'Tipo de sensor',
 'exif-filesource'                  => 'Fonte do ficheiro',
 'exif-scenetype'                   => 'Tipo de escena',
-'exif-cfapattern'                  => 'Patrón da matriz de filtro de cor',
 'exif-customrendered'              => 'Procesamento da imaxe personalizado',
 'exif-exposuremode'                => 'Modo de exposición',
 'exif-whitebalance'                => 'Balance de brancos',
@@ -3105,10 +3084,65 @@ Os demais agocharanse por omisión.
 'exif-gpsareainformation'          => 'Nome da área GPS',
 'exif-gpsdatestamp'                => 'Data do GPS',
 'exif-gpsdifferential'             => 'Corrección diferencial do GPS',
+'exif-jpegfilecomment'             => 'Comentario do ficheiro JPEG',
+'exif-keywords'                    => 'Palabras clave',
+'exif-worldregioncreated'          => 'Rexión do mundo onde se tirou a foto',
+'exif-countrycreated'              => 'País onde se tirou a foto',
+'exif-countrycodecreated'          => 'Código do país onde se tirou a foto',
+'exif-provinceorstatecreated'      => 'Provincia ou estado onde se tirou a foto',
+'exif-citycreated'                 => 'Cidade onde se tirou a foto',
+'exif-sublocationcreated'          => 'Sublocalización da cidade onde se tirou a foto',
+'exif-worldregiondest'             => 'Rexión do mundo mostrada',
+'exif-countrydest'                 => 'País mostrado',
+'exif-countrycodedest'             => 'Código do país mostrado',
+'exif-provinceorstatedest'         => 'Provincia ou estado mostrado',
+'exif-citydest'                    => 'Cidade mostrada',
+'exif-sublocationdest'             => 'Sublocalización da cidade mostrada',
 'exif-objectname'                  => 'Título curto',
+'exif-specialinstructions'         => 'Instrucións especiais',
+'exif-headline'                    => 'Cabeceira',
+'exif-credit'                      => 'Créditos/Provedor',
+'exif-source'                      => 'Orixe',
+'exif-editstatus'                  => 'Estado editorial da imaxe',
+'exif-urgency'                     => 'Urxencia',
+'exif-locationdest'                => 'Localización representada',
+'exif-locationdestcode'            => 'Código da localización representada',
+'exif-objectcycle'                 => 'Hora do día para o que está destinado',
+'exif-contact'                     => 'Información de contacto',
+'exif-writer'                      => 'Escritor',
+'exif-languagecode'                => 'Lingua',
+'exif-iimversion'                  => 'Versión IIM',
+'exif-iimcategory'                 => 'Categoría',
+'exif-iimsupplementalcategory'     => 'Categorías suplementarias',
+'exif-datetimeexpires'             => 'Non utilizar despois do',
+'exif-datetimereleased'            => 'Publicado o',
+'exif-originaltransmissionref'     => 'Código orixinal do lugar de transmisión',
+'exif-identifier'                  => 'Identificador',
+'exif-lens'                        => 'Lente usada',
+'exif-serialnumber'                => 'Número de serie da cámara',
+'exif-cameraownername'             => 'Propietario da cámara',
+'exif-label'                       => 'Etiqueta',
+'exif-nickname'                    => 'Nome informal da imaxe',
+'exif-rating'                      => 'Valoración (sobre 5)',
+'exif-copyrighted'                 => 'Estado dos dereitos de autor',
+'exif-copyrightowner'              => 'Propietario dos dereitos de autor',
+'exif-usageterms'                  => 'Termos de uso',
+'exif-morepermissionsurl'          => 'Información de licenza alternativa',
+'exif-pngfilecomment'              => 'Comentario do ficheiro PNG',
+'exif-disclaimer'                  => 'Advertencia',
+'exif-contentwarning'              => 'Aviso sobre o contido',
+'exif-giffilecomment'              => 'Comentario do ficheiro GIF',
+'exif-intellectualgenre'           => 'Tipo de elemento',
+'exif-organisationinimage'         => 'Organización representada',
+'exif-personinimage'               => 'Persoa retratada',
+'exif-originalimageheight'         => 'Altura da imaxe antes de ser cortada',
+'exif-originalimagewidth'          => 'Ancho da imaxe antes de ser cortada',
 
 # EXIF attributes
 'exif-compression-1' => 'Sen comprimir',
+
+'exif-copyrighted-true'  => 'Con dereitos de autor',
+'exif-copyrighted-false' => 'Dominio público',
 
 'exif-unknowndate' => 'Data descoñecida',
 
@@ -3123,6 +3157,8 @@ Os demais agocharanse por omisión.
 
 'exif-planarconfiguration-1' => 'Formato de paquete de píxeles',
 'exif-planarconfiguration-2' => 'Formato de planos',
+
+'exif-colorspace-65535' => 'Sen calibrar',
 
 'exif-componentsconfiguration-0' => 'non hai',
 
@@ -3235,6 +3271,10 @@ Os demais agocharanse por omisión.
 'exif-gpslongitude-e' => 'Lonxitude leste',
 'exif-gpslongitude-w' => 'Lonxitude oeste',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '$1 {{PLURAL:$1|metro|metros}} sobre o nivel do mar',
+'exif-gpsaltitude-below-sealevel' => '$1 {{PLURAL:$1|metro|metros}} baixo o nivel do mar',
+
 'exif-gpsstatus-a' => 'Medida en progreso',
 'exif-gpsstatus-v' => 'Interoperabilidade da medida',
 
@@ -3246,9 +3286,56 @@ Os demais agocharanse por omisión.
 'exif-gpsspeed-m' => 'Millas por hora',
 'exif-gpsspeed-n' => 'Nós',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Quilómetros',
+'exif-gpsdestdistance-m' => 'Millas',
+'exif-gpsdestdistance-n' => 'Millas náuticas',
+
+'exif-gpsdop-excellent' => 'Excelente ($1)',
+'exif-gpsdop-good'      => 'Boa ($1)',
+'exif-gpsdop-moderate'  => 'Moderada ($1)',
+'exif-gpsdop-fair'      => 'Xusta ($1)',
+'exif-gpsdop-poor'      => 'Pobre ($1)',
+
+'exif-objectcycle-a' => 'Mañá soamente',
+'exif-objectcycle-p' => 'Serán soamente',
+'exif-objectcycle-b' => 'Tanto na mañá como no serán',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Dirección verdadeira',
 'exif-gpsdirection-m' => 'Dirección magnética',
+
+'exif-dc-contributor' => 'Colaboradores',
+'exif-dc-date'        => 'Data(s)',
+'exif-dc-publisher'   => 'Editor',
+'exif-dc-rights'      => 'Dereitos',
+
+'exif-rating-rejected' => 'Rexeitado',
+
+'exif-isospeedratings-overflow' => 'Superior a 65535',
+
+'exif-iimcategory-ace' => 'Arte, cultura e entretemento',
+'exif-iimcategory-clj' => 'Crime e dereito',
+'exif-iimcategory-dis' => 'Desastres e accidentes',
+'exif-iimcategory-fin' => 'Economía e negocios',
+'exif-iimcategory-edu' => 'Educación',
+'exif-iimcategory-evn' => 'Medio ambiente',
+'exif-iimcategory-hth' => 'Saúde',
+'exif-iimcategory-hum' => 'Intereses humanos',
+'exif-iimcategory-lab' => 'Traballo',
+'exif-iimcategory-lif' => 'Estilo de vida e lecer',
+'exif-iimcategory-pol' => 'Política',
+'exif-iimcategory-rel' => 'Relixión e crenzas',
+'exif-iimcategory-sci' => 'Ciencia e tecnoloxía',
+'exif-iimcategory-soi' => 'Cuestións sociais',
+'exif-iimcategory-spo' => 'Deportes',
+'exif-iimcategory-war' => 'Guerras e conflitos',
+'exif-iimcategory-wea' => 'Tempo',
+
+'exif-urgency-normal' => 'Normal ($1)',
+'exif-urgency-low'    => 'Baixa ($1)',
+'exif-urgency-high'   => 'Alta ($1)',
+'exif-urgency-other'  => 'Prioridade definida polo usuario ($1)',
 
 # External editor support
 'edit-externally'      => 'Editar este ficheiro cunha aplicación externa',
@@ -3549,18 +3636,5 @@ Introduza o nome do ficheiro sen o prefixo "{{ns:file}}:"',
 # SQLite database support
 'sqlite-has-fts' => '$1 con soporte para procuras de texto completo',
 'sqlite-no-fts'  => '$1 sen soporte para procuras de texto completo',
-
-# Special:DisableAccount
-'disableaccount'             => 'Desactivar unha conta de usuario',
-'disableaccount-user'        => 'Nome de usuario:',
-'disableaccount-reason'      => 'Motivo:',
-'disableaccount-confirm'     => "Desactivar esta conta de usuario.
-O usuario non poderá acceder ao sistema, restablecer o contrasinal ou recibir notificacións por correo electrónico.
-Se o usuario está conectado, sairá ao anonimato inmediatamente.
-''Teña en conta que a desactivación dunha conta non é reversible sen a intervención dun administrador do sistema.''",
-'disableaccount-mustconfirm' => 'Ten que confirmar que quere desactivar esta conta.',
-'disableaccount-nosuchuser'  => 'A conta de usuario "$1" non existe.',
-'disableaccount-success'     => 'Esta conta de usuario, "$1", foi desactivada permanentemente.',
-'disableaccount-logentry'    => 'desactivou permanentemente a conta de usuario "[[$1]]"',
 
 );

@@ -103,7 +103,7 @@ $specialPageAliases = array(
 	'Mycontributions'           => array( 'МонМезеТеинь' ),
 	'Popularpages'              => array( 'ЛисийСовийМартоЛопат' ),
 	'Search'                    => array( 'Вешнемс' ),
-	'Resetpass'                 => array( 'СовамоВалоньПолавтома' ),
+	'ChangePassword'            => array( 'СовамоВалоньПолавтома' ),
 	'Filepath'                  => array( 'ФайланьКи' ),
 	'Blankpage'                 => array( 'ЧавоЛопа' ),
 );
@@ -581,15 +581,7 @@ $messages = array(
 'accountcreatedtext'         => '$1-нь совицянь таркась теевсь-шкавсь.',
 'loginlanguagelabel'         => 'Кель: $1',
 
-# JavaScript password checks
-'password-strength-bad'        => 'БЕРЯНЬ',
-'password-strength-mediocre'   => 'берякшке',
-'password-strength-acceptable' => 'маштови',
-'password-strength-good'       => 'вадря',
-'password-retype'              => 'Тезэнь сёрмадык одов салава валонть',
-'password-retype-mismatch'     => 'Салава валтнэ а вейкеть',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Полавтомс совамо валот',
 'resetpass_header'          => 'Полавтомс совамо валот',
 'oldpassword'               => 'Ташто совамо валот:',
@@ -773,11 +765,6 @@ IP-тешкстэть — $3, саймас совавтоманть ID-сь — 
 'revdelete-reasonotherlist' => 'Лия тувтал',
 'revdelete-edit-reasonlist' => 'Витнемс-петнемс нардамонь тувталтнэсэ',
 'revdelete-offender'        => 'Версиянть теицязо:',
-
-# Revision move
-'revmove-reasonfield'    => 'Тувталось:',
-'revmove-titlefield'     => 'Норовазь лопась:',
-'revmove-nullmove-title' => 'Берянь конякс',
 
 # History merging
 'mergehistory'                     => 'Совавтомс лопатнень лиякстомтомадо сёрмадовкстнэнь ве лувс',
@@ -1810,7 +1797,13 @@ IP-тешкстэть — $3, саймас совавтоманть ID-сь — 
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'          => 'Келе',
@@ -1819,7 +1812,6 @@ IP-тешкстэть — $3, саймас совавтоманть ID-сь — 
 'exif-planarconfiguration' => 'Максовксонь аравтнема',
 'exif-xresolution'         => 'Горизонтальсэ сеедезэ',
 'exif-yresolution'         => 'Вертикальсэ сеедезэ',
-'exif-transferfunction'    => 'Печтевтемань функция',
 'exif-referenceblackwhite' => 'Раужот-ашот кавто корямо точкат',
 'exif-imagedescription'    => 'Артовксонть коняксозо',
 'exif-software'            => 'Тевс нолдазь программатне',
@@ -1836,7 +1828,6 @@ IP-тешкстэть — $3, саймас совавтоманть ID-сь — 
 'exif-flash'               => 'Кивчкадема',
 'exif-subjectarea'         => 'Субъектонть саема тарказо',
 'exif-filesource'          => 'Файланть саемазо',
-'exif-cfapattern'          => 'CFA парцун',
 'exif-contrast'            => 'Контрастось',
 'exif-saturation'          => 'Тустолмазо',
 'exif-sharpness'           => 'Пштиксчизэ',

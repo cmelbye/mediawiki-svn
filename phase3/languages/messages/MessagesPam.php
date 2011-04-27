@@ -449,7 +449,7 @@ Kailangan mung mag-login ngeni ba meng ayalilan ing kekang password.
 Malyari meng e pansinan ining mensahi, nung pamagkamali ing pamaglalang na niting account.',
 'loginlanguagelabel'         => 'Amanu: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'           => 'Alilan ya ing account password',
 'resetpass_announce'  => 'Gagamit kang pansamantalang code a me e-mail keka aniang mig-login ka.
 Bang mayari ing kekang pamag-login, kailangan mung mangibiling bayung password keni:',
@@ -2040,7 +2040,13 @@ Detang aliwa tambing (by default) lang makasalikut.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Lapad',
@@ -2055,7 +2061,6 @@ Detang aliwa tambing (by default) lang makasalikut.
 'exif-yresolution'                 => 'Linong patikdo (vertical resolution)',
 'exif-stripoffsets'                => 'Pangabili ning data tungkul king larawan (image data location)',
 'exif-jpeginterchangeformatlength' => 'Byte ning JPEG data',
-'exif-transferfunction'            => 'Gamit a pamanalis (transfer function)',
 'exif-primarychromaticities'       => 'Chromaticities da reng primarities',
 'exif-referenceblackwhite'         => 'Paris da reng maputi ampong matuling a reference value',
 'exif-datetime'                    => 'Petsa ampong oras ning pamanaliling simpan (file change)',
@@ -2072,7 +2077,6 @@ Detang aliwa tambing (by default) lang makasalikut.
 'exif-compressedbitsperpixel'      => 'Paralan/ayus pamamitpit larawan (image compression mode)',
 'exif-pixelydimension'             => 'Ustung lapad ning larawan',
 'exif-pixelxdimension'             => 'Ustung katas ning larawan',
-'exif-makernote'                   => 'Kapabaluan ibat king ginawa (manufacturer notes)',
 'exif-usercomment'                 => 'Komentu da ring talagamit',
 'exif-relatedsoundfile'            => 'Makaugneng simpan a katni (audio file)',
 'exif-datetimeoriginal'            => 'Petsa ampong oras ning pamaglalang king data (data generation)',

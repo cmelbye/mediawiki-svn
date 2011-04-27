@@ -205,7 +205,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Vélmennalisti' ),
 	'Popularpages'              => array( 'Vinsælar síður' ),
 	'Search'                    => array( 'Leit' ),
-	'Resetpass'                 => array( 'Endurkalla aðgangsorðið' ),
+	'ChangePassword'            => array( 'Endurkalla aðgangsorðið' ),
 	'Withoutinterwiki'          => array( 'Síður án tungumálatengla' ),
 	'MergeHistory'              => array( 'Sameina breytingaskrá' ),
 	'Filepath'                  => array( 'Skráarslóð' ),
@@ -683,7 +683,7 @@ Gjörðu svo vel og settu inn netfang á gildu formi eða tæmdu reitinn.',
 Vinsamlegast reynið aftur síðar.',
 'loginlanguagelabel'         => 'Tungumál: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Breyta lykilorði',
 'resetpass_announce'        => 'Þú skráðir þig inn með tímabundnum netfangskóða.
 Til að klára að skrá þig inn, verður þú að endurstilla lykilorðið hér:',
@@ -2200,7 +2200,13 @@ Ef skránni hefur verið breytt, kann að vera að einhverjar upplýsingar eigi 
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'       => 'Breidd',

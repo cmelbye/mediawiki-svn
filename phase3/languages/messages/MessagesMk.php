@@ -172,7 +172,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'СписокНаБотови' ),
 	'Popularpages'              => array( 'ПопуларниСтраници' ),
 	'Search'                    => array( 'Барај' ),
-	'Resetpass'                 => array( 'СмениЛозинка' ),
+	'ChangePassword'            => array( 'СмениЛозинка' ),
 	'Withoutinterwiki'          => array( 'БезИнтервики' ),
 	'MergeHistory'              => array( 'СпојувањеИсторија' ),
 	'Filepath'                  => array( 'ПатДоПодатотека' ),
@@ -357,7 +357,7 @@ $messages = array(
 'tog-diffonly'                => 'Не ја покажувај содржината на страницата под разликите',
 'tog-showhiddencats'          => 'Прикажи скриени категории',
 'tog-noconvertlink'           => 'Оневозможи претворање на наслов на врска',
-'tog-norollbackdiff'          => 'Изостави разлика по употребата на враќање',
+'tog-norollbackdiff'          => 'Изостави ја разликата по извршено враќање',
 
 'underline-always'  => 'Секогаш',
 'underline-never'   => 'Никогаш',
@@ -571,7 +571,7 @@ $1',
 'portal'               => 'Портал',
 'portal-url'           => 'Project:Портал на заедницата',
 'privacy'              => 'Заштита на личните податоци',
-'privacypage'          => 'Project:Политика на приватност',
+'privacypage'          => 'Project:Заштита на личните податоци',
 
 'badaccess'        => 'Немате овластување',
 'badaccess-group0' => 'Немате дозвола да го извршите бараното дејство.',
@@ -816,16 +816,7 @@ $2',
 # E-mail sending
 'php-mail-error-unknown' => 'Непозната грешка во функцијата mail() на PHP',
 
-# JavaScript password checks
-'password-strength'            => 'Проценета отпорност на лозинката: $1',
-'password-strength-bad'        => 'ЛОША',
-'password-strength-mediocre'   => 'преодна',
-'password-strength-acceptable' => 'прифатлива',
-'password-strength-good'       => 'добра',
-'password-retype'              => 'Тука повторете ја лозинката',
-'password-retype-mismatch'     => 'Лозинките не се исти',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Промена на лозинка',
 'resetpass_announce'        => 'Најавени сте со привремена лозинка пратена по е-пошта.
 За да го завршите пријавувањето, мора да поставите нова лозинка овде:',
@@ -843,6 +834,10 @@ $2',
 'resetpass-wrong-oldpass'   => 'Погрешна привремена или тековна лозинка.
 Можеби веќе ја имате успешно променето вашата лизинка или сте побарале нова привремена лозинка.',
 'resetpass-temp-password'   => 'Привремена лозинка:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Менување на лозинка',
+'passwordreset-username' => 'Корисничко име:',
 
 # Edit page toolbar
 'bold_sample'     => 'Задебелен текст',
@@ -1214,24 +1209,6 @@ $1",
 'suppressionlogtext' => 'Подолу е прикажан списокот  на бришења и блокирања каде има и содржини скриени и за администраторите.<br />
 Погледајте го [[Special:IPBlockList|списокот на блокирани IP-адреси]].',
 
-# Revision move
-'moverevlogentry'              => '{{PLURAL:$3|преместена една ревизија|преместени $3 ревизии}} од $1 кон $2',
-'revisionmove'                 => 'Премести ревизии од „$1“',
-'revmove-explain'              => 'Следниве ревизии ќе бидат преместени од $1 кон назначената целна страница. Ако целта не постои, тогаш ќе биде создадена. Во друг случај, овие ревизии ќе бидат споени во историјата на страницата.',
-'revmove-legend'               => 'Определете целна страница и опис',
-'revmove-submit'               => 'Премести ревизии кон одбраната страница',
-'revisionmoveselectedversions' => 'Премести одбрани ревизии',
-'revmove-reasonfield'          => 'Причина:',
-'revmove-titlefield'           => 'Целна страница:',
-'revmove-badparam-title'       => 'Лоши параметри',
-'revmove-badparam'             => 'Вашето барање содржи недозволени или недоволни параметри. Одете на „назад“ и обидете се повторно.',
-'revmove-norevisions-title'    => 'Неправилна целна ревизија',
-'revmove-norevisions'          => 'Немате укажано една или повеќе целни ревизии за да може да се изврши оваа функција, или пак назначената ревизија не постои.',
-'revmove-nullmove-title'       => 'Лош наслов',
-'revmove-nullmove'             => 'Изворната и целната страница се истоветни. Одете на „назад“ и внесете поинаков назив за страницата кој не гласи „$1“.',
-'revmove-success-existing'     => '{{PLURAL:$1|Една ревизија од [[$2]] е преместена|$1 ревизии од [[$2]] се преместени}} на постоечката страница [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Една ревизија од [[$2]] е преместена|$1 ревизии од [[$2]] се преместени}} на новосоздадената страница [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Спојување на истории на страница',
 'mergehistory-header'              => 'Оваа страница овозможува спојување на ревизии на изворна страница во нова (друга) страница.
@@ -1576,8 +1553,6 @@ $1",
 'right-reset-passwords'       => 'Менување на лозинки на други корисници',
 'right-override-export-depth' => 'Извезување на страници вклучувајќи поврзани страници со длабочина до 5',
 'right-sendemail'             => 'Испраќање на е-пошта до други корисници',
-'right-revisionmove'          => 'Преместување на ревизии',
-'right-disableaccount'        => 'Оневозможи сметки',
 
 # User rights log
 'rightslog'      => 'Дневник на менувања на кориснички права',
@@ -1620,7 +1595,6 @@ $1",
 'action-userrights'           => 'уредување на сите кориснички права',
 'action-userrights-interwiki' => 'уредување на кориснички права на корисници на други викија',
 'action-siteadmin'            => 'заклучување или отклучување на базата на податоци',
-'action-revisionmove'         => 'премести ревизии',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|промена|промени}}',
@@ -2359,8 +2333,8 @@ $UNWATCHURL
 'rollback_short'    => 'Врати',
 'rollbacklink'      => 'Врати',
 'rollbackfailed'    => 'Неуспешно враќање',
-'cantrollback'      => 'Уредувањето не може да се врати;
-последниот уредник е воедно и единствениот автор на страницата.',
+'cantrollback'      => 'Уредувањето не може да се врати.
+Последниот уредник е воедно и единствениот автор на страницата.',
 'alreadyrolled'     => 'Не може да се врати последното уредување од [[:$1]] на [[User:$2|$2]] ([[User talk:$2|Разговор]]{{int:pipe-separator}}[[Special:Contributions/$2|{{int:contribslink}}]]);
 некој друг веќе ја уредил или ги вратил промените на страницата.
 
@@ -2409,7 +2383,7 @@ $UNWATCHURL
 'protect-summary-cascade'     => 'каскада',
 'protect-expiring'            => 'истекува на $1 (UTC)',
 'protect-expiry-indefinite'   => 'бесконечно',
-'protect-cascade'             => 'Заштитени страници вклучени во оваа страница (каскадна заштита)',
+'protect-cascade'             => 'Заштити страници вклучени во оваа страница (каскадна заштита)',
 'protect-cantedit'            => 'Не можете да го промените степенот на заштита на оваа страница, бидејќи немате дозвола за тоа.',
 'protect-othertime'           => 'Друго време:',
 'protect-othertime-op'        => 'друго време',
@@ -2963,39 +2937,39 @@ $1',
 'tooltip-summary'                 => 'Внесете кратко резиме',
 
 # Stylesheets
-'common.css'        => '/* Тука поставениот CSS ќе се применува врз сите рува */',
-'standard.css'      => '/* Тука поставениот CSS ќе се применува врз корисниците на рувото „Стандардно“ */',
-'nostalgia.css'     => '/* Тука поставениот CSS ќе се применува врз корисниците на рувото „Носталгија“ */',
-'cologneblue.css'   => '/* Тука поставениот CSS ќе се применува врз корисниците што го избрале рувото „Келнско сино“ */',
-'monobook.css'      => '/* Тука поставениот CSS ќе се применува врз корисниците на рувото „Монобук“ */',
-'myskin.css'        => '/* Тука поставениот CSS се однесува на корисниците на рувото „Мое руво“ */',
-'chick.css'         => '/* Тука поставениот CSS се однесува на корисниците на рувото „Шик“ */',
-'simple.css'        => '/* Тука поставениот CSS се однесува на корисниците на рувото „Просто“ */',
-'modern.css'        => '/* Тука поставениот CSS се однесува на корисниците на рувото „Современо“ */',
-'vector.css'        => '/* Тука поставениот CSS се однесува на корисниците на рувото „Векторско“ */',
-'print.css'         => '/* Тука поставениот CSS ќе се применува во верзијата за печатење */',
-'handheld.css'      => '/* Тука поставениот CSS ќе се применува во рачните уреди со руво прилагодено во $wgHandheldStyle */',
-'noscript.css'      => '/* Тука поставениот CSS се однесува на корисниците што имаат оневозможено JavaScript */',
-'autoconfirmed.css' => '/* Тука поставениот CSS ќе се применува само на автопотврдените корисници */',
-'bot.css'           => '/* Тука поставениот CSS ќе се применува само врз ботовите */',
-'sysop.css'         => '/* Тука поставениот CSS ќе се применува само врз системските оператори */',
-'bureaucrat.css'    => '/* Тука поставениот CSS ќе се применува само врз бирократите */',
+'common.css'              => '/* Тука поставениот CSS ќе се применува врз сите рува */',
+'standard.css'            => '/* Тука поставениот CSS ќе се применува врз корисниците на рувото „Стандардно“ */',
+'nostalgia.css'           => '/* Тука поставениот CSS ќе се применува врз корисниците на рувото „Носталгија“ */',
+'cologneblue.css'         => '/* Тука поставениот CSS ќе се применува врз корисниците што го избрале рувото „Келнско сино“ */',
+'monobook.css'            => '/* Тука поставениот CSS ќе се применува врз корисниците на рувото „Монобук“ */',
+'myskin.css'              => '/* Тука поставениот CSS се однесува на корисниците на рувото „Мое руво“ */',
+'chick.css'               => '/* Тука поставениот CSS се однесува на корисниците на рувото „Шик“ */',
+'simple.css'              => '/* Тука поставениот CSS се однесува на корисниците на рувото „Просто“ */',
+'modern.css'              => '/* Тука поставениот CSS се однесува на корисниците на рувото „Современо“ */',
+'vector.css'              => '/* Тука поставениот CSS се однесува на корисниците на рувото „Векторско“ */',
+'print.css'               => '/* Тука поставениот CSS ќе се применува во верзијата за печатење */',
+'handheld.css'            => '/* Тука поставениот CSS ќе се применува во рачните уреди со руво прилагодено во $wgHandheldStyle */',
+'noscript.css'            => '/* Тука поставениот CSS се однесува на корисниците што имаат оневозможено JavaScript */',
+'group-autoconfirmed.css' => '/* Тука поставениот CSS ќе се применува само на автопотврдените корисници */',
+'group-bot.css'           => '/* Тука поставениот CSS ќе се применува само врз ботовите */',
+'group-sysop.css'         => '/* Тука поставениот CSS ќе се применува само врз системските оператори */',
+'group-bureaucrat.css'    => '/* Тука поставениот CSS ќе се применува само врз бирократите */',
 
 # Scripts
-'common.js'        => '/* Тука поставениот JavaScript ќе им се вчитува на сите корисници при отворањето на секоја страница. */',
-'standard.js'      => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат стандардното руво */',
-'nostalgia.js'     => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Носталгија“ */',
-'cologneblue.js'   => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Келнско сино“ */',
-'monobook.js'      => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Монобук“ */',
-'myskin.js'        => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што користат „Мое руво“ */',
-'chick.js'         => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Шик“ */',
-'simple.js'        => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Просто“ */',
-'modern.js'        => '/* Било која Јава скрипта поставена овде ќе биде вчитана за сите корисници што го користат рувото Современо */',
-'vector.js'        => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Векторско“ */',
-'autoconfirmed.js' => '/* Тука поставениот JavaScript  ќе им се вчитува само на автопотврдените корисници */',
-'bot.js'           => '/* Тука поставениот JavaScript  ќе им се вчитува само на ботовите */',
-'sysop.js'         => '/* Тука поставениот JavaScript  ќе им се вчитува само на системските оператори */',
-'bureaucrat.js'    => '/* Тука поставениот JavaScript  ќе им се вчитува само на бирократите */',
+'common.js'              => '/* Тука поставениот JavaScript ќе им се вчитува на сите корисници при отворањето на секоја страница. */',
+'standard.js'            => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат стандардното руво */',
+'nostalgia.js'           => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Носталгија“ */',
+'cologneblue.js'         => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Келнско сино“ */',
+'monobook.js'            => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Монобук“ */',
+'myskin.js'              => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што користат „Мое руво“ */',
+'chick.js'               => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Шик“ */',
+'simple.js'              => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Просто“ */',
+'modern.js'              => '/* Било која Јава скрипта поставена овде ќе биде вчитана за сите корисници што го користат рувото Современо */',
+'vector.js'              => '/* Тука поставениот JavaScript  ќе им се вчитува на корисниците што го користат рувото „Векторско“ */',
+'group-autoconfirmed.js' => '/* Тука поставениот JavaScript  ќе им се вчитува само на автопотврдените корисници */',
+'group-bot.js'           => '/* Тука поставениот JavaScript  ќе им се вчитува само на ботовите */',
+'group-sysop.js'         => '/* Тука поставениот JavaScript  ќе им се вчитува само на системските оператори */',
+'group-bureaucrat.js'    => '/* Тука поставениот JavaScript  ќе им се вчитува само на бирократите */',
 
 # Metadata
 'nodublincore'      => 'Dublin Core RDF метаподатоци се оневозможени за овој опслужувач.',
@@ -3112,8 +3086,8 @@ $1',
 # Video information, used by Language::formatTimePeriod() to format lengths in the above messages
 'video-dims'     => '$1, $2 × $3',
 'seconds-abbrev' => 'с',
-'minutes-abbrev' => 'мин.',
-'hours-abbrev'   => 'ч.',
+'minutes-abbrev' => 'м',
+'hours-abbrev'   => 'ч',
 
 # Bad image list
 'bad_image_list' => 'Форматот е следниот:
@@ -3172,15 +3146,21 @@ Variants for Chinese language
 'metadata-help'     => 'Оваа податотека содржи дополнителни информации, најверојатно додадени од дигиталниот апарат или скенер користени за нејзино создавање или дигитализација. Ако притоа податотеката претрпела промени, некои детали може да не соодветствуваат во целост по промената на податотеката.',
 'metadata-expand'   => 'Дополнителни податоци',
 'metadata-collapse' => 'Скриј ги дополнителните информации',
-'metadata-fields'   => 'Полињата на метаподатоци EXIF прикажани во оваа порака ќе бидат вклучени на страницата на сликата кога мета табелата ќе биде затворена.
-Останатите ќе бидат сокриени по основно.
+'metadata-fields'   => 'Полињата за метаподатоци прикажани во оваа порака ќе бидат се прикажуваат на страницата за сликата кога табелата со метаподатоци ќе биде затворена.
+Останатите ќе бидат скриени по основно.
 * make
 * model
 * datetimeoriginal
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Ширина',
@@ -3195,13 +3175,11 @@ Variants for Chinese language
 'exif-ycbcrpositioning'            => 'Положби на Y и C',
 'exif-xresolution'                 => 'Хоризонтална резолуција',
 'exif-yresolution'                 => 'Вертикална резолуција',
-'exif-resolutionunit'              => 'Единица за резолуција на X и Y',
 'exif-stripoffsets'                => 'Положба на податоците',
 'exif-rowsperstrip'                => 'Број на редови по блок',
 'exif-stripbytecounts'             => 'Бајти по набиен блок',
 'exif-jpeginterchangeformat'       => 'Почеток на JPEG-преглед',
 'exif-jpeginterchangeformatlength' => 'Бајти JPEG податоци',
-'exif-transferfunction'            => 'Функција за пренос',
 'exif-whitepoint'                  => 'Хроматичност на белата точка',
 'exif-primarychromaticities'       => 'Хроматичност на основните бои',
 'exif-ycbcrcoefficients'           => 'Матрични коефициенти на трансформација на бојниот простор',
@@ -3218,9 +3196,8 @@ Variants for Chinese language
 'exif-colorspace'                  => 'Боен простор',
 'exif-componentsconfiguration'     => 'Значење на секој боен дел',
 'exif-compressedbitsperpixel'      => 'Режим на набивање на сликата',
-'exif-pixelydimension'             => 'Важечка ширина на сликата',
-'exif-pixelxdimension'             => 'Важечка висина на сликата',
-'exif-makernote'                   => 'Забелешки на произведувачот',
+'exif-pixelydimension'             => 'Ширина на сликата',
+'exif-pixelxdimension'             => 'Висина на сликата',
 'exif-usercomment'                 => 'Коментар на корисникот',
 'exif-relatedsoundfile'            => 'Поврзана аудиоснимка',
 'exif-datetimeoriginal'            => 'Датум и време на сликање',
@@ -3235,10 +3212,9 @@ Variants for Chinese language
 'exif-exposureprogram'             => 'Режим на експозиција',
 'exif-spectralsensitivity'         => 'Спектрална осетливост',
 'exif-isospeedratings'             => 'ISO светлоосетливост',
-'exif-oecf'                        => 'Фактор на оптоелектронско претворање',
-'exif-shutterspeedvalue'           => 'Брзина на затворачот',
-'exif-aperturevalue'               => 'Отвор на блендата',
-'exif-brightnessvalue'             => 'Сила на светлина',
+'exif-shutterspeedvalue'           => 'APEX-брзина на затворачот',
+'exif-aperturevalue'               => 'APEX-oтвор',
+'exif-brightnessvalue'             => 'APEX-светлост',
 'exif-exposurebiasvalue'           => 'Надоместок на експозицијата',
 'exif-maxaperturevalue'            => 'Макс. отвореност на блендата',
 'exif-subjectdistance'             => 'Оддалеченост до објектот',
@@ -3249,7 +3225,6 @@ Variants for Chinese language
 'exif-focallength-format'          => '$1 мм',
 'exif-subjectarea'                 => 'Положба и површина на објектот',
 'exif-flashenergy'                 => 'Енергија на блицот',
-'exif-spatialfrequencyresponse'    => 'Просторно-фреквенциски одзив',
 'exif-focalplanexresolution'       => 'Резолуција на фокусната рамнина  X',
 'exif-focalplaneyresolution'       => 'Резолуција на фокусната рамнина Y',
 'exif-focalplaneresolutionunit'    => 'Единица за резолуција на фокусната рамнина',
@@ -3258,7 +3233,6 @@ Variants for Chinese language
 'exif-sensingmethod'               => 'Метод на сензорот',
 'exif-filesource'                  => 'Извор на податотеката',
 'exif-scenetype'                   => 'Тип на сцена',
-'exif-cfapattern'                  => 'Шема на боен филтер',
 'exif-customrendered'              => 'Дополнитела обработка на сликата',
 'exif-exposuremode'                => 'Режим на експозиција',
 'exif-whitebalance'                => 'Рамнотежа на бело',
@@ -3303,11 +3277,77 @@ Variants for Chinese language
 'exif-gpsareainformation'          => 'Назив на GPS-подрачје',
 'exif-gpsdatestamp'                => 'GPS-датум',
 'exif-gpsdifferential'             => 'Диференцијална исправка на GPS',
+'exif-jpegfilecomment'             => 'Забелешка за JPEG-сликата',
+'exif-keywords'                    => 'Клучни зборови',
+'exif-worldregioncreated'          => 'Област од светот кајшто е направена сликата',
+'exif-countrycreated'              => 'Земја кајшто е направена сликата',
+'exif-countrycodecreated'          => 'Код на земјата кајшто е направена сликата',
+'exif-provinceorstatecreated'      => 'Покраина или сој. држава кајшто е направена сликата',
+'exif-citycreated'                 => 'Град кајшто е направена сликата',
+'exif-sublocationcreated'          => 'Дел од градот кајшто е направена сликата',
+'exif-worldregiondest'             => 'Прикажана област од светот',
+'exif-countrydest'                 => 'Прикажана земја',
+'exif-countrycodedest'             => 'Код на прикажаната земја',
+'exif-provinceorstatedest'         => 'Прикажана покраина/сој. држава',
+'exif-citydest'                    => 'Прикажан град',
+'exif-sublocationdest'             => 'Прикажан дел од градот',
 'exif-objectname'                  => 'Краток наслов',
+'exif-specialinstructions'         => 'Посебни упатства',
+'exif-headline'                    => 'Наслов',
+'exif-credit'                      => 'Припишување/Објавувач',
+'exif-source'                      => 'Извор',
+'exif-editstatus'                  => 'Редакциски статус на сликата',
+'exif-urgency'                     => 'Итност',
+'exif-fixtureidentifier'           => 'Назив на рубриката',
+'exif-locationdest'                => 'Прикажано место',
+'exif-locationdestcode'            => 'Код на прикажаното место',
+'exif-objectcycle'                 => 'За кој дел од денот е наменета сликата',
+'exif-contact'                     => 'Контактни податоци',
+'exif-writer'                      => 'Напишал',
+'exif-languagecode'                => 'Јазик',
+'exif-iimversion'                  => 'IIM-верзија',
+'exif-iimcategory'                 => 'Категорија',
+'exif-iimsupplementalcategory'     => 'Дополнителни категории',
+'exif-datetimeexpires'             => 'Да не се користи по',
+'exif-datetimereleased'            => 'Објавена на',
+'exif-originaltransmissionref'     => 'Код на местото кајшто е испратена сликата',
+'exif-identifier'                  => 'Назнака',
+'exif-lens'                        => 'Користен објектив',
+'exif-serialnumber'                => 'Сериски бр. на фотоапаратот',
+'exif-cameraownername'             => 'Сопственик на фотоапаратот',
+'exif-label'                       => 'Ознака',
+'exif-datetimemetadata'            => 'Последна измена на метаподатоците',
+'exif-nickname'                    => 'Неформален назив на сликата',
+'exif-rating'                      => 'Оценка (од 5)',
+'exif-rightscertificate'           => 'Уверение за раководство со права',
+'exif-copyrighted'                 => 'Авторски правен статус',
+'exif-copyrightowner'              => 'Носител на авторските права',
+'exif-usageterms'                  => 'Услови на употреба',
+'exif-webstatement'                => 'Изјава за авторското право',
+'exif-originaldocumentid'          => 'Единствена назнака на изворниот документ',
+'exif-licenseurl'                  => 'URL на лиценцата',
+'exif-morepermissionsurl'          => 'Други лиценцни можности',
+'exif-attributionurl'              => 'Кога ја користите сликава, ставајте врска до',
+'exif-preferredattributionname'    => 'Кога ја користите сликава, наведете го сопственикот',
+'exif-pngfilecomment'              => 'Забелешка за PNG-сликата',
+'exif-disclaimer'                  => 'Одрекување од одговорност',
+'exif-contentwarning'              => 'Предупредување за содржината',
+'exif-giffilecomment'              => 'Забелешка за GIF-сликата',
+'exif-intellectualgenre'           => 'Тип на снимка',
+'exif-subjectnewscode'             => 'Предметен код',
+'exif-scenecode'                   => 'IPTC-код за кадарот',
+'exif-event'                       => 'Прикажан настан',
+'exif-organisationinimage'         => 'Прикажана организација',
+'exif-personinimage'               => 'Прикажана личност',
+'exif-originalimageheight'         => 'Висина на сликата пред кастрењето',
+'exif-originalimagewidth'          => 'Ширина на сликата пред кастрењето',
 
 # EXIF attributes
 'exif-compression-1' => 'Ненабиена',
 'exif-compression-6' => 'JPEG',
+
+'exif-copyrighted-true'  => 'Заштитена',
+'exif-copyrighted-false' => 'Јавна сопственост',
 
 'exif-photometricinterpretation-2' => 'ЦЗС (RGB)',
 'exif-photometricinterpretation-6' => 'YCbCr',
@@ -3329,8 +3369,8 @@ Variants for Chinese language
 'exif-xyresolution-i' => '$1 точки на инч',
 'exif-xyresolution-c' => '$1 точки на сантиметар',
 
-'exif-colorspace-1'      => 'пЦЗС (sRGB)',
-'exif-colorspace-ffff.h' => 'FFFF.H',
+'exif-colorspace-1'     => 'пЦЗС (sRGB)',
+'exif-colorspace-65535' => 'Неизбаждарена',
 
 'exif-componentsconfiguration-0' => 'не постои',
 'exif-componentsconfiguration-1' => 'Y',
@@ -3451,6 +3491,10 @@ Variants for Chinese language
 'exif-gpslongitude-e' => 'источна должина',
 'exif-gpslongitude-w' => 'западна должина',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '$1 {{PLURAL:$1|метар|метри}} надморска височина',
+'exif-gpsaltitude-below-sealevel' => '$1 {{PLURAL:$1|метар|метри}} под морското ниво',
+
 'exif-gpsstatus-a' => 'Мерење во тек',
 'exif-gpsstatus-v' => 'Подготвен за пренос',
 
@@ -3462,9 +3506,63 @@ Variants for Chinese language
 'exif-gpsspeed-m' => 'Милји на час',
 'exif-gpsspeed-n' => 'Јазли',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Километри',
+'exif-gpsdestdistance-m' => 'Милји',
+'exif-gpsdestdistance-n' => 'Наутички милји',
+
+'exif-gpsdop-excellent' => 'Одлична ($1)',
+'exif-gpsdop-good'      => 'Добра ($1)',
+'exif-gpsdop-moderate'  => 'Умерена ($1)',
+'exif-gpsdop-fair'      => 'Задоволителна ($1)',
+'exif-gpsdop-poor'      => 'Слаба ($1)',
+
+'exif-objectcycle-a' => 'Само наутро',
+'exif-objectcycle-p' => 'Само навечер',
+'exif-objectcycle-b' => 'И наутро и навечер',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Вистински правец',
 'exif-gpsdirection-m' => 'Магнетен правец',
+
+'exif-ycbcrpositioning-1' => 'Средишно',
+'exif-ycbcrpositioning-2' => 'Напоредно',
+
+'exif-dc-contributor' => 'Учесници',
+'exif-dc-coverage'    => 'Просторен или временски опфат на снимката',
+'exif-dc-date'        => 'Датум(и)',
+'exif-dc-publisher'   => 'Издавач',
+'exif-dc-relation'    => 'Поврзани снимки',
+'exif-dc-rights'      => 'Права',
+'exif-dc-source'      => 'Изворна снимка',
+'exif-dc-type'        => 'Тип на снимка',
+
+'exif-rating-rejected' => 'Одбиена',
+
+'exif-isospeedratings-overflow' => 'Над 65535',
+
+'exif-iimcategory-ace' => 'Уметност, култура и забава',
+'exif-iimcategory-clj' => 'Криминал и право',
+'exif-iimcategory-dis' => 'Катастрофи и несреќи',
+'exif-iimcategory-fin' => 'Економија и деловно работење',
+'exif-iimcategory-edu' => 'Образование',
+'exif-iimcategory-evn' => 'Животна околина',
+'exif-iimcategory-hth' => 'Здравство',
+'exif-iimcategory-hum' => 'Лични доживувања',
+'exif-iimcategory-lab' => 'Труд',
+'exif-iimcategory-lif' => 'Животен стил и разонода',
+'exif-iimcategory-pol' => 'Политика',
+'exif-iimcategory-rel' => 'Религија и верувања',
+'exif-iimcategory-sci' => 'Наука и технологија',
+'exif-iimcategory-soi' => 'Социјална проблематика',
+'exif-iimcategory-spo' => 'Спорт',
+'exif-iimcategory-war' => 'Војни, судири и немири',
+'exif-iimcategory-wea' => 'Време',
+
+'exif-urgency-normal' => 'Нормална ($1)',
+'exif-urgency-low'    => 'Мала ($1)',
+'exif-urgency-high'   => 'Голема ($1)',
+'exif-urgency-other'  => 'Кориснички-зададен приоритет ($1)',
 
 # External editor support
 'edit-externally'      => 'Уреди ја податотеката со надворешен програм',
@@ -3836,18 +3934,5 @@ $1',
 # SQLite database support
 'sqlite-has-fts' => '$1 со поддршка за пребарување по цели текстови',
 'sqlite-no-fts'  => '$1 без поддршка за пребарување по цели текстови',
-
-# Special:DisableAccount
-'disableaccount'             => 'Оневозможи корисничка сметка',
-'disableaccount-user'        => 'Корисничко име:',
-'disableaccount-reason'      => 'Причина:',
-'disableaccount-confirm'     => "Оневозможување на оваа корисничка сметка.
-Корисникот нема да може да се најавува, да става нова лозинка или да прима известувања по е-пошта.
-Ако корисникот е некаде најавен во моментот, тогаш оваа постапка веднаш ќе го одјави.
-''Имајте предвид дека оневозможувањето на сметки не може да се врати без интервенција на системски администратор.''",
-'disableaccount-mustconfirm' => 'Мора да потврдите дека сакате да ја оневозможите сметкава.',
-'disableaccount-nosuchuser'  => 'Корисничката сметка „$1“ не постои.',
-'disableaccount-success'     => 'Корисничката сметка „$1“ е трајно оневозможена.',
-'disableaccount-logentry'    => 'трајно оневозможена корисничката сметка [[$1]].',
 
 );

@@ -212,7 +212,7 @@ class MediaWiki {
 			&& !count( array_diff( array_keys( $this->context->request->getValues() ), array( 'action', 'title' ) ) ) )
 		{
 			if ( $this->context->title->getNamespace() == NS_SPECIAL ) {
-				list( $name, $subpage ) = SpecialPage::resolveAliasWithSubpage( $this->context->title->getDBkey() );
+				list( $name, $subpage ) = SpecialPageFactory::resolveAlias( $this->context->title->getDBkey() );
 				if ( $name ) {
 					$this->context->title = SpecialPage::getTitleFor( $name, $subpage );
 				}
@@ -249,7 +249,7 @@ class MediaWiki {
 		// Special pages
 		} else if ( NS_SPECIAL == $this->context->title->getNamespace() ) {
 			// actions that need to be made when we have a special pages
-			SpecialPage::executePath( $this->context->title, $this->context );
+			SpecialPageFactory::executePath( $this->context->title, $this->context );
 		} else {
 			// No match to special cases
 			wfProfileOut( __METHOD__ );
@@ -471,9 +471,16 @@ class MediaWiki {
 			return;
 		}
 
-		$action = $this->getAction();
+		$act = $this->getAction();
 
-		switch( $action ) {
+		$action = Action::factory( $this->getAction(), $article );
+		if( $action instanceof Action ){
+			$action->show();
+			wfProfileOut( __METHOD__ );
+			return;
+		}
+
+		switch( $act ) {
 			case 'view':
 				$this->context->output->setSquidMaxage( $this->getVal( 'SquidMaxage' ) );
 				$article->view();
@@ -484,8 +491,6 @@ class MediaWiki {
 				$raw->view();
 				wfProfileOut( __METHOD__ . '-raw' );
 				break;
-			case 'watch':
-			case 'unwatch':
 			case 'delete':
 			case 'revert':
 			case 'rollback':
@@ -495,11 +500,7 @@ class MediaWiki {
 			case 'markpatrolled':
 			case 'render':
 			case 'deletetrackback':
-			case 'purge':
-				$article->$action();
-				break;
-			case 'print':
-				$article->view();
+				$article->$act();
 				break;
 			case 'dublincore':
 				if ( !$this->getVal( 'EnableDublinCoreRdf' ) ) {
@@ -517,9 +518,6 @@ class MediaWiki {
 					$rdf->show();
 				}
 				break;
-			case 'credits':
-				Credits::showPage( $article );
-				break;
 			case 'submit':
 				if ( session_id() == '' ) {
 					// Send a cookie so anons get talk message notifications
@@ -532,7 +530,7 @@ class MediaWiki {
 					$external = $this->context->request->getVal( 'externaledit' );
 					$section = $this->context->request->getVal( 'section' );
 					$oldid = $this->context->request->getVal( 'oldid' );
-					if ( !$this->getVal( 'UseExternalEditor' ) || $action == 'submit' || $internal ||
+					if ( !$this->getVal( 'UseExternalEditor' ) || $act == 'submit' || $internal ||
 					   $section || $oldid || ( !$this->context->user->getOption( 'externaleditor' ) && !$external ) ) {
 						$editor = new EditPage( $article );
 						$editor->submit();
@@ -552,16 +550,11 @@ class MediaWiki {
 				break;
 			case 'revisiondelete':
 				// For show/hide submission from history page
-				$special = SpecialPage::getPage( 'Revisiondelete' );
-				$special->execute( '' );
-				break;
-			case 'revisionmove':
-				// For revision move submission from history page
-				$special = SpecialPage::getPage( 'RevisionMove' );
+				$special = SpecialPageFactory::getPage( 'Revisiondelete' );
 				$special->execute( '' );
 				break;
 			default:
-				if ( wfRunHooks( 'UnknownAction', array( $action, $article ) ) ) {
+				if ( wfRunHooks( 'UnknownAction', array( $act, $article ) ) ) {
 					$this->context->output->showErrorPage( 'nosuchaction', 'nosuchactiontext' );
 				}
 		}

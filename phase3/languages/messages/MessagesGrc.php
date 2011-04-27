@@ -492,13 +492,7 @@ $2',
 'createaccount-title'        => 'Ποίησις λογισμοῦ διὰ {{SITENAME}}',
 'loginlanguagelabel'         => 'Γλῶσσα: $1',
 
-# JavaScript password checks
-'password-strength-bad'        => 'κακή',
-'password-strength-mediocre'   => 'μέτρια',
-'password-strength-acceptable' => 'ἀποδεκτός',
-'password-strength-good'       => 'καλή',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Ἀλλαγὴ συνθήματος',
 'resetpass_header'          => 'Ἀναδιορισμὸς συνθήματος λογισμοῦ',
 'oldpassword'               => 'Πρότερον σύνθημα:',
@@ -766,11 +760,6 @@ $1",
 
 # Suppression log
 'suppressionlog' => 'Κατάλογος διαγραφῶν',
-
-# Revision move
-'revmove-reasonfield'    => 'Αἰτία:',
-'revmove-titlefield'     => 'Δέλτος στόχος:',
-'revmove-nullmove-title' => 'Κακὸν τὸ ἐπώνυμον',
 
 # History merging
 'mergehistory'                     => 'Συγχωνεύειν ἱστορίας δέλτων',
@@ -2232,7 +2221,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Πλάτος',
@@ -2247,13 +2242,11 @@ $1',
 'exif-ycbcrpositioning'            => 'Τοποθέτησις τῶν Y καὶ C',
 'exif-xresolution'                 => 'Ὁριζόντιος ἀνάλυσις',
 'exif-yresolution'                 => 'Κάθετος ἀνάλυσις',
-'exif-resolutionunit'              => 'Μονὰς τῆς τῶν X καὶ Y ἀναλύσεως',
 'exif-stripoffsets'                => 'Τοποθεσία δεδομένων εἰκόνος',
 'exif-rowsperstrip'                => 'Ἀριθμὸς σειρῶν ἀνὰ λῶρον',
 'exif-stripbytecounts'             => 'Δυφία ἀνὰ συμπεπιεσμένον λῶρον',
 'exif-jpeginterchangeformat'       => 'Μετάθεσις εἰς JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Δυφιολέξεις δεδομένων JPEG',
-'exif-transferfunction'            => 'Συνάρτησις μεταφορᾶς',
 'exif-whitepoint'                  => 'Χρωματικότης λευκοῦ σημείου',
 'exif-primarychromaticities'       => 'Πρωτεύουσαι χρωματικότητες',
 'exif-ycbcrcoefficients'           => 'Συντελεσταὶ μητρῶν μετασχηματισμοῦ χρώματος',
@@ -2272,7 +2265,6 @@ $1',
 'exif-compressedbitsperpixel'      => 'Τρόπος συμπιέσεως εἰκόνος',
 'exif-pixelydimension'             => 'Ἔγκυρον πλάτος εἰκόνος',
 'exif-pixelxdimension'             => 'Ἔγκυρον ὕψος εἰκόνος',
-'exif-makernote'                   => 'Ἐπισημειώσεις ἐξεργαστοῦ',
 'exif-usercomment'                 => 'Σχόλια χρωμένου',
 'exif-relatedsoundfile'            => 'Σχετιζόμενον ἀρχεῖον ἤχου',
 'exif-datetimeoriginal'            => 'Χρονολογία καὶ ὥρα παραγωγῆς δεδομένων',
@@ -2286,7 +2278,6 @@ $1',
 'exif-exposureprogram'             => 'Πρόγραμμα ἐκθέσεως',
 'exif-spectralsensitivity'         => 'Φασματικὴ εὐαισθητότης',
 'exif-isospeedratings'             => 'Βαθμολόγησις ταχύτητος ISO',
-'exif-oecf'                        => 'Παράγων ὀπτοηλεκτρονικῆς μετατροπῆς',
 'exif-shutterspeedvalue'           => 'Ταχύτης κλῄσεως',
 'exif-aperturevalue'               => 'Ἄνοιξις διαφράγματος',
 'exif-brightnessvalue'             => 'Φωτεινότης',
@@ -2299,7 +2290,6 @@ $1',
 'exif-focallength'                 => 'Ἑστιακὸν μῆκος φακοῦ',
 'exif-subjectarea'                 => 'Θεματικὸν πεδίον',
 'exif-flashenergy'                 => 'Ἐνέργεια τῆς ἀστραποβόλου συσκευῆς',
-'exif-spatialfrequencyresponse'    => 'Ἀπόκρισις χωρικῆς συχνότητος',
 'exif-focalplanexresolution'       => 'Ἀνάλυσις ἑστιακοῦ ἐπιπέδου X',
 'exif-focalplaneyresolution'       => 'Ἀνάλυσις ἑστιακοῦ ἐπιπέδου Y',
 'exif-focalplaneresolutionunit'    => 'Μονὰς μετρήσεως ἀναλύσεως ἑστιακοῦ ἐπιπέδου',
@@ -2308,7 +2298,6 @@ $1',
 'exif-sensingmethod'               => 'Μέθοδος αἰσθητῆρος',
 'exif-filesource'                  => 'Πηγὴ ἀρχείου',
 'exif-scenetype'                   => 'Τύπος σκηνῆς',
-'exif-cfapattern'                  => 'Πρὀτυπον CFA',
 'exif-customrendered'              => 'Συνήθης ἐπεξεργασία εἰκόνος',
 'exif-exposuremode'                => 'Τρόπος ἐκθέσεως',
 'exif-whitebalance'                => 'Ἰσορροπία λευκῶν',
@@ -2492,6 +2481,11 @@ $1',
 'exif-gpsspeed-k' => 'Χιλιόμετρα ἀνὰ ὥρα',
 'exif-gpsspeed-m' => 'Μίλια ἀνὰ ὥρα',
 'exif-gpsspeed-n' => 'Κόμβοι',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Χιλιόμετρα',
+'exif-gpsdestdistance-m' => 'Μίλια',
+'exif-gpsdestdistance-n' => 'Ναυτικά μίλια',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Ἀληθὴς κατεύθυνσις',

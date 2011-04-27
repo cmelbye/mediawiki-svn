@@ -53,7 +53,7 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			implode( "\t", $digitTransTable ),
 		);
 		$mainPage = Title::newMainPage();
-		
+
 		// Build list of variables
 		$vars = array(
 			'wgLoadScript' => $wgLoadScript,
@@ -73,6 +73,9 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			'wgVersion' => $wgVersion,
 			'wgEnableAPI' => $wgEnableAPI,
 			'wgEnableWriteAPI' => $wgEnableWriteAPI,
+			'wgDefaultDateFormat' => $wgContLang->getDefaultDateFormat(),
+			'wgMonthNames' => $wgContLang->getMonthNamesArray(),
+			'wgMonthNamesShort' => $wgContLang->getMonthAbbreviationsArray(),
 			'wgSeparatorTransformTable' => $compactSeparatorTransTable,
 			'wgDigitTransformTable' => $compactDigitTransTable,
 			'wgMainPageTitle' => $mainPage ? $mainPage->getPrefixedText() : null,

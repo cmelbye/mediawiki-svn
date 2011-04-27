@@ -306,7 +306,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Botlijst', 'Lijstbots' ),
 	'Popularpages'              => array( 'PopulairePaginas', 'PopulairePagina’s', 'PopulairePagina\'s' ),
 	'Search'                    => array( 'Zoeken' ),
-	'Resetpass'                 => array( 'WachtwoordWijzigen', 'WachtwoordHerinitialiseren' ),
+	'ChangePassword'            => array( 'WachtwoordWijzigen', 'WachtwoordHerinitialiseren' ),
 	'Withoutinterwiki'          => array( 'ZonderInterwiki' ),
 	'MergeHistory'              => array( 'GeschiedenisSamenvoegen' ),
 	'Filepath'                  => array( 'Bestandspad' ),
@@ -757,6 +757,7 @@ Vergeet niet uw [[Special:Preferences|voorkeuren voor {{SITENAME}}]] aan te pass
 'createaccount'              => 'Registreren',
 'gotaccount'                 => "Hebt u al een gebruikersnaam? '''$1'''.",
 'gotaccountlink'             => 'Aanmelden',
+'userlogin-resetlink'        => 'Bent u uw aanmeldgegevens vergeten?',
 'createaccountmail'          => 'Per e-mail',
 'createaccountreason'        => 'Reden:',
 'badretype'                  => 'De ingevoerde wachtwoorden verschillen van elkaar.',
@@ -841,16 +842,7 @@ Wacht even voordat u het opnieuw probeert.',
 # E-mail sending
 'php-mail-error-unknown' => 'Er is een onbekende fout opgetreden in de mail()-functie van PHP',
 
-# JavaScript password checks
-'password-strength'            => 'Geschatte wachtwoordsterkte: $1',
-'password-strength-bad'        => 'LAAG',
-'password-strength-mediocre'   => 'middelmatig',
-'password-strength-acceptable' => 'aanvaardbaar',
-'password-strength-good'       => 'goed',
-'password-retype'              => 'Geef uw wachtwoord opnieuw in',
-'password-retype-mismatch'     => 'De wachtwoorden komen niet overeen',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Wachtwoord wijzigen',
 'resetpass_announce'        => 'U bent aangemeld met een tijdelijke code die u per e-mail is toegezonden.
 Voer een nieuw wachtwoord in om het aanmelden te voltooien:',
@@ -869,6 +861,33 @@ Bezig met aanmelden…',
 'resetpass-wrong-oldpass'   => 'Het huidige of tijdelijke wachtwoord is ongeldig.
 Mogelijk hebt u uw wachtwoord al gewijzigd of een nieuw tijdelijk wachtwoord aangevraagd.',
 'resetpass-temp-password'   => 'Tijdelijk wachtwoord:',
+
+# Special:PasswordReset
+'passwordreset'                => 'Wachtwoord opnieuw instellen',
+'passwordreset-text'           => 'Vul dit formulier in zodat we u een e-mail kunnen sturen met uw gebruikersgegevens.',
+'passwordreset-legend'         => 'Wachtwoord opnieuw instellen',
+'passwordreset-disabled'       => 'Het is in deze wiki niet mogelijk uw wachtwoord opnieuw in te stellen.',
+'passwordreset-pretext'        => '{{PLURAL:$1||Voer de onderstaande velden in}}',
+'passwordreset-username'       => 'Gebruiker:',
+'passwordreset-email'          => 'E-mailadres:',
+'passwordreset-emailtitle'     => 'Gebruikersgegevens op {{SITENAME}}',
+'passwordreset-emailtext-ip'   => 'Iemand, waarschijnlijk u, vanaf het IP-adres $1, heeft uw gebruikersgegevens voor {{SITENAME}} ($4) opgevraagd.
+De volgende {{PLURAL:$3|gebruiker is|gebruikers zijn}} gekoppeld aan dit e-mailadres:
+
+$2
+
+{{PLURAL:$3|Dit tijdelijke wachtwoord vervalt|Deze tijdelijke wachtwoorden vervallen}} over {{PLURAL:$5|een dag|$5 dagen}}.
+Meld u aan en wijzig het wachtwoord nu. Als u dit verzoek niet zelfs heeft gedaan, of als u het oorspronkelijke wachtwoord nog kent en het niet wilt wijzigen, negeer dit bericht dan en blijf uw oude wachtwoord gebruiken.',
+'passwordreset-emailtext-user' => 'Gebruiker $1 op de site {{SITENAME}} heeft uw gebruikersgegevens voor {{SITENAME}} ($4) opgevraagd.
+De volgende {{PLURAL:$3|gebruiker is|gebruikers zijn}} gekoppeld aan dit e-mailadres:
+
+$2
+
+{{PLURAL:$3|Dit tijdelijke wachtwoord vervalt|Deze tijdelijke wachtwoorden vervallen}} over {{PLURAL:$5|een dag|$5 dagen}}.
+Meld u aan en wijzig het wachtwoord nu. Als u dit verzoek niet zelfs heeft gedaan, of als u het oorspronkelijke wachtwoord nog kent en het niet wilt wijzigen, negeer dit bericht dan en blijf uw oude wachtwoord gebruiken.',
+'passwordreset-emailelement'   => 'Gebruikersnaam: $1
+Tijdelijk wachtwoord: $2',
+'passwordreset-emailsent'      => 'Er is per e-mail een herinnering verzonden.',
 
 # Edit page toolbar
 'bold_sample'     => 'Vetgedrukte tekst',
@@ -1252,28 +1271,6 @@ Controleer de logboeken.',
 'suppressionlogtext' => 'De onderstaande lijst bevat de verwijderingen en blokkades die voor beheerders verborgen zijn.
 In de [[Special:IPBlockList|IP-blokkeerlijst]] zijn de huidige blokkades te bekijken.',
 
-# Revision move
-'moverevlogentry'              => 'heeft $3 {{PLURAL:$3|versie|versies}} verplaatst van $1 naar $2',
-'revisionmove'                 => 'Versies van "$1" verplaatsen',
-'revmove-explain'              => 'De volgende versies worden verplaatst van $1 naar de aangegeven doelpagina.
-Als de doelpagina niet bestaat, wordt deze aangemaakt.
-Als deze wel bestaat, worden de versies ingevoegd in de paginageschiedenis.',
-'revmove-legend'               => 'Voer doelpagina en samenvatting in',
-'revmove-submit'               => 'Versies naar de aangegeven pagina verplaatsen',
-'revisionmoveselectedversions' => 'Geselecteerde versies verplaatsen',
-'revmove-reasonfield'          => 'Reden:',
-'revmove-titlefield'           => 'Doelpagina:',
-'revmove-badparam-title'       => 'Onjuiste parameters',
-'revmove-badparam'             => 'Uw verzoek bevat ongeldige of onvoldoende parameters.
-Klik "Terug" en probeer het opnieuw.',
-'revmove-norevisions-title'    => 'De te verplaatsen versie is ongeldig',
-'revmove-norevisions'          => 'U hebt geen versies aangegeven om deze handeling op uit te voeren of de aangegeven versie bestaat niet.',
-'revmove-nullmove-title'       => 'Ongeldige paginanaam',
-'revmove-nullmove'             => 'De bronpagina en doelpagina zijn hetzelfde.
-Klik "Terug" en geef een andere pagina dan "$1" op.',
-'revmove-success-existing'     => '{{PLURAL:$1|Een versie van[[$2]] is|$1 versies van [[$2]] zijn}} verplaatst naar de bestaande pagina [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Een versie van[[$2]] is|$1 versies van [[$2]] zijn}} verplaatst naar de nieuwe pagina [[$3]].',
-
 # History merging
 'mergehistory'                     => "Geschiedenis van pagina's samenvoegen",
 'mergehistory-header'              => 'Via deze pagina kunt u versies van de geschiedenis van een bronpagina naar een nieuwere pagina samenvoegen.
@@ -1619,8 +1616,6 @@ Deze informatie is zichtbaar voor andere gebruikers.',
 'right-reset-passwords'       => 'Wachtwoorden van andere gebruikers opnieuw instellen',
 'right-override-export-depth' => "Pagina's exporteren inclusief pagina's waarnaar verwezen wordt tot een diepte van vijf",
 'right-sendemail'             => 'E-mail versturen aan andere gebruikers',
-'right-revisionmove'          => 'Versies verplaatsen',
-'right-disableaccount'        => 'Gebruikers uitschakelen',
 
 # User rights log
 'rightslog'      => 'Gebruikersrechtenlogboek',
@@ -1663,7 +1658,6 @@ Deze informatie is zichtbaar voor andere gebruikers.',
 'action-userrights'           => 'alle gebruikersrechten te bewerken',
 'action-userrights-interwiki' => "gebruikersrechten van gebruikers van andere wiki's te bewerken",
 'action-siteadmin'            => 'de database af te sluiten of open te stellen',
-'action-revisionmove'         => 'versies verplaatsen',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|bewerking|bewerkingen}}',
@@ -3016,39 +3010,39 @@ U kunt in de bewerkingssamenvatting een reden opgeven.',
 'tooltip-summary'                 => 'Voer een korte samenvatting in',
 
 # Stylesheets
-'common.css'        => '/** CSS die hier wordt geplaatst heeft invloed op alle skins */',
-'standard.css'      => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Standard */',
-'nostalgia.css'     => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Nostalgie */',
-'cologneblue.css'   => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Keuls blauw */',
-'monobook.css'      => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Monobook */',
-'myskin.css'        => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin MijnSkin */',
-'chick.css'         => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Chick */',
-'simple.css'        => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Eenvoudig */',
-'modern.css'        => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Modern */',
-'vector.css'        => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Vector */',
-'print.css'         => '/* CSS die hier wordt geplaatst heeft alleen invloed op de printuitvoer */',
-'handheld.css'      => '/* CSS die hier wordt geplaatst heeft alleen invloed op handheldapparaten gebaseerd op de skin die is ingesteld in $wgHandheldStyle */',
-'noscript.css'      => '/ * CSS die hier wordt geplaatst heeft invloed voor gebruikers die JavaScript hebben uitgeschakeld * /',
-'autoconfirmed.css' => '/* CSS die hier wordt geplaatst heeft alleen invloed op automatisch bevestigde gebruikers */',
-'bot.css'           => '/* CSS die hier wordt geplaatst heeft alleen invloed op robots */',
-'sysop.css'         => '/* CSS die hier wordt geplaatst heeft alleen invloed op beheerders */',
-'bureaucrat.css'    => '/* CSS die hier wordt geplaatst heeft alleen invloed op bureaucraten */',
+'common.css'              => '/** CSS die hier wordt geplaatst heeft invloed op alle skins */',
+'standard.css'            => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Standard */',
+'nostalgia.css'           => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Nostalgie */',
+'cologneblue.css'         => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Keuls blauw */',
+'monobook.css'            => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Monobook */',
+'myskin.css'              => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin MijnSkin */',
+'chick.css'               => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Chick */',
+'simple.css'              => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Eenvoudig */',
+'modern.css'              => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Modern */',
+'vector.css'              => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Vector */',
+'print.css'               => '/* CSS die hier wordt geplaatst heeft alleen invloed op de printuitvoer */',
+'handheld.css'            => '/* CSS die hier wordt geplaatst heeft alleen invloed op handheldapparaten gebaseerd op de skin die is ingesteld in $wgHandheldStyle */',
+'noscript.css'            => '/ * CSS die hier wordt geplaatst heeft invloed voor gebruikers die JavaScript hebben uitgeschakeld * /',
+'group-autoconfirmed.css' => '/* CSS die hier wordt geplaatst heeft alleen invloed op automatisch bevestigde gebruikers */',
+'group-bot.css'           => '/* CSS die hier wordt geplaatst heeft alleen invloed op robots */',
+'group-sysop.css'         => '/* CSS die hier wordt geplaatst heeft alleen invloed op beheerders */',
+'group-bureaucrat.css'    => '/* CSS die hier wordt geplaatst heeft alleen invloed op bureaucraten */',
 
 # Scripts
-'common.js'        => "/* JavaScript die hier wordt geplaatst heeft invloed op alle pagina's voor alle gebruikers */",
-'standard.js'      => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Standaard gebruiken */',
-'nostalgia.js'     => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Nostalgie gebruiken */',
-'cologneblue.js'   => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Keuls blauw gebruiken */',
-'monobook.js'      => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Monobook gebruiken */',
-'myskin.js'        => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin MijnSkin gebruiken */',
-'chick.js'         => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Chick gebruiken */',
-'simple.js'        => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Eenvoudig gebruiken */',
-'modern.js'        => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Modern gebruiken */',
-'vector.js'        => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Vector gebruiken */',
-'autoconfirmed.js' => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op automatisch bevestigde gebruikers */',
-'bot.js'           => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op robots */',
-'sysop.js'         => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op beheerders */',
-'bureaucrat.js'    => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op bureaucraten */',
+'common.js'              => "/* JavaScript die hier wordt geplaatst heeft invloed op alle pagina's voor alle gebruikers */",
+'standard.js'            => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Standaard gebruiken */',
+'nostalgia.js'           => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Nostalgie gebruiken */',
+'cologneblue.js'         => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Keuls blauw gebruiken */',
+'monobook.js'            => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Monobook gebruiken */',
+'myskin.js'              => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin MijnSkin gebruiken */',
+'chick.js'               => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Chick gebruiken */',
+'simple.js'              => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Eenvoudig gebruiken */',
+'modern.js'              => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Modern gebruiken */',
+'vector.js'              => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Vector gebruiken */',
+'group-autoconfirmed.js' => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op automatisch bevestigde gebruikers */',
+'group-bot.js'           => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op robots */',
+'group-sysop.js'         => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op beheerders */',
+'group-bureaucrat.js'    => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op bureaucraten */',
 
 # Metadata
 'nodublincore'      => 'Dublin Core RDF-metadata is uitgeschakeld op deze server.',
@@ -3178,7 +3172,7 @@ Alle volgende verwijzingen die op dezelfde regel staan, worden behandeld als uit
 Als het bestand aangepast is, komen details mogelijk niet overeen met het gewijzigde bestand.',
 'metadata-expand'   => 'Uitgebreide gegevens bekijken',
 'metadata-collapse' => 'Uitgebreide gegevens verbergen',
-'metadata-fields'   => 'De EXIF-metadatavelden in dit bericht worden ook weergegeven op een afbeeldingspagina als de metadatatabel ingeklapt is.
+'metadata-fields'   => 'De afbeeldingsmetadatavelden in dit bericht worden ook weergegeven op een afbeeldingspagina als de metadatatabel ingeklapt is.
 Andere velden worden verborgen.
 * make
 * model
@@ -3186,7 +3180,13 @@ Andere velden worden verborgen.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Breedte',
@@ -3201,13 +3201,11 @@ Andere velden worden verborgen.
 'exif-ycbcrpositioning'            => 'Y- en C-positionering',
 'exif-xresolution'                 => 'Horizontale resolutie',
 'exif-yresolution'                 => 'Verticale resolutie',
-'exif-resolutionunit'              => 'Eenheid X en Y resolutie',
 'exif-stripoffsets'                => 'Locatie afbeeldingsgegevens',
 'exif-rowsperstrip'                => 'Rijen per strip',
 'exif-stripbytecounts'             => 'Bytes per gecomprimeerde strip',
 'exif-jpeginterchangeformat'       => 'Afstand tot JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Bytes JPEG-gegevens',
-'exif-transferfunction'            => 'Transferfunctie',
 'exif-whitepoint'                  => 'Witpuntchromaticiteit',
 'exif-primarychromaticities'       => 'Chromaciteit van primaire kleuren',
 'exif-ycbcrcoefficients'           => 'Transformatiematrixcoëfficiënten voor de kleurruimte',
@@ -3224,9 +3222,8 @@ Andere velden worden verborgen.
 'exif-colorspace'                  => 'Kleurruimte',
 'exif-componentsconfiguration'     => 'Betekenis van elke component',
 'exif-compressedbitsperpixel'      => 'Beeldcompressiemethode',
-'exif-pixelydimension'             => 'Bruikbare afbeeldingsbreedte',
-'exif-pixelxdimension'             => 'Bruikbare afbeeldingshoogte',
-'exif-makernote'                   => 'Opmerkingen fabrikant',
+'exif-pixelydimension'             => 'Afbeeldingsbreedte',
+'exif-pixelxdimension'             => 'Afbeeldingshoogte',
 'exif-usercomment'                 => 'Opmerkingen',
 'exif-relatedsoundfile'            => 'Bijbehorend audiobestand',
 'exif-datetimeoriginal'            => 'Tijdstip gegevensaanmaak',
@@ -3240,10 +3237,9 @@ Andere velden worden verborgen.
 'exif-exposureprogram'             => 'Belichtingsprogramma',
 'exif-spectralsensitivity'         => 'Spectrale gevoeligheid',
 'exif-isospeedratings'             => 'ISO/ASA-waarde',
-'exif-oecf'                        => 'Opto-elektronische conversiefactor',
-'exif-shutterspeedvalue'           => 'Sluitersnelheid',
-'exif-aperturevalue'               => 'Diafragma',
-'exif-brightnessvalue'             => 'Helderheid',
+'exif-shutterspeedvalue'           => 'Sluitersnelheid in APEX',
+'exif-aperturevalue'               => 'Diafragma in APEX',
+'exif-brightnessvalue'             => 'Helderheid in APEX',
 'exif-exposurebiasvalue'           => 'Belichtingscompensatie',
 'exif-maxaperturevalue'            => 'Maximale diafragma-opening',
 'exif-subjectdistance'             => 'Afstand tot onderwerp',
@@ -3253,7 +3249,6 @@ Andere velden worden verborgen.
 'exif-focallength'                 => 'Brandpuntsafstand',
 'exif-subjectarea'                 => 'Objectruimte',
 'exif-flashenergy'                 => 'Flitssterkte',
-'exif-spatialfrequencyresponse'    => 'Ruimtelijke frequentiereactie',
 'exif-focalplanexresolution'       => 'Brandpuntsvlak-X-resolutie',
 'exif-focalplaneyresolution'       => 'Brandpuntsvlak-Y-resolutie',
 'exif-focalplaneresolutionunit'    => 'Eenheid CCD-resolutie',
@@ -3262,7 +3257,6 @@ Andere velden worden verborgen.
 'exif-sensingmethod'               => 'Meetmethode',
 'exif-filesource'                  => 'Bestandsbron',
 'exif-scenetype'                   => 'Scènetype',
-'exif-cfapattern'                  => 'CFA-patroon',
 'exif-customrendered'              => 'Aangepaste beeldverwerking',
 'exif-exposuremode'                => 'Belichtingsinstelling',
 'exif-whitebalance'                => 'Witbalans',
@@ -3307,10 +3301,76 @@ Andere velden worden verborgen.
 'exif-gpsareainformation'          => 'Naam GPS-gebied',
 'exif-gpsdatestamp'                => 'GPS-datum',
 'exif-gpsdifferential'             => 'Differentiele GPS-correctie',
+'exif-jpegfilecomment'             => 'Opmerking bij JPEG-bestand',
+'exif-keywords'                    => 'Trefwoorden',
+'exif-worldregioncreated'          => 'Regio in de wereld waar de afbeelding is gemaakt',
+'exif-countrycreated'              => 'Land waar de afbeelding is gemaakt',
+'exif-countrycodecreated'          => 'Code voor het land waar de afbeelding is gemaakt',
+'exif-provinceorstatecreated'      => 'Provincie of staat waar de afbeelding is gemaakt',
+'exif-citycreated'                 => 'Plaats waar de afbeelding is gemaakt',
+'exif-sublocationcreated'          => 'Wijk van de plaats waar de afbeelding is gemaakt',
+'exif-worldregiondest'             => 'Weergegeven wereldregio',
+'exif-countrydest'                 => 'Weergegeven land',
+'exif-countrycodedest'             => 'Code voor het weergegeven land',
+'exif-provinceorstatedest'         => 'Weergegeven provincie of staat',
+'exif-citydest'                    => 'Weergegeven plaats',
+'exif-sublocationdest'             => 'Weergegeven wijk in plaats',
 'exif-objectname'                  => 'Korte naam',
+'exif-specialinstructions'         => 'Speciale instructies',
+'exif-headline'                    => 'Koptekst',
+'exif-credit'                      => 'Credit/Leverancier',
+'exif-source'                      => 'Bron',
+'exif-editstatus'                  => 'Bewerkingsstatus van de afbeelding',
+'exif-urgency'                     => 'Urgentie',
+'exif-fixtureidentifier'           => 'Armatuurnaam',
+'exif-locationdest'                => 'Weergegeven locatie',
+'exif-locationdestcode'            => 'Code voor de weergegeven locatie',
+'exif-objectcycle'                 => 'Tijd van de dag waar de media voor bedoeld is',
+'exif-contact'                     => 'Contactgegevens',
+'exif-writer'                      => 'Schrijver',
+'exif-languagecode'                => 'Taal',
+'exif-iimversion'                  => 'IIM-versie',
+'exif-iimcategory'                 => 'Categorie',
+'exif-iimsupplementalcategory'     => 'Aanvullende categorieën',
+'exif-datetimeexpires'             => 'Niet te gebruiken na',
+'exif-datetimereleased'            => 'Gepubliceerd op',
+'exif-originaltransmissionref'     => 'Originele taaklocatiecode',
+'exif-identifier'                  => 'Id',
+'exif-lens'                        => 'Gebruikte lens',
+'exif-serialnumber'                => 'Serienummer van de camera',
+'exif-cameraownername'             => 'Eigenaar van camera',
+'exif-label'                       => 'Label',
+'exif-datetimemetadata'            => 'Datum waarop de metadata het laatst zijn bewerkt',
+'exif-nickname'                    => 'Informele naam van de afbeelding',
+'exif-rating'                      => 'Waardering (schaal van 5)',
+'exif-rightscertificate'           => 'Rechtenbeheercertificaat',
+'exif-copyrighted'                 => 'Auteursrechtenstatus',
+'exif-copyrightowner'              => 'Auteursrechtenhouder',
+'exif-usageterms'                  => 'Gebruiksvoorwaarden',
+'exif-webstatement'                => 'Online auteursrechtenverklaring',
+'exif-originaldocumentid'          => 'Uniek ID van het originele document',
+'exif-licenseurl'                  => 'URL voor auteursrechtenlicentie',
+'exif-morepermissionsurl'          => 'Alternatieve licentiegegevens',
+'exif-attributionurl'              => 'Gebruik de volgende verwijzing bij hergebruik van dit werk',
+'exif-preferredattributionname'    => 'Gebruik de volgende credits bij hergebruik van dit werk',
+'exif-pngfilecomment'              => 'Opmerking bij PNG-bestand',
+'exif-disclaimer'                  => 'Voorbehoud',
+'exif-contentwarning'              => 'Waarschuwing over inhoud',
+'exif-giffilecomment'              => 'Opmerking bij GIF-bestand',
+'exif-intellectualgenre'           => 'Itemtype',
+'exif-subjectnewscode'             => 'Onderwerpcode',
+'exif-scenecode'                   => 'IPTC-scènecode',
+'exif-event'                       => 'Afgebeelde gebeurtenis',
+'exif-organisationinimage'         => 'Afgebeelde organisatie',
+'exif-personinimage'               => 'Afgebeelde persoon',
+'exif-originalimageheight'         => 'Hoogte van de afbeelding voor bijsnijden',
+'exif-originalimagewidth'          => 'Breedte van de afbeelding voor bijsnijden',
 
 # EXIF attributes
 'exif-compression-1' => 'Ongecomprimeerd',
+
+'exif-copyrighted-true'  => 'Auteursrechtelijk beschermd',
+'exif-copyrighted-false' => 'Publiek domein',
 
 'exif-unknowndate' => 'Datum onbekend',
 
@@ -3326,7 +3386,7 @@ Andere velden worden verborgen.
 'exif-planarconfiguration-1' => 'chunky gegevensformaat',
 'exif-planarconfiguration-2' => 'planar gegevensformaat',
 
-'exif-colorspace-ffff.h' => 'Ongekalibreerd',
+'exif-colorspace-65535' => 'Ongekalibreerd',
 
 'exif-componentsconfiguration-0' => 'bestaat niet',
 
@@ -3391,6 +3451,8 @@ Andere velden worden verborgen.
 'exif-sensingmethod-7' => 'Drielijnige sensor',
 'exif-sensingmethod-8' => 'Kleurvolgende lijnsensor',
 
+'exif-filesource-3' => 'Digitale fotocamera',
+
 'exif-scenetype-1' => 'Een direct gefotografeerde afbeelding',
 
 'exif-customrendered-0' => 'Normale verwerking',
@@ -3439,6 +3501,10 @@ Andere velden worden verborgen.
 'exif-gpslongitude-e' => 'Oosterlengte',
 'exif-gpslongitude-w' => 'Westerlengte',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '$1 {{PLURAL:$1|meter|meter}} boven de zeespiegel',
+'exif-gpsaltitude-below-sealevel' => '$1 {{PLURAL:$1|meter|meter}} onder de zeespiegel',
+
 'exif-gpsstatus-a' => 'Bezig met meten',
 'exif-gpsstatus-v' => 'Meetinteroperabiliteit',
 
@@ -3450,9 +3516,63 @@ Andere velden worden verborgen.
 'exif-gpsspeed-m' => 'Mijl per uur',
 'exif-gpsspeed-n' => 'Knopen',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometers',
+'exif-gpsdestdistance-m' => 'Mijlen',
+'exif-gpsdestdistance-n' => 'Knopen',
+
+'exif-gpsdop-excellent' => 'Uitstekend ($1)',
+'exif-gpsdop-good'      => 'Goed ($1)',
+'exif-gpsdop-moderate'  => 'Gemiddeld ($1)',
+'exif-gpsdop-fair'      => 'Redelijk ($1)',
+'exif-gpsdop-poor'      => 'Slecht ($1)',
+
+'exif-objectcycle-a' => "Alleen 's ochtends",
+'exif-objectcycle-p' => "Alleen 's avonds",
+'exif-objectcycle-b' => "Zowel 's ochtends als 's avonds",
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Eigenlijke richting',
 'exif-gpsdirection-m' => 'Magnetische richting',
+
+'exif-ycbcrpositioning-1' => 'Gecentreerd',
+'exif-ycbcrpositioning-2' => 'Gecositueerd',
+
+'exif-dc-contributor' => 'Medewerkers',
+'exif-dc-coverage'    => 'Ruimtelijke of temporele scope van media',
+'exif-dc-date'        => 'Datum(s)',
+'exif-dc-publisher'   => 'Uitgever',
+'exif-dc-relation'    => 'Gerelateerde media',
+'exif-dc-rights'      => 'Rechten',
+'exif-dc-source'      => 'Bronmedia',
+'exif-dc-type'        => 'Mediatype',
+
+'exif-rating-rejected' => 'Afgewezen',
+
+'exif-isospeedratings-overflow' => 'Groter dan 65535',
+
+'exif-iimcategory-ace' => 'Kunst, cultuur en vermaak',
+'exif-iimcategory-clj' => 'Misdaad en recht',
+'exif-iimcategory-dis' => 'Rampen en ongevallen',
+'exif-iimcategory-fin' => 'Economie en bedrijfsleven',
+'exif-iimcategory-edu' => 'Onderwijs',
+'exif-iimcategory-evn' => 'Milieu',
+'exif-iimcategory-hth' => 'Gezondheid',
+'exif-iimcategory-hum' => 'Human interest',
+'exif-iimcategory-lab' => 'Arbeid',
+'exif-iimcategory-lif' => 'Lifestyle en vrije tijd',
+'exif-iimcategory-pol' => 'Politiek',
+'exif-iimcategory-rel' => 'Godsdienst en overtuiging',
+'exif-iimcategory-sci' => 'Wetenschap en technologie',
+'exif-iimcategory-soi' => 'Sociale kwesties',
+'exif-iimcategory-spo' => 'Sport',
+'exif-iimcategory-war' => 'Oorlog, conflict en onrust',
+'exif-iimcategory-wea' => 'Weer',
+
+'exif-urgency-normal' => 'Normaal ($1)',
+'exif-urgency-low'    => 'Laag ($1)',
+'exif-urgency-high'   => 'Hoog ($1)',
+'exif-urgency-other'  => 'Door gebruiker gedefinieerde prioriteit ($1)',
 
 # External editor support
 'edit-externally'      => 'Dit bestand in een extern programma bewerken',
@@ -3771,18 +3891,5 @@ Voer de bestandsnaam in zonder het voorvoegsel "{{ns:file}}:".',
 # SQLite database support
 'sqlite-has-fts' => 'Versie $1 met ondersteuning voor "full-text" zoeken',
 'sqlite-no-fts'  => 'Versie $1 zonder ondersteuning voor "full-text" zoeken',
-
-# Special:DisableAccount
-'disableaccount'             => 'Een gebruiker uitschakelen',
-'disableaccount-user'        => 'Gebruikersnaam:',
-'disableaccount-reason'      => 'Reden:',
-'disableaccount-confirm'     => "Deze gebruiker uitschakelen.
-De gebruiker kan niet langer aanmelden, het wachtwoord opnieuw instellen of e-mails ontvangen.
-Als de gebruiker op dit moment is aangemeld, wordt deze per direct afgemeld.
-''Het uitschakelen van een gebruiker is niet terug te draaien zonder hulp van een systeembeheerder.''",
-'disableaccount-mustconfirm' => 'U moet bevestigen dat u deze gebruiker wilt uitschakelen.',
-'disableaccount-nosuchuser'  => 'De gebruiker "$1" bestaat niet.',
-'disableaccount-success'     => 'De gebruiker "$1" is permanent uitgeschakeld.',
-'disableaccount-logentry'    => 'heeft de gebruiker [[$1]] permanent uitgeschakeld',
 
 );

@@ -237,7 +237,7 @@ Gïemhpes logge sïjse vihth männgan datne åtna låhka dïhte.',
 'accountcreated'          => 'Nuhtjien skaepede',
 'loginlanguagelabel'      => 'Gïele: $1',
 
-# Password reset dialog
+# Change password dialog
 'oldpassword' => 'Båeries loevesbaakoe:',
 'newpassword' => 'Orre loevesbaakoe:',
 'retypenew'   => 'Odhasit orre loevesbaakoe:',
@@ -796,7 +796,13 @@ Jeatjebh dajveh lea gaptjedh goh sïejhme, bine vuesehte gåessie taabelle stoer
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'         => 'Gamte',

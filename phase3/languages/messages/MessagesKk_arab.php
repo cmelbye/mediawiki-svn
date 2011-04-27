@@ -392,7 +392,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'بوتتار', 'ٴبوتتار_ٴتىزىمى' ),
 	'Popularpages'              => array( 'ەڭ_كوپ_قارالعان_بەتتەر', 'ايگىلى_بەتتەر' ),
 	'Search'                    => array( 'ىزدەۋ' ),
-	'Resetpass'                 => array( 'قۇپىيا_سوزدى_قايتارۋ' ),
+	'ChangePassword'            => array( 'قۇپىيا_سوزدى_قايتارۋ' ),
 	'Withoutinterwiki'          => array( 'ۋىيكىي-ارالىقسىزدار' ),
 	'MergeHistory'              => array( 'تارىيح_بىرىكتىرۋ' ),
 	'Invalidateemail'           => array( 'قۇپتاماۋ_حاتى' ),
@@ -830,7 +830,7 @@ $2',
 ەگەر بۇل تىركەلگى قاتەلىكپەن جاسالسا, وسى حابارعا ەلەمەۋىڭىز مۇمكىن.',
 'loginlanguagelabel'         => 'ٴتىل: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'           => 'تىركەلگىنىڭ قۇپىييا ٴسوزىن وزگەرتۋ',
 'resetpass_announce'  => 'حاتپەن جىبەرىلگەن ۋاقىتشا كودىمەن كىرگەنسىز.
 كىرۋىڭىزدى ٴبىتىرۋ ٴۇشىن, جاڭا قۇپىييا ٴسوزىڭىزدى مىندا ەنگىزۋىڭىز ٴجون:',
@@ -2481,7 +2481,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'ەنى',
@@ -2496,13 +2502,11 @@ $1',
 'exif-ycbcrpositioning'            => 'Y قۇراشى جانە C قۇراشى مەكەندەۋى',
 'exif-xresolution'                 => 'دەرەلەي اجىراتىلىمدىعى',
 'exif-yresolution'                 => 'تىرەلەي اجىراتىلىمدىعى',
-'exif-resolutionunit'              => 'X جانە Y بويىنشا اجىراتىلىمدىق بىرلىگى',
 'exif-stripoffsets'                => 'سۋرەت دەرەرەكتەرىنىڭ جايعاسۋى',
 'exif-rowsperstrip'                => 'بەلدىك سايىن جول سانى',
 'exif-stripbytecounts'             => 'قىسىمدالعان بەلدىك سايىن بايت سانى',
 'exif-jpeginterchangeformat'       => 'JPEG SOI دەگەنگە ىعىسۋى',
 'exif-jpeginterchangeformatlength' => 'JPEG دەرەكتەرىنىڭ بايت سانى',
-'exif-transferfunction'            => 'تاسىمالداۋ جەتەسى',
 'exif-whitepoint'                  => 'اق نۇكتە تۇستىلىگى',
 'exif-primarychromaticities'       => 'العى شەپتەگى تۇستىلىكتەرى',
 'exif-ycbcrcoefficients'           => 'ٴتۇس اياسىن تاسىمالداۋ ماترىيتسالىق ەسەلىكتەرى',
@@ -2521,7 +2525,6 @@ $1',
 'exif-compressedbitsperpixel'      => 'سۋرەت قىسىمداۋ ٴتارتىبى',
 'exif-pixelydimension'             => 'سۋرەتتىڭ جارامدى ەنى',
 'exif-pixelxdimension'             => 'سۋرەتتىڭ جارامدى بىيىكتىگى',
-'exif-makernote'                   => 'ٴوندىرۋشىنىڭ اڭعارتپالارى',
 'exif-usercomment'                 => 'قاتىسۋشىنىڭ ماندەمەلەرى',
 'exif-relatedsoundfile'            => 'قاتىستى دىبىس فايلى',
 'exif-datetimeoriginal'            => 'جاسالعان كەزى',
@@ -2535,7 +2538,6 @@ $1',
 'exif-exposureprogram'             => 'ۇستالىم باعدارلاماسى',
 'exif-spectralsensitivity'         => 'سپەكتر بويىنشا سەزگىشتىگى',
 'exif-isospeedratings'             => 'ISO جىلدامدىق جارناقتاۋى (جارىق سەزگىشتىگى)',
-'exif-oecf'                        => 'وپتويەلەكتروندى تۇرلەتۋ ىقپالى',
 'exif-shutterspeedvalue'           => 'جاپقىش جىلدامدىلىعى',
 'exif-aperturevalue'               => 'ساڭىلاۋلىق',
 'exif-brightnessvalue'             => 'جارىقتىلىق',
@@ -2548,7 +2550,6 @@ $1',
 'exif-focallength'                 => 'شوعىرلاۋ الشاقتىعى',
 'exif-subjectarea'                 => 'نىسانا اۋقىمى',
 'exif-flashenergy'                 => 'جارقىلداعىش قارقىنى',
-'exif-spatialfrequencyresponse'    => 'كەڭىستىك-جىيىلىك اسەرشىلىگى',
 'exif-focalplanexresolution'       => 'ح بويىنشا شوعىرلاۋ جايپاقتىقتىڭ اجىراتىلىمدىعى',
 'exif-focalplaneyresolution'       => 'Y بويىنشا شوعىرلاۋ جايپاقتىقتىڭ اجىراتىلىمدىعى',
 'exif-focalplaneresolutionunit'    => 'شوعىرلاۋ جايپاقتىقتىڭ اجىراتىلىمدىق ولشەمى',
@@ -2557,7 +2558,6 @@ $1',
 'exif-sensingmethod'               => 'سەنسوردىڭ ولشەۋ ٴادىسى',
 'exif-filesource'                  => 'فايل قاينارى',
 'exif-scenetype'                   => 'ساحنا ٴتۇرى',
-'exif-cfapattern'                  => 'CFA سۇزگى كەيىپى',
 'exif-customrendered'              => 'قوسىمشا سۋرەت وڭدەتۋى',
 'exif-exposuremode'                => 'ۇستالىم ٴتارتىبى',
 'exif-whitebalance'                => 'اق ٴتۇسىنىڭ تەندەستىگى',

@@ -418,7 +418,7 @@ Divant d' poleur evoyî èn ôte emile a ci conte la, vos dvroz shure les instru
 'accountcreatedtext'         => "Li conte d' uzeu «$1» a stî ahivé.",
 'loginlanguagelabel'         => 'Lingaedje: $1',
 
-# Password reset dialog
+# Change password dialog
 'oldpassword' => 'Vî scret',
 'newpassword' => 'Noû scret',
 'retypenew'   => "Ritapez l' noû scret",
@@ -1425,7 +1425,13 @@ est raptiti. Les ôtes seront catchîs.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength",
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude",
 
 # EXIF tags
 'exif-imagewidth'                => 'Lårdjeur',
@@ -1436,7 +1442,6 @@ est raptiti. Les ôtes seront catchîs.
 'exif-samplesperpixel'           => 'Nombe di compôzants',
 'exif-xresolution'               => "Finté d' coûtchî",
 'exif-yresolution'               => "Finté d' astampé",
-'exif-resolutionunit'            => "Unité pol finté d' coûtchî/astampé",
 'exif-datetime'                  => "Date ey eure ki l' fitchî a stî candjî",
 'exif-imagedescription'          => "Tite di l' imådje",
 'exif-make'                      => 'Måke del camera',
@@ -1446,7 +1451,6 @@ est raptiti. Les ôtes seront catchîs.
 'exif-copyright'                 => 'Ditinteu des abondroets',
 'exif-exifversion'               => "Modêye d' exif",
 'exif-colorspace'                => 'Espåce di coleurs',
-'exif-makernote'                 => 'Notes do fabricant',
 'exif-usercomment'               => "Comintaires di l' uzeu",
 'exif-datetimeoriginal'          => 'Date ey eure ki les dnêyes ont stî fwaites',
 'exif-datetimedigitized'         => 'Date ey eure do scanaedje',

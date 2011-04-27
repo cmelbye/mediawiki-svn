@@ -53,6 +53,13 @@ $namespaceNames = array(
 );
 
 $messages = array(
+'underline-always' => 'ସବୁବେଳେ',
+'underline-never'  => 'କେବେନୁହେଁ',
+
+# Font style option in Special:Preferences
+'editfont-sansserif' => 'ସାନସ-ସେରିଫ ଫଣ୍ଟ',
+'editfont-serif'     => 'ସେରିଫ ଫଣ୍ଟ',
+
 # Dates
 'sunday'        => 'ରବିବାର',
 'monday'        => 'ସୋମବାର',
@@ -61,6 +68,13 @@ $messages = array(
 'thursday'      => 'ଗୁରୁବାର',
 'friday'        => 'ଶୁକ୍ରବାର',
 'saturday'      => 'ଶନିବାର',
+'sun'           => 'ରବିବାର',
+'mon'           => 'ସୋମବାର',
+'tue'           => 'ମଙ୍ଗଳବାର',
+'wed'           => 'ବୁଧବାର',
+'thu'           => 'ଗୁରୁବାର',
+'fri'           => 'ଶୁକ୍ରବାର',
+'sat'           => 'ଶନିବାର',
 'january'       => 'ଜାନୁଆରି',
 'february'      => 'ଫେବୁଆରି',
 'march'         => 'ମାର୍ଚ',
@@ -99,33 +113,61 @@ $messages = array(
 'dec'           => 'ଡିସେଁବର',
 
 # Categories related messages
-'pagecategories'         => '{{PLURAL:$1|Category|ବିଭାଗ}}',
-'category_header'        => '"$1" ବିଭାଗରେ ଥିବା ଫରଦଗୁଡ଼ିକ',
-'subcategories'          => 'ସାନ ଶ୍ରେଣୀସବୁ',
-'hidden-categories'      => '{{PLURAL:$1|Hidden category|ଲୁଚିଥିବା ବିଭାଗ}}',
-'listingcontinuesabbrev' => 'ଆହୁରି ଅଛି..',
+'pagecategories'           => '{{PLURAL:$1|Category|ବିଭାଗ}}',
+'category_header'          => '"$1" ବିଭାଗରେ ଥିବା ଫରଦଗୁଡ଼ିକ',
+'subcategories'            => 'ସାନ ଶ୍ରେଣୀସବୁ',
+'category-media-header'    => '"$1" ବିଭାଗରେ ଥିବା ଫରଦଗୁଡ଼ିକ',
+'category-empty'           => "''ଏହି ଶ୍ରେଣୀ ଭିତରେ କିଛି ଫରଦ ବା ମାଧ୍ୟମ ନାହିଁ ।''",
+'hidden-categories'        => '{{PLURAL:$1|Hidden category|ଲୁଚିଥିବା ବିଭାଗ}}',
+'hidden-category-category' => 'ଲୁଚିରହିଥିବା ଶ୍ରେଣୀ',
+'category-subcat-count'    => '{{PLURAL:$2|ଏହି ଶ୍ରେଣୀଟିରେ କେବଳ ତଳେଥିବା ସାନ ଶ୍ରେଣୀଗୁଡିକ ଅଛନ୍ତି । |ଏହି ଶ୍ରେଣୀଟିରେ ସର୍ବମୋଟ $2 ରୁ ତଳେଥିବା ଏହି {{PLURAL:$1|subcategory|$1 ଶ୍ରେଣୀଗୁଡିକ}} ଅଛନ୍ତି  । }}',
+'listingcontinuesabbrev'   => 'ଆହୁରି ଅଛି..',
 
-'newwindow'  => 'ନୂଆ ଉଇଁଡୋରେ ଖୋଲିବ',
-'cancel'     => 'ନାକଚ କରିଦିଅ',
-'mytalk'     => 'ମୋ ଆଲୋଚନା',
-'navigation' => 'ଦିଗବାରେଣି',
+'about'         => 'ବାବଦରେ',
+'article'       => 'ସୂଚୀ ଫରଦ',
+'newwindow'     => 'ନୂଆ ଉଇଁଡୋରେ ଖୋଲିବ',
+'cancel'        => 'ନାକଚ କରିଦିଅ',
+'moredotdotdot' => 'ଅଧିକ...',
+'mypage'        => 'ମୋ ଫରଦ',
+'mytalk'        => 'ମୋ ଆଲୋଚନା',
+'anontalk'      => 'ଏହି ଆଇ.ପି. ଠିକଣା ଉପରେ ଆଲୋଚନା',
+'navigation'    => 'ଦିଗବାରେଣି',
 
+# Cologne Blue skin
+'qbfind'         => 'ଖୋଜିବା',
+'qbedit'         => 'ବଦଳାଇବା',
+'qbpageoptions'  => 'ଏଇଟା ଫର୍ଦ',
+'qbmyoptions'    => 'ମୋର ଫର୍ଦ',
+'qbspecialpages' => 'ବିଶେଷ ଫରଦ',
+
+# Vector skin
+'vector-view-create' => 'ତିଆରି',
+
+'errorpagetitle'   => 'ଭୁଲ',
 'tagline'          => '{{SITENAME}} ରୁ',
-'help'             => 'ସାହାଜ୍ୟ',
+'help'             => 'ସାହାଯ୍ୟ',
 'search'           => 'ଖୋଜିବା',
 'searchbutton'     => 'ଖୋଜିବା',
+'go'               => 'ଯିବା',
 'searcharticle'    => 'ଯିବା',
 'history'          => 'ଫାଇଲ ଇତିହାସ',
 'history_short'    => 'ଇତିହାସ',
+'info_short'       => 'ଖବର',
 'printableversion' => 'ଛପାହୋଇପାରିବା ଫରଦ',
 'permalink'        => 'ସବୁଦିନିଆ ଲିଁକ',
+'print'            => 'ପ୍ରିଣ୍ଟ କରିବା',
+'view'             => 'ଦେଖଣା',
 'edit'             => 'ବଦଳାଇବେ',
 'create'           => 'ତିଆରି କରିବେ',
+'editthispage'     => 'ଏହି ଫରଦଟିକୁ ବଦଳାଇବା',
+'create-this-page' => 'ଏହି ଫରଦଟି ତିଆରି କରିବା',
 'delete'           => 'ଲିଭେଇବେ',
+'deletethispage'   => 'ଏହି ଫରଦଟି ଲିଭାଇବା',
 'protect'          => 'କିଳିବେ',
 'protect_change'   => 'ବଦଳାଇବା',
 'newpage'          => 'ନୂଆ ଫରଦ',
 'talkpagelinktext' => 'କଥାଭାଷା',
+'specialpage'      => 'ବିଶେଷ ଫରଦ',
 'personaltools'    => 'ନିଜର ଟୁଲ',
 'talk'             => 'ଆଲୋଚନା',
 'views'            => 'ଦେଖା',
@@ -173,14 +215,17 @@ $messages = array(
 'red-link-title'          => ' $1 (ଫରଦଟି ନାହିଁ)',
 
 # Short words for each namespace, by default used in the namespace tab in monobook
-'nstab-main'     => 'ଫରଦ',
-'nstab-user'     => ' ଇଉଜର ଫରଦ',
-'nstab-special'  => 'ବିଶେଷ ଫରଦ',
-'nstab-project'  => 'ପ୍ରକଳ୍ପ ଫରଦ',
-'nstab-image'    => 'ଫାଇଲ',
-'nstab-category' => 'ବିଭାଗ',
+'nstab-main'      => 'ଫରଦ',
+'nstab-user'      => ' ଇଉଜର ଫରଦ',
+'nstab-special'   => 'ବିଶେଷ ଫରଦ',
+'nstab-project'   => 'ପ୍ରକଳ୍ପ ଫରଦ',
+'nstab-image'     => 'ଫାଇଲ',
+'nstab-mediawiki' => 'ଖବର',
+'nstab-template'  => 'ଟେଁପଲେଟ',
+'nstab-category'  => 'ବିଭାଗ',
 
 # General errors
+'error'           => 'ଭୁଲ',
 'missing-article' => 'ଡାଟାବେସଟି ଆପଣ ଲେଖିଥିବା "$1" $2 ଶବଦଟି ପାଇଲା ନାହିଁ । .
 
 ଯଦି ଆପଣ ଖୋଜିଥିବା ଫରଦଟି କେହି ଉଡ଼ାଇ ଦେଇଥାଏ ତେବେ ଏମିତି ହୋଇପାରେ ।
@@ -196,10 +241,19 @@ $messages = array(
 'nav-login-createaccount' => 'ଲଗିନ / ଖାତା ଖୋଲିବା',
 'loginprompt'             => "{{SITENAME}}ରେ ଲଗ ଇନ କରିବାପାଇଁ ଆପଣଙ୍କୁ '''କୁକି''' ସଚଳ କରିବାକୁ ପଡ଼ିବ ।",
 'userlogin'               => 'ଲଗିନ / ଖାତା ଖୋଲିବା',
+'userloginnocreate'       => 'ଲଗଇନ',
 'logout'                  => 'ଲଗଆଉଟ',
 'userlogout'              => 'ଲଗ ଆଉଟ',
 'nologin'                 => 'ଖାତାଟିଏ ନାହିଁ? $1।',
 'nologinlink'             => 'ନୁଆ ଖାତାଟିଏ ଖୋଲିବା',
+'createaccount'           => 'ନୁଆ ଖାତା ଖୋଲିବା',
+'gotaccountlink'          => 'ଲଗଇନ',
+'createaccountreason'     => 'କାରଣ:',
+'loginlanguagelabel'      => 'ଭାଷା: $1',
+
+# Change password dialog
+'oldpassword' => 'ପୂର୍ବ ପାସଉଆଡ଼:',
+'newpassword' => 'ନୁଆ ପାସଉଆଡ଼:',
 
 # Edit page toolbar
 'bold_sample'     => 'ବୋଲ୍ଡ ଲେଖା',
@@ -237,18 +291,22 @@ $messages = array(
 କିମ୍ବା [{{fullurl:{{FULLPAGENAME}}|action=edit}} ଏହି ଫରଦଟିକୁ ବଦଳାଇ ପାରନ୍ତି]</span> ।',
 'editing'                => '$1 କୁ ବଦଳାଉଛି',
 'editingsection'         => '$1 (ଭାଗ)କୁ ବଦଳାଇବେ',
+'templatesused'          => 'ଏହି ଫରଦରେ ବ୍ୟବହାର କରାଯାଇଥିବା {{PLURAL:$1|ଟେମ୍ପଲେଟ|ଟେମ୍ପଲେଟସବୁ}}:',
 'template-protected'     => '(କିଳାଯାଇଥିବା)',
 'template-semiprotected' => '(ଅଧା କିଳାଯାଇଥିବା)',
 
 # History pages
-'viewpagelogs'     => 'ଏହି ଫରଦ ପାଇଁ ଲଗଗୁଡ଼ିକୁ ଦେଖନ୍ତୁ ।',
-'currentrev-asof'  => '$1 ହୋଇଥିବା ରିଭିଜନ',
-'revisionasof'     => '$1 ଉପରେ କରାଯାଇଥିବା ବଦଳ',
-'previousrevision' => 'ପୁରୁଣା ସଁକଳନ',
-'cur'              => 'ଦାନକର',
-'last'             => 'ଆଗ',
-'histfirst'        => 'ସବୁଠୁ ପୁରୁଣା',
-'histlast'         => 'ନଗଦ',
+'viewpagelogs'           => 'ଏହି ଫରଦ ପାଇଁ ଲଗଗୁଡ଼ିକୁ ଦେଖନ୍ତୁ ।',
+'currentrev-asof'        => '$1 ହୋଇଥିବା ରିଭିଜନ',
+'revisionasof'           => '$1 ଉପରେ କରାଯାଇଥିବା ବଦଳ',
+'previousrevision'       => 'ପୁରୁଣା ସଁକଳନ',
+'cur'                    => 'ଦାନକର',
+'next'                   => 'ପରେ',
+'last'                   => 'ଆଗ',
+'page_first'             => 'ପ୍ରଥମ',
+'history-fieldset-title' => 'ଇତିହାସ ଖୋଜିବା',
+'histfirst'              => 'ସବୁଠୁ ପୁରୁଣା',
+'histlast'               => 'ନଗଦ',
 
 # Revision deletion
 'rev-delundel'   => 'ଦେଖାଇବା/ଲୁଚାଇବା',
@@ -267,6 +325,7 @@ $messages = array(
 # Search results
 'searchresults'             => 'ଖୋଜିବାରୁ ମିଳିଲା',
 'searchresults-title'       => '"$1" ପାଇଁ ଖୋଜିବାରୁ ମିଳିଲା',
+'searchresulttext'          => '{{SITENAME}} ରେ ଖୋଜିବା ବାବଦରେ ଅଧିକ ଜାଣିବା ପାଇଁ,  [[{{MediaWiki:Helppage}}|{{int:help}}]] ଦେଖନ୍ତୁ',
 'searchsubtitle'            => 'ଆପଣ  \'\'\'[[:$1]]\'\'\' ପାଇଁ ([[Special:Prefixindex/$1|"$1" ରେ ଆରଭ ହୋଇଥିବା ସବୁ ଫରଦ]]{{int:pipe-separator}}[[Special:WhatLinksHere/$1|"$1" କୁ ଯୋଡ଼ାଥିବା ସବୁତକ ଫରଦ]])',
 'notitlematches'            => 'ଫରଦର ଟାଇଟଲ ମିଶୁନାହିଁ',
 'notextmatches'             => 'ଫରଦର ଲେଖାସବୁ ମିଶୁନାହିଁ',
@@ -375,7 +434,8 @@ $messages = array(
 'pager-older-n'        => '{{PLURAL:$1|ପୁରୁଣା 1|ପୁରୁଣା $1}}',
 
 # Book sources
-'booksources' => 'ବହିର ମୁଳ ସ୍ରୋତ',
+'booksources'    => 'ବହିର ମୁଳ ସ୍ରୋତ',
+'booksources-go' => 'ଯିବା',
 
 # Special:Log
 'log' => 'ଲଗ',
@@ -406,6 +466,7 @@ $messages = array(
 'actioncomplete' => 'କାମଟି ପୁରା ହେଲା',
 'deletedarticle' => '"[[$1]]" ଟି ଉଡ଼ିଗଲା',
 'dellogpage'     => 'ଲିଭାଇବା ଲଗ',
+'deletecomment'  => 'କାରଣ:',
 
 # Rollback
 'rollbacklink' => 'ପଛକୁ ଫେର',
@@ -429,6 +490,7 @@ $messages = array(
 
 # Undelete
 'undeletelink'           => 'ଦେଖିବା/ଆଉଥରେ ଫେରାଇଆଣିବା',
+'undeletecomment'        => 'କାରଣ:',
 'undelete-search-submit' => 'ଖୋଜିବା',
 
 # Namespace form on various pages
@@ -439,6 +501,7 @@ $messages = array(
 # Contributions
 'contributions' => 'ଇଉଜରଙ୍କ ଦାନ',
 'mycontris'     => 'ମୋ ଅବଦାନ',
+'contribsub2'   => '$1 ($2) ପାଇଁ',
 'month'         => 'ମାସରୁ (ଓ ତା ଆଗରୁ)',
 'year'          => 'ବରସରୁ (ଓ ତା ଆଗରୁ)',
 
@@ -448,7 +511,11 @@ $messages = array(
 'whatlinkshere'            => 'ଏଠି କଣ କଣ ଲିଁକ ଅଛି',
 'whatlinkshere-title'      => '"$1" କୁ ଫରଦ ଲିଁକ',
 'whatlinkshere-page'       => 'ଫରଦ',
+'linkshere'                => "ଏହି ଫରଦ ସବୁ  '''[[:$1]]''' ସହ ଯୋଡା ଯାଇଅଛି:",
+'isredirect'               => 'ଅଲଗା ଫରଦକୁ ଯୋଡା ଫରଦ',
 'isimage'                  => 'ଚିତ୍ର ଲିଁକ',
+'whatlinkshere-prev'       => '{{PLURAL:$1|ଆଗ|ଆଗ $1}}',
+'whatlinkshere-next'       => '{{PLURAL:$1|ପର|ପର $1}}',
 'whatlinkshere-links'      => '← ଲିଁକ',
 'whatlinkshere-hideredirs' => '$1 କୁ ଲେଉଟାଣି',
 'whatlinkshere-hidetrans'  => '$1 ରେଫେରେଁସ ସହ ଭିତରେ ପୁରାଇବା',
@@ -456,6 +523,7 @@ $messages = array(
 'whatlinkshere-filters'    => 'ଫିଲଟରସବୁ',
 
 # Block/unblock
+'blocklist-reason'   => 'କାରଣ',
 'ipblocklist-submit' => 'ଖୋଜିବା',
 'blocklink'          => 'ଅଟକେଇ ଦିଅ',
 'unblocklink'        => 'ଛାଡ଼ିବା',
@@ -465,6 +533,7 @@ $messages = array(
 
 # Move page
 'movelogpage' => 'ଲଗଟିକୁ ଘୁଞ୍ଚାଅ',
+'movereason'  => 'କାରଣ:',
 'revertmove'  => 'ପଛକୁ ଫେରାଇନିଅ',
 
 # Export
@@ -505,6 +574,7 @@ $messages = array(
 'tooltip-t-recentchangeslinked'   => 'ଏହି ଫରଦ ସାଗେ ଯୋଡ଼ା ଫରଦଗୁଡ଼ିକରେ ଏଇଲାଗେ କରାଯାଇଥିବା ଅଦଳବଦଳ',
 'tooltip-feed-rss'                => 'ଏହି ଫରଦଟି ପାଇଁ ଆରଏସଏସ ଫିଡ',
 'tooltip-feed-atom'               => 'ଏହି ଫରଦଟି ପାଇଁ ଆଟମ ଫିଡ',
+'tooltip-t-contributions'         => 'ଏହି ଇଉଜରଙ୍କର ଦେଇ କରାଯାଇଥିବା ସବୁଯାକ ଦାନ ଦେଖାଇବା',
 'tooltip-t-upload'                => 'ଫାଇଲ ଅପଲୋଡ଼ କର',
 'tooltip-t-specialpages'          => 'ନିଆରା ଫରଦ ତାଲିକା',
 'tooltip-t-print'                 => 'ଏହି ଫରଦର ଛପାହୋଇପାରିବା ଭର୍ସନ',
@@ -521,6 +591,7 @@ $messages = array(
 'tooltip-diff'                    => 'ଏହି ଲେଖାରେ ଆପଣ କରିଥିବା ବଦଳଗୁଡିକୁ ଦେଖନ୍ତୁ ।',
 'tooltip-compareselectedversions' => 'ଏହି ଫରଦର ଦୁଇଟି ବଛାଯାଇଥିବା ସଁକଳନକୁ ତଉଲିବା',
 'tooltip-watch'                   => 'ଆପଣଙ୍କ ଦେଖାତାଲିକାରେ ଏଇ ଫରଦଟି ମିଶାନ୍ତୁ',
+'tooltip-rollback'                => '"ଫେରିବା" ଏହି ଫରଦରେ ଶେଷ ଦାତାଙ୍କ ଦେଇ କରାଯାଇଥିବା ସବୁଯାକ ବଦଳକୁ  ଏକାଥରକରେ ପଛକୁ ଫେରାଇଦେବ',
 'tooltip-undo'                    => '"କରନାହିଁ" ଆଗରୁ କରାଯାଇଥିବା ବଦଳଟିକୁ ପଛକୁ ଲେଉଟାଇଦିଏ ଆଉ ବଦଳ ଫରମଟିକୁ ଦେଖଣା ଭାବରେ ଖୋଲେ । ଏହା ଆପଣଙ୍କୁ ସାରକଥାରେ ଗୋଟିଏ କାରଣ ଲେଖିବାକୁ ଅନୁମତି ଦିଏ ।',
 
 # Browsing diffs
@@ -548,16 +619,25 @@ $messages = array(
 'metadata-collapse' => 'ଆହୁରି ଖୋଲିକରି ଦେଖାଇବେ',
 
 # External editor support
+'edit-externally'      => 'ଏକ ବାହାର ଆପ୍ଲିକେସନ ବ୍ୟବହାର କରି ଏହି ଫାଇଲଟିକୁ ବଦଳାଇବା',
 'edit-externally-help' => '(ଆହୁରି ବି [http://www.mediawiki.org/wiki/Manual:External_editors ସଜାଡିବା ନିର୍ଦେଶ] ଦେଖନ୍ତୁ)',
 
 # 'all' in various places, this might be different for inflected languages
-'namespacesall' => 'ସବୁ',
-'monthsall'     => 'ସବୁ',
+'recentchangesall' => 'ସବୁ',
+'imagelistall'     => 'ସବୁ',
+'watchlistall2'    => 'ସବୁ',
+'namespacesall'    => 'ସବୁ',
+'monthsall'        => 'ସବୁ',
+'limitall'         => 'ସବୁ',
+
+# Special:FilePath
+'filepath-page' => 'ଫାଇଲ:',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch-submit' => 'ଖୋଜିବା',
 
 # Special:SpecialPages
-'specialpages' => 'ନିଆରା ଫରଦ',
+'specialpages'             => 'ନିଆରା ଫରଦ',
+'specialpages-group-login' => 'ଲଗିନ / ଖାତା ଖୋଲି',
 
 );

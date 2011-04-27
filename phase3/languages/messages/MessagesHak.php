@@ -396,10 +396,7 @@ Ngì khó-yî ki-siu̍k yî ngia̍k-miàng fông-sṳt sṳ́-yung {{SITENAME}},
 'createaccount-title'        => 'Chhai {{SITENAME}} tsûng-kiên kien-li̍p sîn tsong-ho',
 'loginlanguagelabel'         => 'Ngî-ngièn: $1',
 
-# JavaScript password checks
-'password-retype' => 'Chai-chhṳ sû-ngi̍p me̍t-ma',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Kiên-kói me̍t-me̍t',
 'resetpass_announce'        => 'Ngì he theu-ko yit-ke lìm-sṳ̀ ke fat-sung to email chûng ke chhí-me̍t tên-ngi̍p ke. Yeu vàn-sṳ̀n tên-ngi̍p,  ngì pit-sî chhai liá-piên sat-thin yit-ke sîn me̍t-me̍t:',
 'resetpass_text'            => '<!-- Chhai chhṳ́-chhu kâ-ngi̍p vùn-sṳ -->',
@@ -1614,7 +1611,13 @@ yèn-heu thùng yit-hòng heu-fông ke lièn-chiap chiông-voi pûn sṳ-vì li-
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'Yung ngoi-phu chhàng-sṳt phiên-siá chhṳ́ tóng-on',

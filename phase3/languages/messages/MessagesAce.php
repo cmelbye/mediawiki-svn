@@ -141,7 +141,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Dapeuta_bot' ),
 	'Popularpages'              => array( 'On_meuceuhu' ),
 	'Search'                    => array( 'Mita' ),
-	'Resetpass'                 => array( 'Gantoe_lageuem_rahsia' ),
+	'ChangePassword'            => array( 'Gantoe_lageuem_rahsia' ),
 	'Withoutinterwiki'          => array( 'Hana_interwiki' ),
 	'MergeHistory'              => array( 'Riwayat_peusapat' ),
 	'Filepath'                  => array( 'Neuduek_beureukaih' ),
@@ -456,7 +456,7 @@ Droëneuh geupeusaran keu neutamong sigra, lheuëh nyan neugantoë lageuëm rahs
 'eauthentsent'            => 'Saboh surat èlèktronik keu peunyoë ka geukirém u alamat surat èlèktronik Droëneuh. Droëneuh beuneuseutöt préntah lam surat nyan keu neupeunyoë meunyo alamat nyan nakeuh beutôy atra Droëneuh. {{SITENAME}} h‘an geupeuudép surat Droëneuh meunyo langkah nyoë hana neupeulaku lom.',
 'loginlanguagelabel'      => 'Bahsa: $1',
 
-# Password reset dialog
+# Change password dialog
 'retypenew' => 'Pasoë teuma lageuëm barô:',
 
 # Edit page toolbar
@@ -1020,7 +1020,13 @@ Hubông-hubông lheuëh nyan bak baréh nyang saban geukira sibagoë keucuali, n
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'Andam beureukah nyoë ngön aplikasi luwa',

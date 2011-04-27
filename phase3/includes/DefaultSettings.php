@@ -27,12 +27,10 @@ if( !defined( 'MEDIAWIKI' ) ) {
 }
 
 # Create a site configuration object. Not used for much in a default install
-if ( !defined( 'MW_PHP4' ) ) {
-	if ( !defined( 'MW_COMPILED' ) ) {
-		require_once( "$IP/includes/SiteConfiguration.php" );
-	}
-	$wgConf = new SiteConfiguration;
+if ( !defined( 'MW_COMPILED' ) ) {
+	require_once( "$IP/includes/SiteConfiguration.php" );
 }
+$wgConf = new SiteConfiguration;
 /** @endcond */
 
 /** MediaWiki version number */
@@ -190,6 +188,7 @@ $wgLocalStylePath   = false;
 /**
  * The URL path of the extensions directory.
  * Defaults to "{$wgScriptPath}/extensions".
+ * @since 1.16
  */
 $wgExtensionAssetsPath = false;
 
@@ -396,6 +395,13 @@ $wgUseInstantCommons = false;
 $wgShowEXIF = function_exists( 'exif_read_data' );
 
 /**
+ * If to automatically update the img_metadata field
+ * if the metadata field is outdated but compatible with the current version.
+ * Defaults to false.
+ */
+$wgUpdateCompatibleMetadata = false;
+
+/**
  * If you operate multiple wikis, you can define a shared upload path here.
  * Uploads to this wiki will NOT be put there - they will be put into
  * $wgUploadDirectory.
@@ -593,7 +599,7 @@ $wgTrustedMediaFormats = array(
  * Each entry in the array maps a MIME type to a class name
  */
 $wgMediaHandlers = array(
-	'image/jpeg' => 'BitmapHandler',
+	'image/jpeg' => 'JpegHandler',
 	'image/png' => 'PNGHandler',
 	'image/gif' => 'GIFHandler',
 	'image/tiff' => 'TiffHandler',
@@ -3021,6 +3027,17 @@ $wgMinimalPasswordLength = 1;
 $wgLivePasswordStrengthChecks = false;
 
 /**
+ * Whether to allow password resets ("enter some identifying data, and we'll send an email
+ * with a temporary password you can use to get back into the account") identified by
+ * various bits of data.  Setting all of these to false (or the whole variable to false)
+ * has the effect of disabling password resets entirely
+ */
+$wgPasswordResetRoutes = array(
+	'username' => true,
+	'email' => false,
+);
+
+/**
  * Maximum number of Unicode characters in signature
  */
 $wgMaxSigChars		= 255;
@@ -3221,18 +3238,6 @@ $wgSecureLogin        = false;
  */
 
 /**
- * Allow sysops to ban logged-in users
- * @deprecated since 1.18
- */
-$wgSysopUserBans        = true;
-
-/**
- * Allow sysops to ban IP ranges
- * @deprecated since 1.18; set $wgBlockCIDRLimit to array( 'IPv4' => 32, 'IPv6 => 128 ) instead.
- */
-$wgSysopRangeBans       = true;
-
-/**
  * Number of seconds before autoblock entries expire. Default 86400 = 1 day.
  */
 $wgAutoblockExpiry      = 86400;
@@ -3273,7 +3278,7 @@ $wgBlockDisablesLogin = false;
  * $wgWhitelistRead = array ( "Main Page", "Wikipedia:Help");
  * </code>
  *
- * Special:Userlogin and Special:Resetpass are always whitelisted.
+ * Special:Userlogin and Special:ChangePassword are always whitelisted.
  *
  * NOTE: This will only work if $wgGroupPermissions['*']['read'] is false --
  * see below. Otherwise, ALL pages are accessible, regardless of this setting.
@@ -3404,11 +3409,6 @@ $wgGroupPermissions['bureaucrat']['noratelimit'] = true;
 #$wgGroupPermissions['suppress']['suppressrevision'] = true;
 // For private suppression log access
 #$wgGroupPermissions['suppress']['suppressionlog'] = true;
-
-// Permission to disable user accounts
-// Note that disabling an account is not reversible without a system administrator
-// who has direct access to the database
-#$wgGroupPermissions['bureaucrat']['disableaccount']  = true;
 
 /**
  * The developer group is deprecated, but can be activated if need be
@@ -4874,7 +4874,6 @@ $wgLogActions = array(
 	'upload/revert'     => 'uploadedimage',
 	'move/move'         => '1movedto2',
 	'move/move_redir'   => '1movedto2_redir',
-	'move/move_rev'     => 'moverevlogentry',
 	'import/upload'     => 'import-logentry-upload',
 	'import/interwiki'  => 'import-logentry-interwiki',
 	'merge/merge'       => 'pagemerge-logentry',
@@ -4976,7 +4975,7 @@ $wgSpecialPageGroups = array(
 	'Block'                     => 'users',
 	'Unblock'                   => 'users',
 	'Preferences'               => 'users',
-	'Resetpass'                 => 'users',
+	'ChangePassword'            => 'users',
 	'DeletedContributions'      => 'users',
 
 	'Mostlinked'                => 'highuse',
@@ -5046,6 +5045,38 @@ $wgCountCategorizedImagesAsUsed = false;
 $wgMaxRedirectLinksRetrieved = 500;
 
 /** @} */ # end special pages }
+
+/*************************************************************************//**
+ * @name   Actions
+ * @{
+ */
+
+/**
+ * Array of allowed values for the title=foo&action=<action> parameter. Syntax is:
+ *     'foo' => 'ClassName'    Load the specified class which subclasses Action
+ *     'foo' => true           Load the class FooAction which subclasses Action
+ *     'foo' => false          The action is disabled; show an error message
+ * Unsetting core actions will probably cause things to complain loudly.
+ */
+$wgActions = array(
+	'credits' => true,
+	'purge' => true,
+	'unwatch' => true,
+	'watch' => true,
+);
+
+/**
+ * Array of disabled article actions, e.g. view, edit, dublincore, delete, etc.
+ * @deprecated since 1.18; just set $wgActions['action'] = false instead
+ */
+$wgDisabledActions = array();
+
+/**
+ * Allow the "info" action, very inefficient at the moment
+ */
+$wgAllowPageInfo = false;
+
+/** @} */ # end actions }
 
 /*************************************************************************//**
  * @name   Robot (search engine crawler) policy
@@ -5312,16 +5343,8 @@ $wgUpdateRowsPerQuery = 100;
  * @{
  */
 
-/** Allow the "info" action, very inefficient at the moment */
-$wgAllowPageInfo = false;
-
 /** Name of the external diff engine to use */
 $wgExternalDiffEngine = false;
-
-/**
- * Array of disabled article actions, e.g. view, edit, dublincore, delete, etc.
- */
-$wgDisabledActions = array();
 
 /**
  * Disable redirects to special pages and interwiki redirects, which use a 302

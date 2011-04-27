@@ -246,7 +246,7 @@ Tana yiyuwa yana da harafi ko haruffa da ba su karɓuwa cikin kanu.",
 'createaccountreason'     => 'Dalili:',
 'mailmypassword'          => 'Aiken kalmar sirri ta Imel',
 
-# Password reset dialog
+# Change password dialog
 'resetpass-submit-cancel' => 'Soke',
 
 # Edit page toolbar
@@ -321,9 +321,6 @@ Fasali: '''({{int:cur}})''' = bambanci da zubi na yanzu, '''({{int:last}})''' = 
 'revdelete-log'             => 'Dalili:',
 'revdel-restore'            => 'sauya haske',
 'revdelete-reasonotherlist' => 'Wani dalili',
-
-# Revision move
-'revmove-reasonfield' => 'Dalili:',
 
 # History merging
 'mergehistory-reason' => 'Dalili:',
@@ -755,7 +752,13 @@ Idan an sauya fayil kin, to wasu bayannan na ainahi ba za su fito ba sosai a cik
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'Gyara wannan fayil da wani safuwai daban',

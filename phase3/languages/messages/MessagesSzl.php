@@ -444,7 +444,7 @@ Coby powstřimać nadužyća, možliwość wysyuańa připůmńeń naštalowano 
 'login-throttled'            => 'Wykonoužeś za wjela průb zalůgowańo śe na te kůnto. Počekej chwila ńym zaś sprůbuješ.',
 'loginlanguagelabel'         => 'Godka: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Zmjyń hasło',
 'resetpass_announce'        => 'Zalůgowoužeś śe s tymčasowym kodym uotřimanym bez e-brif. Coby zakůńčyć proces logůwańo muśiš naštalować nowe hasuo:',
 'resetpass_header'          => 'Zmjyń hasło lů swojygo kůnta',
@@ -2172,7 +2172,13 @@ Nostympne linki w lińii uwažůmy za wyjůntki, to sům nazwy zajtůw, kaj plik
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Šyrokość',
@@ -2187,13 +2193,11 @@ Nostympne linki w lińii uwažůmy za wyjůntki, to sům nazwy zajtůw, kaj plik
 'exif-ycbcrpositioning'            => 'Rozmješčyńy Y i C',
 'exif-xresolution'                 => 'Rozdźelčość w poźůmje',
 'exif-yresolution'                 => 'Rozdźelčość w pjůńy',
-'exif-resolutionunit'              => 'Jednostka rozdźelčośći X i Y',
 'exif-stripoffsets'                => 'Přesůńjyńće pasůw uobrazu',
 'exif-rowsperstrip'                => 'Ličba wjeršy na pas uobrazu',
 'exif-stripbytecounts'             => 'Ličba bajtůw na pas uobrazu',
 'exif-jpeginterchangeformat'       => 'Pouožyńy pjyrwšygo bajtu mińaturki uobrazu',
 'exif-jpeginterchangeformatlength' => 'Ličba bajtůw mińaturki JPEG',
-'exif-transferfunction'            => 'Fůnkcyjo přejśća',
 'exif-whitepoint'                  => 'Půnkt bjeli',
 'exif-primarychromaticities'       => 'Kolory třech barw guůwnych',
 'exif-ycbcrcoefficients'           => 'Maćeř wspůučynńikůw transformacyji barw ze RGB na YCbCr',
@@ -2212,7 +2216,6 @@ Nostympne linki w lińii uwažůmy za wyjůntki, to sům nazwy zajtůw, kaj plik
 'exif-compressedbitsperpixel'      => 'Skůmpresowanych bitůw na piksel',
 'exif-pixelydimension'             => 'Prawiduowa šyrokość uobrozu',
 'exif-pixelxdimension'             => 'Prawiduowo wysokość uobrozu',
-'exif-makernote'                   => 'Informacyje producynta fotoaparatu',
 'exif-usercomment'                 => 'Kůmyntoř užytkowńika',
 'exif-relatedsoundfile'            => 'Powjůnzany plik audjo',
 'exif-datetimeoriginal'            => 'Data i čas utwořyńo uoryginouu',
@@ -2226,7 +2229,6 @@ Nostympne linki w lińii uwažůmy za wyjůntki, to sům nazwy zajtůw, kaj plik
 'exif-exposureprogram'             => 'Progrům ekspozycyji',
 'exif-spectralsensitivity'         => 'Čuuość widmowa',
 'exif-isospeedratings'             => 'Šybkość aparatu zgodńy ze ISO12232',
-'exif-oecf'                        => 'Fůnkcyjo kůnwersyji uobrazu na dane zgodńy z ISO14524',
 'exif-shutterspeedvalue'           => 'Šybkość migawki',
 'exif-aperturevalue'               => 'Přisuůna uobjektywu',
 'exif-brightnessvalue'             => 'Jasność',
@@ -2239,7 +2241,6 @@ Nostympne linki w lińii uwažůmy za wyjůntki, to sům nazwy zajtůw, kaj plik
 'exif-focallength'                 => 'Duůgość uůgńiskowyj uobjektywu',
 'exif-subjectarea'                 => 'Pouožyńy i uobšar guůwnygo motywu uobrozu',
 'exif-flashenergy'                 => 'Ynergja lampy buyskowyj',
-'exif-spatialfrequencyresponse'    => 'Uodpowjydź čynstotliwośći přestřynnej zgodńy ze ISO12233',
 'exif-focalplanexresolution'       => 'Rozdźelčość w poźůmje puaščyzny uodwzorowańo uobjektywu',
 'exif-focalplaneyresolution'       => 'Rozdźelčość w pjůńe puaščyzny uodwzorowańo uobjektywu',
 'exif-focalplaneresolutionunit'    => 'Jednostka rozdźelčośći puaščyzny uodwzorowańo uobjektywu',
@@ -2248,7 +2249,6 @@ Nostympne linki w lińii uwažůmy za wyjůntki, to sům nazwy zajtůw, kaj plik
 'exif-sensingmethod'               => 'Metoda půmjaru (rodzaj přetworńika)',
 'exif-filesource'                  => 'Typ zdřudua plika',
 'exif-scenetype'                   => 'Rodzaj scyny',
-'exif-cfapattern'                  => 'Wzůr CFA',
 'exif-customrendered'              => 'Wstympńy přetwořůny (poddany uobrůbce)',
 'exif-exposuremode'                => 'Tryb ekspozycyji',
 'exif-whitebalance'                => 'Balans bjeli',

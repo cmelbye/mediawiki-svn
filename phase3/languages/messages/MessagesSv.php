@@ -149,7 +149,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Robotlista' ),
 	'Popularpages'              => array( 'Populära_sidor' ),
 	'Search'                    => array( 'Sök' ),
-	'Resetpass'                 => array( 'Återställ_lösenord' ),
+	'ChangePassword'            => array( 'Återställ_lösenord' ),
 	'Withoutinterwiki'          => array( 'Utan_interwikilänkar' ),
 	'MergeHistory'              => array( 'Slå_ihop_historik' ),
 	'Filepath'                  => array( 'Filsökväg' ),
@@ -797,16 +797,7 @@ Vänta innan du försöker igen.',
 # E-mail sending
 'php-mail-error-unknown' => "Okänt fel i PHP's mail()-funktion",
 
-# JavaScript password checks
-'password-strength'            => 'Beräknad styrka på lösenord: $1',
-'password-strength-bad'        => 'DÅLIG',
-'password-strength-mediocre'   => 'medelmåttig',
-'password-strength-acceptable' => 'godtagbar',
-'password-strength-good'       => 'bra',
-'password-retype'              => 'Upprepa lösenord här',
-'password-retype-mismatch'     => 'Lösenorden stämmer inte överrens',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Ändra lösenord',
 'resetpass_announce'        => 'Du loggade in med ett temporärt lösenord. För att slutföra inloggningen måste du välja ett nytt lösenord.',
 'resetpass_text'            => '<!-- Lägg till text här -->',
@@ -823,6 +814,10 @@ Vänta innan du försöker igen.',
 'resetpass-wrong-oldpass'   => 'Ogiltigt tillfälligt eller nuvarande lösenord.
 Du kanske redan har lyckats ändra ditt lösenord eller begärt ett nytt tillfälligt lösenord.',
 'resetpass-temp-password'   => 'Tillfälligt lösenord:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Lösenordsåterställning',
+'passwordreset-username' => 'Användarnamn:',
 
 # Edit page toolbar
 'bold_sample'     => 'Fet text',
@@ -1191,24 +1186,6 @@ Vänligen kontrollera loggarna.',
 'suppressionlogtext' => 'Nedan visas en lista över raderingar och blockeringar som berör innehåll dolt för administratörer.
 Se [[Special:IPBlockList|blockeringslistan]] för listan över gällande blockeringar.',
 
-# Revision move
-'moverevlogentry'              => 'flyttade {{PLURAL:$3|en version|$3 versioner}} från $1 till $2',
-'revisionmove'                 => 'Flytta versioner från "$1"',
-'revmove-explain'              => 'Följande versioner kommer att flyttas från $1 till den angivna målsidan. Om målsidan inte finns, skapas den. Annars kommer de här versionerna att läggas till i sidans historik.',
-'revmove-legend'               => 'Sätt målsida och sammanfattning',
-'revmove-submit'               => 'Flytta versioner till vald sida',
-'revisionmoveselectedversions' => 'Flytta valda versioner',
-'revmove-reasonfield'          => 'Anledning:',
-'revmove-titlefield'           => 'Målsida:',
-'revmove-badparam-title'       => 'Dåliga parametrar',
-'revmove-badparam'             => 'Din begäran innehåller olagliga eller otillräckliga parametrar. Klicka på "tillbaka" och försök igen.',
-'revmove-norevisions-title'    => 'Ogiltig målversion',
-'revmove-norevisions'          => 'Du har inte angivit en eller flera målversioner för att utföra denna funktion eller den angivna versionen finns inte.',
-'revmove-nullmove-title'       => 'Dålig titel',
-'revmove-nullmove'             => 'Källa och målsida är identiska. Klicka på "tillbaka" och ange ett sidnamn som skiljer sig från "$1".',
-'revmove-success-existing'     => '{{PLURAL:$1|En version från [[$2]] har|$1 versioner från [[$2]] har}} flyttats till den befintliga sidan [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|En version från [[$2]] har|$1 versioner från [[$2]] har}} flyttats till den nyskapade sidan [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Sammanfoga sidhistoriker',
 'mergehistory-header'              => 'Med den här specialsidan kan du infoga versioner av en sida i en nyare sidas historik.
@@ -1547,8 +1524,6 @@ Om du väljer att ange ditt riktiga namn, kommer det att användas för att till
 'right-reset-passwords'       => 'Återställa andra användares lösenord',
 'right-override-export-depth' => 'Exportera sidor inklusive länkade sidor till ett djup på 5',
 'right-sendemail'             => 'Skicka e-post till andra användare',
-'right-revisionmove'          => 'Flytta versioner',
-'right-disableaccount'        => 'Inaktivera konton',
 
 # User rights log
 'rightslog'      => 'Användarrättighetslogg',
@@ -1591,7 +1566,6 @@ Om du väljer att ange ditt riktiga namn, kommer det att användas för att till
 'action-userrights'           => 'ändra alla användarrättigheter',
 'action-userrights-interwiki' => 'ändra rättigheter för användare på andra wikier',
 'action-siteadmin'            => 'låsa eller låsa upp databasen',
-'action-revisionmove'         => 'flytta versioner',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|ändring|ändringar}}',
@@ -3043,7 +3017,13 @@ Den första länken på en rad måste vara en länk till en otillåten fil.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Bredd',
@@ -3058,13 +3038,11 @@ Den första länken på en rad måste vara en länk till en otillåten fil.
 'exif-ycbcrpositioning'            => 'Positionering av Y och C',
 'exif-xresolution'                 => 'Upplösning i horisontalplan',
 'exif-yresolution'                 => 'Upplösning i vertikalplan',
-'exif-resolutionunit'              => 'Enhet för upplösning av X och Y',
 'exif-stripoffsets'                => 'Offset till bilddata',
 'exif-rowsperstrip'                => 'Antal rader per strip',
 'exif-stripbytecounts'             => 'Byte per komprimerad strip',
 'exif-jpeginterchangeformat'       => 'Offset till JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Antal bytes JPEG-data',
-'exif-transferfunction'            => 'Överföringsfunktion',
 'exif-whitepoint'                  => 'Vitpunktens renhet',
 'exif-primarychromaticities'       => 'Primärfärgernas renhet',
 'exif-ycbcrcoefficients'           => 'Koefficienter för färgrymdstransformationsmatris',
@@ -3081,9 +3059,8 @@ Den första länken på en rad måste vara en länk till en otillåten fil.
 'exif-colorspace'                  => 'Färgrymd',
 'exif-componentsconfiguration'     => 'Komponentanalys',
 'exif-compressedbitsperpixel'      => 'Bildkomprimeringsläge',
-'exif-pixelydimension'             => 'Giltig bildbredd',
-'exif-pixelxdimension'             => 'Giltig bildhöjd',
-'exif-makernote'                   => 'Tillverkarkommentarer',
+'exif-pixelydimension'             => 'Bildbredd',
+'exif-pixelxdimension'             => 'Bildhöjd',
 'exif-usercomment'                 => 'Kommentarer',
 'exif-relatedsoundfile'            => 'Relaterad ljudfil',
 'exif-datetimeoriginal'            => 'Exponeringstidpunkt',
@@ -3097,7 +3074,6 @@ Den första länken på en rad måste vara en länk till en otillåten fil.
 'exif-exposureprogram'             => 'Exponeringsprogram',
 'exif-spectralsensitivity'         => 'Spektral känslighet',
 'exif-isospeedratings'             => 'Filmhastighet (ISO)',
-'exif-oecf'                        => 'Optoelektronisk konversionsfaktor',
 'exif-shutterspeedvalue'           => 'Slutarhastighet',
 'exif-aperturevalue'               => 'Bländare',
 'exif-brightnessvalue'             => 'Ljusstyrka',
@@ -3110,7 +3086,6 @@ Den första länken på en rad måste vara en länk till en otillåten fil.
 'exif-focallength'                 => 'Linsens brännvidd',
 'exif-subjectarea'                 => 'Motivområde',
 'exif-flashenergy'                 => 'Blixteffekt',
-'exif-spatialfrequencyresponse'    => 'Rumslig frekvensrespons',
 'exif-focalplanexresolution'       => 'Upplösning i fokalplan x',
 'exif-focalplaneyresolution'       => 'Upplösning i fokalplan y',
 'exif-focalplaneresolutionunit'    => 'Enhet för upplösning i fokalplan',
@@ -3119,7 +3094,6 @@ Den första länken på en rad måste vara en länk till en otillåten fil.
 'exif-sensingmethod'               => 'Avkänningsmetod',
 'exif-filesource'                  => 'Filkälla',
 'exif-scenetype'                   => 'Scentyp',
-'exif-cfapattern'                  => 'CFA-mönster',
 'exif-customrendered'              => 'Anpassad bildbehandling',
 'exif-exposuremode'                => 'Exponeringsläge',
 'exif-whitebalance'                => 'Vitbalans',
@@ -3304,6 +3278,11 @@ Den första länken på en rad måste vara en länk till en otillåten fil.
 'exif-gpsspeed-k' => 'Kilometer i timmen',
 'exif-gpsspeed-m' => 'Miles i timmen',
 'exif-gpsspeed-n' => 'Knop',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometer',
+'exif-gpsdestdistance-m' => 'Mil',
+'exif-gpsdestdistance-n' => 'Nautiska mil',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Sann bäring',
@@ -3572,7 +3551,7 @@ Ange filens namn utan prefixet "{{ns:file}}:".',
 'tags-display-header'     => 'Utseende på listor över ändringar',
 'tags-description-header' => 'Full beskrivning av betydelse',
 'tags-hitcount-header'    => 'Märkta ändringar',
-'tags-edit'               => 'redigering',
+'tags-edit'               => 'redigera',
 'tags-hitcount'           => '$1 {{PLURAL:$1|ändring|ändringar}}',
 
 # Special:ComparePages
@@ -3608,18 +3587,5 @@ Ange filens namn utan prefixet "{{ns:file}}:".',
 # SQLite database support
 'sqlite-has-fts' => '$1 med stöd för fulltextsökning',
 'sqlite-no-fts'  => '$1 utan stöd för fulltextsökning',
-
-# Special:DisableAccount
-'disableaccount'             => 'Inaktivera ett användarkonto',
-'disableaccount-user'        => 'Användarnamn:',
-'disableaccount-reason'      => 'Orsak:',
-'disableaccount-confirm'     => "Inaktivera detta användarkonto.
-Användaren kommer inte att kunna logga in, återställa sitt lösenord, eller ta emot e-postmeddelanden.
-Om användaren är inloggad någonstans, kommer den att omedelbart loggas ut.
-''Observera att inaktivering av ett konto inte är reversibelt utan ingripande av en systemadministratör.''",
-'disableaccount-mustconfirm' => 'Du måste bekräfta att du vill inaktivera detta konto.',
-'disableaccount-nosuchuser'  => 'Användarkontot "$1" existerar inte.',
-'disableaccount-success'     => 'Användarkontot "$1" har inaktiverats permanent.',
-'disableaccount-logentry'    => 'inaktivera användarkontot [[$1]] permanent',
 
 );

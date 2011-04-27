@@ -264,7 +264,7 @@ $specialPageAliases = array(
 	'Listadmins'                => array( 'Ադմիններիցանկը' ),
 	'Popularpages'              => array( 'Հանրաճանաչէջերը' ),
 	'Search'                    => array( 'Որոնել' ),
-	'Resetpass'                 => array( 'Նորգաղտնաբառ' ),
+	'ChangePassword'            => array( 'Նորգաղտնաբառ' ),
 );
 
 $linkTrail = '/^([a-zաբգդեզէըթժիլխծկհձղճմյնշոչպջռսվտրցւփքօֆև«»]+)(.*)$/sDu';
@@ -518,8 +518,8 @@ $1',
 'edithelp'             => 'Խմբագրման ուղեցույց',
 'edithelppage'         => 'Help:Խմբագրում',
 'helppage'             => 'Help:Գլխացանկ',
-'mainpage'             => 'Գլխավոր Էջ',
-'mainpage-description' => 'Գլխավոր Էջ',
+'mainpage'             => 'Գլխավոր էջ',
+'mainpage-description' => 'Գլխավոր էջ',
 'policy-url'           => 'Project:Կանոնակարգ',
 'portal'               => 'Խորհրդարան',
 'portal-url'           => 'Project:Խորհրդարան',
@@ -737,7 +737,7 @@ $2',
 Խնդրում ենք սպասել որոշ ժամանակ կրկին փորձելուց առաջ։',
 'loginlanguagelabel'         => 'Լեզու. $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Փոխել գաղտնաբառը',
 'resetpass_announce'        => 'Դուք ներկայացել եք էլ-փոստով ստացված ժամանակավոր գաղտնաբառով։ Համակարգ մուտքի համար անհրաժեշտ է նոր գաղտնաբառ ընտրել այստեղ.',
 'resetpass_text'            => '<!-- Ավելացնել տեքստը այստեղ -->',
@@ -1004,11 +1004,6 @@ $3 մասնակիցը տվել է հետևյալ պատճառը. ''$2''",
 'revdelete-reasonotherlist'   => 'Ուրիշ պատճառ',
 'revdelete-edit-reasonlist'   => 'Խմբագրել ջնջման պատճառների ցանկը',
 'revdelete-offender'          => 'Էջի տարբերակի հեղինակ՝',
-
-# Revision move
-'revmove-reasonfield'    => 'Պատճառ՝',
-'revmove-badparam-title' => 'Վատ պարամետրներ',
-'revmove-nullmove-title' => 'Վատ անվանում',
 
 # Merge log
 'revertmerge' => 'Անջատել',
@@ -2117,7 +2112,7 @@ Please visit [http://www.mediawiki.org/wiki/Localisation MediaWiki Localisation]
 'tooltip-search'                  => 'Որոնել {{SITENAME}} կայքում',
 'tooltip-search-go'               => 'Անցնել այս ճշգրիտ անվանումով էջին',
 'tooltip-search-fulltext'         => 'Գտնել այս տեքստով էջերը',
-'tooltip-p-logo'                  => 'Գլխավոր Էջ',
+'tooltip-p-logo'                  => 'Գլխավոր էջ',
 'tooltip-n-mainpage'              => 'Այցելեք Գլխավոր Էջը',
 'tooltip-n-mainpage-description'  => 'Անցնել գլխավոր էջ',
 'tooltip-n-portal'                => 'Նախագծի մասին, որտեղ գտնել ինչը, ինչով կարող եք օգնել',
@@ -2281,7 +2276,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'  => 'Լայնք',

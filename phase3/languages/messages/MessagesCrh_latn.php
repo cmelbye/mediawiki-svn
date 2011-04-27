@@ -571,16 +571,7 @@ Lütfen, qayta kirmezden evel biraz bekleñiz.',
 'loginlanguagelabel'         => 'Til: $1',
 'suspicious-userlogout'      => 'Çıqış istegeniñiz red etildi, çünki bozuq bir brauzer ya da keşleyici proksi tarafından yollanğan kibi körüne.',
 
-# JavaScript password checks
-'password-strength'            => 'Tahminiy parol quveti: $1',
-'password-strength-bad'        => 'YARAMAY',
-'password-strength-mediocre'   => 'orta qarar',
-'password-strength-acceptable' => 'qabul etile bile',
-'password-strength-good'       => 'yahşı',
-'password-retype'              => 'Parolni mında bir daa yazıñız',
-'password-retype-mismatch'     => 'Paroller aynı degil',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Parolni deñiştir',
 'resetpass_announce'        => 'Muvaqqat kod vastasınen kirdiñiz. Kirişni tamamlamaq içün yañı parolni mında qoyuñız:',
 'resetpass_header'          => 'Esapnıñ parolini deñiştir',
@@ -1926,7 +1917,13 @@ Er satır * işaretinen başlamalı. Satırnıñ birinci bağlantısı qоşmağ
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-make'                => 'Kamera markası',

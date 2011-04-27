@@ -178,7 +178,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'ListaDeBots', 'Lista_de_bots' ),
 	'Popularpages'              => array( 'PáginasMásVisitadas', 'PáginasPopulares', 'Páginas_más_visitadas' ),
 	'Search'                    => array( 'Buscar' ),
-	'Resetpass'                 => array( 'Cambiar_contraseña', 'CambiarContraseña', 'ResetearContraseña', 'Resetear_contraseña' ),
+	'ChangePassword'            => array( 'Cambiar_contraseña', 'CambiarContraseña', 'ResetearContraseña', 'Resetear_contraseña' ),
 	'Withoutinterwiki'          => array( 'SinInterwikis', 'Sin_interwikis' ),
 	'MergeHistory'              => array( 'FusionarHistorial', 'Fusionar_historial' ),
 	'Filepath'                  => array( 'RutaDeArchivo', 'Ruta_de_archivo' ),
@@ -580,12 +580,12 @@ $1',
 'edithelp'             => 'Ayuda de edición',
 'edithelppage'         => 'Help:Cómo se edita una página',
 'helppage'             => 'Help:Ayuda',
-'mainpage'             => 'Página Principal',
+'mainpage'             => 'Página principal',
 'mainpage-description' => 'Página Principal',
 'policy-url'           => 'Project:Políticas',
 'portal'               => 'Portal de la comunidad',
 'portal-url'           => 'Project:Portal de la comunidad',
-'privacy'              => 'Política de protección de datos',
+'privacy'              => 'Política de privacidad',
 'privacypage'          => 'Project:Política de protección de datos',
 
 'badaccess'        => 'Error de permisos',
@@ -656,9 +656,9 @@ dentro de la función «<tt>$2</tt>».
 La base de datos devolvió el error «<tt>$3: $4</tt>».',
 'dberrortextcl'        => 'Ha ocurrido un error de sintaxis en una consulta a la base de datos.
 La última consulta a la base de datos que se intentó fue:
-"$1"
-desde la función "$2".
-Base de datos retornó error "$3: $4".',
+«$1»
+desde la función «$2».
+Base de datos retornó error «$3: $4».',
 'laggedslavemode'      => "'''Aviso:''' puede que falten las actualizaciones más recientes en esta página.",
 'readonly'             => 'Base de datos bloqueada',
 'enterlockreason'      => 'Explique el motivo del bloqueo, incluyendo una estimación de cuándo se producirá el desbloqueo',
@@ -732,7 +732,7 @@ Tu cuenta ha sido creada.
 No olvides personalizar [[Special:Preferences|tus preferencias]].',
 'yourname'                   => 'Nombre de usuario:',
 'yourpassword'               => 'Contraseña:',
-'yourpasswordagain'          => 'Repita la contraseña:',
+'yourpasswordagain'          => 'Confirma la contraseña:',
 'remembermypassword'         => 'Recordar mi nombre de usuario y contraseña entre sesiones en esta computadora (por un máximo de $1 {{PLURAL:$1|día|días}})',
 'securelogin-stick-https'    => 'Permanecer conectado a HTTPS después de iniciar sesión',
 'yourdomainname'             => 'Dominio',
@@ -749,7 +749,7 @@ No olvides personalizar [[Special:Preferences|tus preferencias]].',
 'nologinlink'                => 'Crear una cuenta',
 'createaccount'              => 'Cree una nueva cuenta',
 'gotaccount'                 => '¿Ya tiene una cuenta de usuario? $1.',
-'gotaccountlink'             => 'Autenticarse',
+'gotaccountlink'             => 'Entrar',
 'createaccountmail'          => 'por correo electrónico',
 'createaccountreason'        => 'Razón:',
 'badretype'                  => 'Las contraseñas no coinciden.',
@@ -818,16 +818,7 @@ Puedes ignorar este mensaje si esta cuenta fue creada por error.',
 # E-mail sending
 'php-mail-error-unknown' => 'Error desconocido en la función mail() de PHP',
 
-# JavaScript password checks
-'password-strength'            => 'Dificultad estimada de la contraseña: $1',
-'password-strength-bad'        => 'MALA',
-'password-strength-mediocre'   => 'mediocre',
-'password-strength-acceptable' => 'aceptable',
-'password-strength-good'       => 'buena',
-'password-retype'              => 'Vuelve a escribir la contraseña aquí',
-'password-retype-mismatch'     => 'Las contraseñas no coinciden',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Cambiar la contraseña',
 'resetpass_announce'        => 'Has iniciado sesión con una contraseña temporal que fue enviada por correo electrónico.
 Por favor, introduce una nueva contraseña aquí:',
@@ -845,6 +836,10 @@ Por favor, introduce una nueva contraseña aquí:',
 'resetpass-wrong-oldpass'   => 'La contraseña antigua no es correcta.
 Puede que ya hayas cambiado la contraseña o que hayas pedido una temporal.',
 'resetpass-temp-password'   => 'Contraseña temporal:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Restablecimiento de contraseña',
+'passwordreset-username' => 'Nombre de usuario:',
 
 # Edit page toolbar
 'bold_sample'     => 'Texto en negrita',
@@ -1213,26 +1208,6 @@ No tiene acceso a él.',
 'suppressionlogtext' => 'Debajo está una lista de borrados y bloqueos relacionados con contenido oculto a los administradores.
 Mire [[Special:IPBlockList|la lista de bloqueos activos]] para ver una lista de bloqueos actualmente operativos.',
 
-# Revision move
-'moverevlogentry'              => ' {{PLURAL:$3|una revisión|$3 revisiones}} trasladada{{PLURAL:$3||s}} de $1 a $2',
-'revisionmove'                 => 'Mover revisiones de «$1»',
-'revmove-explain'              => 'Las siguientes revisiones serán movidas de $1 a la página especificada. Si la página especificada no existe, será creada. De otra forma, serán unidas al historial de la página.',
-'revmove-legend'               => 'Establecer página de destino y resumen',
-'revmove-submit'               => 'Mover las revisiones a la página seleccionada',
-'revisionmoveselectedversions' => 'Mover revisiones seleccionadas',
-'revmove-reasonfield'          => 'Razón:',
-'revmove-titlefield'           => 'Página de destino:',
-'revmove-badparam-title'       => 'Parámetros inadecuados.',
-'revmove-badparam'             => 'Tu solicitud contiene parámetros no permitidos o insuficientes.
-Regresa a la página anterior e inténtalo de nuevo.',
-'revmove-norevisions-title'    => 'Revisión especificada inválida',
-'revmove-norevisions'          => 'No has especificado una o más revisiones para realizar esta función o la revisión especificada no existe.',
-'revmove-nullmove-title'       => 'Título incorrecto',
-'revmove-nullmove'             => 'Las páginas fuente y destino son idénticas.
-Regresa a la página anterior e introduce un nombre de página diferente a «$1».',
-'revmove-success-existing'     => '{{PLURAL:$1|Una revisión de [[$2]] ha|$1 revisiones de [[$2]] han}} sido movida{{PLURAL:$1||s}} a la página existente [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Una revisión de [[$2]] ha|$1 revisiones de [[$2]] han}} sido movida{{PLURAL:$1||s}} a la página recién creada [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Fusionar historiales de páginas',
 'mergehistory-header'              => 'Esta página te permite fusionar revisiones del historial de una página origen en otra más reciente.
@@ -1571,8 +1546,6 @@ Esto no se puede deshacer.',
 'right-reset-passwords'       => 'Reajustar la contraseña de otros usuarios',
 'right-override-export-depth' => 'Exporta páginas incluyendo aquellas enlazadas hasta una profundidad de 5',
 'right-sendemail'             => 'Enviar un correo electrónico a otros usuarios',
-'right-revisionmove'          => 'Mover revisiones',
-'right-disableaccount'        => 'Deshabilitar cuentas',
 
 # User rights log
 'rightslog'      => 'Cambios de perfil de usuario',
@@ -1615,7 +1588,6 @@ Esto no se puede deshacer.',
 'action-userrights'           => 'modificar todos los derechos de usuario',
 'action-userrights-interwiki' => 'modificar los derechos de usuarios en otros wikis',
 'action-siteadmin'            => 'bloquear o desbloquear la base de datos',
-'action-revisionmove'         => 'mover revisiones',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|cambio|cambios}}',
@@ -2179,6 +2151,10 @@ La dirección electrónica que indicaste en [[Special:Preferences|tus preferenci
 'noemailtext'          => 'Este usuario no ha especificado una dirección de correo electrónico válida.',
 'nowikiemailtitle'     => 'correos electrónicos no permitidos',
 'nowikiemailtext'      => 'Este usuario ha elegido no recibir correos electrónicos de otros usuarios.',
+'emailnotarget'        => 'Nombre de usuario no existente o no válido para el destinatario.',
+'emailtarget'          => 'Introduce el nombre de usuario del destinatario',
+'emailusername'        => 'Nombre de usuario:',
+'emailusernamesubmit'  => 'Enviar',
 'email-legend'         => 'Enviar un correo electrónico a otro usuario de {{SITENAME}}',
 'emailfrom'            => 'De:',
 'emailto'              => 'Para:',
@@ -2348,7 +2324,7 @@ A continuación se muestran las opciones actuales de la página '''$1''':",
 'protect-default'             => 'Permitir todos los usuarios',
 'protect-fallback'            => 'Necesita el permiso «$1»',
 'protect-level-autoconfirmed' => 'Bloquear usuarios nuevos y no registrados',
-'protect-level-sysop'         => 'Sólo administradores',
+'protect-level-sysop'         => 'Solo administradores',
 'protect-summary-cascade'     => 'en cascada',
 'protect-expiring'            => 'caduca el $1 (UTC)',
 'protect-expiry-indefinite'   => 'indefinido',
@@ -2487,8 +2463,8 @@ A continuación se muestra la última entrada del registro de bloqueos para mayo
 
 # Block/unblock
 'autoblockid'                     => 'Autobloquear #$1',
-'block'                           => 'Bloquear usuario/dirección IP',
-'unblock'                         => 'Desbloquear usuario/dirección IP',
+'block'                           => 'Bloquear usuario',
+'unblock'                         => 'Desbloquear usuario',
 'blockip'                         => 'Bloquear usuario',
 'blockip-title'                   => 'Bloquear usuario',
 'blockip-legend'                  => 'Bloquear usuario',
@@ -2520,10 +2496,12 @@ Explica la razón específica del bloqueo (por ejemplo, citando las páginas en 
 'ipbwatchuser'                    => 'Vigilar las páginas de usuario y de discusión de este usuario',
 'ipb-disableusertalk'             => 'Impedir que este usuario edite su propia página de discusión mientras esté bloqueado',
 'ipb-change-block'                => 'Rebloquear al usuario con estos datos',
+'ipb-confirm'                     => 'Confirmar bloqueo',
 'badipaddress'                    => 'La dirección IP no tiene el formato correcto.',
 'blockipsuccesssub'               => 'Bloqueo realizado con éxito',
 'blockipsuccesstext'              => '"[[Special:Contributions/$1|$1]]" ha sido bloqueado.<br />
 Véase la [[Special:IPBlockList|lista de bloqueos]] para revisarlo.',
+'ipb-blockingself'                => '¡Estás a punto de bloquearte a ti mismo!  ¿Estás seguro de que quieres hacerlo?',
 'ipb-edit-dropdown'               => 'Editar motivo del bloqueo',
 'ipb-unblock-addr'                => 'Desbloquear $1',
 'ipb-unblock'                     => 'Desbloquear un usuario o una IP',
@@ -2535,8 +2513,8 @@ Véase la [[Special:IPBlockList|lista de bloqueos]] para revisarlo.',
 'unblocked'                       => '[[User:$1|$1]] ha sido {{GENDER:$1|desbloqueado|desbloqueada}}',
 'unblocked-range'                 => '$1 ha sido desbloqueado',
 'unblocked-id'                    => 'Se ha eliminado el bloqueo $1',
-'blocklist'                       => 'Direcciones IP y nombres de usuario bloqueados',
-'ipblocklist'                     => 'Lista de direcciones IP y nombres de usuario bloqueadas',
+'blocklist'                       => 'Usuarios bloqueados',
+'ipblocklist'                     => 'Usuarios bloqueados',
 'ipblocklist-legend'              => 'Encontrar a un usuario bloqueado',
 'blocklist-userblocks'            => 'Ocultar bloqueos de cuenta',
 'blocklist-tempblocks'            => 'Ocultar bloqueos temporales',
@@ -2572,7 +2550,7 @@ Véase la [[Special:IPBlockList|lista de bloqueos]] para revisarlo.',
 'blocklogtext'                    => 'Esto es un registro de bloqueos y desbloqueos de usuarios.
 Las direcciones bloqueadas automáticamente no aparecen aquí.
 Consulte la [[Special:IPBlockList|lista de direcciones IP bloqueadas]] para ver la lista de bloqueos vigente.',
-'unblocklogentry'                 => 'desbloqueó a "$1"',
+'unblocklogentry'                 => 'desbloqueó a $1',
 'block-log-flags-anononly'        => 'sólo anónimos',
 'block-log-flags-nocreate'        => 'desactivada la creación de cuentas',
 'block-log-flags-noautoblock'     => 'bloqueo automático desactivado',
@@ -2981,21 +2959,22 @@ $1',
 'nextdiff'     => 'Edición más nueva →',
 
 # Media information
-'mediawarning'         => "'''Atención''': Este fichero puede contener código malicioso.
+'mediawarning'           => "'''Atención''': Este fichero puede contener código malicioso.
 Ejecutarlo podría comprometer la seguridad de su equipo.",
-'imagemaxsize'         => "Límite de tamaño de imagen:<br />''(para páginas de descripción de archivo)''",
-'thumbsize'            => 'Tamaño de las vistas en miniatura:',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:|página|páginas}}',
-'file-info'            => 'tamaño de archivo: $1; tipo MIME: $2',
-'file-info-size'       => '$1 × $2 píxeles; tamaño de archivo: $3; tipo MIME: $4',
-'file-nohires'         => '<small>No disponible a mayor resolución.</small>',
-'svg-long-desc'        => 'archivo SVG, nominalmente $1 × $2 píxeles, tamaño de archivo: $3',
-'show-big-image'       => 'Resolución original',
-'file-info-gif-looped' => 'bucleado',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|frame|frames}}',
-'file-info-png-looped' => 'bucleado',
-'file-info-png-repeat' => 'reproducido $1 {{PLURAL:$1|vez|veces}}',
-'file-info-png-frames' => '$1 {{PLURAL:$1|marco|marcos}}',
+'imagemaxsize'           => "Límite de tamaño de imagen:<br />''(para páginas de descripción de archivo)''",
+'thumbsize'              => 'Tamaño de las vistas en miniatura:',
+'widthheightpage'        => '$1×$2, $3 {{PLURAL:|página|páginas}}',
+'file-info'              => 'tamaño de archivo: $1; tipo MIME: $2',
+'file-info-size'         => '$1 × $2 píxeles; tamaño de archivo: $3; tipo MIME: $4',
+'file-nohires'           => '<small>No disponible a mayor resolución.</small>',
+'svg-long-desc'          => 'archivo SVG, nominalmente $1 × $2 píxeles, tamaño de archivo: $3',
+'show-big-image'         => 'Resolución original',
+'show-big-image-preview' => '<small>Tamaño de esta previsualización: $1.</small>',
+'file-info-gif-looped'   => 'bucleado',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|frame|frames}}',
+'file-info-png-looped'   => 'bucleado',
+'file-info-png-repeat'   => 'reproducido $1 {{PLURAL:$1|vez|veces}}',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|marco|marcos}}',
 
 # Special:NewFiles
 'newimages'             => 'Galería de imágenes nuevas',
@@ -3029,7 +3008,13 @@ Existen otros campos que se mantendrán ocultos por defecto.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Anchura',
@@ -3044,13 +3029,11 @@ Existen otros campos que se mantendrán ocultos por defecto.
 'exif-ycbcrpositioning'            => 'Posicionamientos Y y C',
 'exif-xresolution'                 => 'Resolución horizontal',
 'exif-yresolution'                 => 'Resolución vertical',
-'exif-resolutionunit'              => 'Unidad de resolución X e Y',
 'exif-stripoffsets'                => 'Localización de datos de imagen',
 'exif-rowsperstrip'                => 'Número de filas por banda',
 'exif-stripbytecounts'             => 'Bytes por banda comprimida',
 'exif-jpeginterchangeformat'       => 'Desplazamiento al JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Bytes de datos JPEG',
-'exif-transferfunction'            => 'Función de transferencia',
 'exif-whitepoint'                  => 'Cromacidad de punto blanco',
 'exif-primarychromaticities'       => 'Cromacidades primarias',
 'exif-ycbcrcoefficients'           => 'Coeficientes de la matriz de transformación de espacio de color',
@@ -3067,9 +3050,8 @@ Existen otros campos que se mantendrán ocultos por defecto.
 'exif-colorspace'                  => 'Espacio de color',
 'exif-componentsconfiguration'     => 'Significado de cada componente',
 'exif-compressedbitsperpixel'      => 'Modo de compresión de la imagen',
-'exif-pixelydimension'             => 'Anchura de imagen válida',
-'exif-pixelxdimension'             => 'Altura de imagen válida',
-'exif-makernote'                   => 'Notas del fabricante',
+'exif-pixelydimension'             => 'Ancho de la imagen',
+'exif-pixelxdimension'             => 'Altura de la imagen',
 'exif-usercomment'                 => 'Comentarios de usuario',
 'exif-relatedsoundfile'            => 'Archivo de audio relacionado',
 'exif-datetimeoriginal'            => 'Fecha y hora de la generación de los datos',
@@ -3083,10 +3065,9 @@ Existen otros campos que se mantendrán ocultos por defecto.
 'exif-exposureprogram'             => 'Programa de exposición',
 'exif-spectralsensitivity'         => 'Sensibilidad espectral',
 'exif-isospeedratings'             => 'Calificación de velocidad ISO',
-'exif-oecf'                        => 'Factor de conversión optoelectrónica',
-'exif-shutterspeedvalue'           => 'Velocidad de obturador',
-'exif-aperturevalue'               => 'Apertura',
-'exif-brightnessvalue'             => 'Luminosidad',
+'exif-shutterspeedvalue'           => 'Velocidad de obturación APEX',
+'exif-aperturevalue'               => 'Apertura APEX',
+'exif-brightnessvalue'             => 'Brillo APEX',
 'exif-exposurebiasvalue'           => 'Sesgo de exposición',
 'exif-maxaperturevalue'            => 'Valor máximo de apertura',
 'exif-subjectdistance'             => 'Distancia al sujeto',
@@ -3096,7 +3077,6 @@ Existen otros campos que se mantendrán ocultos por defecto.
 'exif-focallength'                 => 'Longitud de la lente focal',
 'exif-subjectarea'                 => 'Área del sujeto',
 'exif-flashenergy'                 => 'Energía del flash',
-'exif-spatialfrequencyresponse'    => 'Respuesta de frecuencia espacial',
 'exif-focalplanexresolution'       => 'Resolución X plano focal',
 'exif-focalplaneyresolution'       => 'Resolución Y plano focal',
 'exif-focalplaneresolutionunit'    => 'Unidad de resolución del plano focal',
@@ -3105,7 +3085,6 @@ Existen otros campos que se mantendrán ocultos por defecto.
 'exif-sensingmethod'               => 'Método de sensor',
 'exif-filesource'                  => 'Fuente de archivo',
 'exif-scenetype'                   => 'Tipo de escena',
-'exif-cfapattern'                  => 'Patrón CFA',
 'exif-customrendered'              => 'Procesador personalizado de imagen',
 'exif-exposuremode'                => 'Modo de exposición',
 'exif-whitebalance'                => 'Balance de blanco',
@@ -3150,6 +3129,17 @@ Existen otros campos que se mantendrán ocultos por defecto.
 'exif-gpsareainformation'          => 'Nombre de la área GPS',
 'exif-gpsdatestamp'                => 'Fecha GPS',
 'exif-gpsdifferential'             => 'Corrección diferencial de GPS',
+'exif-keywords'                    => 'Palabras clave',
+'exif-objectname'                  => 'Título breve',
+'exif-headline'                    => 'Titular',
+'exif-source'                      => 'Fuente',
+'exif-contact'                     => 'Información de contacto',
+'exif-writer'                      => 'Escritor',
+'exif-languagecode'                => 'Idioma',
+'exif-iimcategory'                 => 'Categoría',
+'exif-label'                       => 'Etiqueta',
+'exif-copyrighted'                 => 'Estado de copyright',
+'exif-copyrightowner'              => 'Titular del copyright',
 
 # EXIF attributes
 'exif-compression-1' => 'No comprimida',
@@ -3289,6 +3279,11 @@ Existen otros campos que se mantendrán ocultos por defecto.
 'exif-gpsspeed-k' => 'Kilómetros por hora',
 'exif-gpsspeed-m' => 'Millas por hora',
 'exif-gpsspeed-n' => 'Nudos',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilómetros',
+'exif-gpsdestdistance-m' => 'Millas',
+'exif-gpsdestdistance-n' => 'Millas náuticas',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Dirección real',
@@ -3584,18 +3579,5 @@ Ingrese el nombre del archivo sin su prefijo "{{ns:file}}:".',
 # SQLite database support
 'sqlite-has-fts' => '$1 con soporte para búsqueda de texto completo',
 'sqlite-no-fts'  => '$1 sin soporte para búsqueda de texto completo',
-
-# Special:DisableAccount
-'disableaccount'             => 'Deshabilitar una cuenta de usuario',
-'disableaccount-user'        => 'Nombre de usuario:',
-'disableaccount-reason'      => 'Razón:',
-'disableaccount-confirm'     => "Deshabilitar esta cuenta de usuario.
-El usuario no podrá iniciar sesión, restablecer su contraseña o recibir notificaciones por correo electrónico.
-Si el usuario está conectado, será desconectado de inmediato.
-'' Tenga en cuenta que la desactivación de una cuenta no es reversible sin intervención del administrador de sistema ''.",
-'disableaccount-mustconfirm' => 'Tienes que confirmar que quieres desactivar esta cuenta.',
-'disableaccount-nosuchuser'  => 'La cuenta de usuario «$1» no existe.',
-'disableaccount-success'     => 'La cuenta de usuario «$1» ha sido deshabilitada definitivamente.',
-'disableaccount-logentry'    => 'desactivó permanentemente la cuenta «[[$1]]»',
 
 );

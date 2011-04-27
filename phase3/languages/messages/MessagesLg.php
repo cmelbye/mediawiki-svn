@@ -515,16 +515,7 @@ oba mu puloguramu etereka n'eddamu okuyisa ebiragiro ebivudde awalala.",
 # E-mail sending
 'php-mail-error-unknown' => "Wazzewo kiremya atategeerese mu mukolo mail() ogw'omu PHP",
 
-# JavaScript password checks
-'password-strength'            => "Obugumu bw'ekyama kyo: $1",
-'password-strength-bad'        => 'KINAFU DDALA',
-'password-strength-mediocre'   => 'kisaamusaamu',
-'password-strength-acceptable' => 'bumalabumazi',
-'password-strength-good'       => 'kigumu',
-'password-retype'              => 'Ddamu wano okuwandika ekyama kyo',
-'password-retype-mismatch'     => "Ebyama by'owandise tebifaanagana",
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Kyusa ekigambo ekikuumi',
 'resetpass_announce'        => "Weyambisa ekyama eky'ekiseerabuseera okuyingira.<br />
 Okuyingirira ddala, wetaaga okuwandika wano ekinaaba ekyama kyo ekya ddala:",
@@ -1320,7 +1311,13 @@ Ebirala biyinza butalabika okujjako ng'okiragidde.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength",
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude",
 
 # External editor support
 'edit-externally'      => 'Fayiro eno gikolereko mu pulogulamu endala',

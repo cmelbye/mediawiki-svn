@@ -101,7 +101,7 @@ $specialPageAliases = array(
 	'Listadmins'                => array( 'AdministrantiListo' ),
 	'Listbots'                  => array( 'RobotoListo' ),
 	'Search'                    => array( 'Serchar' ),
-	'Resetpass'                 => array( 'ChanjarPasovorto', 'Ripasvortizar' ),
+	'ChangePassword'            => array( 'ChanjarPasovorto', 'Ripasvortizar' ),
 	'Blankpage'                 => array( 'BlankaPagini' ),
 	'DeletedContributions'      => array( 'EfacitaKontributaji' ),
 );
@@ -473,7 +473,7 @@ Voluntez enirar altrafoye pos recevar ol.',
 'createaccount-title'        => 'Kreo di konto en {{SITENAME}}',
 'loginlanguagelabel'         => 'Linguo: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Chanjar pasovorto',
 'resetpass_header'          => 'Chanjar pasovorto di konto',
 'oldpassword'               => 'Anciena pasovorto:',
@@ -640,10 +640,6 @@ Surskriburo: '''({{int:cur}})''' = diferi kun l'aktuala versiono,
 'logdelete-log-message'      => '$1 por $2 {{PLURAL:$2|evento|eventi}}',
 'revdelete-otherreason'      => 'Altra/suplementala motivo:',
 'revdelete-reasonotherlist'  => 'Altra motivo',
-
-# Revision move
-'revmove-reasonfield'    => 'Motivo:',
-'revmove-nullmove-title' => 'Nekorekta titulo',
 
 # History merging
 'mergehistory-reason' => 'Motivo:',

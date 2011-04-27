@@ -124,7 +124,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Botten' ),
 	'Popularpages'              => array( 'Beléifste_Säiten' ),
 	'Search'                    => array( 'Sichen' ),
-	'Resetpass'                 => array( 'Passwuert_zrécksetzen' ),
+	'ChangePassword'            => array( 'Passwuert_zrécksetzen' ),
 	'Withoutinterwiki'          => array( 'Säiten_ouni_Interwiki-Linken' ),
 	'MergeHistory'              => array( 'Versiounen_zesummeleeën' ),
 	'Filepath'                  => array( 'Pad_bäi_de_Fichier' ),
@@ -655,16 +655,7 @@ Waart w.e.g. ier Dir et nach eng Kéier versicht.",
 # E-mail sending
 'php-mail-error-unknown' => 'Onbekannte Feeler an der PHP-Mail-Fonctioun',
 
-# JavaScript password checks
-'password-strength'            => 'Geschate Stäerkt vum Passwuert: $1',
-'password-strength-bad'        => 'SCHLECHT',
-'password-strength-mediocre'   => 'mëttelméisseg',
-'password-strength-acceptable' => 'akzeptabel',
-'password-strength-good'       => 'gutt',
-'password-retype'              => 'Passwuert hei nach eemol antippen',
-'password-retype-mismatch'     => 'Déi Passwierder déi Dir aginn hutt sinn net identesch',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Passwuert änneren',
 'resetpass_announce'        => 'Dir sidd mat engem temporären , per E-Mail geschéckte Code ageloggt.
 Fir är Umeldung ofzeschléissen, musst Dir elo hei een neit Passwuert uginn:',
@@ -682,6 +673,10 @@ Fir är Umeldung ofzeschléissen, musst Dir elo hei een neit Passwuert uginn:',
 'resetpass-wrong-oldpass'   => 'Net valabelt temporäert oder aktuellt Passwuert.
 Vläicht hutt Dir Äert Passwuert scho geännert oder en neit temporäert Passwuert ugefrot.',
 'resetpass-temp-password'   => 'Temporäert Passwuert:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Passwuert zrécksetzen',
+'passwordreset-username' => 'Benotzernumm:',
 
 # Edit page toolbar
 'bold_sample'     => 'Fettgedréckten Text',
@@ -1039,25 +1034,6 @@ Kuckt w.e.g. an de Logbicher no.",
 'suppressionlogtext' => "Ënnendrënner ass eng Lëscht vun de geläschte Säiten a Spären déi fir d'Administrateuren net sichtbar sinn.
 Kuckt [[Special:IPBlockList|Lëscht vun de gespaarten IPen]] fir déi aktuell Spären.",
 
-# Revision move
-'moverevlogentry'              => '{{PLURAL:$3|eng Versioun|$3 Versioune}} vun $1 op $2 geréckelt',
-'revisionmove'                 => 'Versioune vun "$1" réckelen',
-'revmove-explain'              => "Dës Versioune gi vu(n) $1 op déi spezifizéiert Zilsäit geréckelt. Wann et d'Zilsäit net gëtt, da gëtt se ugeluecht. Soss ginn d'Versiounen an de Versiounshistorique integréiert.",
-'revmove-legend'               => 'Zilsäit a Resumé festleeën',
-'revmove-submit'               => 'Versiounen op déi erausgesichte Säit réckelen',
-'revisionmoveselectedversions' => 'Erausgesichte Versioune réckelen',
-'revmove-reasonfield'          => 'Grond:',
-'revmove-titlefield'           => 'Zilsäit:',
-'revmove-badparam-title'       => 'Falsch Parameter',
-'revmove-badparam'             => 'An Ärer Ufro sinn net erlaabten oder net genuch Parameter dran.
-Gitt zréck op déi säit virdrun a probéiert nach emol.',
-'revmove-norevisions-title'    => 'Net-valabel Zilversioun',
-'revmove-norevisions'          => 'Dir hutt keng Zilversioun uginn, fir dës Fonctionalitéit ze benotzen oder déi Versioun déi Dir uginn hutt gëtt et net.',
-'revmove-nullmove-title'       => 'Schlechten Titel',
-'revmove-nullmove'             => 'D\'Quell- an d\'Zilsäit sinn déi selwëscht. Klickt w.e.g. op „zréck“ a gitt en anere Säitennumm wéi "$1" un.',
-'revmove-success-existing'     => "{{PLURAL:$1|Eng Versioun vu(n) [[$2]] gouf|$1 Versioune vu(n) [[$2]] goufen}} op d'Säit [[$3]] geréckelt.",
-'revmove-success-created'      => '{{PLURAL:$1|Eng Versioun vu(n) [[$2]] gouf|$1 Versioune vu(n) [[$2]] goufen}} op déi nei Säit [[$3]] geréckelt.',
-
 # History merging
 'mergehistory'                     => 'Historiquë fusionéieren',
 'mergehistory-header'              => "Mat dëser Spezialsäit kënnt Dir d'Versiounsgeschicht vun enger Ursprungssäit mat der Versiounsgeschicht vun enger Zilsäit zesummeleeën.
@@ -1398,8 +1374,6 @@ Si muss manner wéi $1 {{PLURAL:$1|Zeechen|Zeechen}} hunn.',
 'right-reset-passwords'       => 'Anere Benotzer hir Passwierder zrécksetzen',
 'right-override-export-depth' => 'Säiten exportéieren inklusiv de verlinkte Säite bis zu enger Déift vu 5',
 'right-sendemail'             => 'Anere Benotzer E-Maile schécken',
-'right-revisionmove'          => 'Versioune réckelen',
-'right-disableaccount'        => 'Benotzerkonten desaktivéieren',
 
 # User rights log
 'rightslog'      => 'Logbuch vun de Benotzerrechter',
@@ -1442,7 +1416,6 @@ Si muss manner wéi $1 {{PLURAL:$1|Zeechen|Zeechen}} hunn.',
 'action-userrights'           => "all Benotzerrechter z'änneren",
 'action-userrights-interwiki' => "d'Rechter vu Benotzer vun anere Wikien z'änneren",
 'action-siteadmin'            => "d'Datebank ze spären oder d'Spär opzehiewen",
-'action-revisionmove'         => 'Versioune réckelen',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|Ännerung|Ännerungen}}',
@@ -2018,6 +1991,10 @@ D\'E-Mailadress, déi Dir an [[Special:Preferences|Ären Astellungen]] aginn hut
 'noemailtext'          => 'Dëse Benotzer huet keng valabel E-Mailadress uginn.',
 'nowikiemailtitle'     => 'Keng E-Mail erlaabt',
 'nowikiemailtext'      => 'Dëse Benotzer wëllt keng E-Maile vun anere Benotzer kréien.',
+'emailnotarget'        => 'Et gëtt keen oder just een net valabele Benotzernumm fir den Empfänger.',
+'emailtarget'          => 'Gitt de Benotzernumm vum Empfänger an',
+'emailusername'        => 'Benotzernumm:',
+'emailusernamesubmit'  => 'Späicheren',
 'email-legend'         => 'Engem anere(n) {{SITENAME}}-Benotzer eng E-Mail schécken',
 'emailfrom'            => 'Vum:',
 'emailto'              => 'Fir:',
@@ -2862,14 +2839,21 @@ Duerno sti Linken déi Ausnamen definéieren, an deenen hirem Kontext dat Bild a
 'metadata-help'     => 'An dësem Fichier si weider Informatiounen, déi normalerweis vun der Digitalkamera oder dem benotzte Scanner kommen. Wann de Fichier nodréiglech geännert gouf, kann et sinn datt eenzel Detailer net mat dem aktuelle Fichier iwwereneestëmmen.',
 'metadata-expand'   => 'Weis detailléiert Informatiounen',
 'metadata-collapse' => 'Verstopp detailléiert Informatiounen',
-'metadata-fields'   => "Dës Felder vun den EXIF-Metadate ginn op Bildbeschreiwungssäite gewise wann d'Metadatentafel zesummegeklappt ass. Déi aner sinn am Standard verstoppt, kënne awer ugewise ginn.
+'metadata-fields'   => "D'Bild-Meta-Felder aus dëser Lëscht ginn op Bildbeschreiwungssäite gewise wann d'Metadatentafel zesummegeklappt ass.
+Déi aner sinn am Standard verstoppt.
 * make
 * model
 * datetimeoriginal
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength",
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude",
 
 # EXIF tags
 'exif-imagewidth'                  => 'Breet',
@@ -2884,13 +2868,11 @@ Duerno sti Linken déi Ausnamen definéieren, an deenen hirem Kontext dat Bild a
 'exif-ycbcrpositioning'            => 'Y an C Positionéierung',
 'exif-xresolution'                 => 'Horizontal Opléisung',
 'exif-yresolution'                 => 'Vertikal Opléisung',
-'exif-resolutionunit'              => 'Moosseenheet vun der Opléisung',
 'exif-stripoffsets'                => 'Plaz wou de Fichier vum Bild gespäichert ass',
 'exif-rowsperstrip'                => 'Zuel vun den Zeile pro Strëpp',
 'exif-stripbytecounts'             => 'Byte pro kompriméiert Strëpp',
 'exif-jpeginterchangeformat'       => 'Offset zou JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Gréisst vun de JPEG-Daten a Byten',
-'exif-transferfunction'            => 'Transferfunktioun',
 'exif-whitepoint'                  => 'Manuell mat Miessung',
 'exif-primarychromaticities'       => 'Faarwe vun de primäre Faarwen',
 'exif-ycbcrcoefficients'           => 'YCbCr-Koeffizienten',
@@ -2907,9 +2889,8 @@ Duerno sti Linken déi Ausnamen definéieren, an deenen hirem Kontext dat Bild a
 'exif-colorspace'                  => 'Faarfraum',
 'exif-componentsconfiguration'     => 'Bedeitung vun eenzelne Komponenten',
 'exif-compressedbitsperpixel'      => 'Kompriméiert Bite pro Pixel',
-'exif-pixelydimension'             => 'Gültëg Bildbreet',
-'exif-pixelxdimension'             => 'Gültëg Bildhéicht',
-'exif-makernote'                   => 'Notize vum Fabrikant',
+'exif-pixelydimension'             => 'Breet vum Bild',
+'exif-pixelxdimension'             => 'Héicht vum Bild',
 'exif-usercomment'                 => 'Bemierkunge vum Benotzer',
 'exif-relatedsoundfile'            => 'Tounfichier deen dozou gehéiert',
 'exif-datetimeoriginal'            => 'Erfaassungszäitpunkt',
@@ -2923,10 +2904,9 @@ Duerno sti Linken déi Ausnamen definéieren, an deenen hirem Kontext dat Bild a
 'exif-exposureprogram'             => 'Beliichtungsprogramm',
 'exif-spectralsensitivity'         => 'Spectral Sensitivitéit',
 'exif-isospeedratings'             => 'Film- oder Sensorempfindlechkeet (ISO)',
-'exif-oecf'                        => 'Optoelektroneschen Ëmrechnungsfakteur',
-'exif-shutterspeedvalue'           => 'Beliichtungszäitwäert',
-'exif-aperturevalue'               => 'Blendewäert',
-'exif-brightnessvalue'             => 'Hellegkeetswäert',
+'exif-shutterspeedvalue'           => 'APEX Beliichtungszäit',
+'exif-aperturevalue'               => 'APEX Blendewäert',
+'exif-brightnessvalue'             => 'APEX Hellegkeet',
 'exif-exposurebiasvalue'           => 'Beliichtungsvirgab',
 'exif-maxaperturevalue'            => 'Gréisste Blend',
 'exif-subjectdistance'             => 'Distanz zum Sujet',
@@ -2936,7 +2916,6 @@ Duerno sti Linken déi Ausnamen definéieren, an deenen hirem Kontext dat Bild a
 'exif-focallength'                 => 'Brennwäit',
 'exif-subjectarea'                 => 'Beräich',
 'exif-flashenergy'                 => 'Blëtzstäerkt',
-'exif-spatialfrequencyresponse'    => 'Spatial-Frequenz',
 'exif-focalplanexresolution'       => 'Sensoropléisung horizontal',
 'exif-focalplaneyresolution'       => 'Sensoropléisung vertikal',
 'exif-focalplaneresolutionunit'    => 'Eenheet vun der Sensoropléisung',
@@ -2945,7 +2924,6 @@ Duerno sti Linken déi Ausnamen definéieren, an deenen hirem Kontext dat Bild a
 'exif-sensingmethod'               => 'Miessmethod',
 'exif-filesource'                  => 'Quell vum Fichier',
 'exif-scenetype'                   => 'Typ vun der Szeen',
-'exif-cfapattern'                  => 'CFA-Muster',
 'exif-customrendered'              => 'Benotzerdefinéiert Bildveraarbechtung',
 'exif-exposuremode'                => 'Beliichtungsmodus',
 'exif-whitebalance'                => 'Wäissofgläich',
@@ -2990,7 +2968,35 @@ Duerno sti Linken déi Ausnamen definéieren, an deenen hirem Kontext dat Bild a
 'exif-gpsareainformation'          => 'Numm vun der GPS-Géigend',
 'exif-gpsdatestamp'                => 'GPS-Datum',
 'exif-gpsdifferential'             => 'GPS-Differentialverbesserung',
+'exif-jpegfilecomment'             => 'Bemierkung zum JPEG-Fichier',
+'exif-keywords'                    => 'Stéchwierder',
+'exif-worldregioncreated'          => "Welt-Regioun an där d'Bild gemaach gouf",
+'exif-countrycreated'              => "Land an deem d'Bild gemaach gouf",
+'exif-countrycodecreated'          => "Code fir d'Land an deem d'Bild gemaach gouf",
+'exif-citycreated'                 => "Stad an där d'Bild gemaach gouf",
+'exif-worldregiondest'             => 'Gewise Welt-Regioun',
+'exif-countrydest'                 => 'Gewisent Land',
+'exif-countrycodedest'             => 'Code vum gewisene Land',
 'exif-objectname'                  => 'Kuerzen Titel',
+'exif-specialinstructions'         => 'Besonnesch Instruktiounen',
+'exif-headline'                    => 'Iwwerschrëft',
+'exif-source'                      => 'Quell',
+'exif-fixtureidentifier'           => 'Numm vun der Rubrik',
+'exif-contact'                     => 'Kontaktinformatioun',
+'exif-languagecode'                => 'Sprooch',
+'exif-iimversion'                  => 'IIM-Versioun',
+'exif-iimcategory'                 => 'Kategorie',
+'exif-iimsupplementalcategory'     => 'Zousätzlech Kategorien',
+'exif-datetimeexpires'             => 'Net benotzen nom',
+'exif-serialnumber'                => 'Seriennummer vun der Kamera',
+'exif-cameraownername'             => 'Besëtzer vun der Kamera',
+'exif-nickname'                    => 'Informellen Numm vum Bild',
+'exif-rating'                      => 'Bewäertung (vu 5)',
+'exif-copyrightowner'              => "Titulaire vun den Droits d'auteur",
+'exif-pngfilecomment'              => 'Bemierkung zum PNG-Fichier',
+'exif-giffilecomment'              => 'Bemierkung zum GIF-Fichier',
+'exif-organisationinimage'         => 'Organisatioun um Bild',
+'exif-personinimage'               => 'Persoun um Bild',
 
 # EXIF attributes
 'exif-compression-1' => 'Onkompriméiert',
@@ -3072,6 +3078,8 @@ Duerno sti Linken déi Ausnamen definéieren, an deenen hirem Kontext dat Bild a
 'exif-sensingmethod-7' => 'Dräilineare Sensor',
 'exif-sensingmethod-8' => 'Sequentielle lineare Farwsensor',
 
+'exif-filesource-3' => 'Digital Kamera',
+
 'exif-scenetype-1' => "D'Bild gouf photograféiert",
 
 'exif-customrendered-0' => 'Standard',
@@ -3120,6 +3128,10 @@ Duerno sti Linken déi Ausnamen definéieren, an deenen hirem Kontext dat Bild a
 'exif-gpslongitude-e' => 'ëstlech Längt',
 'exif-gpslongitude-w' => 'westlech Längt',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '$1 {{plural:$1|Meter|Meter}} iwwer dem Niveau vum Mier',
+'exif-gpsaltitude-below-sealevel' => '$1 {{plural:$1|Meter|Meter}} ënner dem Niveau vum Mier',
+
 'exif-gpsstatus-a' => 'Miessung am gaang',
 'exif-gpsstatus-v' => 'Interoperabilitéit vu der Miessung',
 
@@ -3131,9 +3143,50 @@ Duerno sti Linken déi Ausnamen definéieren, an deenen hirem Kontext dat Bild a
 'exif-gpsspeed-m' => 'Meile pro Stonn',
 'exif-gpsspeed-n' => 'Kniet',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometer',
+'exif-gpsdestdistance-m' => 'Meilen',
+'exif-gpsdestdistance-n' => 'Nautesch Meilen',
+
+'exif-gpsdop-excellent' => 'Exzellent ($1)',
+'exif-gpsdop-good'      => 'Gutt ($1)',
+'exif-gpsdop-moderate'  => 'Mëttel ($1)',
+'exif-gpsdop-fair'      => 'Ongeféier ($1)',
+'exif-gpsdop-poor'      => 'Schwaach ($1)',
+
+'exif-objectcycle-a' => 'Nëmme moies',
+'exif-objectcycle-p' => 'Nëmmen owes',
+'exif-objectcycle-b' => 'Esouwuel moies wéi owes',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Tatsächlech Richtung',
 'exif-gpsdirection-m' => 'Magnéitesch Richtung',
+
+'exif-dc-date'   => 'Datum(en)',
+'exif-dc-rights' => 'Rechter',
+
+'exif-isospeedratings-overflow' => 'Méi grouss wéi 65535',
+
+'exif-iimcategory-ace' => 'Konscht, Kultur an Ënnerhalung',
+'exif-iimcategory-clj' => 'Kriminalitéit a Recht',
+'exif-iimcategory-dis' => 'Katastrofen an Akzidenter',
+'exif-iimcategory-fin' => 'Economie a Geschäft',
+'exif-iimcategory-edu' => 'Formatioun',
+'exif-iimcategory-evn' => 'Ëmwelt',
+'exif-iimcategory-hth' => 'Gesondheet',
+'exif-iimcategory-lab' => 'Aarbecht',
+'exif-iimcategory-pol' => 'Politik',
+'exif-iimcategory-rel' => 'Relioun a Glawen',
+'exif-iimcategory-sci' => 'Wëssenschaft an Technologie',
+'exif-iimcategory-soi' => 'Sozial Themen',
+'exif-iimcategory-spo' => 'Sport',
+'exif-iimcategory-war' => 'Krich, Konflikt an Onrou',
+'exif-iimcategory-wea' => 'Wieder',
+
+'exif-urgency-normal' => 'Normal ($1)',
+'exif-urgency-low'    => 'Niddreg ($1)',
+'exif-urgency-high'   => 'Héich ($1)',
+'exif-urgency-other'  => 'Benotzerdefinéiert Prioritéit ($1)',
 
 # External editor support
 'edit-externally'      => 'Dëse Fichier mat engem externe Programm veränneren',
@@ -3415,18 +3468,5 @@ D\'Ufro muss ouni den Zousaz "{{ns:file}}": gemaach ginn.',
 'htmlform-submit'              => 'Späicheren',
 'htmlform-reset'               => 'Ännerungen zrécksetzen',
 'htmlform-selectorother-other' => 'Anerer',
-
-# Special:DisableAccount
-'disableaccount'             => 'E Benotzerkont desaktivéieren',
-'disableaccount-user'        => 'Benotzernumm:',
-'disableaccount-reason'      => 'Grond:',
-'disableaccount-confirm'     => "Dëse Benotzerkont desaktivéieren.
-De Benotzer ka sech net méi aloggen, säi Passwuert änneren, a kritt och keng Noriichte méi per Mail.
-Wann e Benotzer elo iergendwou ageloggt ass da gëtt hien direkt ausgeloggt.
-''Denkt drun datt desaktivéiere vun engem Kont net ka réckgängeg gemaach ginn ouni d'Interventioun vun engem Administrateur vum System.''",
-'disableaccount-mustconfirm' => 'Dir musst confirméieren datt Dir dëse Kont desaktivéiere wëllt.',
-'disableaccount-nosuchuser'  => 'De Benotzerkont "$1" gëtt et net.',
-'disableaccount-success'     => 'De Benotzerkont "$1" gouf definitiv desaktivéiert.',
-'disableaccount-logentry'    => 'huet de Benotzer [[$1]] definitiv desaktivéiert',
 
 );

@@ -288,7 +288,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'عرض_البوتات' ),
 	'Popularpages'              => array( 'صفح_مشهوره' ),
 	'Search'                    => array( 'تدوير' ),
-	'Resetpass'                 => array( 'تغيير_الپاسوورد', 'ظبط_الپاسوورد' ),
+	'ChangePassword'            => array( 'تغيير_الپاسوورد', 'ظبط_الپاسوورد' ),
 	'Withoutinterwiki'          => array( 'من-غير_interwiki' ),
 	'MergeHistory'              => array( 'دمج_التاريخ' ),
 	'Filepath'                  => array( 'مسار_ملف' ),
@@ -785,13 +785,7 @@ $2',
 من فضلك استنى قبل المحاولة مرة تانيه.',
 'loginlanguagelabel'         => 'اللغة: $1',
 
-# JavaScript password checks
-'password-strength-acceptable' => 'مقبول',
-'password-strength-good'       => 'جيدة',
-'password-retype'              => 'اكتب الباسورد تاني',
-'password-retype-mismatch'     => 'كلمات السر لا تتطابق',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'غيّر الباسورد',
 'resetpass_announce'        => 'اتسجل دخولك دلوقتى بالكود اللى اتبعتلك فى الايميل. علشان تخلص عملية الدخول ،لازم تعملك باسورد جديدة هنا:',
 'resetpass_text'            => '<!-- أضف نصا هنا -->',
@@ -1164,12 +1158,6 @@ $1",
 'suppressionlog'     => 'سجل الإخفاء',
 'suppressionlogtext' => 'تحت فى لستة بعمليات المسح والمنع اللى فيها محتوى مستخبى على الإداريين.
 شوف [[Special:IPBlockList|للستة المنع]] علشان تشوف عمليات المنع الشغالة دلوقتى .',
-
-# Revision move
-'revisionmove'              => ' انقل المراجعات من "$1"',
-'revmove-reasonfield'       => 'السبب:',
-'revmove-norevisions-title' => 'مراجعة هدف مش صح',
-'revmove-nullmove-title'    => 'عنوان غلط',
 
 # History merging
 'mergehistory'                     => 'دمج تواريخ الصفحة',
@@ -2937,7 +2925,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'العرض',
@@ -2952,13 +2946,11 @@ $1',
 'exif-ycbcrpositioning'            => 'وضع Y و C',
 'exif-xresolution'                 => 'الدقة الأفقية',
 'exif-yresolution'                 => 'الدقة الرأسية',
-'exif-resolutionunit'              => 'وحدة تحليل X و Y',
 'exif-stripoffsets'                => 'موقع بيانات الصورة',
 'exif-rowsperstrip'                => 'عدد الصفوف لكل ستريب',
 'exif-stripbytecounts'             => 'بايت لكل ستريب مضغوط',
 'exif-jpeginterchangeformat'       => 'الحد ل JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'بايت من بيانات JPEG',
-'exif-transferfunction'            => 'وظيفة النقل',
 'exif-whitepoint'                  => 'ألوان النقطة البيضا',
 'exif-primarychromaticities'       => 'ألوان الأساسيات',
 'exif-ycbcrcoefficients'           => 'معاملات مصفوفة تحويل فراغ اللون',
@@ -2977,7 +2969,6 @@ $1',
 'exif-compressedbitsperpixel'      => 'طور ضغط الصورة',
 'exif-pixelydimension'             => 'عرض صورة صحيح',
 'exif-pixelxdimension'             => 'ارتفاع صورة صحيح',
-'exif-makernote'                   => 'ملاحظات الصانع',
 'exif-usercomment'                 => 'تعليقات اليوزر',
 'exif-relatedsoundfile'            => 'ملف صوت مرتبط',
 'exif-datetimeoriginal'            => 'تاريخ و وقت الإنتاج',
@@ -2992,7 +2983,6 @@ $1',
 'exif-exposureprogram'             => 'برنامج التعرض',
 'exif-spectralsensitivity'         => 'الحساسية الطيفية',
 'exif-isospeedratings'             => 'تقييم سرعة أيزو',
-'exif-oecf'                        => 'عامل التحويل الكهروضوئى',
 'exif-shutterspeedvalue'           => 'سرعة القافل',
 'exif-aperturevalue'               => 'فتحة القافل',
 'exif-brightnessvalue'             => 'الضي',
@@ -3006,7 +2996,6 @@ $1',
 'exif-focallength-format'          => '$1 ملم',
 'exif-subjectarea'                 => 'منطقة الجسم',
 'exif-flashenergy'                 => 'طاقة الفلاش',
-'exif-spatialfrequencyresponse'    => 'استجابة التردد الفراغي',
 'exif-focalplanexresolution'       => 'تحليل المستوى البؤرى X',
 'exif-focalplaneyresolution'       => 'تحليل المستوى البؤرى Y',
 'exif-focalplaneresolutionunit'    => 'وحدة تحليل المستوى البؤرى',
@@ -3015,7 +3004,6 @@ $1',
 'exif-sensingmethod'               => 'وسيلة الاستشعار',
 'exif-filesource'                  => 'مصدر الملف',
 'exif-scenetype'                   => 'نوع المشهد',
-'exif-cfapattern'                  => 'نمط سى إف إيه',
 'exif-customrendered'              => 'تظبيط الصورة حسب الطلب',
 'exif-exposuremode'                => 'طريقة التعرض',
 'exif-whitebalance'                => 'توازن الأبيض',

@@ -229,7 +229,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Сьпіс_робатаў' ),
 	'Popularpages'              => array( 'Папулярныя_старонкі' ),
 	'Search'                    => array( 'Пошук' ),
-	'Resetpass'                 => array( 'Зьмяніць_пароль', 'Ачысьціць_пароль' ),
+	'ChangePassword'            => array( 'Зьмяніць_пароль', 'Ачысьціць_пароль' ),
 	'MergeHistory'              => array( 'Гісторыя_аб\'яднаньняў' ),
 	'Filepath'                  => array( 'Шлях_да_файла' ),
 	'LinkSearch'                => array( 'Пошук_вонкавых_спасылак' ),
@@ -742,16 +742,7 @@ $2',
 # E-mail sending
 'php-mail-error-unknown' => 'Узьнікла невядомая памылка ў функцыі PHP mail()',
 
-# JavaScript password checks
-'password-strength'            => 'Устойлівасьць паролю: $1',
-'password-strength-bad'        => 'КЕПСКАЯ',
-'password-strength-mediocre'   => 'пасрэдная',
-'password-strength-acceptable' => 'прымальная',
-'password-strength-good'       => 'добрая',
-'password-retype'              => 'Паўтарыце пароль тут',
-'password-retype-mismatch'     => 'Паролі не супадаюць',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Зьмяніць пароль',
 'resetpass_announce'        => 'Вы ўвайшлі з дапамогай часовага паролю, дасланага праз электронную пошту.
 Для завяршэньня ўваходу ў сыстэму Вы мусіце ўвесьці тут новы пароль:',
@@ -768,6 +759,10 @@ $2',
 'resetpass-wrong-oldpass'   => 'Няслушны часовы альбо цяперашні пароль.
 Магчыма Вы ўжо пасьпяхова зьмянілі Ваш пароль альбо запыталі новы часовы пароль.',
 'resetpass-temp-password'   => 'Часовы пароль:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Ачыстка паролю',
+'passwordreset-username' => 'Імя ўдзельніка:',
 
 # Edit page toolbar
 'bold_sample'     => 'Тлусты тэкст',
@@ -1128,24 +1123,6 @@ $1",
 'suppressionlogtext' => 'Ніжэй знаходзіцца сьпіс выдаленьняў і блякаваньняў, схаваных нават ад адміністратараў.
 Глядзіце [[Special:IPBlockList|сьпіс блякаваньняў IP]], каб паглядзець сьпіс цяперашніх блякаваньняў.',
 
-# Revision move
-'moverevlogentry'              => '{{PLURAL:$3|перанесеная $3 вэрсія|перанесеныя $3 вэрсіі|перанесеныя $3 вэрсіяў}} з $1 у $2',
-'revisionmove'                 => 'Перанос вэрсіяў з «$1»',
-'revmove-explain'              => 'Наступныя вэрсіі будуць перанесеныя з $1 на пададзеную мэтавую старонку. Калі мэтавая старонка не існуе, яна будзе створаная. У адваротным выпадку гэтыя вэрсіі будуць дададзеныя ў гісторыю старонкі.',
-'revmove-legend'               => 'Устанавіць мэтавую старонку і апісаньне',
-'revmove-submit'               => 'Перанесьці вэрсіі ў выбраную старонку',
-'revisionmoveselectedversions' => 'Перанесьці выбраныя вэрсіі',
-'revmove-reasonfield'          => 'Прычына:',
-'revmove-titlefield'           => 'Мэтавая старонка:',
-'revmove-badparam-title'       => 'Няслушныя парамэтры',
-'revmove-badparam'             => 'Ваш запыт утрымлівае няслушныя ці недапушчальныя парамэтры. Калі ласка, націсьніце «Назад» і паспрабуйце зноў.',
-'revmove-norevisions-title'    => 'Ня выбрана мэтавая вэрсія',
-'revmove-norevisions'          => 'Вы не пазначылі адну ці болей мэтавых вэрсіяў для выкананьня гэтай функцыі, альбо пазначаныя вэрсіі не існуюць.',
-'revmove-nullmove-title'       => 'Няслушная назва',
-'revmove-nullmove'             => 'Крынічная і мэтавая вэрсіі супадаюць. Калі ласка, націсьніце «Назад» і ўвядзіце назву, якая адрозьніваецца ад «$1».',
-'revmove-success-existing'     => '$1 {{PLURAL:$1|вэрсія з [[$2]] была перанесеная|вэрсіі з [[$2]] былі перанесеныя|вэрсіяў з [[$2]] былі перанесеныя}} на існуючую старонку [[$3]].',
-'revmove-success-created'      => '$1 {{PLURAL:$1|вэрсія з [[$2]] была перанесеная|вэрсіі з [[$2]] былі перанесеныя|вэрсіяў з [[$2]] былі перанесеныя}} на новую старонку [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Аб’яднаць гісторыі старонак',
 'mergehistory-header'              => "Гэтая старонка дазваляе аб'яднаць гісторыю рэдагаваньняў адной старонкі з гісторыяй іншай, новай старонкі.
@@ -1485,8 +1462,6 @@ $1",
 'right-reset-passwords'       => 'ачыстка пароляў іншых удзельнікаў',
 'right-override-export-depth' => 'экспартаваньне старонак, уключаючы зьвязаныя старонкі з глыбінёй да 5',
 'right-sendemail'             => 'адпраўка электронных лістоў іншым удзельнікам',
-'right-revisionmove'          => 'перанос вэрсіяў',
-'right-disableaccount'        => 'забарона рахункаў',
 
 # User rights log
 'rightslog'      => 'Журнал правоў удзельнікаў',
@@ -1529,7 +1504,6 @@ $1",
 'action-userrights'           => 'рэдагаваньне правоў усіх удзельнікаў',
 'action-userrights-interwiki' => 'рэдагаваньне правоў удзельнікаў у іншых вікі',
 'action-siteadmin'            => 'блякаваньне і разблякаваньне базы зьвестак',
-'action-revisionmove'         => 'перанесьці вэрсіі',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|зьмена|зьмены|зьменаў}}',
@@ -2952,14 +2926,20 @@ $1',
 Калі файл рэдагаваўся пасьля стварэньня, то частка зьвестак можа не адпавядаць зьмененаму файлу.',
 'metadata-expand'   => 'Паказаць падрабязнасьці',
 'metadata-collapse' => 'Схаваць падрабязнасьці',
-'metadata-fields'   => 'Палі мэтазьвестак EXIF гэтага сьпісу будуць адлюстраваныя на старонцы выявы, астатнія будуць схаваныя.
+'metadata-fields'   => 'Палі мэта-зьвестак выявы з гэтага сьпісу будуць паказаныя на старонцы выявы, калі табліца мэта-зьвестак будзе згорнутая.
 * make
 * model
 * datetimeoriginal
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Шырыня',
@@ -2974,13 +2954,11 @@ $1',
 'exif-ycbcrpositioning'            => 'Парадак разьмяшчэньня кампанэнтаў Y і C',
 'exif-xresolution'                 => 'Гарызантальнае разрозьненьне',
 'exif-yresolution'                 => 'Вэртыкальнае разрозьненьне',
-'exif-resolutionunit'              => 'Адзінка вымярэньня разрозьненьняў X і Y',
 'exif-stripoffsets'                => 'Разьмяшчэньне блёку зьвестак',
 'exif-rowsperstrip'                => 'Колькасьць радкоў у блёку',
 'exif-stripbytecounts'             => 'Памер сьціснутага блёку',
 'exif-jpeginterchangeformat'       => 'Разьмяшчэньне пачатку блёку JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Байты JPEG-зьвестак',
-'exif-transferfunction'            => 'Функцыя пераўтварэньня колеравай прасторы',
 'exif-whitepoint'                  => 'Колернасьць белага пункту',
 'exif-primarychromaticities'       => 'Колернасьць асноўных колераў',
 'exif-ycbcrcoefficients'           => 'Каэфіцыенты пераўтварэньня колеравай прасторы',
@@ -2997,9 +2975,8 @@ $1',
 'exif-colorspace'                  => 'Колеравая прастора',
 'exif-componentsconfiguration'     => 'Канфігурацыя колеравых кампанэнтаў',
 'exif-compressedbitsperpixel'      => 'Глыбіня колеру пасьля сьцісканьня',
-'exif-pixelydimension'             => 'Дапушчальная шырыня выявы',
-'exif-pixelxdimension'             => 'Дапушчальная вышыня выявы',
-'exif-makernote'                   => 'Заўвагі вытворцы',
+'exif-pixelydimension'             => 'Шырыня выявы',
+'exif-pixelxdimension'             => 'Вышыня выявы',
 'exif-usercomment'                 => 'Камэнтары карыстальніка',
 'exif-relatedsoundfile'            => 'Датычны аўдыё-файл',
 'exif-datetimeoriginal'            => 'Дата і час утварэньня зьвестак',
@@ -3013,7 +2990,6 @@ $1',
 'exif-exposureprogram'             => 'Праграма насьвятленьня',
 'exif-spectralsensitivity'         => 'Спэктральная адчувальнасьць',
 'exif-isospeedratings'             => 'Сьветаадчувальнасьць ISO',
-'exif-oecf'                        => 'Каэфіцыент оптаэлектроннага ператварэньня',
 'exif-shutterspeedvalue'           => 'Вытрымка',
 'exif-aperturevalue'               => 'Дыяфрагма',
 'exif-brightnessvalue'             => 'Яркасьць',
@@ -3027,7 +3003,6 @@ $1',
 'exif-focallength-format'          => '$1 мм',
 'exif-subjectarea'                 => "Плошча аб'екту",
 'exif-flashenergy'                 => 'Энэргія бліску',
-'exif-spatialfrequencyresponse'    => 'Прасторавая частотная характарыстыка',
 'exif-focalplanexresolution'       => 'Разрозьненьне ў фокуснай плоскасьці па восі X',
 'exif-focalplaneyresolution'       => 'Разрозьненьне ў фокуснай плоскасьці па восі Y',
 'exif-focalplaneresolutionunit'    => 'Адзінка разрозьненьня фокуснай плоскасьці',
@@ -3036,7 +3011,6 @@ $1',
 'exif-sensingmethod'               => 'Тып сэнсару',
 'exif-filesource'                  => 'Крыніца файла',
 'exif-scenetype'                   => 'Тып сцэны',
-'exif-cfapattern'                  => 'Тып колеравага фільтру',
 'exif-customrendered'              => 'Дадатковая апрацоўка',
 'exif-exposuremode'                => 'Лад насьвятленьня',
 'exif-whitebalance'                => 'Балянс белага',
@@ -3081,10 +3055,52 @@ $1',
 'exif-gpsareainformation'          => 'Назва GPS-зоны',
 'exif-gpsdatestamp'                => 'Дата GPS',
 'exif-gpsdifferential'             => 'Дыфэрэнцыяльная папраўка GPS',
+'exif-jpegfilecomment'             => 'Камэнтар да JPEG-файла',
+'exif-keywords'                    => 'Ключавыя словы',
+'exif-worldregioncreated'          => 'Рэгіён сьвету, дзе была зробленая выява',
+'exif-countrycreated'              => 'Краіна, дзе была зробленая выява',
+'exif-countrycodecreated'          => 'Код краіны, дзе была зробленая выява',
+'exif-provinceorstatecreated'      => 'Вобласьць, правінцыя ці штат, дзе была зробленая выява',
+'exif-citycreated'                 => 'Горад, дзе была зробленая выява',
+'exif-sublocationcreated'          => 'Раён гораду, дзе была зробленая выява',
+'exif-worldregiondest'             => 'Паказаны рэгіён сьвету',
+'exif-countrydest'                 => 'Паказаная краіна',
+'exif-countrycodedest'             => 'Код паказанай краіны',
+'exif-provinceorstatedest'         => 'Паказаная вобласьць, правінцыя ці штат',
+'exif-citydest'                    => 'Паказаны горад',
+'exif-sublocationdest'             => 'Паказаны раён гораду',
 'exif-objectname'                  => 'Кароткая назва',
+'exif-specialinstructions'         => 'Спэцыяльныя інструкцыі',
+'exif-headline'                    => 'Загаловак',
+'exif-credit'                      => 'Падаўшы выяву',
+'exif-source'                      => 'Крыніца',
+'exif-editstatus'                  => 'Рэдакцыйны статус выявы',
+'exif-urgency'                     => 'Тэрміновасьць',
+'exif-fixtureidentifier'           => 'Назва слупка',
+'exif-locationdest'                => 'Паказанае месца',
+'exif-locationdestcode'            => 'Код паказанага месца',
+'exif-objectcycle'                 => 'Час дня, для якога ўласьцівае мэдыя',
+'exif-contact'                     => 'Кантактная інфармацыя',
+'exif-writer'                      => 'Аўтар',
+'exif-languagecode'                => 'Мова',
+'exif-iimversion'                  => 'Вэрсія IIM',
+'exif-iimcategory'                 => 'Катэгорыя',
+'exif-iimsupplementalcategory'     => 'Дадатковыя катэгорыі',
+'exif-datetimeexpires'             => 'Не выкарыстоўваць пасьля',
+'exif-datetimereleased'            => 'Апублікаванае',
+'exif-originaltransmissionref'     => 'Код месца пачатковай перадачы',
+'exif-identifier'                  => 'Ідэнтыфікатар',
+'exif-lens'                        => 'Выкарыстаны аб’ектыў',
+'exif-serialnumber'                => 'Сэрыйны нумар фотакамэры',
+'exif-cameraownername'             => 'Уласьнік фотакамэры',
+'exif-datetimemetadata'            => 'Дата апошняй зьмены мэта-зьвестак',
+'exif-usageterms'                  => 'Умовы выкарыстаньня',
+'exif-disclaimer'                  => 'Адмова ад адказнасьці',
 
 # EXIF attributes
 'exif-compression-1' => 'Нясьціснуты',
+
+'exif-copyrighted-false' => 'Грамадзкі набытак',
 
 'exif-unknowndate' => 'Невядомая дата',
 
@@ -3211,6 +3227,10 @@ $1',
 'exif-gpslongitude-e' => 'усходняй даўгаты',
 'exif-gpslongitude-w' => 'заходняй даўгаты',
 
+# Pseudotags used for GPSAltitudeRef
+'exif-gpsaltitude-above-sealevel' => '$1 {{PLURAL:$1|мэтар|мэтры|мэтраў}} над узроўнем мора',
+'exif-gpsaltitude-below-sealevel' => '$1 {{PLURAL:$1|мэтар|мэтры|мэтраў}} ніжэй за ўзровень мора',
+
 'exif-gpsstatus-a' => 'Адбываецца вымярэньне',
 'exif-gpsstatus-v' => 'Ацэнка магчымасьці ўзаемадзеяньня сетак',
 
@@ -3222,9 +3242,34 @@ $1',
 'exif-gpsspeed-m' => 'міляў за гадзіну',
 'exif-gpsspeed-n' => 'вузлоў',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Кілямэтраў',
+'exif-gpsdestdistance-m' => 'Міляў',
+'exif-gpsdestdistance-n' => 'Марскіх міляў',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Сапраўдны накірунак',
 'exif-gpsdirection-m' => 'магнітны кірунак',
+
+'exif-dc-date' => 'Дата(ы)',
+
+'exif-isospeedratings-overflow' => 'Больш за 65535',
+
+'exif-iimcategory-ace' => 'Мастацтва, культура і забавы',
+'exif-iimcategory-clj' => 'Крымінал і права',
+'exif-iimcategory-dis' => 'Катастрофы і здарэньні',
+'exif-iimcategory-fin' => 'Эканоміка і бізнэс',
+'exif-iimcategory-edu' => 'Адукацыя',
+'exif-iimcategory-evn' => 'Навакольнае асяродзьдзе',
+'exif-iimcategory-hth' => 'Здароўе',
+'exif-iimcategory-lab' => 'Праца',
+'exif-iimcategory-pol' => 'Палітыка',
+'exif-iimcategory-rel' => 'Рэлігія і вера',
+'exif-iimcategory-sci' => 'Навука і тэхналёгіі',
+'exif-iimcategory-soi' => 'Сацыяльныя праблемы',
+'exif-iimcategory-spo' => 'Спорт',
+'exif-iimcategory-war' => 'Вайна, канфлікты і беспарадкі',
+'exif-iimcategory-wea' => 'Надвор’е',
 
 # External editor support
 'edit-externally'      => 'Рэдагаваць гэты файл з выкарыстаньнем вонкавай праграмы',
@@ -3365,7 +3410,7 @@ $1',
 # Watchlist editor
 'watchlistedit-numitems'       => 'Ваш сьпіс назіраньня ўтрымлівае $1 {{PLURAL:$1|запіс|запісы|запісаў}}, без уліку старонак абмеркаваньня.',
 'watchlistedit-noitems'        => 'Ваш сьпіс назіраньня пусты.',
-'watchlistedit-normal-title'   => 'Рэдагаваць сьпіс назіраньня',
+'watchlistedit-normal-title'   => 'Рэдагаваньне сьпісу назіраньня',
 'watchlistedit-normal-legend'  => 'Выдаленьне старонак са сьпісу назіраньня',
 'watchlistedit-normal-explain' => 'Ніжэй паданыя старонкі з Вашага сьпісу назіраньня.
 Для выдаленьня старонкі са сьпісу пазначце адпаведныя пазыцыі і націсьніце кнопку «{{int:Watchlistedit-normal-submit}}».
@@ -3522,16 +3567,5 @@ MediaWiki распаўсюджваецца з надзеяй, што будзе 
 # SQLite database support
 'sqlite-has-fts' => '$1 з падтрымкай поўнатэкстнага пошуку',
 'sqlite-no-fts'  => '$1 без падтрымкі поўнатэкстнага пошуку',
-
-# Special:DisableAccount
-'disableaccount'             => 'Забараніць рахунак удзельніка',
-'disableaccount-user'        => 'Імя ўдзельніка:',
-'disableaccount-reason'      => 'Прычына:',
-'disableaccount-confirm'     => "Забараніць гэты рахунак удзельніка.
-Удзельнік ня зможа ўвайсьці ў сыстэму, скінуць свой пароль ці атрымліваць абвяшчэньні па электроннай пошце. Калі ўдзельнік у цяперашні момант знаходзіцца ў сыстэме, то ён будзе аўтаматычна выведзены. ''Зьвярніце ўвагу, што забарона рахунку нельга адмяніць без дапамогі сыстэмнага адміністратара.''",
-'disableaccount-mustconfirm' => 'Вы павінны пацьвердзіць, што жадаеце забараніць гэты рахунак.',
-'disableaccount-nosuchuser'  => 'Рахунак удзельніка «$1» не існуе.',
-'disableaccount-success'     => 'Рахунак удзельніка «$1» быў забаронены назаўсёды.',
-'disableaccount-logentry'    => 'назаўсёды забаронены рахунак удзельніка [[$1]]',
 
 );

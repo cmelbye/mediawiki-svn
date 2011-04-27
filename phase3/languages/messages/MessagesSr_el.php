@@ -696,7 +696,7 @@ Molimo vas da sačekate par minuta i pokušate opet.',
 'loginlanguagelabel'         => 'Jezik: $1',
 'suspicious-userlogout'      => 'Vaš zahtev za izlogovanje nije izvršen zato što izgleda da je poslat iz neispravnog brauzera ili preko keširanog proksija.',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Promeni lozinku',
 'resetpass_announce'        => 'Prijavili ste se sa temporalnim kodom koji Vam je poslat preko e-pošte.
 Kako biste dovršili prijavljivanje, morate uneti novu lozinku:',
@@ -714,6 +714,10 @@ Kako biste dovršili prijavljivanje, morate uneti novu lozinku:',
 'resetpass-wrong-oldpass'   => 'Neispravna privremena ili aktuelna lozinka.
 Možda ste već uspešno promenili lozinku ili zatražili novu privremenu.',
 'resetpass-temp-password'   => 'Privremena šifra:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Obnavljanje lozinke',
+'passwordreset-username' => 'Korisničko ime:',
 
 # Edit page toolbar
 'bold_sample'     => 'podebljan tekst',
@@ -1314,7 +1318,7 @@ Takođe možete podesiti da drugi mogu da vas kontaktiraju preko vaše korisnič
 'right-reupload-shared'       => 'lokalno prepisivanje fajlova na deljenom skladištu medija',
 'right-upload_by_url'         => 'slanje datoteka preko URL adrese',
 'right-purge'                 => 'čišćenje keša stranice bez potvrde',
-'right-autoconfirmed'         => 'menjanje poluzaštićenih stranica',
+'right-autoconfirmed'         => 'uređivanje poluzaštićenih stranica',
 'right-bot'                   => 'korisnik je zapravo automatski proces (bot)',
 'right-nominornewtalk'        => 'neposedovanje malih izmena na stranama za razgovor okida prompt za novu poruku',
 'right-apihighlimits'         => 'korišćenje viših limita za upite iz API-ja',
@@ -1885,31 +1889,32 @@ Mogle bi Vas interesovati [[{{MediaWiki:Listgrouprights-helppage}}|dodatne infor
 'listgrouprights-removegroup-self-all' => 'Ukloni sve grupe sa svog naloga',
 
 # E-mail user
-'mailnologin'      => 'Nema adrese za slanje',
-'mailnologintext'  => 'Morate biti [[Special:UserLogin|prijavljeni]] i imati ispravnu adresu e-pošte u vašim [[Special:Preferences|podešavanjima]]
+'mailnologin'          => 'Nema adrese za slanje',
+'mailnologintext'      => 'Morate biti [[Special:UserLogin|prijavljeni]] i imati ispravnu adresu e-pošte u vašim [[Special:Preferences|podešavanjima]]
 da biste slali e-poštu drugim korisnicima.',
-'emailuser'        => 'Pošalji e-poštu ovom korisniku',
-'emailpage'        => 'Pošalji e-pismo korisniku',
-'emailpagetext'    => 'Možete koristiti ovaj formular da pošaljete e-poštu ovom korisniku.
+'emailuser'            => 'Pošalji e-poštu ovom korisniku',
+'emailpage'            => 'Pošalji e-pismo korisniku',
+'emailpagetext'        => 'Možete koristiti ovaj formular da pošaljete e-poštu ovom korisniku.
 Adresa e-pošte koju ste vi uneli u svojim [[Special:Preferences|korisničkim podešavanjima]] će se pojaviti kao "From" adresa poruke, tako da će primalac moći direktno da Vam odgovori.',
-'usermailererror'  => 'Objekat pošte je vratio grešku:',
-'defemailsubject'  => '{{SITENAME}} e-pošta',
-'usermaildisabled' => 'Korisnikova e-pošta je onemogućena',
-'noemailtitle'     => 'Nema adrese e-pošte',
-'noemailtext'      => 'Ovaj korisnik nije naveo ispravnu adresu e-pošte.',
-'nowikiemailtitle' => 'Nije omogućeno slanje mejlova',
-'nowikiemailtext'  => 'Ovaj korisnik je onemogućio slanje imejlova od drugih korisnika.',
-'email-legend'     => 'Pošaljite mejl drugom korisniku na {{SITENAME}}',
-'emailfrom'        => 'Od:',
-'emailto'          => 'Za:',
-'emailsubject'     => 'Naslov:',
-'emailmessage'     => 'Poruka:',
-'emailsend'        => 'Pošalji',
-'emailccme'        => 'Pošalji mi kopiju moje poruke u moje sanduče e-pošte.',
-'emailccsubject'   => 'Kopija vaše poruke na $1: $2',
-'emailsent'        => 'Poruka poslata',
-'emailsenttext'    => 'Vaša poruka je poslata elektronskom poštom.',
-'emailuserfooter'  => 'Ovaj imejl posla $1 saradniku $2 pomoću "Pošalji imejl" funkcije na sajtu "{{SITENAME}}".',
+'usermailererror'      => 'Objekat pošte je vratio grešku:',
+'defemailsubject'      => '{{SITENAME}} e-pošta',
+'usermaildisabled'     => 'Korisnikova e-pošta je onemogućena',
+'usermaildisabledtext' => 'Ne možete da šaljete e-poruke drugim korisnicima ovog vikija',
+'noemailtitle'         => 'Nema adrese e-pošte',
+'noemailtext'          => 'Ovaj korisnik nije naveo ispravnu adresu e-pošte.',
+'nowikiemailtitle'     => 'Nije omogućeno slanje mejlova',
+'nowikiemailtext'      => 'Ovaj korisnik je onemogućio slanje imejlova od drugih korisnika.',
+'email-legend'         => 'Pošaljite mejl drugom korisniku na {{SITENAME}}',
+'emailfrom'            => 'Od:',
+'emailto'              => 'Za:',
+'emailsubject'         => 'Naslov:',
+'emailmessage'         => 'Poruka:',
+'emailsend'            => 'Pošalji',
+'emailccme'            => 'Pošalji mi kopiju moje poruke u moje sanduče e-pošte.',
+'emailccsubject'       => 'Kopija vaše poruke na $1: $2',
+'emailsent'            => 'Poruka poslata',
+'emailsenttext'        => 'Vaša poruka je poslata elektronskom poštom.',
+'emailuserfooter'      => 'Ovaj imejl posla $1 saradniku $2 pomoću "Pošalji imejl" funkcije na sajtu "{{SITENAME}}".',
 
 # Watchlist
 'watchlist'            => 'Spisak nadgledanja',
@@ -2064,7 +2069,8 @@ Ovo su trenutna podešavanja za stranicu '''$1''':",
 Ovo su trenutna podešavanja za stranu '''$1''':",
 'protect-locked-access'       => "Vaš nalog nema dozvole za izmenu nivoa zaštite stranice.
 Ovo su trenutna podešavanja za stranicu '''$1''':",
-'protect-cascadeon'           => 'Ova stranica je trenutno zaštićena jer se nalazi na {{PLURAL:$1|stranici, koja je zaštićena|stranice, koje su zaštićene|stranica, koje su zaštićene}} sa opcijom „prenosivo“. Možete izmeniti stepen zaštite ove stranice, ali on neće uticati na prenosivu zaštitu.',
+'protect-cascadeon'           => 'Ova stranica je trenutno zaštićena jer se nalazi na {{PLURAL:$1|stranici koja ima|stranicama koje imaju}} prenosivu zaštitu.
+Možete promeniti stepen zaštite ove stranice, ali on neće uticati na prenosivu zaštitu.',
 'protect-default'             => 'Dozvoli sve korisnike',
 'protect-fallback'            => 'Zahteva "$1" ovlašćenja',
 'protect-level-autoconfirmed' => 'Blokiraj nove i neregistrovane korisnike',
@@ -2703,7 +2709,13 @@ Sve druge veze u istoj liniji se smatraju izuzecima tj. članci u kojima se slik
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Širina',
@@ -2718,13 +2730,11 @@ Sve druge veze u istoj liniji se smatraju izuzecima tj. članci u kojima se slik
 'exif-ycbcrpositioning'            => 'Razmeštaj komponenata Y i C',
 'exif-xresolution'                 => 'Horizonatalna rezolucija',
 'exif-yresolution'                 => 'Vertikalna rezolucija',
-'exif-resolutionunit'              => 'Jedinica rezolucije',
 'exif-stripoffsets'                => 'Položaj bloka podataka',
 'exif-rowsperstrip'                => 'Broj redova u bloku',
 'exif-stripbytecounts'             => 'Veličina kompresovanog bloka',
 'exif-jpeginterchangeformat'       => 'Udaljenost JPEG pregleda od početka fajla',
 'exif-jpeginterchangeformatlength' => 'Količina bajtova JPEG pregleda',
-'exif-transferfunction'            => 'Funkcija preoblikovanja kolor prostora',
 'exif-whitepoint'                  => 'Hromacitet bele tačke',
 'exif-primarychromaticities'       => 'Hromacitet primarnih boja',
 'exif-ycbcrcoefficients'           => 'Matrični koeficijenti transformacije kolor prostora',
@@ -2743,7 +2753,6 @@ Sve druge veze u istoj liniji se smatraju izuzecima tj. članci u kojima se slik
 'exif-compressedbitsperpixel'      => 'Mod kompresije slike',
 'exif-pixelydimension'             => 'Puna visina slike',
 'exif-pixelxdimension'             => 'Puna širina slike',
-'exif-makernote'                   => 'Napomene proizvođača',
 'exif-usercomment'                 => 'Korisnički komentar',
 'exif-relatedsoundfile'            => 'Povezani zvučni zapis',
 'exif-datetimeoriginal'            => 'Datum i vreme slikanja',
@@ -2757,7 +2766,6 @@ Sve druge veze u istoj liniji se smatraju izuzecima tj. članci u kojima se slik
 'exif-exposureprogram'             => 'Program ekspozicije',
 'exif-spectralsensitivity'         => 'Spektralna osetljivost',
 'exif-isospeedratings'             => 'ISO vrednost',
-'exif-oecf'                        => 'Optoelektronski faktor konverzije',
 'exif-shutterspeedvalue'           => 'Brzina zatvarača',
 'exif-aperturevalue'               => 'Otvor blende',
 'exif-brightnessvalue'             => 'Svetlost',
@@ -2770,7 +2778,6 @@ Sve druge veze u istoj liniji se smatraju izuzecima tj. članci u kojima se slik
 'exif-focallength'                 => 'Fokusna daljina sočiva',
 'exif-subjectarea'                 => 'Položaj i površina objekta snimka',
 'exif-flashenergy'                 => 'Energija blica',
-'exif-spatialfrequencyresponse'    => 'Prostorna frekvencijska karakteristika',
 'exif-focalplanexresolution'       => 'Vodoravna rezolucija fokusne ravni',
 'exif-focalplaneyresolution'       => 'Horizonatlna rezolucija fokusne ravni',
 'exif-focalplaneresolutionunit'    => 'Jedinica rezolucije fokusne ravni',
@@ -2779,7 +2786,6 @@ Sve druge veze u istoj liniji se smatraju izuzecima tj. članci u kojima se slik
 'exif-sensingmethod'               => 'Tip senzora',
 'exif-filesource'                  => 'Izvorni fajl',
 'exif-scenetype'                   => 'Tip scene',
-'exif-cfapattern'                  => 'CFA šablon',
 'exif-customrendered'              => 'Dodatna obrada slike',
 'exif-exposuremode'                => 'Režim izbora ekspozicije',
 'exif-whitebalance'                => 'Balans bele boje',
@@ -2966,6 +2972,11 @@ Sve druge veze u istoj liniji se smatraju izuzecima tj. članci u kojima se slik
 'exif-gpsspeed-k' => 'Kilometri na čas',
 'exif-gpsspeed-m' => 'Milje na čas',
 'exif-gpsspeed-n' => 'Čvorovi',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometara',
+'exif-gpsdestdistance-m' => 'Milja',
+'exif-gpsdestdistance-n' => 'Nautičkih milja',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Pravi pravac',

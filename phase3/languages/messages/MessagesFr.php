@@ -327,7 +327,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Liste_des_bots', 'ListedesBots' ),
 	'Popularpages'              => array( 'Pages_les_plus_visitées', 'Pages_les_plus_visitees', 'Pageslesplusvisitées', 'Pageslesplusvisitees' ),
 	'Search'                    => array( 'Recherche', 'Rechercher', 'Chercher' ),
-	'Resetpass'                 => array( 'Changement_du_mot_de_passe', 'ChangementDuMotDePasse' ),
+	'ChangePassword'            => array( 'Changement_du_mot_de_passe', 'ChangementDuMotDePasse' ),
 	'Withoutinterwiki'          => array( 'Sans_interwiki', 'Sansinterwiki', 'Sans_interwikis', 'Sansinterwikis' ),
 	'MergeHistory'              => array( 'Fusionner_les_historiques', 'FusionnerHistoriques', 'Fusionner_l\'historique', 'Fusionnerlhistorique' ),
 	'Filepath'                  => array( 'Chemin_du_fichier', 'CheminDuFichier', 'CheminFichier' ),
@@ -766,6 +766,7 @@ N’oubliez pas de personnaliser vos [[Special:Preferences|préférences sur {{S
 'createaccount'              => 'Créer un compte',
 'gotaccount'                 => "Vous avez déjà un compte ? '''$1'''.",
 'gotaccountlink'             => 'Connectez-vous',
+'userlogin-resetlink'        => 'Vous avez oublié vos détails de connexion ?',
 'createaccountmail'          => 'par courriel',
 'createaccountreason'        => 'Motif :',
 'badretype'                  => 'Les mots de passe que vous avez saisis ne correspondent pas.',
@@ -835,16 +836,7 @@ Veuillez attendre avant d’essayer à nouveau.',
 # E-mail sending
 'php-mail-error-unknown' => 'Erreur inconnue dans la fonction mail() de PHP.',
 
-# JavaScript password checks
-'password-strength'            => 'Niveau de sécurité du mot de passe : $1',
-'password-strength-bad'        => 'faible',
-'password-strength-mediocre'   => 'médiocre',
-'password-strength-acceptable' => 'acceptable',
-'password-strength-good'       => 'élevé',
-'password-retype'              => 'Confirmez le mot de passe',
-'password-retype-mismatch'     => 'Les mots de passe ne correspondent pas',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Changer de mot de passe',
 'resetpass_announce'        => 'Vous vous êtes enregistré{{GENDER:||e|(e)}} avec un mot de passe temporaire envoyé par courriel. Pour terminer l’enregistrement, vous devez entrer un nouveau mot de passe ici :',
 'resetpass_text'            => '<!-- Ajoutez le texte ici -->',
@@ -861,6 +853,19 @@ Veuillez attendre avant d’essayer à nouveau.',
 'resetpass-wrong-oldpass'   => 'Mot de passe actuel ou temporaire invalide.
 Vous avez peut-être déjà changé votre mot de passe ou demandé un nouveau mot de passe temporaire.',
 'resetpass-temp-password'   => 'Mot de passe temporaire :',
+
+# Special:PasswordReset
+'passwordreset'              => 'Remise à zéro du mot de passe',
+'passwordreset-text'         => 'Remplissez ce formulaire pour recevoir un courriel de rappel des détails de votre compte.',
+'passwordreset-legend'       => 'Remise à zéro du mot de passe',
+'passwordreset-disabled'     => 'La remise à zéro du mot de passe a été désactivé sur ce wiki.',
+'passwordreset-pretext'      => '{{PLURAL:$1||Entrez un élément de données ci-dessous}}',
+'passwordreset-username'     => 'Nom d’utilisateur :',
+'passwordreset-email'        => 'Adresse de courriel :',
+'passwordreset-emailtitle'   => 'Détails du compte sur {{SITENAME}}',
+'passwordreset-emailelement' => "Nom d'utilisateur :       $1
+Mot de passe temporaire : $2",
+'passwordreset-emailsent'    => 'Un courriel de rappel a été envoyé.',
 
 # Edit page toolbar
 'bold_sample'     => 'Texte gras',
@@ -1220,24 +1225,6 @@ Vérifiez les journaux.',
 'suppressionlogtext' => 'Voici la liste des suppressions et des blocages qui portent sur du contenu caché aux administrateurs.
 Voir la [[Special:IPBlockList|liste des adresses IP et utilisateurs bloqués]] pour la liste des bannissements et des blocages actuellement opérationnels.',
 
-# Revision move
-'moverevlogentry'              => 'a déplacé {{PLURAL:$3|une révision|$3 révisions}} de $1 à $2',
-'revisionmove'                 => 'Déplacer des révisions depuis « $1 »',
-'revmove-explain'              => 'Les révisions suivantes seront déplacés de $1 vers la page cible spécifiée. Si la cible n’existe pas, elle sera créée, sinon ces révisions seront fusionnées avec l’historique de la page.',
-'revmove-legend'               => 'Entrez la page cible et la raison',
-'revmove-submit'               => 'Déplacer les révisions vers la page sélectionnée',
-'revisionmoveselectedversions' => 'Déplacer les révisions sélectionnées',
-'revmove-reasonfield'          => 'Motif :',
-'revmove-titlefield'           => 'Page cible :',
-'revmove-badparam-title'       => 'Mauvais paramètres',
-'revmove-badparam'             => 'Votre requête contient des paramètres insuffisants ou illégaux. Veuillez cliquer sur « précédent » et essayez à nouveau.',
-'revmove-norevisions-title'    => 'Révision cible invalide',
-'revmove-norevisions'          => 'Vous n’avez pas spécifié un ou plusieurs révisions cibles pour effectuer cette fonctionnalité ou la révision spécifiée n’existe pas.',
-'revmove-nullmove-title'       => 'Mauvais titre',
-'revmove-nullmove'             => 'Les pages source et cible sont identiques. Veuillez cliquer sur « précédent » et entrez un nom de page différent de « $1 ».',
-'revmove-success-existing'     => '{{PLURAL:$1|Une révision de [[$2]] a été déplacée|$1 révisions de [[$2]] ont été déplacées}} vers la page existante [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Une révision de [[$2]] a été déplacée|$1 révisions de [[$2]] ont été déplacées}} vers la page [[$3]] nouvellement créée.',
-
 # History merging
 'mergehistory'                     => 'Fusionner les historiques des pages',
 'mergehistory-header'              => 'Cette page vous permet de fusionner des versions de l’historique d’une page d’origine vers une nouvelle page.
@@ -1575,8 +1562,6 @@ Elle ne doit pas dépasser $1 caractère{{PLURAL:$1||s}}.',
 'right-reset-passwords'       => 'Changer le mot de passe d’autres utilisateurs',
 'right-override-export-depth' => 'Exporter les pages en incluant les pages liées jusqu’à une profondeur de 5 niveaux',
 'right-sendemail'             => 'Envoyer un courriel aux autres utilisateurs',
-'right-revisionmove'          => 'Déplacer des révisions',
-'right-disableaccount'        => 'Désactiver des comptes',
 
 # User rights log
 'rightslog'      => 'Journal des modifications de droits d’utilisateurs',
@@ -1619,7 +1604,6 @@ Elle ne doit pas dépasser $1 caractère{{PLURAL:$1||s}}.',
 'action-userrights'           => 'modifier tous les droits d’utilisateur',
 'action-userrights-interwiki' => 'modifier les droits des utilisateurs sur d’autres wikis',
 'action-siteadmin'            => 'verrouiller ou déverrouiller la base de données',
-'action-revisionmove'         => 'déplacer des révisions',
 
 # Recent changes
 'nchanges'                          => '$1 modification{{PLURAL:$1||s}}',
@@ -1832,22 +1816,23 @@ Il ne peut pas être correctement vérifé pour la sécurité.',
 'uploadstash-refresh'  => 'Actualiser la liste des fichiers',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Accès refusé',
-'img-auth-nopathinfo'   => 'PATH_INFO manquant.
+'img-auth-accessdenied'     => 'Accès refusé',
+'img-auth-nopathinfo'       => 'PATH_INFO manquant.
 Votre serveur n’est pas paramétré pour passer cette information.
 Il fonctionne peut-être en CGI et ne supporte pas img_auth.
 Consultez http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Le chemin demandé n’est pas le répertoire de téléversement configuré.',
-'img-auth-badtitle'     => 'Impossible de construire un titre valide à partir de « $1 ».',
-'img-auth-nologinnWL'   => 'Vous n’êtes pas connecté et « $1 » n’est pas dans la liste blanche.',
-'img-auth-nofile'       => 'Le fichier « $1 » n’existe pas.',
-'img-auth-isdir'        => 'Vous essayez d’accéder au répertoire « $1 ».
+'img-auth-notindir'         => 'Le chemin demandé n’est pas le répertoire de téléversement configuré.',
+'img-auth-badtitle'         => 'Impossible de construire un titre valide à partir de « $1 ».',
+'img-auth-nologinnWL'       => 'Vous n’êtes pas connecté et « $1 » n’est pas dans la liste blanche.',
+'img-auth-nofile'           => 'Le fichier « $1 » n’existe pas.',
+'img-auth-isdir'            => 'Vous essayez d’accéder au répertoire « $1 ».
 Seul l’accès aux fichiers est permis.',
-'img-auth-streaming'    => 'Lecture en continu de « $1 ».',
-'img-auth-public'       => 'La fonction de img_auth.php est d’afficher des fichiers d’un wiki privé.
+'img-auth-streaming'        => 'Lecture en continu de « $1 ».',
+'img-auth-public'           => 'La fonction de img_auth.php est d’afficher des fichiers d’un wiki privé.
 Ce wiki est configuré comme un wiki public.
 Pour une sécurité optimale, img_auth.php est désactivé.',
-'img-auth-noread'       => 'L’utilisateur n’a pas le droit en lecture sur « $1 ».',
+'img-auth-noread'           => 'L’utilisateur n’a pas le droit en lecture sur « $1 ».',
+'img-auth-bad-query-string' => "L'URL a une chaîne de requête invalide.",
 
 # HTTP errors
 'http-invalid-url'      => 'URL incorrecte : $1',
@@ -2209,6 +2194,10 @@ L’adresse électronique que vous avez indiquée dans [[Special:Preferences|vos
 'noemailtext'          => 'Cet utilisateur n’a pas spécifié une adresse de courriel valide.',
 'nowikiemailtitle'     => 'Pas de courriel autorisé',
 'nowikiemailtext'      => 'Cet utilisateur a choisi de ne pas recevoir de courriel de la part d’autre utilisateurs.',
+'emailnotarget'        => "Nom d'utilisateur du destinataire inexistant ou invalide.",
+'emailtarget'          => "Entrez le nom d'utilisateur du destinataire",
+'emailusername'        => "Nom de l'utilisateur :",
+'emailusernamesubmit'  => 'Soumettre',
 'email-legend'         => 'Envoyer un courriel à un autre utilisateur de {{SITENAME}}',
 'emailfrom'            => 'Expéditeur :',
 'emailto'              => 'Destinataire :',
@@ -3072,14 +3061,20 @@ Les autres liens sur la même ligne sont considérés comme des exceptions, par 
 'metadata-help'     => 'Ce fichier contient des informations supplémentaires, probablement ajoutées par l’appareil photo numérique ou le numériseur utilisé pour le créer. Si le fichier a été modifié depuis son état original, certains détails peuvent ne pas refléter entièrement l’image modifiée.',
 'metadata-expand'   => 'Afficher les informations détaillées',
 'metadata-collapse' => 'Masquer les informations détaillées',
-'metadata-fields'   => 'Les champs de métadonnées d’EXIF listés dans ce message seront inclus dans la page de description de l’image quand la table de métadonnées sera réduite. Les autres champs seront cachés par défaut.
+'metadata-fields'   => 'Les champs de métadonnées d’image listés dans ce message seront inclus dans la page de description de l’image quand la table de métadonnées sera réduite. Les autres champs seront cachés par défaut.
 * make
 * model
 * datetimeoriginal
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Largeur',
@@ -3094,13 +3089,11 @@ Les autres liens sur la même ligne sont considérés comme des exceptions, par 
 'exif-ycbcrpositioning'            => 'Positionnement YCbCr',
 'exif-xresolution'                 => 'Résolution horizontale',
 'exif-yresolution'                 => 'Résolution verticale',
-'exif-resolutionunit'              => 'Unité de résolution',
 'exif-stripoffsets'                => 'Emplacement des données de l’image',
 'exif-rowsperstrip'                => 'Nombre de lignes par bande',
 'exif-stripbytecounts'             => 'Taille en octets par bande',
 'exif-jpeginterchangeformat'       => 'Position du SOI JPEG',
 'exif-jpeginterchangeformatlength' => 'Taille en octets des données JPEG',
-'exif-transferfunction'            => 'Fonction de transfert',
 'exif-whitepoint'                  => 'Chromaticité du point blanc',
 'exif-primarychromaticities'       => 'Chromaticité des primaires',
 'exif-ycbcrcoefficients'           => 'Coefficients YCbCr',
@@ -3117,9 +3110,8 @@ Les autres liens sur la même ligne sont considérés comme des exceptions, par 
 'exif-colorspace'                  => 'Espace colorimétrique',
 'exif-componentsconfiguration'     => 'Signification de chaque composante',
 'exif-compressedbitsperpixel'      => 'Mode de compression de l’image',
-'exif-pixelydimension'             => 'Hauteur d’image valide',
-'exif-pixelxdimension'             => 'Largeur d’image valide',
-'exif-makernote'                   => 'Notes du fabricant',
+'exif-pixelydimension'             => 'Largeur de l’image',
+'exif-pixelxdimension'             => 'Hauteur de l’image',
 'exif-usercomment'                 => 'Commentaires de l’utilisateur',
 'exif-relatedsoundfile'            => 'Fichier audio associé',
 'exif-datetimeoriginal'            => 'Date de la prise originelle',
@@ -3133,10 +3125,9 @@ Les autres liens sur la même ligne sont considérés comme des exceptions, par 
 'exif-exposureprogram'             => 'Programme d’exposition',
 'exif-spectralsensitivity'         => 'Sensibilité spectrale',
 'exif-isospeedratings'             => 'Sensibilité ISO',
-'exif-oecf'                        => 'Fonction de conversion opto-électronique',
-'exif-shutterspeedvalue'           => 'Vitesse d’obturation',
-'exif-aperturevalue'               => 'Ouverture',
-'exif-brightnessvalue'             => 'Luminance',
+'exif-shutterspeedvalue'           => 'vitesse d’obturation de l’APEX',
+'exif-aperturevalue'               => 'Ouverture de l’APEX',
+'exif-brightnessvalue'             => 'Luminance APEX',
 'exif-exposurebiasvalue'           => 'Correction d’exposition',
 'exif-maxaperturevalue'            => 'Ouverture maximale',
 'exif-subjectdistance'             => 'Distance du sujet',
@@ -3146,7 +3137,6 @@ Les autres liens sur la même ligne sont considérés comme des exceptions, par 
 'exif-focallength'                 => 'Longueur focale',
 'exif-subjectarea'                 => 'Emplacement du sujet',
 'exif-flashenergy'                 => 'Énergie du flash',
-'exif-spatialfrequencyresponse'    => 'Fréquence spatiale',
 'exif-focalplanexresolution'       => 'Résolution horizontale du plan focal',
 'exif-focalplaneyresolution'       => 'Résolution verticale du plan focal',
 'exif-focalplaneresolutionunit'    => 'Unité de résolution du plan focal',
@@ -3155,7 +3145,6 @@ Les autres liens sur la même ligne sont considérés comme des exceptions, par 
 'exif-sensingmethod'               => 'Type de capteur',
 'exif-filesource'                  => 'Source du fichier',
 'exif-scenetype'                   => 'Type de scène',
-'exif-cfapattern'                  => 'Motif CFA',
 'exif-customrendered'              => 'Rendu personnalisé',
 'exif-exposuremode'                => 'Mode d’exposition',
 'exif-whitebalance'                => 'Balance des blancs',
@@ -3200,7 +3189,60 @@ Les autres liens sur la même ligne sont considérés comme des exceptions, par 
 'exif-gpsareainformation'          => 'Nom de la zone GPS',
 'exif-gpsdatestamp'                => 'Date GPS',
 'exif-gpsdifferential'             => 'Correction différentielle GPS',
+'exif-jpegfilecomment'             => 'Commentaire de fichier JPEG',
+'exif-keywords'                    => 'Mots-clés',
+'exif-worldregioncreated'          => 'Région du monde dans laquelle la photo a été prise',
+'exif-countrycreated'              => 'Pays dans lequel la photo a été prise',
+'exif-countrycodecreated'          => 'Code du pays dans lequel la photo a été prise',
+'exif-provinceorstatecreated'      => 'Province ou état dans lequel la photo a été prise',
+'exif-citycreated'                 => 'Ville dans laquelle la photo a été prise',
+'exif-worldregiondest'             => 'Région du monde représentée',
+'exif-countrydest'                 => 'Pays représenté',
+'exif-countrycodedest'             => 'Code du pays représenté',
+'exif-provinceorstatedest'         => 'Province ou état représenté',
+'exif-citydest'                    => 'Ville représentée',
 'exif-objectname'                  => 'Titre court',
+'exif-specialinstructions'         => 'Instructions spéciales',
+'exif-headline'                    => 'Titre',
+'exif-credit'                      => 'Crédit / fournisseur',
+'exif-source'                      => 'Source',
+'exif-editstatus'                  => "Statut éditorial de l'image",
+'exif-urgency'                     => 'Urgence',
+'exif-locationdest'                => 'Lieu représenté',
+'exif-locationdestcode'            => 'Code du lieu représenté',
+'exif-objectcycle'                 => 'Moment de la journée auquel ce média est destiné',
+'exif-contact'                     => 'Informations de contact',
+'exif-languagecode'                => 'Langue',
+'exif-iimversion'                  => 'version IIM',
+'exif-iimcategory'                 => 'Catégorie',
+'exif-iimsupplementalcategory'     => 'Catégories supplémentaires',
+'exif-datetimeexpires'             => 'Ne pas utiliser après',
+'exif-datetimereleased'            => 'Paru le',
+'exif-identifier'                  => 'Identifiant',
+'exif-lens'                        => 'Lentille utilisée',
+'exif-serialnumber'                => "Numéro de série de l'appareil photo",
+'exif-cameraownername'             => "Propriétaire de l'appareil photo",
+'exif-label'                       => 'Étiquette',
+'exif-datetimemetadata'            => 'Date de la dernière modification des métadonnées',
+'exif-nickname'                    => "Nom informel de l'image",
+'exif-rating'                      => 'Note (sur 5)',
+'exif-rightscertificate'           => 'Certificat de gestion des droits',
+'exif-copyrightowner'              => "Propriétaire du droit d'auteur",
+'exif-usageterms'                  => "Conditions d'utilisation",
+'exif-webstatement'                => "Déclaration de droits d'auteur en ligne",
+'exif-originaldocumentid'          => 'Identifiant unique du document original',
+'exif-licenseurl'                  => 'URL de la licence',
+'exif-attributionurl'              => 'Lors de la réutilisation de ce travail, veuillez lier à',
+'exif-preferredattributionname'    => 'Lors de la réutilisation de ce travail, veuillez créditer',
+'exif-pngfilecomment'              => 'Commentaire de fichier PNG',
+'exif-disclaimer'                  => 'Désistement',
+'exif-contentwarning'              => 'Avertissement sur le contenu',
+'exif-giffilecomment'              => 'Commentaire de fichier GIF',
+'exif-intellectualgenre'           => "Type d'élément",
+'exif-scenecode'                   => 'Code de scène IPTC',
+'exif-event'                       => 'Événement représenté',
+'exif-organisationinimage'         => 'Organisation représentée',
+'exif-personinimage'               => 'Personne représentée',
 
 # EXIF attributes
 'exif-compression-1' => 'Non compressé',
@@ -3219,7 +3261,7 @@ Les autres liens sur la même ligne sont considérés comme des exceptions, par 
 'exif-planarconfiguration-1' => 'Données contiguës',
 'exif-planarconfiguration-2' => 'Données séparées',
 
-'exif-colorspace-ffff.h' => 'Non calibré',
+'exif-colorspace-65535' => 'Non calibré',
 
 'exif-componentsconfiguration-0' => 'N’existe pas',
 'exif-componentsconfiguration-5' => 'V',
@@ -3346,9 +3388,50 @@ Les autres liens sur la même ligne sont considérés comme des exceptions, par 
 'exif-gpsspeed-m' => 'Milles à l’heure',
 'exif-gpsspeed-n' => 'Nœud',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilomètres',
+'exif-gpsdestdistance-m' => 'Milles',
+'exif-gpsdestdistance-n' => 'Milles marins',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Nord vrai',
 'exif-gpsdirection-m' => 'Nord magnétique',
+
+'exif-dc-contributor' => 'Contributeurs',
+'exif-dc-coverage'    => 'Portée spatiale ou temporelle du média',
+'exif-dc-date'        => 'Date(s)',
+'exif-dc-publisher'   => 'Éditeur',
+'exif-dc-relation'    => 'Médias connexes',
+'exif-dc-rights'      => 'Droits',
+'exif-dc-source'      => 'Média source',
+'exif-dc-type'        => 'Type de média',
+
+'exif-rating-rejected' => 'Rejeté',
+
+'exif-isospeedratings-overflow' => 'Plus grand que 65535',
+
+'exif-iimcategory-ace' => 'Arts, culture et loisirs',
+'exif-iimcategory-clj' => 'Crime et droit',
+'exif-iimcategory-dis' => 'Catastrophes et accidents',
+'exif-iimcategory-fin' => 'Économie et affaires',
+'exif-iimcategory-edu' => 'Éducation',
+'exif-iimcategory-evn' => 'Environnement',
+'exif-iimcategory-hth' => 'Santé',
+'exif-iimcategory-hum' => 'Intérêt humain',
+'exif-iimcategory-lab' => 'Travail',
+'exif-iimcategory-lif' => 'Mode de vie et de loisirs',
+'exif-iimcategory-pol' => 'Politique',
+'exif-iimcategory-rel' => 'Religion et croyances',
+'exif-iimcategory-sci' => 'Science et technologie',
+'exif-iimcategory-soi' => 'Questions sociales',
+'exif-iimcategory-spo' => 'Sports',
+'exif-iimcategory-war' => 'Guerre, conflit et trouble',
+'exif-iimcategory-wea' => 'Météo',
+
+'exif-urgency-normal' => 'Normale ($1)',
+'exif-urgency-low'    => 'Faible ($1)',
+'exif-urgency-high'   => 'Haute ($1)',
+'exif-urgency-other'  => "Priorité définie par l'utilisateur ($1)",
 
 # External editor support
 'edit-externally'      => 'Modifier ce fichier en utilisant une application externe',
@@ -3675,18 +3758,5 @@ Entrez le nom du fichier sans le préfixe « {{ns:file}}: »',
 # SQLite database support
 'sqlite-has-fts' => '$1 avec recherche en texte intégral supportée',
 'sqlite-no-fts'  => '$1 sans recherche en texte intégral supportée',
-
-# Special:DisableAccount
-'disableaccount'             => 'Désactiver un compte utilisateur',
-'disableaccount-user'        => 'Nom d’utilisateur :',
-'disableaccount-reason'      => 'Motif :',
-'disableaccount-confirm'     => "Désactiver ce compte utilisateur.
-L’utilisateur ne pourra plus s’identifier, ni réinitialiser son mot de passe, ni recevoir des notifications par courrier électronique.
-Si l’utilisateur est actuellement identifié quelque part, il sera immédiatement déconnecté.
-''Notez que la désactivation d’un compte n’est pas réversible sans intervention d’un administrateur système.''",
-'disableaccount-mustconfirm' => 'Vous devez confirmer que vous souhaitez désactiver ce compte.',
-'disableaccount-nosuchuser'  => "Le compte utilisateur « $1 » n'existe pas.",
-'disableaccount-success'     => 'Le compte utilisateur « $1 » a été définitivement désactivé.',
-'disableaccount-logentry'    => 'a désactivé définitivement le compte utilisateur [[$1]]',
 
 );

@@ -322,7 +322,7 @@ Sa ku bye fatukile zwa sebu dafi e a ni petuho, ni petuho e mulumiwasibukirisize
 'createaccount-title'     => 'Sebelu sa hloli di {{SITENAME}}',
 'loginlanguagelabel'      => 'Zwa Siselect: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'        => 'Lisetize sebelu sebu dafi',
 'resetpass_header' => 'Lisetize sebu dafi',
 'retypenew'        => 'Sebu dafi:',
@@ -1031,7 +1031,13 @@ Xete ling'ki kwa lina sa konsidisize desepo. Petulo dimedi inlinenikusize.",
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagedescription' => 'Sebu di imegi',

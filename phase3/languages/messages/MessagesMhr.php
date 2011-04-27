@@ -373,7 +373,7 @@ $messages = array(
 'emailauthenticated'      => 'Тыйын почто адресетым пеҥгыдемдыме $2, $3.',
 'loginlanguagelabel'      => 'Йылме: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Шолыпмутым вашталташ',
 'oldpassword'               => 'Тошто шолыпмут:',
 'newpassword'               => 'У шолыпмут:',
@@ -1037,7 +1037,13 @@ $messages = array(
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'Файлым ӧрдыж программыште тӧрлаташ',

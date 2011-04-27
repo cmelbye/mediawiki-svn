@@ -129,6 +129,9 @@ return array(
 	'jquery.tabIndex' => array(
 		'scripts' => 'resources/jquery/jquery.tabIndex.js',
 	),
+	'jquery.tablesorter' => array(
+		'scripts' => 'resources/jquery/jquery.tablesorter.js'
+	),
 	'jquery.textSelection' => array(
 		'scripts' => 'resources/jquery/jquery.textSelection.js',
 	),
@@ -395,6 +398,7 @@ return array(
 			'jquery.messageBox',
 			'jquery.makeCollapsible',
 			'jquery.placeholder',
+			'jquery.tablesorter',
 		),
 		'debugScripts' => 'resources/mediawiki.util/mediawiki.util.test.js',
 	),
@@ -403,7 +407,7 @@ return array(
 	),
 	'mediawiki.action.history' => array(
 		'scripts' => 'resources/mediawiki.action/mediawiki.action.history.js',
-		'dependencies' => 'mediawiki.legacy.history',
+		'dependencies' => 'jquery.ui.button',
 		'group' => 'mediawiki.action.history',
 	),
 	'mediawiki.action.edit' => array(
@@ -411,6 +415,10 @@ return array(
 	),
 	'mediawiki.action.view.rightClickEdit' => array(
 		'scripts' => 'resources/mediawiki.action/mediawiki.action.view.rightClickEdit.js',
+	),
+	'mediawiki.action.view.metadata' => array(
+		'scripts' => 'resources/mediawiki.action/mediawiki.action.view.metadata.js',
+		'messages' => array( 'metadata-expand', 'metadata-collapse' ),
 	),
 	'mediawiki.action.watch.ajax' => array(
 		'scripts' => 'resources/mediawiki.action/mediawiki.action.watch.ajax.js',
@@ -545,25 +553,11 @@ return array(
 		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
-	'mediawiki.legacy.history' => array(
-		'scripts' => 'common/history.js',
-		'group' => 'mediawiki.action.history',
-		'remoteBasePath' => $GLOBALS['wgStylePath'],
-		'localBasePath' => "{$GLOBALS['IP']}/skins",
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
 	'mediawiki.legacy.IEFixes' => array(
 		'scripts' => 'common/IEFixes.js',
 		'remoteBasePath' => $GLOBALS['wgStylePath'],
 		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.metadata' => array(
-		'scripts' => 'common/metadata.js',
-		'remoteBasePath' => $GLOBALS['wgStylePath'],
-		'localBasePath' => "{$GLOBALS['IP']}/skins",
-		'dependencies' => 'mediawiki.legacy.wikibits',
-		'messages' => array( 'metadata-expand', 'metadata-collapse' ),
 	),
 	'mediawiki.legacy.mwsuggest' => array(
 		'scripts' => 'common/mwsuggest.js',
@@ -571,19 +565,6 @@ return array(
 		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => array( 'mediawiki.legacy.wikibits', 'jquery.client' ),
 		'messages' => array( 'search-mwsuggest-enabled', 'search-mwsuggest-disabled' ),
-	),
-	'mediawiki.legacy.password' => array(
-		'scripts' => 'common/password.js',
-		'remoteBasePath' => $GLOBALS['wgStylePath'],
-		'localBasePath' => "{$GLOBALS['IP']}/skins",
-		'styles' => 'common/password.css',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.prefs' => array(
-		'scripts' => 'common/prefs.js',
-		'remoteBasePath' => $GLOBALS['wgStylePath'],
-		'localBasePath' => "{$GLOBALS['IP']}/skins",
-		'dependencies' => array( 'mediawiki.legacy.wikibits', 'mediawiki.htmlform' ),
 	),
 	'mediawiki.legacy.preview' => array(
 		'scripts' => 'common/preview.js',

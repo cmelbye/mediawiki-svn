@@ -262,7 +262,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Bottliste', 'Bottar' ),
 	'Popularpages'              => array( 'Populære_sider' ),
 	'Search'                    => array( 'Søk' ),
-	'Resetpass'                 => array( 'Nullstill_passord' ),
+	'ChangePassword'            => array( 'Nullstill_passord' ),
 	'Withoutinterwiki'          => array( 'Utan_interwiki' ),
 	'MergeHistory'              => array( 'Flettehistorie' ),
 	'Filepath'                  => array( 'Filsti' ),
@@ -753,16 +753,7 @@ Du kan sjå bort frå denne meldinga dersom kontoen vart oppretta med eit uhell.
 # E-mail sending
 'php-mail-error-unknown' => 'Ukjend feil i PHPs mail()-funksjon',
 
-# JavaScript password checks
-'password-strength'            => 'Utrekna passordstyrke: $1',
-'password-strength-bad'        => 'DÅRLEG',
-'password-strength-mediocre'   => 'medels',
-'password-strength-acceptable' => 'dugande',
-'password-strength-good'       => 'god',
-'password-retype'              => 'Skriv opp att passordet',
-'password-retype-mismatch'     => 'Passorda er ikkje dei same',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Endra passord',
 'resetpass_announce'        => 'Du logga inn med eit mellombels passord du fekk på e-post. For å fullføre innlogginga må du lage eit nytt passord her:',
 'resetpass_text'            => '<!-- Legg til tekst her -->',
@@ -779,6 +770,10 @@ Du kan sjå bort frå denne meldinga dersom kontoen vart oppretta med eit uhell.
 'resetpass-wrong-oldpass'   => 'Feil mellombels eller noverande passord.
 Du kan allereie ha byta passordet, eller ha bede om å få eit nytt mellombels passord.',
 'resetpass-temp-password'   => 'Mellombels passord:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Attendestilling av passord',
+'passwordreset-username' => 'Brukarnamn:',
 
 # Edit page toolbar
 'bold_sample'     => 'Halvfeit skrift',
@@ -1129,20 +1124,6 @@ Sjekk gjerne loggføringa.',
 'suppressionlogtext' => 'Under er ei liste over slettingar og blokkeringar som er gøymde frå administratorane.
 Sjå [[Special:IPBlockList|blokkeringslista]] for oversikta over gjeldande blokkeringar.',
 
-# Revision move
-'moverevlogentry'              => 'flytta {{PLURAL:$3|éin versjon|$3 versjonar}} frå $1 til $2',
-'revisionmove'                 => 'Flytt versjonar frå «$1»',
-'revmove-explain'              => 'Dei fylgjande versjonane vil verta flytta frå $1 til målsida som er gjeven opp. Om målet ikkje finst vil det verta oppretta.
-Elles vil desse versjonane verta fletta inn i sidehistorikken.',
-'revmove-legend'               => 'Set målsida og samandrag',
-'revmove-submit'               => 'Flytt versjonane til den valde sida',
-'revisionmoveselectedversions' => 'Flytt dei valde versjonane',
-'revmove-reasonfield'          => 'Årsak:',
-'revmove-titlefield'           => 'Målsida:',
-'revmove-badparam-title'       => 'Dårlege parametrar',
-'revmove-norevisions-title'    => 'Ugyldig målversjon',
-'revmove-nullmove-title'       => 'Feil i tittelen',
-
 # History merging
 'mergehistory'                     => 'Flett sidehistorikkar',
 'mergehistory-header'              => 'Denne sida lar deg flette historikken til to sider.
@@ -1474,7 +1455,6 @@ Du kan òg velje å la andre brukarar kontakte deg på e-post via brukarsida di 
 'right-reset-passwords'       => 'Nullstilla passorda til andre brukarar',
 'right-override-export-depth' => 'Eksporter sider inkludert lenkte sider til ei djupn på 5',
 'right-sendemail'             => 'Senda e-post til andre brukarar',
-'right-revisionmove'          => 'Flytta versjonar',
 
 # User rights log
 'rightslog'      => 'Brukartilgangslogg',
@@ -1517,7 +1497,6 @@ Du kan òg velje å la andre brukarar kontakte deg på e-post via brukarsida di 
 'action-userrights'           => 'endre alle brukarrettar',
 'action-userrights-interwiki' => 'endre brukarrettar for brukarar på andre wikiar',
 'action-siteadmin'            => 'låse eller låse opp databasen',
-'action-revisionmove'         => 'flytta versjonar',
 
 # Recent changes
 'nchanges'                          => '{{PLURAL:$1|Éi endring|$1 endringar}}',
@@ -2668,7 +2647,7 @@ Vitja [http://www.mediawiki.org/wiki/Localisation MediaWiki Localisation] og [ht
 'tooltip-ca-move'                 => 'Flytt denne sida',
 'tooltip-ca-watch'                => 'Legg denne sida til i overvakingslista di',
 'tooltip-ca-unwatch'              => 'Fjern denne sida frå overvakingslista di',
-'tooltip-search'                  => 'Søk gjennom denne wikien',
+'tooltip-search'                  => 'Søk gjennom {{SITENAME}}',
 'tooltip-search-go'               => 'Gå til ei side med dette namnet om ho finst',
 'tooltip-search-fulltext'         => 'Søk etter sider som inneheld denne teksten',
 'tooltip-p-logo'                  => 'Hovudside',
@@ -2861,7 +2840,13 @@ Dei andre felta er gøymde som standard.
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Breidd',
@@ -2876,13 +2861,11 @@ Dei andre felta er gøymde som standard.
 'exif-ycbcrpositioning'            => 'Y- og C-posisjon',
 'exif-xresolution'                 => 'Oppløysing i breidda',
 'exif-yresolution'                 => 'Oppløysing i høgda',
-'exif-resolutionunit'              => 'Eining for X- og Y-oppløysing',
 'exif-stripoffsets'                => 'Plassering for biletdata',
 'exif-rowsperstrip'                => 'Tal rader per stripe',
 'exif-stripbytecounts'             => 'Tal byte per kompimerte stripe',
 'exif-jpeginterchangeformat'       => 'Offset til JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Byte JPEG-data',
-'exif-transferfunction'            => 'Overføringsfunksjon',
 'exif-whitepoint'                  => 'Kvitpunktsreinleik',
 'exif-primarychromaticities'       => 'Reinheita til primærfargane',
 'exif-ycbcrcoefficients'           => 'Koeffisientar for fargeromstransformasjonsmatrise',
@@ -2899,9 +2882,8 @@ Dei andre felta er gøymde som standard.
 'exif-colorspace'                  => 'Fargerom',
 'exif-componentsconfiguration'     => 'Komponentanalyse',
 'exif-compressedbitsperpixel'      => 'Komprimerte bits pr. pixel',
-'exif-pixelydimension'             => 'Gyldig biletbreidd',
-'exif-pixelxdimension'             => 'Gyldig bilethøgd',
-'exif-makernote'                   => 'Produsentnotat',
+'exif-pixelydimension'             => 'Biletbreidd',
+'exif-pixelxdimension'             => 'Bilethøgd',
 'exif-usercomment'                 => 'Brukarkommentarar',
 'exif-relatedsoundfile'            => 'Tilknytt lydfil',
 'exif-datetimeoriginal'            => 'Dato og tid laga',
@@ -2915,7 +2897,6 @@ Dei andre felta er gøymde som standard.
 'exif-exposureprogram'             => 'Eksponeringsprogram',
 'exif-spectralsensitivity'         => 'Spektralsensitivitet',
 'exif-isospeedratings'             => 'Lyskjensle (ISO)',
-'exif-oecf'                        => 'Optoelektronisk omregningsfaktor',
 'exif-shutterspeedvalue'           => 'Lukkarfart',
 'exif-aperturevalue'               => 'Blendartal',
 'exif-brightnessvalue'             => 'Lysstyrke',
@@ -2928,7 +2909,6 @@ Dei andre felta er gøymde som standard.
 'exif-focallength'                 => 'Linsefokallengd',
 'exif-subjectarea'                 => 'Motivområde',
 'exif-flashenergy'                 => 'Blitsstyrke',
-'exif-spatialfrequencyresponse'    => 'Romleg frekvensrespons',
 'exif-focalplanexresolution'       => 'Oppløysing i fokalplan X',
 'exif-focalplaneyresolution'       => 'Oppløysing i fokalplan Y',
 'exif-focalplaneresolutionunit'    => 'Oppløysingseining for fokalplanet',
@@ -2937,7 +2917,6 @@ Dei andre felta er gøymde som standard.
 'exif-sensingmethod'               => 'Sensor',
 'exif-filesource'                  => 'Filkjelde',
 'exif-scenetype'                   => 'Scenetype',
-'exif-cfapattern'                  => 'CFA-mønster',
 'exif-customrendered'              => 'Tilpassa biletehandsaming',
 'exif-exposuremode'                => 'Eksponeringsmodus',
 'exif-whitebalance'                => 'Kvitbalanse',
@@ -3121,6 +3100,11 @@ Dei andre felta er gøymde som standard.
 'exif-gpsspeed-k' => 'Kilometer per time',
 'exif-gpsspeed-m' => 'Engelsk mil per time',
 'exif-gpsspeed-n' => 'Knop',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometer',
+'exif-gpsdestdistance-m' => 'Miles',
+'exif-gpsdestdistance-n' => 'Nautiske mil',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Verkeleg retning',
@@ -3362,10 +3346,10 @@ Skriv inn filnamnet utan «{{ns:file}}:»-prefikset.',
 
 # Database error messages
 'dberr-header'      => 'Denne wikien har eit problem',
-'dberr-problems'    => 'Denne nettstaden har tekniske problem.',
-'dberr-again'       => 'Prøv og venta nokre minutt og last inn sida på nytt.',
+'dberr-problems'    => 'Nettstaden har tekniske problem.',
+'dberr-again'       => 'Venta nokre minutt og last sida inn på nytt.',
 'dberr-info'        => '(Kan ikkje kontakta databasetenaren: $1)',
-'dberr-usegoogle'   => 'Du kan prøva å søkja gjennom Google i mellomtida.',
+'dberr-usegoogle'   => 'Du kan søkja gjennom Google i mellomtida.',
 'dberr-outofdate'   => 'Merk at versjonane deira av innhaldet vårt kan vera forelda.',
 'dberr-cachederror' => 'Fylgjande er ein mellomlagra kopi av den etterspurde sida, og er, kan henda, ikkje den siste versjonen av ho.',
 
@@ -3384,12 +3368,5 @@ Skriv inn filnamnet utan «{{ns:file}}:»-prefikset.',
 # SQLite database support
 'sqlite-has-fts' => '$1 med støtte for fulltekstsøk',
 'sqlite-no-fts'  => '$1 utan støtte for fulltekstsøk',
-
-# Special:DisableAccount
-'disableaccount-reason'      => '↓Grunngjeving:',
-'disableaccount-mustconfirm' => 'Du lyt stadfesta at du ynskjer å deaktivera denne kontoen.',
-'disableaccount-nosuchuser'  => 'Brukarkontoen «$1» finst ikkje.',
-'disableaccount-success'     => 'Brukarkontoen «$1» er permanent deaktivert.',
-'disableaccount-logentry'    => 'deaktiverte brukarkontoen [[$1]] permanent',
 
 );

@@ -100,7 +100,7 @@ $specialPageAliases = array(
 	'Listadmins'                => array( 'Amministhradori' ),
 	'Popularpages'              => array( 'PàginiPiùVisitaddi' ),
 	'Search'                    => array( 'Zircha', 'Ricerca' ),
-	'Resetpass'                 => array( 'RimpusthàParàuraDÓrdhini' ),
+	'ChangePassword'            => array( 'RimpusthàParàuraDÓrdhini' ),
 	'Withoutinterwiki'          => array( 'PàginiChenaInterwiki' ),
 );
 
@@ -519,7 +519,7 @@ Insirì un'indirizzu vàriddu o ibbiudà la casella.",
 Si la registhrazioni è isthadda criadda pa un\'errori, pói ignorà chisth\'imbasciadda.',
 'loginlanguagelabel'         => 'Linga: $1',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'           => "Ciamba paràura d'órdhini",
 'resetpass_announce'  => "L'intradda è isthadda effettuadda cun un còdizi timpuràniu, inviaddu via postha erettrònica.
 
@@ -1894,7 +1894,13 @@ So cunsidaraddi soru l'erenchi puntaddi (righi ch'ischumenzani cu' lu caràtteri
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength",
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude",
 
 # EXIF tags
 'exif-imagewidth'                => 'Larghèzia',

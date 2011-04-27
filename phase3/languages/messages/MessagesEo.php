@@ -148,7 +148,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Listigi_robotojn' ),
 	'Popularpages'              => array( 'Popularaj_paĝoj' ),
 	'Search'                    => array( 'Serĉi' ),
-	'Resetpass'                 => array( 'Ŝanĝi_pasvorton' ),
+	'ChangePassword'            => array( 'Ŝanĝi_pasvorton' ),
 	'Withoutinterwiki'          => array( 'Sen_intervikia_ligilo' ),
 	'MergeHistory'              => array( 'Kunigi_historion' ),
 	'Filepath'                  => array( 'Dosiero-pado' ),
@@ -790,16 +790,7 @@ Bonvolu ĝisatendi antaŭ retrovi.',
 # E-mail sending
 'php-mail-error-unknown' => 'Nekonata eraro en la funkcio mail() de PHP',
 
-# JavaScript password checks
-'password-strength'            => 'Taksita pasvorta forteco: $1',
-'password-strength-bad'        => 'MALBONA',
-'password-strength-mediocre'   => 'mezbona',
-'password-strength-acceptable' => 'akceptinda',
-'password-strength-good'       => 'bona',
-'password-retype'              => 'Retajpu pasvorton',
-'password-retype-mismatch'     => 'Pasvortoj ne estas samaj',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'Ŝanĝi pasvorton',
 'resetpass_announce'        => 'Vi ensalutis kun provizora retpoŝtita pasvorto. Por kompleti ensalutadon, vi devas fari novan pasvorton ĉi tien:',
 'resetpass_text'            => '<!-- Aldonu tekston ĉi tien -->',
@@ -816,6 +807,10 @@ Bonvolu ĝisatendi antaŭ retrovi.',
 'resetpass-wrong-oldpass'   => 'Malvalida provizora aŭ nuna pasvorto.
 Vi eble jam ŝanĝis vian pasvorton aŭ petis novan provizoran pasvorton.',
 'resetpass-temp-password'   => 'Provizora pasvorto:',
+
+# Special:PasswordReset
+'passwordreset'          => 'Restarigo de pasvorto',
+'passwordreset-username' => 'Salutnomo:',
 
 # Edit page toolbar
 'bold_sample'     => 'Grasa teksto',
@@ -1180,24 +1175,6 @@ Bonvolu kontroli la protokolojn.',
 'suppressionlogtext' => 'Jen listo de forigoj kaj forbaroj pri enhavo kaŝita per administrantoj.
 Rigardu la [[Special:IPBlockList|IP-forbarliston]] por la listo de nune operaciaj forbaroj kaj forigoj.',
 
-# Revision move
-'moverevlogentry'              => 'movis {{PLURAL:$3|unu revizion|$3 reviziojn}} de $1 al $2',
-'revisionmove'                 => 'Movi reviziojn de "$1"',
-'revmove-explain'              => 'La jenaj revizioj estos movita de $1 al la donita cela paĝo. Se la celo ne ekzistas, ĝi estos kreita. Alie, ĉi tiuj revizioj estos kunigita en la paĝa historio.',
-'revmove-legend'               => 'Aldoni celan paĝon kaj resumon',
-'revmove-submit'               => 'Movi reviziojn al la selektita  paĝo',
-'revisionmoveselectedversions' => 'Movi elektitajn reviziojn',
-'revmove-reasonfield'          => 'Kialo:',
-'revmove-titlefield'           => 'Cela paĝo:',
-'revmove-badparam-title'       => 'Malbonaj parametroj',
-'revmove-badparam'             => 'Via peto enhavas kontraŭleĝajn aŭ nesufiĉajn parametrojn. Bonvolu premi "malantaŭen" kaj provi denove.',
-'revmove-norevisions-title'    => 'Nevalida cela revizio',
-'revmove-norevisions'          => 'Vi ne specifis unu aŭ pliajn reviziojn por apliki ĉi tiun funkcion aŭ la specifita revizio ne ekzistas.',
-'revmove-nullmove-title'       => 'Fuŝa titolo',
-'revmove-nullmove'             => 'Origina kaj cela paĝoj samas. Bonvolu malantaŭeniri kaj tajpi paĝon malsaman de "$1".',
-'revmove-success-existing'     => '{{PLURAL:$1|Unu revizio de [[$2]]  estis movita|$1 revizioj de [[$2]] estis movitaj}} al la ekzistanta paĝo [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Unu revizio de [[$2]]  estis movita|$1 revizioj de [[$2]] estis movitaj}} al la novkreita paĝo [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Kunfandigi historiojn de paĝoj',
 'mergehistory-header'              => 'Ĉi tiu paĝo permesas al vi kunigi versiojn de la historio de unu fonta paĝo en pli novan paĝon.
@@ -1535,8 +1512,6 @@ Jen hazarde generita valoro por via uzo: $1',
 'right-reset-passwords'       => 'Reŝanĝi pasvortojn de aliaj uzantoj',
 'right-override-export-depth' => 'Eksporti paĝojn inkluzivante ligitajn paĝojn ĝis profundeco de 5',
 'right-sendemail'             => 'Sendi retpoŝton al aliaj uzantoj',
-'right-revisionmove'          => 'Movi reviziojn',
-'right-disableaccount'        => 'Malŝalti kontojn',
 
 # User rights log
 'rightslog'      => 'Protokolo de uzanto-rajtoj',
@@ -1579,7 +1554,6 @@ Jen hazarde generita valoro por via uzo: $1',
 'action-userrights'           => 'redakti ĉiujn rajtojn de uzantoj',
 'action-userrights-interwiki' => 'redakti uzulrajtojn de uzantoj en aliaj vikioj',
 'action-siteadmin'            => 'ŝlosi aŭ malŝlosi la datumbazon',
-'action-revisionmove'         => 'movi reviziojn',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|ŝanĝo|ŝanĝoj}}',
@@ -2492,7 +2466,7 @@ forbarita IP-adreso/nomo la povon enskribi en la vikio.',
 'ipusubmit'                       => 'Forigi ĉi tiun forbaron',
 'unblocked'                       => '[[User:$1|$1]] estas restarigita.',
 'unblocked-id'                    => 'Forbaro $1 estas forigita.',
-'ipblocklist'                     => 'Forbaritaj IP-adresoj kaj salutnomoj',
+'ipblocklist'                     => 'Forbaritaj uzantoj',
 'ipblocklist-legend'              => 'Trovi forbaritan uzanton.',
 'blocklist-target'                => 'Celo',
 'blocklist-reason'                => 'Kialo',
@@ -2737,7 +2711,7 @@ Datoj de versioj kaj nomoj de redaktantoj estos preservitaj.
 'import-interwiki-namespace' => 'Cela nomspaco:',
 'import-upload-filename'     => 'Dosiernomo:',
 'import-comment'             => 'Komento:',
-'importtext'                 => 'Bonvole eksportu la dosieron el la fonta vikio per la ilo Speciala:Export, konservu ĝin sur via disko kaj poste alŝutu ĝin tien ĉi.',
+'importtext'                 => 'Bonvolu eksporti la dosieron el la fonta vikio per la [[Special:ExportSpeciala:Export|eksportilo]]. Konservu ĝin sur via persona komputilo kaj poste alŝutu ĝin tien ĉi.',
 'importstart'                => 'Importante paĝojn...',
 'import-revision-count'      => '$1 {{PLURAL:$1|versio|versioj}}',
 'importnopages'              => 'Neniu paĝo por importi.',
@@ -2953,15 +2927,21 @@ Sekvaj ligilo en la sama linio estas konsiderata kiel esceptoj (paĝoj kiel la b
 'metadata-help'     => 'Ĉi tiu dosiero enhavas plian informon, verŝajne aldonita de la cifereca fotilo aŭ skanilo uzata krei aux skani ĝin. Se la dosiero estis modifita de ties originala stato, iuj detaloj eble ne estas tute estos sama kiel la modifita bildo.',
 'metadata-expand'   => 'Montri etendajn detalojn',
 'metadata-collapse' => 'Kaŝi etendajn detalojn',
-'metadata-fields'   => 'La jenaj EXIF-metadatumaj kampoj estos inkluzivitaj en bildo-paĝoj kiam la metadatuma tabelo estas disfaldigita. Aliaj estos kaŝita defaŭlte.
-
+'metadata-fields'   => 'Metadatumaj kampoj de ĉi tiu mesaĝo estos inkluzivita en la paĝoj de bidloj kiam la metadatuma tabelo estas disfaldigita. 
+Aliaj estos kaŝitaj defaŭlte.
 * make
 * model
 * datetimeoriginal
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'Larĝeco',
@@ -2976,13 +2956,11 @@ Sekvaj ligilo en la sama linio estas konsiderata kiel esceptoj (paĝoj kiel la b
 'exif-ycbcrpositioning'            => 'Y kaj C situado',
 'exif-xresolution'                 => 'Horizontala distingivo',
 'exif-yresolution'                 => 'Vertikala distingivo',
-'exif-resolutionunit'              => 'Unuo de X kaj Y distingivo',
 'exif-stripoffsets'                => 'Loko de bilda datumo',
 'exif-rowsperstrip'                => 'Nombro de vicoj por strio',
 'exif-stripbytecounts'             => 'Bitikoj por densigita strio',
 'exif-jpeginterchangeformat'       => 'Flankigo al JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'Bitokoj de JPEG-datumo',
-'exif-transferfunction'            => 'Transiga funkcio',
 'exif-whitepoint'                  => 'Koloreco de blanka punkto',
 'exif-primarychromaticities'       => 'Kolorecoj de primaraĵoj',
 'exif-ycbcrcoefficients'           => 'Koeficientoj de kolorspaca transformiga matrikso',
@@ -2999,9 +2977,8 @@ Sekvaj ligilo en la sama linio estas konsiderata kiel esceptoj (paĝoj kiel la b
 'exif-colorspace'                  => 'Kolor-spaco',
 'exif-componentsconfiguration'     => 'Signifo de ĉiu kompono',
 'exif-compressedbitsperpixel'      => 'Reĝimo de bilda densigado',
-'exif-pixelydimension'             => 'Valida larĝeco de bildo',
-'exif-pixelxdimension'             => 'Valida alteco de bildo',
-'exif-makernote'                   => 'Notoj de fabrikejo',
+'exif-pixelydimension'             => 'Larĝeco de bildo',
+'exif-pixelxdimension'             => 'Alteco de bildo',
 'exif-usercomment'                 => 'Komentoj de uzanto',
 'exif-relatedsoundfile'            => 'Rilata son-dosiero',
 'exif-datetimeoriginal'            => 'Dato kaj tempo de datuma generado',
@@ -3015,10 +2992,9 @@ Sekvaj ligilo en la sama linio estas konsiderata kiel esceptoj (paĝoj kiel la b
 'exif-exposureprogram'             => 'Ekspona programo',
 'exif-spectralsensitivity'         => 'Spektruma sensemo',
 'exif-isospeedratings'             => 'ISO sentiveco',
-'exif-oecf'                        => 'Optikelektronika konverada faktoro',
-'exif-shutterspeedvalue'           => 'Rapido de obturatoro',
-'exif-aperturevalue'               => 'Aperturo',
-'exif-brightnessvalue'             => 'Heleco',
+'exif-shutterspeedvalue'           => 'APEX-Rapido de obturatoro',
+'exif-aperturevalue'               => 'APEX-Aperturo',
+'exif-brightnessvalue'             => 'APEX-Heleco',
 'exif-exposurebiasvalue'           => 'Ekspona emo',
 'exif-maxaperturevalue'            => 'Maksimuma pejzaĝa diafragmo',
 'exif-subjectdistance'             => 'Distanco de subjekto',
@@ -3028,7 +3004,6 @@ Sekvaj ligilo en la sama linio estas konsiderata kiel esceptoj (paĝoj kiel la b
 'exif-focallength'                 => 'Fokusa longo de lenso',
 'exif-subjectarea'                 => 'Subjekta areo',
 'exif-flashenergy'                 => 'Fulmila energio',
-'exif-spatialfrequencyresponse'    => 'Spaca frekvenco-respondo',
 'exif-focalplanexresolution'       => 'X distingivo de fokusa ebeno',
 'exif-focalplaneyresolution'       => 'Y distingivo de fokusa ebeno',
 'exif-focalplaneresolutionunit'    => 'Distingivo-unuo de fokusa ebeno',
@@ -3037,7 +3012,6 @@ Sekvaj ligilo en la sama linio estas konsiderata kiel esceptoj (paĝoj kiel la b
 'exif-sensingmethod'               => 'Metodo de sensado',
 'exif-filesource'                  => 'Dosiera fonto',
 'exif-scenetype'                   => 'Speco de sceno',
-'exif-cfapattern'                  => 'CFA skemo',
 'exif-customrendered'              => 'Propra foto-rivelado',
 'exif-exposuremode'                => 'Ekspona reĝimo',
 'exif-whitebalance'                => 'Blanka balanciĝo',
@@ -3222,6 +3196,11 @@ Sekvaj ligilo en la sama linio estas konsiderata kiel esceptoj (paĝoj kiel la b
 'exif-gpsspeed-k' => 'Kilometroj por horo',
 'exif-gpsspeed-m' => 'Mejloj por horo',
 'exif-gpsspeed-n' => 'Knotoj',
+
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'Kilometroj',
+'exif-gpsdestdistance-m' => 'Mejloj',
+'exif-gpsdestdistance-n' => 'Maraj mejloj',
 
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'Vera direkto',
@@ -3509,17 +3488,5 @@ Entajpu la dosiernomon sen la prefikso "{{ns:file}}:"',
 'htmlform-submit'              => 'Ek!',
 'htmlform-reset'               => 'Malfari ŝanĝojn',
 'htmlform-selectorother-other' => 'Alia',
-
-# Special:DisableAccount
-'disableaccount'             => 'Malŝalti konton de uzanto',
-'disableaccount-user'        => 'Salutnomo:',
-'disableaccount-reason'      => 'Kialo:',
-'disableaccount-confirm'     => "La uzulo ne povos saluti, reagordi sian pasvorton aŭ ricevi perretpoŝtajn sciigojn.
-Se la uzulo nun estas salutinta ie ajn, li estas tuj malsalutigitota.
-''Konsciu ke malvalidigo de uzulkonto ne estas malfarebla sen helpo de sistemestro.'''",
-'disableaccount-mustconfirm' => 'Vi devas konfirmi ke vi volas malŝalti ĉi tiun konton.',
-'disableaccount-nosuchuser'  => 'La salutnomo "$1" ne ekzistas.',
-'disableaccount-success'     => 'La konto de uzanto "$1" estis ĉiame malŝaltis.',
-'disableaccount-logentry'    => 'ĉiame malŝaltis paĝon de uzanto [[$1]]',
 
 );

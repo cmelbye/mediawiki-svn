@@ -526,7 +526,7 @@ class WebRequest {
 		if( $hash !== false ) {
 			$base = substr( $base, 0, $hash );
 		}
-		if( $base{0} == '/' ) {
+		if( $base[0] == '/' ) {
 			return $base;
 		} else {
 			// We may get paths with a host prepended; strip it.
@@ -734,6 +734,7 @@ class WebRequest {
 	 * @param $name String: case-insensitive header name
 	 */
 	public function getHeader( $name ) {
+		$this->initHeaders();
 		$name = strtoupper( $name );
 		if ( isset( $this->headers[$name] ) ) {
 			return $this->headers[$name];
@@ -785,7 +786,7 @@ class WebRequest {
 		global $wgScriptExtension;
 
 		if ( isset( $_SERVER['QUERY_STRING'] ) 
-			&& preg_match( '/\.[a-z]{1,4}$/i', $_SERVER['QUERY_STRING'] ) )
+			&& preg_match( '/\.[a-z0-9]{1,4}(#|\?|$)/i', $_SERVER['QUERY_STRING'] ) )
 		{
 			// Bug 28235
 			// Block only Internet Explorer, and requests with missing UA 

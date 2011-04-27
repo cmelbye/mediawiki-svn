@@ -412,7 +412,7 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'عرض_البوتات' ),
 	'Popularpages'              => array( 'صفحات_مشهورة' ),
 	'Search'                    => array( 'بحث' ),
-	'Resetpass'                 => array( 'تغيير_كلمة_السر', 'ضبط_كلمة_السر' ),
+	'ChangePassword'            => array( 'تغيير_كلمة_السر', 'ضبط_كلمة_السر' ),
 	'Withoutinterwiki'          => array( 'بدون_إنترويكي' ),
 	'MergeHistory'              => array( 'دمج_التاريخ' ),
 	'Filepath'                  => array( 'مسار_ملف' ),
@@ -733,7 +733,7 @@ $1',
 'thisisdeleted'           => 'أأعرض أو أسترجع $1؟',
 'viewdeleted'             => 'أأعرض $1؟',
 'restorelink'             => '{{PLURAL:$1|$1 تعديل محذوف|تعديلا واحدا محذوفا|تعديلين محذوفين|$1 تعديلات محذوفة|$1 تعديلا محذوفا|$1 تعديلا محذوفا}}',
-'feedlinks'               => 'تلقيم:',
+'feedlinks'               => 'التغذية:',
 'feed-invalid'            => 'نوع اشتراك التلقيم غير صحيح.',
 'feed-unavailable'        => 'التلقيمات غير متوفرة',
 'site-rss-feed'           => '$1 تلقيم أر إس إس',
@@ -943,22 +943,14 @@ $2',
 'usernamehasherror'          => 'لا يمكن أن يحتوي اسم المستخدم على محارف هاش',
 'login-throttled'            => 'لقد قمت بمحاولات دخول كثيرة جدا مؤخرا.
 من فضلك انتظر قبل المحاولة مرة أخرى.',
+'login-abort-generic'        => 'لم ينجح ولوجك - إجهاض',
 'loginlanguagelabel'         => 'اللغة: $1',
 'suspicious-userlogout'      => 'رفض طلب خروجك لأنه يبدو كأنه أرسل عن طريق متصفح معطوب أو وسيط تخزين.',
 
 # E-mail sending
 'php-mail-error-unknown' => "خطأ غير معروف في وظيفة البريد PHP's mail()",
 
-# JavaScript password checks
-'password-strength'            => 'قوة كلمة المرور المقدرة: $1',
-'password-strength-bad'        => 'غير صالحة',
-'password-strength-mediocre'   => 'متوسطة',
-'password-strength-acceptable' => 'مقبولة',
-'password-strength-good'       => 'جيدة',
-'password-retype'              => 'أعد كتابة كلمة المرور هنا',
-'password-retype-mismatch'     => 'كلمتا المرور لا تتطابقان',
-
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'تغيير كلمة السر',
 'resetpass_announce'        => 'تم تسجيل دخولك بكلمة سر مؤقتة.
 للدخول بشكل نهائي، يجب عليك ضبط كلمة سر جديدة هنا:',
@@ -1241,7 +1233,7 @@ $2',
 حاول [[Special:Search|البحث في الويكي]] عن صفحات جديدة ذات صلة.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(التعليق تمت إزالته)',
+'rev-deleted-comment'         => '(أزيل ملخص التعديل)',
 'rev-deleted-user'            => '(اسم المستخدم تمت إزالته)',
 'rev-deleted-event'           => '(فعل السجل تمت إزالته)',
 'rev-deleted-user-contribs'   => '[اسم المستخدم أو عنوان الأيبي تمت إزالته - التعديل مخفي من المساهمات]',
@@ -1351,24 +1343,6 @@ $1",
 'suppressionlog'     => 'سجل الإخفاء',
 'suppressionlogtext' => 'بالأسفل قائمة بعمليات الحذف والمنع التي تتضمن محتوى مخفي من الإداريين.
 انظر [[Special:IPBlockList|لقائمة المنع]] لترى عمليات المنع القائمة الآن.',
-
-# Revision move
-'moverevlogentry'              => 'نقل {{PLURAL:$3|مراجعة واحدة|مراجعتين|$3 مراجعات|$3 مراجعة}} من $1 إلى $2',
-'revisionmove'                 => 'مزيد من المراجعات من "$1"',
-'revmove-explain'              => 'سوف تنقل المراجعات التالية من $1 إلى الصفحة الهدف المُحدّدة. إذا لم تكن الصفحة الهدف موجودة، فسوف تُنشأ. إذا كانت موجودة فستدمج المراجعات مع تاريخ الصفحة.',
-'revmove-legend'               => 'اضبط الصفحة الهدف والملخص',
-'revmove-submit'               => 'انقل المراجعات إلى الصفحة المُحدّدة',
-'revisionmoveselectedversions' => 'انقل المراجعات المُحدّدة',
-'revmove-reasonfield'          => 'السبب:',
-'revmove-titlefield'           => 'الصفحة الهدف:',
-'revmove-badparam-title'       => 'محدادات سيئة',
-'revmove-badparam'             => 'يحتوي طلبك على محددات غير نظامية أو غير كافية. من فضلك انقر "للخلف" وحاول مرة أخرى.',
-'revmove-norevisions-title'    => 'مراجعة مستهدفة غير صالحة',
-'revmove-norevisions'          => 'لم تحدد مراجعة هدفًا أو أكثر لتنفيذ الدالة أو أن المراجعة المحددة غير موجودة.',
-'revmove-nullmove-title'       => 'عنوان سيء',
-'revmove-nullmove'             => 'الصفحة المصدر والصفحة الهدف متطابقتان. من فضلك انقر "للخلف" وأدخل اسم صفحة غير "$1".',
-'revmove-success-existing'     => 'تم نقل {{PLURAL:$1||مراجعة واحدة|مراجعتين|$1 مراجعات|$1 مراجعة}} من [[$2]] إلى الصفحة الموجودة [[$3]]',
-'revmove-success-created'      => 'تم نقل {{PLURAL:$1||مراجعة واحدة|مراجعتين|$1 مراجعات|$1 مراجعة}} من [[$2]] إلى الصفحة المنشأة حديثًا [[$3]]',
 
 # History merging
 'mergehistory'                     => 'دمج تواريخ الصفحة',
@@ -1503,7 +1477,7 @@ $1",
 'prefs-rc'                      => 'أحدث التغييرات',
 'prefs-watchlist'               => 'قائمة المراقبة',
 'prefs-watchlist-days'          => 'عدد الأيام للعرض في قائمة المراقبة:',
-'prefs-watchlist-days-max'      => '(حد أقصى 7 أيام)',
+'prefs-watchlist-days-max'      => '7 أيام كحد أقصى',
 'prefs-watchlist-edits'         => 'عدد التعديلات التي تعرض في قائمة المراقبة الموسعة:',
 'prefs-watchlist-edits-max'     => 'العدد الأقصى: 1000',
 'prefs-watchlist-token'         => 'مفتاح قائمة المراقبة:',
@@ -1712,8 +1686,6 @@ $1",
 'right-reset-passwords'       => 'إعادة ضبط كلمة السر للمستخدمين الآخرين',
 'right-override-export-depth' => 'تصدير الصفحات متضمنة الصفحات الموصولة حتى عمق 5',
 'right-sendemail'             => 'إرسال رسائل بريد إلكتروني إلى مستخدمين آخرين',
-'right-revisionmove'          => 'نقل المراجعات',
-'right-disableaccount'        => 'تعطيل الحسابات',
 
 # User rights log
 'rightslog'      => 'سجل صلاحيات المستخدمين',
@@ -1756,7 +1728,6 @@ $1",
 'action-userrights'           => 'تعديل كل صلاحيات المستخدم',
 'action-userrights-interwiki' => 'تعديل صلاحيات المستخدم للمستخدمين في الويكيات الأخرى',
 'action-siteadmin'            => 'غلق أو رفع غلق قاعدة البيانات',
-'action-revisionmove'         => 'نقل المراجعات',
 
 # Recent changes
 'nchanges'                          => '{{PLURAL:$1|لا تغييرات|تغيير واحد|تغييران|$1 تغييرات|$1 تغييرا|$1 تغيير}}',
@@ -1903,6 +1874,8 @@ $1",
 'php-uploaddisabledtext'      => 'رفع ملفات PHP معطل. من فضلك تحقق من إعدادات رفع الملفات.',
 'uploadscripted'              => 'هذا الملف يضم كود HTML أو كود آخر يمكن أن يفسره متصفح الوب بطريقة خاطئة.',
 'uploadvirus'                 => 'الملف يحتوي على فيروس! التفاصيل: $1',
+'uploadjava'                  => 'يحتوي ملف ZIP هذا على ملفات جافا .class.
+لا يسمح برفع ملفات جافا لأنها تتيح تخطي القيود الأمنية.',
 'upload-source'               => 'الملف المصدر',
 'sourcefilename'              => 'اسم ملف المصدر:',
 'sourceurl'                   => 'مسار المصدر:',
@@ -1955,6 +1928,14 @@ $1',
 'upload-unknown-size'       => 'حجم غير معروف',
 'upload-http-error'         => 'صودف خطأ HTTP: $1',
 
+# ZipDirectoryReader
+'zip-file-open-error' => 'صودف خطأ أثناء فتح الملف لفحوصات ZIP.',
+'zip-wrong-format'    => 'الملف المحدد ليس ملف ZIP.',
+'zip-bad'             => 'ملف ZIP هذا معطوب أو لا يمكن قراءته لسبب آخر.
+لا يمكن التحقق من سلامته.',
+'zip-unsupported'     => 'هذا ملف ZIP يستخدم بعض مزايا ZIP التي لا يدعمها ميدياويكي.
+لا يمكن التحقق من سلامته.',
+
 # Special:UploadStash
 'uploadstash'          => 'تحميل مخبأ',
 'uploadstash-summary'  => ' توفر هذه الصفحة الوصول إلى الملفات التي يتم تحميلها (أو في أثناء عملية التحميل) ولكنها لم تنشر بعد. هذه الملفات هي غير مرئية لأحد إلا للمستخدم الذين تم الرفع لهم.',
@@ -1965,22 +1946,23 @@ $1',
 'uploadstash-refresh'  => 'تحديث قائمة الملفات',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'رفض الوصول',
-'img-auth-nopathinfo'   => 'PATH_INFO مفقودة.
+'img-auth-accessdenied'     => 'رفض الوصول',
+'img-auth-nopathinfo'       => 'PATH_INFO مفقودة.
 خادمك ليس مضبوطا لتمرير هذه المعلومات.
 ربما يكون CGI-based ولا يمكنه دعم img_auth.
 انظر http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'المسار المطلوب غير موجود في مجلد الرفع المضبوط.',
-'img-auth-badtitle'     => 'تعذر تشكيل عنوان صالح من "$1".',
-'img-auth-nologinnWL'   => 'لست والجا و"$1" ليست في القائمة البيضاء.',
-'img-auth-nofile'       => 'الملف "$1" غير موجود.',
-'img-auth-isdir'        => 'أنت تحاول الوصول إلى الدليل "$1".
+'img-auth-notindir'         => 'المسار المطلوب غير موجود في مجلد الرفع المضبوط.',
+'img-auth-badtitle'         => 'تعذر تشكيل عنوان صالح من "$1".',
+'img-auth-nologinnWL'       => 'لست والجا و"$1" ليست في القائمة البيضاء.',
+'img-auth-nofile'           => 'الملف "$1" غير موجود.',
+'img-auth-isdir'            => 'أنت تحاول الوصول إلى الدليل "$1".
 يسمح بوصول الملفات فقط.',
-'img-auth-streaming'    => 'عرض "$1".',
-'img-auth-public'       => 'وظيفة img_auth.php هي لإخراج الملفات من ويكي سري.
+'img-auth-streaming'        => 'عرض "$1".',
+'img-auth-public'           => 'وظيفة img_auth.php هي لإخراج الملفات من ويكي سري.
 هذا الويكي مضبوط كويكي علني.
 لتأمين إضافي، img_auth.php تم تعطيلها.',
-'img-auth-noread'       => 'لا يملك المستخدم صلاحية قراءة "$1".',
+'img-auth-noread'           => 'لا يملك المستخدم صلاحية قراءة "$1".',
+'img-auth-bad-query-string' => 'يحتوي المسار عبارة استعلام غير صالحة.',
 
 # HTTP errors
 'http-invalid-url'      => 'مسار غير صالح: $1',
@@ -2348,6 +2330,10 @@ $1',
 'noemailtext'          => 'لم يحدد هذا المستخدم عنوان بريد إلكتروني صحيح.',
 'nowikiemailtitle'     => 'لا بريد إلكتروني مسموح به',
 'nowikiemailtext'      => 'هذا المستخدم اختار ألا يستقبل البريد الإلكتروني من المستخدمين الآخرين.',
+'emailnotarget'        => 'المستلم ليس مستخدمًا موجودًا أو ليس مستخدمًا صحيحًا.',
+'emailtarget'          => 'أدخل اسم مستخدم المستلم',
+'emailusername'        => 'اسم المستخدم:',
+'emailusernamesubmit'  => 'أرسل',
 'email-legend'         => 'إرسال بريد إلكتروني إلى مستخدم {{SITENAME}} آخر',
 'emailfrom'            => 'من:',
 'emailto'              => 'إلى:',
@@ -2614,9 +2600,10 @@ $1',
 'undelete-show-file-submit'    => 'نعم',
 
 # Namespace form on various pages
-'namespace'      => 'النطاق:',
-'invert'         => 'اعكس الاختيار',
-'blanknamespace' => '(رئيسي)',
+'namespace'             => 'النطاق:',
+'invert'                => 'اعكس الاختيار',
+'namespace_association' => 'النطاق المقترن',
+'blanknamespace'        => '(رئيسي)',
 
 # Contributions
 'contributions'       => 'مساهمات المستخدم',
@@ -2667,6 +2654,7 @@ $1',
 
 # Block/unblock
 'block'                           => 'امنع المستخدم',
+'unblock'                         => 'إلغاء منع مستخدم',
 'blockip'                         => 'منع مستخدم',
 'blockip-title'                   => 'منع مستخدم',
 'blockip-legend'                  => 'منع المستخدم',
@@ -2686,6 +2674,7 @@ $1',
 ** سلوك عدواني
 ** إساءة استخدام حسابات متعددة
 ** اسم مستخدم غير مقبول',
+'ipb-hardblock'                   => 'امنع المستخدمين الوالجين من التعديل بعنوان الآيبي هذا',
 'ipbcreateaccount'                => 'امنع إنشاء الحسابات',
 'ipbemailban'                     => 'امنع المستخدم من إرسال بريد إلكتروني',
 'ipbenableautoblock'              => 'تلقائيا امنع آخر عنوان أيبي تم استعماله بواسطة هذا المستخدم، وأي عناوين أيبي أخرى يحاول التحرير من خلالها',
@@ -2696,11 +2685,15 @@ $1',
 'ipbotherreason'                  => 'سبب إضافي/آخر:',
 'ipbhidename'                     => 'أخف اسم المستخدم من التعديلات والقوائم',
 'ipbwatchuser'                    => 'راقب صفحتي المستخدم والنقاش لهذا المستخدم',
+'ipb-disableusertalk'             => 'امنع هذا المستخدم من تعديل صفحة نقاشه ما دام ممنوعا',
 'ipb-change-block'                => 'أعد منع المستخدم بهذه الإعدادات',
+'ipb-confirm'                     => 'أكّد المنع',
 'badipaddress'                    => 'عنوان أيبي غير صحيح',
 'blockipsuccesssub'               => 'تم المنع بنجاح',
 'blockipsuccesstext'              => 'تم منع [[Special:Contributions/$1|$1]].<br />
 انظر [[Special:IPBlockList|قائمة منع الأيبي]] لمراجعة حالات المنع.',
+'ipb-blockingself'                => 'أنت على وشك منع نفسك! أمتأكد من رغبتك في القيام بذلك؟',
+'ipb-confirmhideuser'             => 'أنت على وشك منع مستخدم مع تفعيل خيار "أخف المستخدم". سوف يخفي هذا الخيار اسم المستخدم من جميل القوائم ومدخلات السجلات. أمتأكد من رغبتك في القيام بذلك؟',
 'ipb-edit-dropdown'               => 'عدل أسباب المنع',
 'ipb-unblock-addr'                => 'رفع منع $1',
 'ipb-unblock'                     => 'رفع المنع عن مستخدم أو عنوان أيبي',
@@ -2710,11 +2703,19 @@ $1',
 'unblockiptext'                   => 'استخدم الاستمارة أدناه لاسترجاع صلاحية الكتابة الخاصة بعنوان أيبي أو مستخدم تم سحبها منه مسبقا.',
 'ipusubmit'                       => 'ارفع هذا المنع',
 'unblocked'                       => '[[User:$1|$1]] تم رفع منعه',
+'unblocked-range'                 => 'تم إلغاء منع $1',
 'unblocked-id'                    => 'منع $1 تم رفعه',
-'ipblocklist'                     => 'عناوين الأيبي وأسماء المستخدمين الممنوعة',
+'blocklist'                       => 'المستخدمون الممنوعون',
+'ipblocklist'                     => 'المستخدمون الممنوعون',
 'ipblocklist-legend'              => 'إيجاد مستخدم ممنوع',
+'blocklist-userblocks'            => 'أخفِ منع الحسابات',
+'blocklist-tempblocks'            => 'أخفِ المنع المؤقت',
+'blocklist-addressblocks'         => 'أخفِ منع عنوان آيبي واحد',
+'blocklist-timestamp'             => 'الزمن',
 'blocklist-target'                => 'الهدف',
+'blocklist-expiry'                => 'ينتهي في',
 'blocklist-by'                    => 'حظر المشرف',
+'blocklist-params'                => 'معطيات المنع',
 'blocklist-reason'                => 'السبب',
 'ipblocklist-submit'              => 'ابحث',
 'ipblocklist-localblock'          => 'المنع المحلي',
@@ -2759,6 +2760,7 @@ $1',
 'ipb_already_blocked'             => '"$1" ممنوع بالفعل',
 'ipb-needreblock'                 => '$1 ممنوع بالفعل. هل تريد تغيير الإعدادات؟',
 'ipb-otherblocks-header'          => '{{PLURAL:$1||المنع الآخر|المنعان الآخران|المنوعات الأخريات}}',
+'unblock-hideuser'                => 'لا يمكنك إلغاء منع هذا المستخدم لأن اسم مستخدمه أُخفي.',
 'ipb_cant_unblock'                => 'خطأ: لم يتم إيجاد الممنوع $1.
 ربما تم رفع منعه بالفعل.',
 'ipb_blocked_as_range'            => 'خطأ: الأيبي $1 ليس ممنوعا مباشرة ولا يمكن رفع المنع عنه.
@@ -2948,7 +2950,7 @@ $1',
 'import-interwiki-namespace' => 'النطاق الهدف:',
 'import-upload-filename'     => 'اسم الملف:',
 'import-comment'             => 'تعليق:',
-'importtext'                 => 'من فضلك صدر الملف من الويكي المصدر باستخدام [[Special:Export|أداة الاستيراد]].
+'importtext'                 => 'من فضلك صدر الملف من الويكي المصدر باستخدام [[Special:Export|أداة التصدير]].
 احفظها على حاسوبك ثم ارفعها هنا.',
 'importstart'                => 'استيراد صفحات...',
 'import-revision-count'      => '{{PLURAL:$1|لا مراجعات|مراجعة واحدة|مراجعتان|$1 مراجعات|$1 مراجعة}}',
@@ -3159,20 +3161,23 @@ $1',
 'nextdiff'     => 'التعديل اللاحق ←',
 
 # Media information
-'mediawarning'         => "'''تحذير''': قد يحتوي نوع هذا الملف على كود خبيث، يمكن عند تشغيله السيطرة على نظامك.",
-'imagemaxsize'         => "حد حجم الصور:<br />''(لصفحات وصف الملفات)''",
-'thumbsize'            => 'حجم العرض المصغر:',
-'widthheightpage'      => '$1×$2، $3 {{PLURAL:$3|صفحة|صفحة}}',
-'file-info'            => 'حجم الملف: $1، نوع MIME: $2',
-'file-info-size'       => '$1 × $2 بكسل حجم الملف: $3، نوع MIME: $4',
-'file-nohires'         => '<small>لا توجد دقة أعلى متوفرة.</small>',
-'svg-long-desc'        => 'ملف SVG، أبعاده $1 × $2 بكسل، حجم الملف: $3',
-'show-big-image'       => 'دقة كاملة',
-'file-info-gif-looped' => 'ملفوف',
-'file-info-gif-frames' => '{{PLURAL:$1||إطار واحد|إطاران|$1 إطارات|$1 إطارا|$1 إطار}}',
-'file-info-png-looped' => 'ملفوف',
-'file-info-png-repeat' => 'عرضت {{PLURAL:$1||مرة واحدة|مرتين|$1 مرات|$1 مرة}}',
-'file-info-png-frames' => '{{PLURAL:$1||إطار واحد|إطاران|$1 إطارات|$1 إطارًا|$1 إطار}}',
+'mediawarning'           => "'''تحذير''': قد يحتوي نوع هذا الملف على كود خبيث، يمكن عند تشغيله السيطرة على نظامك.",
+'imagemaxsize'           => "حد حجم الصور:<br />''(لصفحات وصف الملفات)''",
+'thumbsize'              => 'حجم العرض المصغر:',
+'widthheightpage'        => '$1×$2، $3 {{PLURAL:$3|صفحة|صفحة}}',
+'file-info'              => 'حجم الملف: $1، نوع MIME: $2',
+'file-info-size'         => '$1 × $2 بكسل حجم الملف: $3، نوع MIME: $4',
+'file-nohires'           => '<small>لا توجد دقة أعلى متوفرة.</small>',
+'svg-long-desc'          => 'ملف SVG، أبعاده $1 × $2 بكسل، حجم الملف: $3',
+'show-big-image'         => 'دقة كاملة',
+'show-big-image-preview' => '<small>حجم هذه المعاينة: $1.</small>',
+'show-big-image-other'   => '<small>الأبعاد الأخرى: $1.</small>',
+'show-big-image-size'    => '$1 × $2 بكسل',
+'file-info-gif-looped'   => 'ملفوف',
+'file-info-gif-frames'   => '{{PLURAL:$1||إطار واحد|إطاران|$1 إطارات|$1 إطارا|$1 إطار}}',
+'file-info-png-looped'   => 'ملفوف',
+'file-info-png-repeat'   => 'عرضت {{PLURAL:$1||مرة واحدة|مرتين|$1 مرات|$1 مرة}}',
+'file-info-png-frames'   => '{{PLURAL:$1||إطار واحد|إطاران|$1 إطارات|$1 إطارًا|$1 إطار}}',
 
 # Special:NewFiles
 'newimages'             => 'معرض الملفات الجديدة',
@@ -3213,7 +3218,13 @@ $1',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'العرض',
@@ -3228,13 +3239,11 @@ $1',
 'exif-ycbcrpositioning'            => 'وضع Y و C',
 'exif-xresolution'                 => 'الدقة الأفقية',
 'exif-yresolution'                 => 'الدقة الرأسية',
-'exif-resolutionunit'              => 'وحدة تحليل X و Y',
 'exif-stripoffsets'                => 'موقع بيانات الصورة',
 'exif-rowsperstrip'                => 'عدد الصفوف لكل شريحة',
 'exif-stripbytecounts'             => 'بايت لكل شريحة مضغوطة',
 'exif-jpeginterchangeformat'       => 'الحد ل JPEG SOI',
 'exif-jpeginterchangeformatlength' => 'بايت من بيانات JPEG',
-'exif-transferfunction'            => 'وظيفة النقل',
 'exif-whitepoint'                  => 'ألوان النقطة البيضاء',
 'exif-primarychromaticities'       => 'ألوان الأساسيات',
 'exif-ycbcrcoefficients'           => 'معاملات مصفوفة تحويل فراغ اللون',
@@ -3253,7 +3262,6 @@ $1',
 'exif-compressedbitsperpixel'      => 'طور ضغط الصورة',
 'exif-pixelydimension'             => 'عرض صورة صحيح',
 'exif-pixelxdimension'             => 'ارتفاع صورة صحيح',
-'exif-makernote'                   => 'ملاحظات المصنع',
 'exif-usercomment'                 => 'تعليقات المستخدم',
 'exif-relatedsoundfile'            => 'ملف صوتي مرتبط',
 'exif-datetimeoriginal'            => 'تاريخ ووقت توليد البيانات',
@@ -3268,7 +3276,6 @@ $1',
 'exif-exposureprogram'             => 'برنامج التعرض',
 'exif-spectralsensitivity'         => 'الحساسية الطيفية',
 'exif-isospeedratings'             => 'تقييم سرعة أيزو',
-'exif-oecf'                        => 'عامل التحويل الكهروضوئي',
 'exif-shutterspeedvalue'           => 'سرعة الغالق',
 'exif-aperturevalue'               => 'فتحة الغالق',
 'exif-brightnessvalue'             => 'السطوع',
@@ -3282,7 +3289,6 @@ $1',
 'exif-focallength-format'          => '$1 ملم',
 'exif-subjectarea'                 => 'مساحة الجسم',
 'exif-flashenergy'                 => 'طاقة الفلاش',
-'exif-spatialfrequencyresponse'    => 'استجابة التردد الفراغي',
 'exif-focalplanexresolution'       => 'تحليل المستوى البؤري X',
 'exif-focalplaneyresolution'       => 'تحليل المستوى البؤري Y',
 'exif-focalplaneresolutionunit'    => 'وحدة تحليل المستوى البؤري',
@@ -3291,7 +3297,6 @@ $1',
 'exif-sensingmethod'               => 'وسيلة الاستشعار',
 'exif-filesource'                  => 'مصدر الملف',
 'exif-scenetype'                   => 'نوع المشهد',
-'exif-cfapattern'                  => 'نمط CFA',
 'exif-customrendered'              => 'معالجة الصورة حسب الطلب',
 'exif-exposuremode'                => 'طور التعرض',
 'exif-whitebalance'                => 'توازن الأبيض',
@@ -3362,8 +3367,8 @@ $1',
 'exif-xyresolution-i' => '$1 نقطة لكل بوصة',
 'exif-xyresolution-c' => '$1 دي بي سي',
 
-'exif-colorspace-1'      => 'إس آر جي بي',
-'exif-colorspace-ffff.h' => 'إف إف إف إف.إتش',
+'exif-colorspace-1'     => 'إس آر جي بي',
+'exif-colorspace-65535' => 'إف إف إف إف.إتش',
 
 'exif-componentsconfiguration-0' => 'غير موجود',
 'exif-componentsconfiguration-1' => 'واي',
@@ -3499,6 +3504,11 @@ $1',
 'exif-gpsspeed-m' => 'ميل في الساعة',
 'exif-gpsspeed-n' => 'عقد',
 
+# Pseudotags used for GPSDestDistanceRef
+'exif-gpsdestdistance-k' => 'كيلومتر',
+'exif-gpsdestdistance-m' => 'ميل',
+'exif-gpsdestdistance-n' => 'ميل بحري',
+
 # Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
 'exif-gpsdirection-t' => 'الاتجاه الحقيقي',
 'exif-gpsdirection-m' => 'الاتجاه المغناطيسي',
@@ -3553,17 +3563,32 @@ $3
 $5
 
 كود التفعيل هذا سينتهي في $4.',
-'confirmemail_body_changed' => 'شخص ما، من المحتمل أن يكون أنت، من عنوان الأيبي $1،
-غير عنوان البريد الإلكتروني لحساب ا "$2" إلى عنوان البريد الإلكتروني
-هذا في {{SITENAME}}.
+'confirmemail_body_changed' => 'شخص ما -من المحتمل أن يكون أنت- من عنوان الأيبي $1 غيّر عنوان البريد
+الإلكتروني للحساب "$2" إلى عنوان البريد الإلكتروني هذا في
+{{SITENAME}}.
 
-لتأكيد أن هذا الحساب ينتمي إليك فعلا وتفعيل خواص البريد الإلكتروني
-في {{SITENAME}}، افتح هذه الوصلة في متصفحك:
+لتأكيد أن هذا الحساب لك فعلا ولتفعيل خواص البريد الإلكتروني في
+{{SITENAME}}، افتح هذه الوصلة في متصفحك:
 
 $3
 
-إذا كان هذا الحساب *ليس* لك، tاتبع هذه الوصلة لإلغاء تأكيد عنوان
-البريد الإلكتروني:
+إذا كان هذا الحساب *ليس* لك، اتبع هذه الوصلة لإلغاء تأكيد عنوان البريد
+الإلكتروني:
+
+$5
+
+سينتهي رمز التفعيل هذا في $4.',
+'confirmemail_body_set'     => 'شخص ما -من المحتمل أن يكون أنت- من عنوان الأيبي $1 غيّر عنوان البريد
+الإلكتروني للحساب "$2" إلى عنوان البريد الإلكتروني هذا في
+{{SITENAME}}.
+
+لتأكيد أن هذا الحساب لك فعلا ولتفعيل خواص البريد الإلكتروني في
+{{SITENAME}}، افتح هذه الوصلة في متصفحك:
+
+$3
+
+إذا كان هذا الحساب *ليس* لك، اتبع هذه الوصلة لإلغاء تأكيد عنوان البريد
+الإلكتروني:
 
 $5
 
@@ -3584,11 +3609,12 @@ $1',
 'trackbackdeleteok' => 'المتابعة تم حذفها بنجاح.',
 
 # Delete conflict
-'deletedwhileediting' => "'''تحذير''': هذه الصفحة تم حذفها بعد أن بدأت أنت بتعديلها!",
-'confirmrecreate'     => "المستخدم [[User:$1|$1]] ([[User talk:$1|نقاش]]) حذف هذه الصفحة بعد أن بدأت أنت بتحريرها للسبب التالي:
+'deletedwhileediting'      => "'''تحذير''': هذه الصفحة تم حذفها بعد أن بدأت أنت بتعديلها!",
+'confirmrecreate'          => "حذف المستخدم [[User:$1|$1]] ([[User talk:$1|نقاش]]) هذه الصفحة بعد أن بدأت أنت بتحريرها للسبب التالي:
 :''$2''
 الرجاء التأكد من أنك تريد إعادة إنشاء هذه الصفحة.",
-'recreate'            => 'أعد الإنشاء',
+'confirmrecreate-noreason' => 'حذف المستخدم [[User:$1|$1]] ([[User talk:$1|نقاش]]) هذه الصفحة بعد أن بدأت أنت بتحريرها. الرجاء التأكد من أنك تريد إعادة إنشاء هذه الصفحة.',
+'recreate'                 => 'أعد الإنشاء',
 
 'unit-pixel' => 'بك',
 
@@ -3863,18 +3889,5 @@ $1',
 # SQLite database support
 'sqlite-has-fts' => '$1 بدعم البحث في كامل النص',
 'sqlite-no-fts'  => '$1 بدون دعم البحث في كامل النص',
-
-# Special:DisableAccount
-'disableaccount'             => 'تعطيل حساب مستخدم',
-'disableaccount-user'        => 'اسم المستخدم :',
-'disableaccount-reason'      => 'السبب :',
-'disableaccount-confirm'     => 'تعطيل حساب المستخدم هذا. 
-المستخدم لن يكون قادرا على تسجيل الدخول، إعادة تعيين كلمة المرور الخاصة به، أو تلقي إعلامات البريد الإلكتروني. 
-إذا تم تسجيل المستخدم حاليا في أي مكان، سيتم تسجيله على الفور. 
-«لاحظ أن تعطيل الحساب لا يمكن عكسه دون تدخل المسؤول عن النظام».',
-'disableaccount-mustconfirm' => 'يجب التأكد من أنك ترغب في تعطيل هذا الحساب.',
-'disableaccount-nosuchuser'  => 'حساب المستخدم "$1" غير موجود.',
-'disableaccount-success'     => 'تم تعطيل حساب المستخدم "$1" بشكل دائم.',
-'disableaccount-logentry'    => 'تعطيل حساب المستخدم [[$1]] بشكل دائم',
 
 );
