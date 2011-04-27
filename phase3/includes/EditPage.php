@@ -42,7 +42,14 @@ class EditPage {
 	const AS_IMAGE_REDIRECT_ANON       = 233;
 	const AS_IMAGE_REDIRECT_LOGGED     = 234;
 
+	/**
+	 * @var Article
+	 */
 	var $mArticle;
+
+	/**
+	 * @var Title
+	 */
 	var $mTitle;
 	private $mContextTitle = null;
 	var $action;
@@ -57,6 +64,7 @@ class EditPage {
 	var $mTokenOk = false;
 	var $mTokenOkExceptSuffix = false;
 	var $mTriedSave = false;
+	var $incompleteForm = false;
 	var $tooBig = false;
 	var $kblength = false;
 	var $missingComment = false;
@@ -370,6 +378,8 @@ class EditPage {
 		if ( $wgUser->getOption( 'uselivepreview', false ) ) {
 			$wgOut->addModules( 'mediawiki.legacy.preview' );
 		}
+		// Bug #19334: textarea jumps when editing articles in IE8
+		$wgOut->addStyle( 'common/IE80Fixes.css', 'screen', 'IE 8' );
 
 		$permErrors = $this->getEditPermissionErrors();
 		if ( $permErrors ) {
@@ -599,7 +609,17 @@ class EditPage {
 
 			$this->scrolltop = $request->getIntOrNull( 'wpScrolltop' );
 
-			if ( is_null( $this->edittime ) ) {
+			if ($this->textbox1 === '' && $request->getVal( 'wpTextbox1' ) === null) {
+				// wpTextbox1 field is missing, possibly due to being "too big"
+				// according to some filter rules such as Suhosin's setting for
+				// suhosin.request.max_value_length (d'oh)
+				$this->incompleteForm = true;
+			} else {
+				// edittime should be one of our last fields; if it's missing,
+				// the submission probably broke somewhere in the middle.
+				$this->incompleteForm = is_null( $this->edittime );
+			}
+			if ( $this->incompleteForm ) {
 				# If the form is incomplete, force to preview.
 				wfDebug( __METHOD__ . ": Form data appears to be incomplete\n" );
 				wfDebug( "POST DATA: " . var_export( $_POST, true ) . "\n" );
@@ -1335,7 +1355,7 @@ HTML
 		if ( $this->wasDeletedSinceLastEdit() && 'save' == $this->formtype ) {
 			$username = $this->lastDelete->user_name;
 			$comment = $this->lastDelete->log_comment;
-	
+
 			// It is better to not parse the comment at all than to have templates expanded in the middle
 			// TODO: can the checkLabel be moved outside of the div so that wrapWikiMsg could be used?
 			$wgOut->addHTML(
@@ -1842,7 +1862,8 @@ HTML
 		// Allow for site and per-namespace customization of contribution/copyright notice.
 		wfRunHooks( 'EditPageCopyrightWarning', array( $this->mTitle, &$copywarnMsg ) );
 
-		return "<div id=\"editpage-copywarn\">\n" . call_user_func_array("wfMsgNoTrans", $copywarnMsg) . "\n</div>";
+		return "<div id=\"editpage-copywarn\">\n" .
+			call_user_func_array("wfMsgNoTrans", $copywarnMsg) . "\n</div>";
 	}
 
 	protected function showStandardInputs( &$tabindex = 2 ) {
@@ -1895,20 +1916,20 @@ HTML
 		$data = $dbr->selectRow(
 			array( 'logging', 'user' ),
 			array( 'log_type',
-			       'log_action',
-			       'log_timestamp',
-			       'log_user',
-			       'log_namespace',
-			       'log_title',
-			       'log_comment',
-			       'log_params',
-			       'log_deleted',
-			       'user_name' ),
+				   'log_action',
+				   'log_timestamp',
+				   'log_user',
+				   'log_namespace',
+				   'log_title',
+				   'log_comment',
+				   'log_params',
+				   'log_deleted',
+				   'user_name' ),
 			array( 'log_namespace' => $this->mTitle->getNamespace(),
-			       'log_title' => $this->mTitle->getDBkey(),
-			       'log_type' => 'delete',
-			       'log_action' => 'delete',
-			       'user_id=log_user' ),
+				   'log_title' => $this->mTitle->getDBkey(),
+				   'log_type' => 'delete',
+				   'log_action' => 'delete',
+				   'user_id=log_user' ),
 			__METHOD__,
 			array( 'LIMIT' => 1, 'ORDER BY' => 'log_timestamp DESC' )
 		);
@@ -1937,6 +1958,8 @@ HTML
 			} else {
 				$note = wfMsg( 'session_fail_preview' );
 			}
+		} else if ( $this->incompleteForm ) {
+			$note = wfMsg( 'edit_form_incomplete' );
 		} else {
 			$note = wfMsg( 'previewnote' );
 		}
@@ -2281,16 +2304,19 @@ HTML
 		$imagesAvailable = $wgEnableUploads || count( $wgForeignFileRepos );
 
 		/**
-
-		 * toolarray an array of arrays which each include the filename of
-		 * the button image (without path), the opening tag, the closing tag,
-		 * and optionally a sample text that is inserted between the two when no
-		 * selection is highlighted.
-		 * The tip text is shown when the user moves the mouse over the button.
+		 * $toolarray is an array of arrays each of which includes the
+		 * filename of the button image (without path), the opening
+		 * tag, the closing tag, optionally a sample text that is
+		 * inserted between the two when no selection is highlighted
+		 * and an option to select which switches the automatic
+		 * selection of inserted text (default is true, see
+		 * mw-editbutton-image).  The tip text is shown when the user
+		 * moves the mouse over the button.
 		 *
-		 * Already here are accesskeys (key), which are not used yet until someone
-		 * can figure out a way to make them work in IE. However, we should make
-		 * sure these keys are not defined on the edit page.
+		 * Also here: accesskeys (key), which are not used yet until
+		 * someone can figure out a way to make them work in
+		 * IE. However, we should make sure these keys are not defined
+		 * on the edit page.
 		 */
 		$toolarray = array(
 			array(
@@ -2345,7 +2371,8 @@ HTML
 				'close'  => ']]',
 				'sample' => wfMsg( 'image_sample' ),
 				'tip'    => wfMsg( 'image_tip' ),
-				'key'    => 'D'
+				'key'    => 'D',
+				'select' => true
 			) : false,
 			$imagesAvailable ? array(
 				'image'  => $wgLang->getImageFile( 'button-media' ),
@@ -2401,6 +2428,10 @@ HTML
 				continue;
 			}
 
+			if( !isset( $tool['select'] ) ) {
+			  $tool['select'] = true;
+			}
+
 			$params = array(
 				$image = $wgStylePath . '/common/images/' . $tool['image'],
 				// Note that we use the tip both for the ALT tag and the TITLE tag of the image.
@@ -2418,11 +2449,11 @@ HTML
 				array_map( array( 'Xml', 'encodeJsVar' ), $params ) );
 			$script .= "addButton($paramList);\n";
 		}
-		
+
 		$wgOut->addScript( Html::inlineScript(
 			"if ( window.mediaWiki ) { $script }"
 		) );
-		
+
 		$toolbar .= "\n</div>";
 
 		wfRunHooks( 'EditPageBeforeEditToolbar', array( &$toolbar ) );
@@ -2754,7 +2785,7 @@ HTML
 		switch ( $value ) {
 			case self::AS_HOOK_ERROR_EXPECTED:
 			case self::AS_CONTENT_TOO_BIG:
-		 	case self::AS_ARTICLE_WAS_DELETED:
+			case self::AS_ARTICLE_WAS_DELETED:
 			case self::AS_CONFLICT_DETECTED:
 			case self::AS_SUMMARY_NEEDED:
 			case self::AS_TEXTBOX_EMPTY:
@@ -2804,22 +2835,22 @@ HTML
 				$this->userNotLoggedInPage();
 				return false;
 
-		 	case self::AS_READ_ONLY_PAGE_LOGGED:
-		 	case self::AS_READ_ONLY_PAGE:
-		 		$wgOut->readOnlyPage();
-		 		return false;
+			case self::AS_READ_ONLY_PAGE_LOGGED:
+			case self::AS_READ_ONLY_PAGE:
+				$wgOut->readOnlyPage();
+				return false;
 
-		 	case self::AS_RATE_LIMITED:
-		 		$wgOut->rateLimited();
-		 		return false;
+			case self::AS_RATE_LIMITED:
+				$wgOut->rateLimited();
+				return false;
 
-		 	case self::AS_NO_CREATE_PERMISSION:
-		 		$this->noCreatePermission();
-		 		return;
+			case self::AS_NO_CREATE_PERMISSION:
+				$this->noCreatePermission();
+				return;
 
 			case self::AS_BLANK_ARTICLE:
-		 		$wgOut->redirect( $this->getContextTitle()->getFullURL() );
-		 		return false;
+				$wgOut->redirect( $this->getContextTitle()->getFullURL() );
+				return false;
 
 			case self::AS_IMAGE_REDIRECT_LOGGED:
 				$wgOut->permissionRequired( 'upload' );

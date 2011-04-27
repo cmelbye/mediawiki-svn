@@ -156,10 +156,6 @@ class SkinTemplate extends Skin {
 
 		$this->setMembers();
 		$tpl = $this->setupTemplate( $this->template, 'skins' );
-
-		#if ( $wgUseDatabaseMessages ) { // uncomment this to fall back to GetText
-		$tpl->setTranslator( new MediaWiki_I18N() );
-		#}
 		wfProfileOut( __METHOD__ . '-init' );
 
 		wfProfileIn( __METHOD__ . '-stuff' );
@@ -457,7 +453,7 @@ class SkinTemplate extends Skin {
 		}
 
 		$tpl->set( 'reporttime', wfReportTime() );
-		$tpl->set( 'sitenotice', wfGetSiteNotice() );
+		$tpl->set( 'sitenotice', $this->getSiteNotice() );
 		$tpl->set( 'bottomscripts', $this->bottomScripts( $out ) );
 
 		$printfooter = "<div class=\"printfooter\">\n" . $this->printSource() . "</div>\n";
@@ -574,7 +570,7 @@ class SkinTemplate extends Skin {
 		$personal_urls = array();
 		$page = $wgRequest->getVal( 'returnto', $this->thisurl );
 		$query = $wgRequest->getVal( 'returntoquery', $this->thisquery );
-		$returnto = "returnto=$page";
+		$returnto = wfArrayToCGI( array( 'returnto' => $page ) );
 		if( $this->thisquery != '' ) {
 			$returnto .= "&returntoquery=$query";
 		}
@@ -1095,7 +1091,7 @@ class SkinTemplate extends Skin {
 		
 		$content_actions = array();
 		
-		foreach ( $content_navigation as $section => $links ) {
+		foreach ( $content_navigation as $links ) {
 			
 			foreach ( $links as $key => $value ) {
 				
@@ -1161,7 +1157,7 @@ class SkinTemplate extends Skin {
 			if ( !$out->isPrintable() ) {
 				$nav_urls['print'] = array(
 					'text' => wfMsg( 'printableversion' ),
-					'href' => $wgRequest->appendQuery( 'printable=yes' )
+					'href' => $this->mTitle->getLocalURL( $wgRequest->appendQueryValue( 'printable', 'yes', true ) )
 				);
 			}
 
@@ -1197,7 +1193,8 @@ class SkinTemplate extends Skin {
 				);
 		}
 
-		if ( $user = $this->getRelevantUser() ) {
+		$user = $this->getRelevantUser();
+		if ( $user ) {
 			$id = $user->getID();
 			$ip = $user->isAnon();
 			$rootUser = $user->getName();
@@ -1716,7 +1713,7 @@ abstract class BaseTemplate extends QuickTemplate {
 
 		if ( $option == 'icononly' ) {
 			// Unset any icons which don't have an image
-			foreach ( $footericons as $footerIconsKey => &$footerIconsBlock ) {
+			foreach ( $footericons as &$footerIconsBlock ) {
 				foreach ( $footerIconsBlock as $footerIconKey => $footerIcon ) {
 					if ( !is_string( $footerIcon ) && !isset( $footerIcon['src'] ) ) {
 						unset( $footerIconsBlock[$footerIconKey] );

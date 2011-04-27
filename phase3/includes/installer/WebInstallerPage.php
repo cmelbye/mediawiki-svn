@@ -368,6 +368,7 @@ class WebInstaller_DBConnect extends WebInstallerPage {
 		$r = $this->parent->request;
 		if ( $r->wasPosted() ) {
 			$status = $this->submit();
+
 			if ( $status->isGood() ) {
 				$this->setVar( '_UpgradeDone', false );
 				return 'continue';
@@ -665,6 +666,15 @@ class WebInstaller_Name extends WebInstallerPage {
 			$this->parent->showError( 'config-ns-invalid', $name );
 			$retVal = false;
 		}
+
+		// Make sure it won't conflict with any existing namespaces
+		global $wgContLang;
+		$nsIndex = $wgContLang->getNsIndex( $name );
+		if( $nsIndex !== false && $nsIndex !== NS_PROJECT ) {
+			$this->parent->showError( 'config-ns-conflict', $name );
+			$retVal = false;
+		}
+
 		$this->setVar( 'wgMetaNamespace', $name );
 
 		// Validate username for creation
@@ -740,7 +750,7 @@ class WebInstaller_Options extends WebInstallerPage {
 				'itemLabelPrefix' => 'config-profile-',
 				'values' => array_keys( $this->parent->rightsProfiles ),
 			) ) .
-			$this->parent->getHelpBox( 'config-profile-help' ) .
+			$this->parent->getInfoBox( wfMsgNoTrans( 'config-profile-help' ) ) .
 
 			# Licensing
 			$this->parent->getRadioSet( array(
@@ -866,7 +876,7 @@ class WebInstaller_Options extends WebInstallerPage {
 			) ) .
 			$this->parent->getHelpBox( 'config-cache-help' ) .
 			'<div id="config-memcachewrapper">' .
-			$this->parent->getTextBox( array(
+			$this->parent->getTextArea( array(
 				'var' => '_MemCachedServers',
 				'label' => 'config-memcached-servers',
 				'help' => $this->parent->getHelpBox( 'config-memcached-help' )
@@ -1001,6 +1011,28 @@ class WebInstaller_Options extends WebInstallerPage {
 			}
 		}
 		$this->parent->setVar( '_Extensions', $extsToInstall );
+
+		if( $this->getVar( 'wgMainCacheType' ) == 'memcached' ) {
+			$memcServers = explode( "\n", $this->getVar( '_MemCachedServers' ) );
+			if( !$memcServers ) {
+				$this->parent->showError( 'config-memcache-needservers' );
+				return false;
+			}
+
+			foreach( $memcServers as $server ) {
+				$memcParts = explode( ":", $server );
+				if( !IP::isValid( $memcParts[0] ) ) {
+					$this->parent->showError( 'config-memcache-badip', $memcParts[0] );
+					return false;
+				} elseif( !isset( $memcParts[1] )  ) {
+					$this->parent->showError( 'config-memcache-noport', $memcParts[0] );
+					return false;
+				} elseif( $memcParts[1] < 1 || $memcParts[1] > 65535 ) {
+					$this->parent->showError( 'config-memcache-badport', 1, 65535 );
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 
@@ -1059,7 +1091,13 @@ class WebInstaller_Complete extends WebInstallerPage {
 		// Pop up a dialog box, to make it difficult for the user to forget
 		// to download the file
 		$lsUrl = $GLOBALS['wgServer'] . $this->parent->getURL( array( 'localsettings' => 1 ) );
-		$this->parent->request->response()->header( "Refresh: 0;url=$lsUrl" );
+		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) !== false ) {
+			// JS appears the only method that works consistently with IE7+
+			$this->addHtml( "\n<script type=\"" . $GLOBALS['wgJsMimeType'] . '">jQuery( document ).ready( function() { document.location='
+				. Xml::encodeJsVar( $lsUrl) . "; } );</script>\n" );
+		} else {
+			$this->parent->request->response()->header( "Refresh: 0;url=$lsUrl" );
+		}
 
 		$this->startForm();
 		$this->parent->disableLinkPopups();

@@ -98,6 +98,7 @@
  * @author Vinhtantran
  * @author Waldir
  * @author Whym
+ * @author Yuriy Apostol
  * @author Yyy
  * @author פוילישער
  */
@@ -891,6 +892,7 @@ See also {{msg-mw|Noarticletext-nopermission}}.',
 Please report at [[Support]] if you are unable to properly translate this message. Also see [[bugzilla:14246]]',
 'recreate-moveddeleted-warn'       => 'Warning shown when creating a page which has already been deleted. See for example [[Test]].',
 'moveddeleted-notice'              => 'Shown on top of a deleted page in normal view modus ([http://translatewiki.net/wiki/Test example]).',
+'edit-conflict'                    => "An 'Edit conflict' happens when more than one edit is being made to a page at the same time. This would usually be caused by separate individuals working on the same page. However, if the system is slow, several edits from one individual could back up and attempt to apply simultaneously - causing the conflict.",
 
 # Parser/template warnings
 'expensive-parserfunction-warning'        => 'On some (expensive) [[MetaWikipedia:Help:ParserFunctions|parser functions]] (e.g. <code><nowiki>{{#ifexist:}}</nowiki></code>) there is a limit of how many times it may be used. This is an error message shown when the limit is exceeded.
@@ -1400,6 +1402,7 @@ Used in [[Special:Preferences]]. Parameters are:
 'prefs-help-realname'           => 'In user preferences.
 {{Identical|Real name attribution}}',
 'prefs-help-email'              => 'Shown as explanation text on [[Special:Preferences]] > {{int:prefs-personal}} > {{int:email}}.',
+'prefs-help-email-others'       => 'Виводиться як підказка до поля «Адреса електронної пошти» (друге речення) в налаштуваннях, на вкладці «Особисті дані».',
 'prefs-info'                    => "Header for the box giving basic information on the user account, displayed on the 'user profile' tab of the [[Special:Preferences|user preferences]] special page.",
 'prefs-signature'               => '{{Identical|Signature}}',
 'prefs-dateformat'              => 'Used in [[Special:Preferences]], tab "Date and time".',
@@ -1814,6 +1817,9 @@ Extensions making use of it:
 
 
 {{Identical|Internal error}}',
+
+# ZipDirectoryReader
+'zip-unsupported' => "Perhaps translations of 'software' can be used instead of 'features' and 'understood' or 'handled' instead of 'supported'.",
 
 # img_auth script messages
 'img-auth-accessdenied' => '[[mw:Manual:Image Authorization|Manual:Image Authorization]]: Access Denied',
@@ -2366,12 +2372,13 @@ Possible alternatives to the word 'content' are 'subject matter' or 'wiki subjec
 'watching'   => 'Text displayed when clicked on the watch tab: [[MediaWiki:Watch/{{SUBPAGENAME}}|{{int:watch}}]]. It means the wiki is adding that page to your watchlist.',
 'unwatching' => 'Text displayed when clicked on the unwatch tab: [[MediaWiki:Unwatch/{{SUBPAGENAME}}|{{int:unwatch}}]]. It means the wiki is removing that page from your watchlist.',
 
+'enotif_newpagetext' => 'Part of text of a notification e-mail sent when a watched page has been created. See [[File:Screenshot_MediaWiki_e-mail_notifier.PNG|150px|right]]',
 'changed'            => 'Possible value for $CHANGEDORCREATED in {{msg|enotif_subject}} and {{msg|enotif_body}}.',
 'created'            => 'Possible value for $CHANGEDORCREATED in {{msg|enotif_subject}} and {{msg|enotif_body}}.',
 'enotif_subject'     => '$CHANGEDORCREATED can be one of {{msg|changed}} and {{msg|created}}. Can also be {{msg-mw|blog-added}} or {{msg-mw|blog-edited}} from Wikia.',
 'enotif_lastvisited' => '$1 is a URL address.',
 'enotif_lastdiff'    => '* $1 is a link to diff, shown as a plainlink',
-'enotif_body'        => 'Text of a notification e-mail sent when a watched page has been edited or deleted.
+'enotif_body'        => 'Text of a notification e-mail sent when a watched page has been edited or deleted.[[File:Screenshot_MediaWiki_e-mail_notifier.PNG|150px|right]]
 
 * <tt>$CHANGEDORCREATED</tt> can be one of {{msg-mw|changed}}, {{msg-mw|created}}, or {{msg-mw|deleted}}. Can also be {{msg-mw|blog-added}} or {{msg-mw|blog-edited}} from Wikia.',
 
@@ -2522,7 +2529,9 @@ This message was something like "unlock move protection" in the past.',
 
 {{Identical|View deleted pages}}',
 'undeletepage'               => 'Title of special page [[Special:Undelete]]. This special page is only visible to administrators.',
-'viewdeletedpage'            => '{{Identical|View deleted pages}}',
+'viewdeletedpage'            => 'Title of the [[Special:Undelete]].
+
+{{Identical|View deleted pages}}',
 'undeleteextrahelp'          => "Help message displayed when restoring history of a page. In your language, ''Restore'' is called ''[[MediaWiki:Undeletebtn/{{SUBPAGENAME}}|{{int:Undeletebtn}}]]'' ({{msg|Undeletebtn}}), ''Reset'' button is called ''[[MediaWiki:Undeletereset/{{SUBPAGENAME}}|{{int:Undeletereset}}]]'' ({{msg|Undeletereset}}).",
 'undelete-revision'          => 'Shown in "View and restore deleted pages" ([[Special:Undelete/$1]]).
 
@@ -2583,7 +2592,8 @@ The link appears in a list of similar ones separated by {{msg-mw|pipe-separator}
 ( talk | block log | logs | deleted contributions | rights management )",
 'sp-contributions-userrights'          => "This is a link anchor used in [[Special:Contributions]]/''name'', if the user viewing the page has the right to set or alter user rights.",
 'sp-contributions-blocked-notice'      => 'Shown on top of contributions special page of currently blocked users. Parameters:
-* $1 is the blocked user. Can be used for GENDER (optional)',
+* $1 is the blocked user. Can be used for GENDER (optional)
+Anon version: {{msg-mw|Sp-contributions-blocked-notice-anon}}',
 'sp-contributions-blocked-notice-anon' => 'Same as {{msg-mw|Sp-contributions-blocked-notice}} but for anonymous users.',
 'sp-contributions-username'            => 'This message appears whenever someone requests [[Special:Contributions]].
 
@@ -3359,6 +3369,7 @@ See also Wikipedia on [http://en.wikipedia.org/wiki/Digital_zoom digital zoom].'
 See also Wikipedia on [http://en.wikipedia.org/wiki/Focal_length#In_photography focal length].',
 'exif-gpslatitude'                 => '{{Identical|Latitude}}',
 'exif-gpslongitude'                => '{{Identical|Longitude}}',
+'exif-objectname'                  => 'This message labels a field in the image metadata table that is a short name or title for the image. (As compared to {{msg-mw|exif-imagedescription}} which is a long description of the image).',
 
 # EXIF attributes
 'exif-compression-6' => '{{optional}}',

@@ -145,6 +145,8 @@ interface DatabaseType {
 	 *
 	 * @param $table string: table name
 	 * @param $field string: field name
+	 *
+	 * @return Field
 	 */
 	function fieldInfo( $table, $field );
 
@@ -730,7 +732,10 @@ abstract class DatabaseBase implements DatabaseType {
 				$sqlx = strtr( $sqlx, "\t\n", '  ' );
 				global $wgRequestTime;
 				$elapsed = round( microtime( true ) - $wgRequestTime, 3 );
-				wfLogDBError( "Connection lost and reconnected after {$elapsed}s, query: $sqlx\n" );
+				if ( $elapsed < 300 ) {
+					# Not a database error to lose a transaction after a minute or two
+					wfLogDBError( "Connection lost and reconnected after {$elapsed}s, query: $sqlx\n" );
+				}
 				$ret = $this->doQuery( $commentedSql );
 			} else {
 				wfDebug( "Failed\n" );
@@ -1364,12 +1369,15 @@ abstract class DatabaseBase implements DatabaseType {
 
 	/**
 	 * Makes an encoded list of strings from an array
-	 * $mode:
+	 * @param $a Array
+	 * @param $mode
 	 *        LIST_COMMA         - comma separated, no field names
 	 *        LIST_AND           - ANDed WHERE clause (without the WHERE)
 	 *        LIST_OR            - ORed WHERE clause (without the WHERE)
 	 *        LIST_SET           - comma separated with field names, like a SET clause
 	 *        LIST_NAMES         - comma separated field names
+	 *
+	 * @return string
 	 */
 	function makeList( $a, $mode = LIST_COMMA ) {
 		if ( !is_array( $a ) ) {
@@ -2871,7 +2879,7 @@ class DBError extends MWException {
 	/**
 	 * Construct a database error
 	 * @param $db Database object which threw the error
-	 * @param $error A simple error message to be used for debugging
+	 * @param $error String A simple error message to be used for debugging
 	 */
 	function __construct( DatabaseBase &$db, $error ) {
 		$this->db =& $db;
@@ -3158,7 +3166,7 @@ class ResultWrapper implements Iterator {
 	/**
 	 * Create a new result object from a result resource and a Database object
 	 *
-	 * @param Database $database
+	 * @param DatabaseBase $database
 	 * @param resource $result
 	 */
 	function __construct( $database, $result ) {

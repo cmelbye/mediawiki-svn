@@ -485,7 +485,7 @@ abstract class Installer {
 	 * On POSIX systems return the primary group of the webserver we're running under.
 	 * On other systems just returns null.
 	 *
-	 * This is used to advice the user that he should chgrp his config/data/images directory as the
+	 * This is used to advice the user that he should chgrp his mw-config/data/images directory as the
 	 * webserver user before he can install.
 	 *
 	 * Public because SqliteInstaller needs it, and doesn't subclass Installer.
@@ -725,7 +725,7 @@ abstract class Installer {
 			return false;
 		}
 		wfSuppressWarnings();
-		$regexd = preg_replace( '/[\x{0400}-\x{04FF}]/u', '', '-АБВГД-' );
+		$regexd = preg_replace( '/[\x{0430}-\x{04FF}]/iu', '', '-АБВГД-' );
 		wfRestoreWarnings();
 		if ( $regexd != '--' ) {
 			$this->showMessage( 'config-pcre-no-utf8' );
@@ -837,7 +837,7 @@ abstract class Installer {
 			return false;
 		}
 
-		$uri = preg_replace( '{^(.*)/config.*$}', '$1', $path );
+		$uri = preg_replace( '{^(.*)/(mw-)?config.*$}', '$1', $path );
 		$this->setVar( 'wgScriptPath', $uri );
 	}
 
@@ -1205,6 +1205,7 @@ abstract class Installer {
 		 * but we're not opening that can of worms
 		 * @see https://bugzilla.wikimedia.org/show_bug.cgi?id=26857
 		 */
+		global $wgHooks, $wgAutoloadClasses;
 		require( "$IP/includes/DefaultSettings.php" );
 
 		foreach( $exts as $e ) {
@@ -1274,8 +1275,8 @@ abstract class Installer {
 	/**
 	 * Actually perform the installation.
 	 *
-	 * @param $startCB A callback array for the beginning of each step
-	 * @param $endCB A callback array for the end of each step
+	 * @param $startCB Array A callback array for the beginning of each step
+	 * @param $endCB Array A callback array for the end of each step
 	 *
 	 * @return Array of Status objects
 	 */

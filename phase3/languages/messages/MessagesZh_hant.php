@@ -8,6 +8,7 @@
  * @file
  *
  * @author Alexsh
+ * @author Andrew971218
  * @author Bencmq
  * @author FireJackey
  * @author Frankou
@@ -828,6 +829,7 @@ $2',
 '''如果這個編輯過程沒有問題，請再試一次。如果仍然有問題，請[[Special:UserLogout|登出]]後再重新登入一次。'''",
 'token_suffix_mismatch'            => "'''由於您用戶端中的編輯信符毀損了一些標點符號字元，為防止編輯的文字損壞，您的編輯已經被拒絕。'''
 這種情況通常出現於使用含有很多臭蟲、以網絡為主的匿名代理服務的時候。",
+'edit_form_incomplete'             => '編輯表單的某些部分沒有到達伺服器 ；請檢查您的編輯內容是否完整並再試一次。',
 'editing'                          => '正在編輯$1',
 'editingsection'                   => '正在編輯$1（段落）',
 'editingcomment'                   => '正在編輯$1（新段落）',
@@ -1599,6 +1601,8 @@ $1",
 'uploadscripted'              => '該檔案包含可能被網路瀏覽器錯誤解釋的 HTML 或腳本代碼。',
 'uploadvirus'                 => '該檔案包含有病毒！
 詳情: $1',
+'uploadjava'                  => '該文件是 ZIP 文件，其中包含 Java 的.class 文件。
+不允許上傳 Java 文件，是因為他們可能會跳過安全限制。',
 'upload-source'               => '來源檔案',
 'sourcefilename'              => '來源檔案名：',
 'sourceurl'                   => '來源網址：',
@@ -1631,6 +1635,14 @@ $1',
 'upload-too-many-redirects' => '在網址中有太多重新定向',
 'upload-unknown-size'       => '未知的大小',
 'upload-http-error'         => '已發生一個HTTP錯誤：$1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => '打開文件的 ZIP 檢查時遇到一個錯誤。',
+'zip-wrong-format'    => '指定的檔案不是ZIP文件。',
+'zip-bad'             => '該文件是已損壞或以其它方式無法讀取的 ZIP 文件。
+不能正確檢查安全。',
+'zip-unsupported'     => '該文件是 ZIP 文件，其中使用不支持的 MediaWiki 的壓缩功能。
+不能正確檢查安全。',
 
 # Special:UploadStash
 'uploadstash'          => '上傳貯藏',
@@ -2282,7 +2294,7 @@ $1',
 'mycontris'           => '我的貢獻',
 'contribsub2'         => '$1的貢獻 （$2）',
 'nocontribs'          => '沒有找到符合特徵的更改。',
-'uctop'               => '（最新修改）',
+'uctop'               => '(最新修改)',
 'month'               => '從該月份 （或更早）:',
 'year'                => '從該年份 （或更早）:',
 
@@ -3024,6 +3036,7 @@ Variants for Chinese language
 'exif-gpsareainformation'          => 'GPS 區域名稱',
 'exif-gpsdatestamp'                => 'GPS 日期',
 'exif-gpsdifferential'             => 'GPS 差動修正',
+'exif-objectname'                  => '簡稱',
 
 # EXIF attributes
 'exif-compression-1' => '未壓縮',
@@ -3373,14 +3386,15 @@ MediaWiki是基於使用目的而加以發佈，然而不負任何擔保責任�
 請輸入檔名，不要包含"{{ns:file}}:"開頭。',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => '選擇重覆檔案',
-'fileduplicatesearch-summary'  => '用重覆檔案的切細值去找出檔案是否重覆。',
-'fileduplicatesearch-legend'   => '找重覆',
-'fileduplicatesearch-filename' => '檔案名稱：',
-'fileduplicatesearch-submit'   => '找',
-'fileduplicatesearch-info'     => '$1 × $2 像素<br />檔案大小：$3<br />MIME 類型：$4',
-'fileduplicatesearch-result-1' => '檔案 "$1" 無完全相同的重覆。',
-'fileduplicatesearch-result-n' => '檔案 "$1" 有$2項完全相同的重覆。',
+'fileduplicatesearch'           => '選擇重覆檔案',
+'fileduplicatesearch-summary'   => '用重覆檔案的切細值去找出檔案是否重覆。',
+'fileduplicatesearch-legend'    => '找重覆',
+'fileduplicatesearch-filename'  => '檔案名稱：',
+'fileduplicatesearch-submit'    => '找',
+'fileduplicatesearch-info'      => '$1 × $2 像素<br />檔案大小：$3<br />MIME 類型：$4',
+'fileduplicatesearch-result-1'  => '檔案 "$1" 無完全相同的重覆。',
+'fileduplicatesearch-result-n'  => '檔案 "$1" 有$2項完全相同的重覆。',
+'fileduplicatesearch-noresults' => '沒有發現名為"$1"的文件。',
 
 # Special:SpecialPages
 'specialpages'                   => '特殊頁面',

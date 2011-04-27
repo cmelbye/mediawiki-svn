@@ -48,6 +48,10 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 		$this->run( $resultPageSet );
 	}
 
+	/**
+	 * @param $resultPageSet ApiPageSet
+	 * @return void
+	 */
 	private function run( $resultPageSet = null ) {
 		$params = $this->extractRequestParams();
 
@@ -77,6 +81,9 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 
 		$count = 0;
 		$result = $this->getResult();
+
+		$titles = array();
+
 		foreach ( $res as $row ) {
 			if ( ++ $count > $params['limit'] ) {
 				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
@@ -165,8 +172,8 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 			'dir' => array(
 				ApiBase::PARAM_DFLT => 'older',
 				ApiBase::PARAM_TYPE => array(
-					'older',
-					'newer'
+					'newer',
+					'older'
 				)
 			),
 			'start' => array(
@@ -201,8 +208,8 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 			'prop' => array(
 				'Which properties to get',
 				' timestamp      - Adds the timestamp of when protection was added',
-				' user           - Adds the user to add the protection',
-				' userid         - Adds the user id to add the protection',
+				' user           - Adds the user that added the protection',
+				' userid         - Adds the user id that added the protection',
 				' comment        - Adds the comment for the protection',
 				' parsedcomment  - Adds the parsed comment for the protection',
 				' expiry         - Adds the timestamp of when the protection will be lifted',

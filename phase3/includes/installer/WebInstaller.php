@@ -316,7 +316,7 @@ class WebInstaller extends Installer {
 	/**
 	 * Get a hash of data identifying this MW installation.
 	 *
-	 * This is used by config/index.php to prevent multiple installations of MW
+	 * This is used by mw-config/index.php to prevent multiple installations of MW
 	 * on the same cookie domain from interfering with each other.
 	 */
 	public function getFingerprint() {
@@ -501,11 +501,7 @@ class WebInstaller extends Installer {
 		}
 
 		$s .= "</ul><br/><ul>\n";
-
-		foreach ( $this->otherPages as $pageName ) {
-			$s .= $this->getPageListItem( $pageName, true, $currentPageName );
-		}
-
+		$s .= $this->getPageListItem( 'Restart', true, $currentPageName );
 		$s .= "</ul></div>\n"; // end list pane
 		$s .= Html::element( 'h2', array(),
 				wfMsg( 'config-page-' . strtolower( $currentPageName ) ) );
@@ -739,6 +735,52 @@ class WebInstaller extends Installer {
 					$params['controlName'],
 					30, // intended to be overridden by CSS
 					$params['value'],
+					$params['attribs'] + array(
+						'id' => $params['controlName'],
+						'class' => 'config-input-text',
+						'tabindex' => $this->nextTabIndex()
+					)
+				),
+				$params['help']
+			);
+	}
+
+	/**
+	 * Get a labelled textarea to configure a variable
+	 *
+	 * @param $params Array
+	 *    Parameters are:
+	 *      var:        The variable to be configured (required)
+	 *      label:      The message name for the label (required)
+	 *      attribs:    Additional attributes for the input element (optional)
+	 *      controlName: The name for the input element (optional)
+	 *      value:      The current value of the variable (optional)
+	 *      help:		The html for the help text (optional)
+	 */
+	public function getTextArea( $params ) {
+		if ( !isset( $params['controlName'] ) ) {
+			$params['controlName'] = 'config_' . $params['var'];
+		}
+
+		if ( !isset( $params['value'] ) ) {
+			$params['value'] = $this->getVar( $params['var'] );
+		}
+
+		if ( !isset( $params['attribs'] ) ) {
+			$params['attribs'] = array();
+		}
+		if ( !isset( $params['help'] ) ) {
+			$params['help'] = "";
+		}
+		return
+			$this->label(
+				$params['label'],
+				$params['controlName'],
+				Xml::textarea(
+					$params['controlName'],
+					$params['value'],
+					30,
+					5,
 					$params['attribs'] + array(
 						'id' => $params['controlName'],
 						'class' => 'config-input-text',

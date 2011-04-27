@@ -29,6 +29,7 @@
 class ResourceLoader {
 
 	/* Protected Static Members */
+	protected static $filterCacheVersion = 1;
 
 	/** Array: List of module name/ResourceLoaderModule object pairs */
 	protected $modules = array();
@@ -135,7 +136,7 @@ class ResourceLoader {
 
 		// Try for cache hit
 		// Use CACHE_ANYTHING since filtering is very slow compared to DB queries
-		$key = wfMemcKey( 'resourceloader', 'filter', $filter, md5( $data ) );
+		$key = wfMemcKey( 'resourceloader', 'filter', $filter, self::$filterCacheVersion, md5( $data ) );
 		$cache = wfGetCache( CACHE_ANYTHING );
 		$cacheEntry = $cache->get( $key );
 		if ( is_string( $cacheEntry ) ) {
@@ -151,9 +152,11 @@ class ResourceLoader {
 					$result = JavaScriptDistiller::stripWhiteSpace(
 						$data, $wgResourceLoaderMinifyJSVerticalSpace
 					);
+					$result .= "\n\n/* cache key: $key */\n";
 					break;
 				case 'minify-css':
 					$result = CSSMin::minify( $data );
+					$result .= "\n\n/* cache key: $key */\n";
 					break;
 			}
 
@@ -381,7 +384,8 @@ class ResourceLoader {
 		// Some clients send "timestamp;length=123". Strip the part after the first ';'
 		// so we get a valid timestamp.
 		$ims = $context->getRequest()->getHeader( 'If-Modified-Since' );
-		if ( $ims !== false ) {
+		// Never send 304s in debug mode
+		if ( $ims !== false && !$context->getDebug() ) {
 			$imsTS = strtok( $ims, ';' );
 			if ( $mtime <= wfTimestamp( TS_UNIX, $imsTS ) ) {
 				// There's another bug in ob_gzhandler (see also the comment at
@@ -488,7 +492,7 @@ class ResourceLoader {
 						$out .= self::makeMessageSetScript( new XmlJsCode( $messagesBlob ) );
 						break;
 					default:
-						// Minify CSS before embedding in mediaWiki.loader.implement call
+						// Minify CSS before embedding in mw.loader.implement call
 						// (unless in debug mode)
 						if ( !$context->getDebug() ) {
 							foreach ( $styles as $media => $style ) {
@@ -540,7 +544,7 @@ class ResourceLoader {
 	/* Static Methods */
 
 	/**
-	 * Returns JS code to call to mediaWiki.loader.implement for a module with 
+	 * Returns JS code to call to mw.loader.implement for a module with 
 	 * given properties.
 	 *
 	 * @param $name Module name
@@ -556,10 +560,10 @@ class ResourceLoader {
 			$scripts = implode( $scripts, "\n" );
 		}
 		return Xml::encodeJsCall( 
-			'mediaWiki.loader.implement', 
+			'mw.loader.implement', 
 			array(
 				$name,
-				new XmlJsCode( "function( $, mw ) {{$scripts}}" ),
+				new XmlJsCode( "function( $ ) {{$scripts}}" ),
 				(object)$styles,
 				(object)$messages
 			) );
@@ -572,7 +576,7 @@ class ResourceLoader {
 	 *     JSON-encoded message blob containing the same data, wrapped in an XmlJsCode object.
 	 */
 	public static function makeMessageSetScript( $messages ) {
-		return Xml::encodeJsCall( 'mediaWiki.messages.set', array( (object)$messages ) );
+		return Xml::encodeJsCall( 'mw.messages.set', array( (object)$messages ) );
 	}
 
 	/**
@@ -601,7 +605,7 @@ class ResourceLoader {
 	}
 
 	/**
-	 * Returns a JS call to mediaWiki.loader.state, which sets the state of a 
+	 * Returns a JS call to mw.loader.state, which sets the state of a 
 	 * module or modules to a given value. Has two calling conventions:
 	 *
 	 *    - ResourceLoader::makeLoaderStateScript( $name, $state ):
@@ -612,9 +616,9 @@ class ResourceLoader {
 	 */
 	public static function makeLoaderStateScript( $name, $state = null ) {
 		if ( is_array( $name ) ) {
-			return Xml::encodeJsCall( 'mediaWiki.loader.state', array( $name ) );
+			return Xml::encodeJsCall( 'mw.loader.state', array( $name ) );
 		} else {
-			return Xml::encodeJsCall( 'mediaWiki.loader.state', array( $name, $state ) );
+			return Xml::encodeJsCall( 'mw.loader.state', array( $name, $state ) );
 		}
 	}
 
@@ -638,7 +642,7 @@ class ResourceLoader {
 	}
 
 	/**
-	 * Returns JS code which calls mediaWiki.loader.register with the given 
+	 * Returns JS code which calls mw.loader.register with the given 
 	 * parameters. Has three calling conventions:
 	 *
 	 *   - ResourceLoader::makeLoaderRegisterScript( $name, $version, $dependencies, $group ):

@@ -349,6 +349,7 @@ $wgMessageStructure = array(
 		'nstab-template',
 		'nstab-help',
 		'nstab-category',
+		'mainpage-nstab',
 	),
 	'main' => array(
 		'nosuchaction',
@@ -596,6 +597,7 @@ $wgMessageStructure = array(
 		'session_fail_preview',
 		'session_fail_preview_html',
 		'token_suffix_mismatch',
+		'edit_form_incomplete',
 		'editing',
 		'editingsection',
 		'editingcomment',
@@ -1320,6 +1322,7 @@ $wgMessageStructure = array(
 		'php-uploaddisabledtext',
 		'uploadscripted',
 		'uploadvirus',
+		'uploadjava',
 		'upload-source',
 		'sourcefilename',
 		'sourceurl',
@@ -1349,6 +1352,13 @@ $wgMessageStructure = array(
 		'upload-too-many-redirects',
 		'upload-unknown-size',
 		'upload-http-error',
+	),
+
+	'zip' => array(
+		'zip-file-open-error',
+		'zip-wrong-format',
+		'zip-bad',
+		'zip-unsupported'
 	),
 
 	'uploadstash' => array(
@@ -2452,6 +2462,10 @@ $wgMessageStructure = array(
 		'vector.css',
 		'print.css',
 		'handheld.css',
+		'autoconfirmed.css',
+		'bot.css',
+		'sysop.css',
+		'bureaucrat.css',
 	),
 	'scripts' => array(
 		'common.js',
@@ -2464,6 +2478,10 @@ $wgMessageStructure = array(
 		'simple.js',
 		'modern.js',
 		'vector.js',
+		'autoconfirmed.js',
+		'bot.js',
+		'sysop.js',
+		'bureaucrat.js',
 	),
 	'metadata_cc' => array(
 		'nodublincore',
@@ -2768,6 +2786,7 @@ $wgMessageStructure = array(
 		'exif-gpsareainformation',
 		'exif-gpsdatestamp',
 		'exif-gpsdifferential',
+		'exif-objectname',
 	),
 	'exif-values' => array(
 		'exif-make-value',
@@ -3354,6 +3373,7 @@ XHTML id names.",
 	'recentchanges'       => 'Recent changes',
 	'recentchangeslinked' => 'Recent changes linked',
 	'upload'              => 'Upload',
+	'zip'                 => 'ZipDirectoryReader',
 	'upload-errors'       => '',
 	'uploadstash'         => 'Special:UploadStash',
 	'img-auth'            => 'img_auth script messages',

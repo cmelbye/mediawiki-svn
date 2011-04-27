@@ -37,7 +37,7 @@ class ApiQueryStashImageInfo extends ApiQueryImageInfo {
 
 		$prop = array_flip( $params['prop'] );
 
-		$scale = $this->makeThumbParams( $params );
+		$scale = $this->getScale( $params );
 
 		$result = $this->getResult();
 
@@ -46,8 +46,8 @@ class ApiQueryStashImageInfo extends ApiQueryImageInfo {
 
 			foreach ( $params['sessionkey'] as $sessionkey ) {
 				$file = $stash->getFile( $sessionkey );
-				$this->validateThumbParams( $file, $scale );
-				$imageInfo = self::getInfo( $file, $prop, $result, $scale );
+				$finalThumbParam = $this->mergeThumbParams( $file, $scale, $params['urlparam'] );
+				$imageInfo = ApiQueryImageInfo::getInfo( $file, $prop, $result, $finalThumbParam );
 				$result->addValue( array( 'query', $this->getModuleName() ), null, $imageInfo );
 				$result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), $modulePrefix );
 			}
@@ -78,7 +78,6 @@ class ApiQueryStashImageInfo extends ApiQueryImageInfo {
 		);
 	}
 
-
 	public function getAllowedParams() {
 		return array(
 			'sessionkey' => array(
@@ -100,7 +99,8 @@ class ApiQueryStashImageInfo extends ApiQueryImageInfo {
 				ApiBase::PARAM_DFLT => -1
 			),
 			'urlparam' => array(
-				ApiBase::PARAM_ISMULTI => true,
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_DFLT => '',
 			),
 		);
 	}
@@ -116,7 +116,7 @@ class ApiQueryStashImageInfo extends ApiQueryImageInfo {
 				'What image information to get:',
 				' timestamp    - Adds timestamp for the uploaded version',
 				' url          - Gives URL to the image and the description page',
-				' size         - Adds the size of the image in bytes and the height and width',
+				' size         - Adds the size of the image in bytes and the height, width and page count (if applicable)',
 				' dimensions   - Alias for size',
 				' sha1         - Adds sha1 hash for the image',
 				' mime         - Adds MIME of the image',
@@ -127,19 +127,13 @@ class ApiQueryStashImageInfo extends ApiQueryImageInfo {
 			'sessionkey' => 'Session key that identifies a previous upload that was stashed temporarily.',
 			'urlwidth' => "If {$p}prop=url is set, a URL to an image scaled to this width will be returned.",
 			'urlheight' => "Similar to {$p}urlwidth. Cannot be used without {$p}urlwidth",
-			'urlparam' => array( "Other rending parameters, such as page=2 for multipaged documents.",
-					"Multiple parameters should be seperated with a |. {$p}urlwidth must also be used" ),
+			'urlparam' => array( "A handler specific parameter string. For example, pdf's ",
+				"might use 'page15-100px'. {$p}urlwidth must be used and be consistent with {$p}urlparam" ),
 		);
 	}
 
 	public function getDescription() {
 		return 'Returns image information for stashed images';
-	}
-
-	public function getPossibleErrors() {
-		return array_merge( parent::getPossibleErrors(), array(
-			array( 'code' => 'siiurlwidth', 'info' => 'siiurlheight cannot be used without iiurlwidth' ),
-		) );
 	}
 
 	protected function getExamples() {

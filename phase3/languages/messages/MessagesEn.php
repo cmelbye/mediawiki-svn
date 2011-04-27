@@ -112,6 +112,16 @@ $namespaceNames = array(
 $namespaceAliases = array();
 
 /**
+ * Array of gender specific. namespace aliases.
+ * Mapping NS_xxx to array of GENDERKEY to alias.
+ * Example:
+$namespaceGenderAliases = array(
+	NS_USER => array( 'male' => 'Male_user', 'female' => 'Female_user' ),
+);
+ */
+$namespaceGenderAliases = array();
+
+/**
  * Deprecated, use the message array
  */
 $mathNames = array(
@@ -944,6 +954,7 @@ See [[Special:Version|version page]].',
 'nstab-template'  => 'Template',
 'nstab-help'      => 'Help page',
 'nstab-category'  => 'Category',
+'mainpage-nstab'  => '', # do not translate or duplicate this message to other languages
 
 # Main script and global functions
 'nosuchaction'      => 'No such action',
@@ -1329,6 +1340,7 @@ If it still does not work, try [[Special:UserLogout|logging out]] and logging ba
 'token_suffix_mismatch'            => "'''Your edit has been rejected because your client mangled the punctuation characters in the edit token.'''
 The edit has been rejected to prevent corruption of the page text.
 This sometimes happens when you are using a buggy web-based anonymous proxy service.",
+'edit_form_incomplete'             => "'''Some parts of the edit form did not reach the server; double-check that your edits are intact and try again.'''",
 'editing'                          => 'Editing $1',
 'editingsection'                   => 'Editing $1 (section)',
 'editingcomment'                   => 'Editing $1 (new section)',
@@ -1467,7 +1479,7 @@ It may have been deleted from the wiki, or renamed.
 Try [[Special:Search|searching on the wiki]] for relevant new pages.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(comment removed)',
+'rev-deleted-comment'         => '(edit summary removed)',
 'rev-deleted-user'            => '(username removed)',
 'rev-deleted-event'           => '(log action removed)',
 'rev-deleted-user-contribs'   => '[username or IP address removed - edit hidden from contributions]',
@@ -2173,6 +2185,8 @@ Please check the file_uploads setting.',
 'uploadscripted'              => 'This file contains HTML or script code that may be erroneously interpreted by a web browser.',
 'uploadvirus'                 => 'The file contains a virus!
 Details: $1',
+'uploadjava'                  => 'The file is a ZIP file which contains a Java .class file.
+Uploading Java files is not allowed, because they can cause security restrictions to be bypassed.',
 'upload-source'               => 'Source file',
 'sourcefilename'              => 'Source filename:',
 'sourceurl'                   => 'Source URL:',
@@ -2224,6 +2238,14 @@ If the problem persists, contact an [[Special:ListUsers/sysop|administrator]].',
 'upload-too-many-redirects' => 'The URL contained too many redirects',
 'upload-unknown-size'       => 'Unknown size',
 'upload-http-error'         => 'An HTTP error occured: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'An error was encountered when opening the file for ZIP checks.',
+'zip-wrong-format'    => 'The specified file was not a ZIP file.',
+'zip-bad'             => 'The file is a corrupt or otherwise unreadable ZIP file.
+It cannot be properly checked for security.',
+'zip-unsupported'     => 'The file is a ZIP file which uses ZIP features not supported by MediaWiki.
+It cannot be properly checked for security.',
 
 # Special:UploadStash
 'uploadstash'          => 'Upload stash',
@@ -3471,30 +3493,38 @@ You can view its source',
 'tooltip-summary'                 => 'Enter a short summary',
 
 # Stylesheets
-'common.css'      => '/* CSS placed here will be applied to all skins */', # only translate this message to other languages if you have to change it
-'standard.css'    => '/* CSS placed here will affect users of the Standard skin */', # only translate this message to other languages if you have to change it
-'nostalgia.css'   => '/* CSS placed here will affect users of the Nostalgia skin */', # only translate this message to other languages if you have to change it
-'cologneblue.css' => '/* CSS placed here will affect users of the Cologne Blue skin */', # only translate this message to other languages if you have to change it
-'monobook.css'    => '/* CSS placed here will affect users of the Monobook skin */', # only translate this message to other languages if you have to change it
-'myskin.css'      => '/* CSS placed here will affect users of the MySkin skin */', # only translate this message to other languages if you have to change it
-'chick.css'       => '/* CSS placed here will affect users of the Chick skin */', # only translate this message to other languages if you have to change it
-'simple.css'      => '/* CSS placed here will affect users of the Simple skin */', # only translate this message to other languages if you have to change it
-'modern.css'      => '/* CSS placed here will affect users of the Modern skin */', # only translate this message to other languages if you have to change it
-'vector.css'      => '/* CSS placed here will affect users of the Vector skin */', # only translate this message to other languages if you have to change it
-'print.css'       => '/* CSS placed here will affect the print output */', # only translate this message to other languages if you have to change it
-'handheld.css'    => '/* CSS placed here will affect handheld devices based on the skin configured in $wgHandheldStyle */', # only translate this message to other languages if you have to change it
+'common.css'        => '/* CSS placed here will be applied to all skins */', # only translate this message to other languages if you have to change it
+'standard.css'      => '/* CSS placed here will affect users of the Standard skin */', # only translate this message to other languages if you have to change it
+'nostalgia.css'     => '/* CSS placed here will affect users of the Nostalgia skin */', # only translate this message to other languages if you have to change it
+'cologneblue.css'   => '/* CSS placed here will affect users of the Cologne Blue skin */', # only translate this message to other languages if you have to change it
+'monobook.css'      => '/* CSS placed here will affect users of the Monobook skin */', # only translate this message to other languages if you have to change it
+'myskin.css'        => '/* CSS placed here will affect users of the MySkin skin */', # only translate this message to other languages if you have to change it
+'chick.css'         => '/* CSS placed here will affect users of the Chick skin */', # only translate this message to other languages if you have to change it
+'simple.css'        => '/* CSS placed here will affect users of the Simple skin */', # only translate this message to other languages if you have to change it
+'modern.css'        => '/* CSS placed here will affect users of the Modern skin */', # only translate this message to other languages if you have to change it
+'vector.css'        => '/* CSS placed here will affect users of the Vector skin */', # only translate this message to other languages if you have to change it
+'print.css'         => '/* CSS placed here will affect the print output */', # only translate this message to other languages if you have to change it
+'handheld.css'      => '/* CSS placed here will affect handheld devices based on the skin configured in $wgHandheldStyle */', # only translate this message to other languages if you have to change it
+'autoconfirmed.css' => '/* CSS placed here will affect autoconfirmed users only */', # only translate this message to other languages if you have to change it
+'bot.css'           => '/* CSS placed here will affect bots only */', # only translate this message to other languages if you have to change it
+'sysop.css'         => '/* CSS placed here will affect sysops only */', # only translate this message to other languages if you have to change it
+'bureaucrat.css'    => '/* CSS placed here will affect bureaucrats only */', # only translate this message to other languages if you have to change it
 
 # Scripts
-'common.js'      => '/* Any JavaScript here will be loaded for all users on every page load. */', # only translate this message to other languages if you have to change it
-'standard.js'    => '/* Any JavaScript here will be loaded for users using the Standard skin */', # only translate this message to other languages if you have to change it
-'nostalgia.js'   => '/* Any JavaScript here will be loaded for users using the Nostalgia skin */', # only translate this message to other languages if you have to change it
-'cologneblue.js' => '/* Any JavaScript here will be loaded for users using the Cologne Blue skin */', # only translate this message to other languages if you have to change it
-'monobook.js'    => '/* Any JavaScript here will be loaded for users using the MonoBook skin */', # only translate this message to other languages if you have to change it
-'myskin.js'      => '/* Any JavaScript here will be loaded for users using the MySkin skin */', # only translate this message to other languages if you have to change it
-'chick.js'       => '/* Any JavaScript here will be loaded for users using the Chick skin */', # only translate this message to other languages if you have to change it
-'simple.js'      => '/* Any JavaScript here will be loaded for users using the Simple skin */', # only translate this message to other languages if you have to change it
-'modern.js'      => '/* Any JavaScript here will be loaded for users using the Modern skin */', # only translate this message to other languages if you have to change it
-'vector.js'      => '/* Any JavaScript here will be loaded for users using the Vector skin */', # only translate this message to other languages if you have to change it
+'common.js'        => '/* Any JavaScript here will be loaded for all users on every page load. */', # only translate this message to other languages if you have to change it
+'standard.js'      => '/* Any JavaScript here will be loaded for users using the Standard skin */', # only translate this message to other languages if you have to change it
+'nostalgia.js'     => '/* Any JavaScript here will be loaded for users using the Nostalgia skin */', # only translate this message to other languages if you have to change it
+'cologneblue.js'   => '/* Any JavaScript here will be loaded for users using the Cologne Blue skin */', # only translate this message to other languages if you have to change it
+'monobook.js'      => '/* Any JavaScript here will be loaded for users using the MonoBook skin */', # only translate this message to other languages if you have to change it
+'myskin.js'        => '/* Any JavaScript here will be loaded for users using the MySkin skin */', # only translate this message to other languages if you have to change it
+'chick.js'         => '/* Any JavaScript here will be loaded for users using the Chick skin */', # only translate this message to other languages if you have to change it
+'simple.js'        => '/* Any JavaScript here will be loaded for users using the Simple skin */', # only translate this message to other languages if you have to change it
+'modern.js'        => '/* Any JavaScript here will be loaded for users using the Modern skin */', # only translate this message to other languages if you have to change it
+'vector.js'        => '/* Any JavaScript here will be loaded for users using the Vector skin */', # only translate this message to other languages if you have to change it
+'autoconfirmed.js' => '/* Any JavaScript here will be loaded for autoconfirmed users only */', # only translate this message to other languages if you have to change it
+'bot.js'           => '/* Any JavaScript here will be loaded for bots only */', # only translate this message to other languages if you have to change it
+'sysop.js'         => '/* Any JavaScript here will be loaded for sysops only */', # only translate this message to other languages if you have to change it
+'bureaucrat.js'    => '/* Any JavaScript here will be loaded for bureaucrats only */', # only translate this message to other languages if you have to change it
 
 # Metadata
 'nodublincore'      => 'Dublin Core RDF metadata disabled for this server.',
@@ -3821,6 +3851,7 @@ Others will be hidden by default.
 'exif-gpsareainformation'          => 'Name of GPS area',
 'exif-gpsdatestamp'                => 'GPS date',
 'exif-gpsdifferential'             => 'GPS differential correction',
+'exif-objectname'                  => 'Short title',
 
 # Make & model, can be wikified in order to link to the camera and model name
 'exif-make-value'     => '$1', # do not translate or duplicate this message to other languages

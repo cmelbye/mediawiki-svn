@@ -42,6 +42,9 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
   by the page, but $wgAllowUserJs is set to false.
 * Pure "Skin" class based custom skins are no longer supported, all custom skins
   should be put together using SkinTemplate and BaseTemplate or QuickTemplate.
+* The transliteration for passwords in case they were migrated from an old Latin-1
+  install (previous to MediaWiki 1.5) is now only done for wikis with 
+  $wgLegacyEncoding set.
 
 === New features in 1.18 ===
 * Added a special page, disabled by default, that allows users with the
@@ -71,6 +74,12 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * New maintenance script to fix double redirects
   (maintenance/fixDoubleRedirects.php)
 * (bug 23315) New body classes to allow easier styling of special pages
+* CSS/JS for each user group is imported from MediaWiki:Sysop.js, 
+  MediaWiki:Autoconfirmed.css, etc.
+* (bug 24230) Uploads of ZIP types, such as MS Office or OpenOffice can now be
+  safely enabled. A ZIP file reader was added which can scan a ZIP file for
+  potentially dangerous Java applets. This allows applets to be blocked
+  specifically, rather than all ZIP files being blocked.
 
 === Bug fixes in 1.18 ===
 * (bug 23119) WikiError class and subclasses are now marked as deprecated
@@ -132,6 +141,11 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * Files with a mime type that does not match the extension are now properly
   thumbnailed 
 * (bug 27201) Special:WhatLinksHere output no longer contains duplicate IDs
+* (bug 27560) Search queries no longer fail in walloon language
+* (bug 27679) Broken embedded files with special characters are no longer 
+  double HTML escaped
+* (bug 27700) The upload protection can now also be set for files that do not
+  exist.
 
 === API changes in 1.18 ===
 * (bug 26339) Throw warning when truncating an overlarge API result
@@ -163,12 +177,30 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * Expose list of skins in meta=siteinfo
 * (bug 26548) Add iiurlparam param to query=imageinfo and query=stashimageinfo
 * (bug 27205) aiprop=metadata and aiprop=parsedcomment need help text
+* (bug 27376) when using ApiBase::PARAM_TYPE => 'integer' without a min or
+  max value, api doesn't validate the input is actually an integer
+* (bug 27479) API error when using both prop=pageprops and
+  prop=info&inprop=displaytitle
+* (bug 27554) Update api information text to reflect change in bug 26125
+* (bug 27611) list=blocks: Use ipb_by_text instead of join with user table
+* (bug 27616) Add userid of blocked user and blocker to list=blocks
+* (bug 27688) Simplify queries to list user block information
+* (bug 27708) list=users does not have a property to return user id
+* (bug 27715) imageinfo didn't respect revdelete
 
 === Languages updated in 1.18 ===
 
 MediaWiki supports over 330 languages. Many localisations are updated
 regularly. Below only new and removed languages are listed, as well as
 changes to languages because of Bugzilla reports.
+
+* (bug 17160) Gender specific display text for User namespace
+* Link trail added for sl and sh
+* (bug 27633) Add characters to linkTrail for Potuguese (pt and pt-br)
+* (bug 27426) Set $namespaceGenderAliases for Arabic (ar)
+* (bug 27385) Set Polish $namespaceGenderAliases
+* (bug 27681) Set $namespaceGenderAliases for Portuguese (pt and pt-br)
+* (bug 27785) Fallback language for Kabardian (kbd) is English now.
 
 == Compatibility ==
 

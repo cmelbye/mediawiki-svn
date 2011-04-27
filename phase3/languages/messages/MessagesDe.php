@@ -80,7 +80,10 @@ $namespaceAliases = array(
 	'Bild' => NS_FILE,
 	'Bild_Diskussion' => NS_FILE_TALK,
 );
-
+$namespaceGenderAliases = array(
+	NS_USER => array( 'male' => 'Benutzer', 'female' => 'Benutzerin' ),
+	NS_USER_TALK => array( 'male' => 'Benutzer_Diskussion', 'female' => 'Benutzerin_Diskussion' ),
+);
 
 $bookstoreList = array(
 	'abebooks.de' => 'http://www.abebooks.de/servlet/BookSearchPL?ph=2&isbn=$1',
@@ -1001,6 +1004,7 @@ Sollte das Problem bestehen bleiben, [[Special:UserLogout|melde dich ab]] und da
 Sollte das Problem bestehen bleiben, [[Special:UserLogout|melde dich ab]] und danach wieder an.'''",
 'token_suffix_mismatch'            => "'''Deine Bearbeitung wurde zurückgewiesen, da dein Browser Zeichen im Bearbeiten-Token verstümmelt hat.
 Eine Speicherung kann den Seiteninhalt zerstören. Dies geschieht bisweilen durch die Benutzung eines anonymen Proxy-Dienstes, der fehlerhaft arbeitet.'''",
+'edit_form_incomplete'             => "'''Der Inhalt des Bearbeitungsformulars hat den Server nicht vollständig erreicht. Bitte prüfe deine Bearbeitungen auf Vollständigkeit und versuche es erneut.'''",
 'editing'                          => 'Bearbeiten von „$1“',
 'editingsection'                   => 'Bearbeiten von „$1“ (Abschnitt)',
 'editingcomment'                   => 'Bearbeiten von „$1“ (Neuer Abschnitt)',
@@ -1123,7 +1127,7 @@ Grund der Sperre: ''$2''",
 'history-feed-empty'          => 'Die angeforderte Seite existiert nicht. Vielleicht wurde sie gelöscht oder verschoben. [[Special:Search|Durchsuche]] {{SITENAME}} nach passenden neuen Seiten.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(Bearbeitungskommentar entfernt)',
+'rev-deleted-comment'         => '(Zusammenfassung entfernt)',
 'rev-deleted-user'            => '(Benutzername entfernt)',
 'rev-deleted-event'           => '(Logbuchaktion entfernt)',
 'rev-deleted-user-contribs'   => '[Benutzername oder IP-Adresse entfernt – Bearbeitung aus Beiträgen versteckt]',
@@ -1775,6 +1779,8 @@ Wenn du diese Datei trotzdem hochladen möchtest, gehe bitte zurück und ändere
 Bitte überprüfe die <code>file_uploads</code>-Einstellung.',
 'uploadscripted'              => 'Diese Datei enthält HTML- oder Scriptcode, der irrtümlich von einem Webbrowser ausgeführt werden könnte.',
 'uploadvirus'                 => 'Diese Datei enthält einen Virus! Details: $1',
+'uploadjava'                  => 'Dies ist eine ZIP-Datei, die ein CLASS-Datei von Java enthält.
+Das Hochladen von Java-Dateien ist nicht gestattet, da sie die Umgehung von Sicherheitseinschränkungen ermöglichen könnten.',
 'upload-source'               => 'Quelldatei',
 'sourcefilename'              => 'Quelldatei:',
 'sourceurl'                   => 'Quell-URL:',
@@ -1825,6 +1831,14 @@ Wenn das Problem weiter besteht, informiere einen [[Special:ListUsers/sysop|Syst
 'upload-too-many-redirects' => 'Die URL beinhaltete zu viele Weiterleitungen',
 'upload-unknown-size'       => 'Unbekannte Größe',
 'upload-http-error'         => 'Ein HTTP-Fehler ist aufgetreten: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Es ist ein Fehler beim Öffnen der Datei zur ZIP-Überprüfung aufgetreten.',
+'zip-wrong-format'    => 'Die angegebene Datei ist keine ZIP-Datei.',
+'zip-bad'             => 'Die Datei ist beschädigt oder eine aus anderweitigen Gründen nicht lesbare ZIP-Datei.
+Sie kann daher keiner ordnungsgemäßen Sicherheitsüberprüfung unterzogen werden.',
+'zip-unsupported'     => 'Diese ZIP-Datei verfügt über Komprimierungseigenschaften, die nicht von MediaWiki unterstützt werden.
+Sie kann daher keiner ordnungsgemäßen Sicherheitsüberprüfung unterzogen werden.',
 
 # Special:UploadStash
 'uploadstash'          => 'Vorabspeicherung beim Hochladen',
@@ -2978,11 +2992,11 @@ Das liegt wahrscheinlich an einem Link auf eine externe Seite.',
 
 # Math options
 'mw_math_png'    => 'Immer als PNG darstellen',
-'mw_math_simple' => 'Einfaches TeX als HTML darstellen, sonst PNG',
-'mw_math_html'   => 'Wenn möglich als HTML darstellen, sonst PNG',
+'mw_math_simple' => 'Einfaches TeX als HTML darstellen, ansonsten als PNG',
+'mw_math_html'   => 'Sofern möglich als HTML darstellen, ansonsten als PNG',
 'mw_math_source' => 'Als TeX belassen (für Textbrowser)',
-'mw_math_modern' => 'Empfehlenswert für moderne Browser',
-'mw_math_mathml' => 'MathML (experimentell)',
+'mw_math_modern' => 'Für moderne Browser empfohlene Darstellungsmethode',
+'mw_math_mathml' => 'Sofern möglich als MathML darstellen (experimentell)',
 
 # Math errors
 'math_failure'          => 'Parser-Fehler',
@@ -3198,6 +3212,7 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'exif-gpsareainformation'          => 'Name des GPS-Gebietes',
 'exif-gpsdatestamp'                => 'GPS-Datum',
 'exif-gpsdifferential'             => 'GPS-Differentialkorrektur',
+'exif-objectname'                  => 'Kurztitel',
 
 # EXIF attributes
 'exif-compression-1' => 'Unkomprimiert',
@@ -3538,11 +3553,11 @@ Du kannst auch die [[Special:Watchlist/edit|Standard-Bearbeitungsseite]] benutze
 'version-license'                  => 'Lizenz',
 'version-poweredby-credits'        => "Diese Website nutzt '''[http://www.mediawiki.org/wiki/MediaWiki/de MediaWiki]''', Copyright © 2001–$1 $2.",
 'version-poweredby-others'         => 'andere',
-'version-license-info'             => 'MediaWiki ist freie Software, d. h. sie kann, gemäß den Bedingungen der von der Free Software Foundation veröffentlichten GNU General Public License, weiterverteilt und/oder modifiziert werden. Dabei kann die Version 2, oder nach eigenem Ermessen, jede neuere Version der Lizenz verwendet werden.
+'version-license-info'             => "MediaWiki ist freie Software, d. h. sie kann, gemäß den Bedingungen der von der Free Software Foundation veröffentlichten ''GNU General Public License'', weiterverteilt und/ oder modifiziert werden. Dabei kann die Version 2, oder nach eigenem Ermessen, jede neuere Version der Lizenz verwendet werden.
 
-MediaWiki wird in der Hoffnung verteilt, dass es nützlich sein wird, allerdings OHNE JEGLICHE GARANTIE und sogar ohne die implizierte Garantie einer MARKTGÄNGIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK. Hierzu sind weitere Hinweise in der GNU General Public License enthalten.
+MediaWiki wird in der Hoffnung verteilt, dass es nützlich sein wird, allerdings OHNE JEGLICHE GARANTIE und sogar ohne die implizierte Garantie einer MARKTGÄNGIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK. Hierzu sind weitere Hinweise in der ''GNU General Public License'' enthalten.
 
-Eine [{{SERVER}}{{SCRIPTPATH}}/COPYING Kopie der GNU General Public License] sollte zusammen mit diesem Programm verteilt worden sein. Sofern dies nicht der Fall war, kann eine Kopie bei der Free Software Foundation Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA, schriftlich angefordert oder auf deren Website [http://www.gnu.org/licenses/old-licenses/gpl-2.0.html online gelesen] werden.',
+Eine [{{SERVER}}{{SCRIPTPATH}}/COPYING Kopie der ''GNU General Public License''] sollte zusammen mit diesem Programm verteilt worden sein. Sofern dies nicht der Fall war, kann eine Kopie bei der Free Software Foundation Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA, schriftlich angefordert oder auf deren Website [http://www.gnu.org/licenses/old-licenses/gpl-2.0.html online gelesen] werden.",
 'version-software'                 => 'Installierte Software',
 'version-software-product'         => 'Produkt',
 'version-software-version'         => 'Version',

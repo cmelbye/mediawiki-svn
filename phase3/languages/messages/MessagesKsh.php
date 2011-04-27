@@ -626,7 +626,7 @@ Dinge Zojang för heh es do.
 Do bes jetz aanjemeldt.
 Denk dran, Do künnts Der [[Special:Preferences|Ding Enstellunge heh för {{GRAMMAR:Akk|{{SITENAME}}}} zeräächmaache]].',
 'yourname'                   => 'Metmaacher Name:',
-'yourpassword'               => 'Passwood',
+'yourpassword'               => 'Paßwoot:',
 'yourpasswordagain'          => 'Noch ens dat Passwood',
 'remembermypassword'         => 'Op Duur aanmelde (hält {{PLURAL:$1|för eine Daach|bes op $1 Dääsch|bloß för hück}})',
 'securelogin-stick-https'    => 'Noh em Enlogge övver HTTPS verbonge blieve.',
@@ -951,6 +951,7 @@ Wann dat widder nit flupp, dann versök et ens met [[Special:UserLogout|Uslogge]
 
 '''Falls för Dich söns alles jod ussüht, versök et jrad noch ens. Wann dat widder nit flupp, dann versök et ens met [[Special:UserLogout|Uslogge]] un widder Enlogge.'''",
 'token_suffix_mismatch'            => "'''Ding Änderung ham_mer nit övvernomme. Dinge Brauser hät Sazzeijche em verstoche <i lang=\"en\">Token</i> för et Ändere versout. Dat paßeet och ens, wann enne <i lang=\"en\">Proxy</i> nit fungkßjeneet. Et Affspeichere wör do jefährlesch, do künt dä Sigge_Enhaldt kapott bei jon.'''",
+'edit_form_incomplete'             => "'''Ene Aandeil vun dämm Fommulaa es nit reshtesh om ẞööver aanjekumme. Donn Ding Ennjaabe prööve, repareere, un versöhg et norrens.'''",
 'editing'                          => 'De Sigg „$1“ ändere',
 'editingsection'                   => 'Ne Avschnedd vun dä Sigg: „$1“ ändere',
 'editingcomment'                   => '„$1“ ändere (ene neue Avschnedd schrieve)',
@@ -1542,7 +1543,7 @@ Ene zohfällesch ußjewörfelte Schlößel, dää De nämme künnß, wöhr: <cod
 'right-hideuser'              => 'Ene Metmaacher sperre un em singe Name versteiche',
 'right-ipblock-exempt'        => 'Es ußjenomme vun automatesche Sperre, vun Sperre fun IP-Adresse, un vun Sperre vun Bereiche vun IP-Adresse',
 'right-proxyunbannable'       => 'Es ußjenomme fun automatische Sperre fun Proxy-Servere',
-'right-unblockself'           => 'retuur nämme, wam_mer sellver jesperrt woode es',
+'right-unblockself'           => 'Retuur nämme, wam_mer sellver jesperrt woode es',
 'right-protect'               => 'Sigge schöze, jeschözde Sigge änndere, un der iere Schoz widder ophevve',
 'right-editprotected'         => 'Jeschötzte Sigge ändere, ohne Kaskadeschoz',
 'right-editinterface'         => 'Sigge met de Texte ändere, die et Wiki kallt',
@@ -1774,6 +1775,8 @@ Bes esu joot un donn noh de Enshtellung <i lang="en">file_uploads</i> loore.',
 En dä Datei stich e Kompjutervirus!
 <br />
 De Einzelheite: $1',
+'uploadjava'                  => 'Dat es en Sammel_Dattei em ZIP-Fommaat, woh en Java-.class-Datei dren shtich.
+Java-Datteie huhlaade es nit zohjelohße, weil mer domet de Enshtellunge ömjonn kann, di der ẞörver schöze un däm sing Sescherheit jarranteere.',
 'upload-source'               => 'Wo de Daate herkumme',
 'sourcefilename'              => 'Datei zem huhlade:',
 'sourceurl'                   => '<i lang="en">URL</i> för vun eronger ze laade',
@@ -1827,6 +1830,14 @@ Wann et nit flupp, verzäll et enem [[Special:ListUsers/sysop|Wiki-Köbes]].',
 'upload-unknown-size'       => 'Mer weße nit, wi jruuß',
 'upload-http-error'         => 'Ene <i lang="en">HTTP</i>-Fäähler es opjetrodde: $1',
 
+# ZipDirectoryReader
+'zip-file-open-error' => 'Ene Fähler es opjetrodde, wi me di ZIP-Sammel_Dattei ußpacke wullte för der Enhallt ze proofe.',
+'zip-wrong-format'    => 'De aanjejovve Dattei es kein ZIP-Sammel_Dattei.',
+'zip-bad'             => 'Di Dattei en beschäädeschte udder sönswi nit lässbaa ZIP-Sammel_Dattei.
+Se kann nit aanjemäße jeprööf wääde, of se sescher es.',
+'zip-unsupported'     => 'Di Dattei es en ZIP-Sammel_Dattei met Eijeschaffte, woh MediaWiki nit met ömjonn kann.
+Se kann nit aanjemäße jeprööf wääde, of se sescher es.',
+
 # Special:UploadStash
 'uploadstash'          => 'Zwescheschpeisscher vum Huhlaade',
 'uploadstash-summary'  => 'Heh di Sigg määt et müjjelesch, op Dateie en däm Zwescheschpeisscher zohzejriefe, woh Ding fresch huhjelaade Dateie dren shteiche, och di Dateie, di mer noch huh aam laade sin. Ußer Der sellver un em Wikiprojramm di söns keine ze sinn.',
@@ -1873,7 +1884,7 @@ Velleich probees De et och zo en Zick, wo winnijer loss es.',
 
 'license'            => 'Lizenz:',
 'license-header'     => 'Lizänz',
-'nolicense'          => 'Nix usjesök',
+'nolicense'          => 'Nix usjesöhk',
 'license-nopreview'  => '(Kein Vör-Aansich ze hann)',
 'upload_source_url'  => ' (richtije öffentlije URL)',
 'upload_source_file' => ' (en Datei op Dingem Kompjuter)',
@@ -2253,7 +2264,7 @@ Alles klor?',
 'emailfrom'            => 'Vun:',
 'emailto'              => 'Aan:',
 'emailsubject'         => 'Üvverschreff:',
-'emailmessage'         => 'Dä Tex fun Dinge Nohresch:',
+'emailmessage'         => 'Dä Tex fun Dinge Nohreesch:',
 'emailsend'            => 'Avschecke',
 'emailccme'            => 'Scheck mer en Kopie vun dä E-Mail.',
 'emailccsubject'       => 'En Kopie vun Dinger E-Mail aan $1: $2',
@@ -2262,7 +2273,7 @@ Alles klor?',
 'emailuserfooter'      => 'Hee di e-mail hät {{GENDER:$1|dä|et|dä Metmaacher|di|dat}} „$1“ an {{GENDER:$2|dä|et|dä Metmaacher|di|dat}} „$2“ jescheck, un doför {{GRAMMAR:en dative|{{SITENAME}}}} dat „{{int:emailuser}}“ jebruch.',
 
 # User Messenger
-'usermessage-summary' => 'En Nohreesh vum Wiki afjelivvert.',
+'usermessage-summary' => 'En Nohreesch vum Wiki afjelivvert.',
 'usermessage-editor'  => 'Name vum Metmaacher för de Täxte un Nohreshte vum Wiki ze beärbeide',
 
 # Watchlist
@@ -2447,7 +2458,7 @@ Di Sigg '''„$1“:''' es jetz jrad:",
 'restriction-edit'   => 'et Ändere',
 'restriction-move'   => 'et Ömnenne',
 'restriction-create' => 'Aanläje',
-'restriction-upload' => 'Huhlade',
+'restriction-upload' => 'Huhlaade',
 
 # Restriction levels
 'restriction-level-sysop'         => 'nur de Wiki-Köbesse',
@@ -3263,6 +3274,7 @@ Donoh kumme, en däsellve Reih, Links op Sigge wo die Datei trotz dämm jenehm e
 'exif-gpsareainformation'          => 'Dä Name fum GPS-Jebeet',
 'exif-gpsdatestamp'                => 'GPS-Dattum',
 'exif-gpsdifferential'             => 'De Differenzjahl-Bereschtijong fum GPS',
+'exif-objectname'                  => 'Tittel en koot',
 
 # EXIF attributes
 'exif-compression-1' => 'Oohne Kompressjuhn',

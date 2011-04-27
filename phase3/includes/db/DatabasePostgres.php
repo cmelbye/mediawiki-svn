@@ -9,8 +9,15 @@
 class PostgresField implements Field {
 	private $name, $tablename, $type, $nullable, $max_length, $deferred, $deferrable, $conname;
 
-	static function fromText($db, $table, $field) {
-	global $wgDBmwschema;
+	/**
+	 * @static
+	 * @param $db DatabaseBase
+	 * @param  $table
+	 * @param  $field
+	 * @return null|PostgresField
+	 */
+	static function fromText( $db, $table, $field ) {
+		global $wgDBmwschema;
 
 		$q = <<<SQL
 SELECT
@@ -154,7 +161,7 @@ class DatabasePostgres extends DatabaseBase {
 
 		$this->close();
 		$this->mServer = $server;
-		$this->mPort = $port = $wgDBport;
+		$port = $wgDBport;
 		$this->mUser = $user;
 		$this->mPassword = $password;
 		$this->mDBname = $dbName;
@@ -191,17 +198,28 @@ class DatabasePostgres extends DatabaseBase {
 			$this->doQuery( "SET client_min_messages = 'ERROR'" );
 		}
 
-		$this->doQuery( "SET client_encoding='UTF8'" );
+		$this->query( "SET client_encoding='UTF8'", __METHOD__ );
+		$this->query( "SET datestyle = 'ISO, YMD'", __METHOD__ );
+		$this->query( "SET timezone = 'GMT'", __METHOD__ );
 
 		global $wgDBmwschema;
-		if ( isset( $wgDBmwschema )
-			&& preg_match( '/^\w+$/', $wgDBmwschema )
-		) {
+		if ( $this->schemaExists( $wgDBmwschema ) ) {
 			$safeschema = $this->addIdentifierQuotes( $wgDBmwschema );
-			$this->doQuery( "SET search_path = $safeschema, public" );
+			$this->doQuery( "SET search_path = $safeschema" );
+		} else {
+			$this->doQuery( "SET search_path = public" );
 		}
 
 		return $this->mConn;
+	}
+
+	/**
+	 * Postgres doesn't support selectDB in the same way MySQL does. So if the
+	 * DB name doesn't match the open connection, open a new one
+	 * @return
+	 */
+	function selectDB( $db ) {
+		return (bool)$this->open( $this->mServer, $this->mUser, $this->mPassword, $db );
 	}
 
 	function makeConnectionString( $vars ) {

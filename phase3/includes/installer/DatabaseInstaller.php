@@ -19,7 +19,7 @@ abstract class DatabaseInstaller {
 	 *
 	 * TODO: naming this parent is confusing, 'installer' would be clearer.
 	 *
-	 * @var Installer
+	 * @var WebInstaller
 	 */
 	public $parent;
 
@@ -96,7 +96,7 @@ abstract class DatabaseInstaller {
 
 	/**
 	 * Open a connection to the database using the administrative user/password
-	 * currently defined in the session, without any caching. Returns a status 
+	 * currently defined in the session, without any caching. Returns a status
 	 * object. On success, the status object will contain a Database object in
 	 * its value member.
 	 *
@@ -114,9 +114,9 @@ abstract class DatabaseInstaller {
 
 	/**
 	 * Connect to the database using the administrative user/password currently
-	 * defined in the session. Returns a status object. On success, the status 
+	 * defined in the session. Returns a status object. On success, the status
 	 * object will contain a Database object in its value member.
-	 * 
+	 *
 	 * This will return a cached connection if one is available.
 	 *
 	 * @return Status
@@ -212,7 +212,7 @@ abstract class DatabaseInstaller {
 	public abstract function getLocalSettings();
 
 	/**
-	 * Override this to provide DBMS-specific schema variables, to be 
+	 * Override this to provide DBMS-specific schema variables, to be
 	 * substituted into tables.sql and other schema files.
 	 */
 	public function getSchemaVars() {
@@ -236,7 +236,7 @@ abstract class DatabaseInstaller {
 
 	/**
 	 * Set up LBFactory so that wfGetDB() etc. works.
-	 * We set up a special LBFactory instance which returns the current 
+	 * We set up a special LBFactory instance which returns the current
 	 * installer connection.
 	 */
 	public function enableLB() {
@@ -525,6 +525,10 @@ abstract class DatabaseInstaller {
 		if ( $this->getVar( '_SameAccount' ) ) {
 			$this->setVar( 'wgDBuser', $this->getVar( '_InstallUser' ) );
 			$this->setVar( 'wgDBpassword', $this->getVar( '_InstallPassword' ) );
+		}
+
+		if( $this->getVar( '_CreateDBAccount' ) && strval( $this->getVar( 'wgDBpassword' ) ) == '' ) {
+			return Status::newFatal( 'config-db-password-empty', $this->getVar( 'wgDBuser' ) );
 		}
 
 		return Status::newGood();

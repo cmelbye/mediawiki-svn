@@ -59,6 +59,10 @@ $namespaceAliases = array(
 	'Dyskusja_grafiki' => NS_FILE_TALK,
 );
 
+$namespaceGenderAliases = array(
+	NS_USER => array( 'male' => 'Użytkownik', 'female' => 'Użytkowniczka' ),
+	NS_USER_TALK => array( 'male' => 'Dyskusja_użytkownika', 'female' => 'Dyskusja_użytkowniczki' ), 
+);
 
 $dateFormats = array(
 	'mdy time' => 'H:i',
@@ -901,6 +905,7 @@ Jeśli to nie pomoże – [[Special:UserLogout|wyloguj się]] i zaloguj ponownie
 'token_suffix_mismatch'            => "'''Twoja edycja została odrzucona, ponieważ twój klient pomieszał znaki interpunkcyjne w żetonie edycyjnym.
 Twoja edycja została odrzucona by zapobiec zniszczeniu tekstu strony.
 Takie problemy zdarzają się w wypadku korzystania z wadliwych anonimowych sieciowych usług proxy.'''",
+'edit_form_incomplete'             => "'''Niektóre informacje wprowadzone do formularza nie dotarły do serwera. Upewnij się, że wprowadzone dane nie uległy uszkodzeniu i spróbuj ponownie.'''",
 'editing'                          => 'Edytujesz „$1”',
 'editingsection'                   => 'Edytujesz „$1” (fragment)',
 'editingcomment'                   => 'Edytujesz „$1” (nowa sekcja)',
@@ -1028,7 +1033,7 @@ Mogła zostać usunięta lub jej nazwa została zmieniona.
 Spróbuj [[Special:Search|poszukać]] tej strony.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(komentarz usunięty)',
+'rev-deleted-comment'         => '(usunięto opis zmian)',
 'rev-deleted-user'            => '(nazwa użytkownika usunięta)',
 'rev-deleted-event'           => '(wpis usunięty)',
 'rev-deleted-user-contribs'   => '[nazwa użytkownika lub adres IP usunięte – edycja ukryta we wkładzie]',
@@ -1685,6 +1690,8 @@ Sprawdź historię usunięć tamtego pliku zanim prześlesz go ponownie.',
 'php-uploaddisabledtext'      => 'Przesyłanie plików PHP zostało zablokowane. Sprawdź ustawienie „file_uploads”.',
 'uploadscripted'              => 'Plik zawiera kod HTML lub skrypt, który może zostać błędnie zinterpretowany przez przeglądarkę internetową.',
 'uploadvirus'                 => 'W pliku jest wirus! Szczegóły: $1',
+'uploadjava'                  => 'Ten plik zawiera deklarację klasy Java skompresowaną ZIP.
+Przesyłanie plików Java nie jest dozwolone, ponieważ mogłoby zostać użyte do obchodzenia zabezpieczeń.',
 'upload-source'               => 'Plik źródłowy',
 'sourcefilename'              => 'Nazwa pierwotna',
 'sourceurl'                   => 'Źródłowy adres URL',
@@ -1736,6 +1743,14 @@ Jeśli problem będzie się powtarzał, skontaktuj się z [[Special:ListUsers/sy
 'upload-too-many-redirects' => 'URL zawiera zbyt wiele przekierowań',
 'upload-unknown-size'       => 'Nieznany rozmiar',
 'upload-http-error'         => 'Wystąpił błąd protokołu HTTP – $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Wystąpił błąd podczas otwierania pliku ZIP, aby go sprawdzić.',
+'zip-wrong-format'    => 'Wybrany plik nie jest w formacie ZIP.',
+'zip-bad'             => 'Plik ZIP jest uszkodzony lub w inny sposób niemożliwy do odczytania. 
+Nie może zostać odpowiednio sprawdzony pod kątem bezpieczeństwa.',
+'zip-unsupported'     => 'Plik jest w formacie ZIP ale wykorzystuje funkcje, które nie są obsługiwane przez MediaWiki.
+Plik nie może zostać odpowiednio sprawdzony pod kątem bezpieczeństwa.',
 
 # Special:UploadStash
 'uploadstash'          => 'Ukryte przesyłanie',
@@ -2866,7 +2881,7 @@ Pozwala na wpisanie powodu w opisie zmian.',
 
 # Attribution
 'anonymous'        => '{{PLURAL:$1|Anonimowy użytkownik|Anonimowi użytkownicy}} {{GRAMMAR:D.lp|{{SITENAME}}}}',
-'siteuser'         => 'użytkownik {{GRAMMAR:D.lp|{{SITENAME}}}} – $1',
+'siteuser'         => '{{GENDER:$2|użytkownik|użytkowniczka}} {{GRAMMAR:D.lp|{{SITENAME}}}} – $1',
 'anonuser'         => 'niezalogowany użytkownik {{GRAMMAR:D.lp|{{SITENAME}}}} – $1',
 'lastmodifiedatby' => 'Ostatnia edycja tej strony: $2, $1 (autor zmian: $3)',
 'othercontribs'    => 'Inni autorzy: $1.',
@@ -3137,6 +3152,7 @@ Pozostałe pola zostaną domyślnie ukryte.
 'exif-gpsareainformation'          => 'Nazwa przestrzeni GPS',
 'exif-gpsdatestamp'                => 'Data GPS',
 'exif-gpsdifferential'             => 'Korekcja różnicy GPS',
+'exif-objectname'                  => 'Krótki tytuł',
 
 # EXIF attributes
 'exif-compression-1' => 'nieskompresowany',

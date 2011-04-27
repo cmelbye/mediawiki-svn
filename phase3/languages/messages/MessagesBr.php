@@ -823,6 +823,7 @@ Ma ne'z a ket en-dro c'hoazh, klaskit [[Special:UserLogout|digevreañ]] hag adke
 Mar ned a ket en-dro, klaskit [[Special:UserLogout|digevreañ]] ha kevreañ en-dro.",
 'token_suffix_mismatch'            => "'''Distaolet eo bet ar c'hemmoù degaset ganeoc'h abalamour ma oa bet kemmesket an arouezennoù poentadur gant ho merdeer en daveer kemmañ. Distaolet eo bet ar c'hemmoù kuit na vije breinet ar bajennad skrid.
 C'hoarvezout a ra a-wechoù pa implijit ur servijer proksi dreinek dizanav.'''",
+'edit_form_incomplete'             => "'''Darn eus ar furmskrid kemmañ zo chomet hep tizhout ar servijer ; gwiriit ervat emañ mat ho kemmoù tre evel m'int bet graet ganeoc'h ha klaskit en-dro.'''",
 'editing'                          => "Oc'h aozañ $1",
 'editingsection'                   => "Oc'h aozañ $1 (rann)",
 'editingcomment'                   => "Oc'h aozañ $1 (rann nevez)",
@@ -922,7 +923,7 @@ An abeg roet gant $3 zo ''$2''",
 'currentrevisionlink'    => 'Gwelet ar stumm red',
 'cur'                    => 'red',
 'next'                   => "War-lerc'h",
-'last'                   => 'diwez',
+'last'                   => 'kent',
 'page_first'             => 'kentañ',
 'page_last'              => 'diwezhañ',
 'histlegend'             => "Sellet ouzh an diforc'hioù : lakait un ask adal d'ar stummoù a fell deoc'h keñveriañ ha pouezit war kadarnaat pe war ar bouton en traoñ.<br />
@@ -944,7 +945,7 @@ Marteze eo bet diverket eus ar wiki, pe adanvet.
 Implijit [[Special:Search|klaskit er wiki]] evit kavout pajennoù all a c'hallfe klotañ.",
 
 # Revision deletion
-'rev-deleted-comment'         => '(evezhiadenn diverket)',
+'rev-deleted-comment'         => "(diverradenn ar c'hemm diverket)",
 'rev-deleted-user'            => '(anv implijer diverket)',
 'rev-deleted-event'           => '(elfenn dilamet)',
 'rev-deleted-user-contribs'   => "[anv implijer pe chomlec'h IP diverket - kemm kuzhet diouzh an degasadennoù]",
@@ -1060,7 +1061,7 @@ N\'oc\'h ket aotreet da vont outi.',
 'revmove-submit'               => "Dilec'hiañ an adweladennoù davet ar bajenn diuzet",
 'revisionmoveselectedversions' => "Dilec'hiañ an adweladennoù diuzet",
 'revmove-reasonfield'          => 'Abeg :',
-'revmove-titlefield'           => 'Pajenn voned :',
+'revmove-titlefield'           => 'Pajenn dal :',
 'revmove-badparam-title'       => 'Arventennoù fall',
 'revmove-badparam'             => "Direizh pe re zister eo arventennoù ho reked.
 Distroit d'ar bajenn a-raok ha klaskit en-dro.",
@@ -1552,7 +1553,7 @@ S.o [[Special:NewFiles|rann ar skeudennoù nevez]] evit kaout ur sell gwiroc'h",
 'filename-tooshort'           => 'Re verr eo anv ar restr.',
 'filetype-banned'             => 'Difennet eo ar seurt restroù',
 'verification-error'          => 'Korbellet eo bet ar restr-mañ gant ar gwiriañ restroù.',
-'hookaborted'                 => "Ar c'hemm hoc'h eus klasket ober a zo bet paouezet gant ur sonnell astenn.",
+'hookaborted'                 => "Ar c'hemm hoc'h eus klasket degas zo bet harzet gant ur c'hrog astenn.",
 'illegal-filename'            => "N'eo ket aotreet anv ar restr.",
 'overwrite'                   => "N'eo ket aotreet frikañ ur restr zo anezhi c'hoazh.",
 'unknown-error'               => 'Ur gudenn dizanv a zo bet.',
@@ -1596,6 +1597,8 @@ Mar fell deoc'h enporzhiañ ar restr-mañ da vat, kit war ho kiz hag enporzhiit 
 'php-uploaddisabledtext'      => 'Diweredekaet eo bet ar pellgargañ e PHP. Gwiriit an dibarzh arventennoù file_uploads.',
 'uploadscripted'              => "Er restr-mañ ez eus kodoù HTML pe skriptoù a c'hallfe bezañ kammgomprenet gant ur merdeer Kenrouedad.",
 'uploadvirus'                 => 'Viruzet eo ar restr! Titouroù : $1',
+'uploadjava'                  => "Ur restr ZIP a ra gant Java .class eo homañ.
+N'haller ket enporzhiañ restroù Java peogwir e c'haller mont dreist da vevennoù surentez ganto.",
 'upload-source'               => 'Restr tarzh',
 'sourcefilename'              => 'Anv ar restr tarzh :',
 'sourceurl'                   => 'URL tarzh :',
@@ -1645,6 +1648,14 @@ Ma talc'h ar gudenn, kit e darempred gant [[Special:ListUsers/sysop|merourien ar
 'upload-too-many-redirects' => 'Re a adkasoù zo en URL-mañ.',
 'upload-unknown-size'       => 'Ment dianav',
 'upload-http-error'         => 'Ur fazi HTTP zo bet : $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Kavet ez eus bet ur fazi en ur zigeriñ ar restr evit kas da benn gwiriadennoù ZIP.',
+'zip-wrong-format'    => "Ar restr spisaet n'eo ket ur restr ZIP anezhi",
+'zip-bad'             => "Brein eo ar restr pe ur restr ZIP dilennus eo.
+N'hall ket bezañ gwiriet ervat evit ar surentez.",
+'zip-unsupported'     => "Ur restr ZIP a ra gant perzhioù ZIP n'int ket skoret gant MediaWiki eo ar restr-mañ.
+N'hall ket bezañ gwiriet ervat evit ar surentez.",
 
 # Special:UploadStash
 'uploadstash'          => 'Krubuilh enporzhiañ',
@@ -3009,6 +3020,7 @@ Kement liamm all war an hevelep linenn a seller outañ evel un nemedenn, da skou
 'exif-gpsareainformation'          => 'Anv an takad GPS',
 'exif-gpsdatestamp'                => 'Deiziad GPS',
 'exif-gpsdifferential'             => "Reizhadenn diforc'hadus GPS",
+'exif-objectname'                  => 'Titl berr',
 
 # EXIF attributes
 'exif-compression-1' => 'Hep gwaskañ',

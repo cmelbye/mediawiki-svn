@@ -1035,10 +1035,11 @@ class Article {
 		# tents of 'pagetitle-view-mainpage' instead of the default (if
 		# that's not empty).
 		# This message always exists because it is in the i18n files
-		if ( $this->mTitle->equals( Title::newMainPage() )
-			&& ( $m = wfMsgForContent( 'pagetitle-view-mainpage' ) ) !== '' )
-		{
-			$wgOut->setHTMLTitle( $m );
+		if ( $this->mTitle->equals( Title::newMainPage() ) ) {
+			$msg = wfMessage( 'pagetitle-view-mainpage' )->inContentLanguage();
+			if ( !$msg->isDisabled() ) {
+				$wgOut->setHTMLTitle( $msg->title( $this->mTitle )->text() );
+			}
 		}
 
 		# Now that we've filled $this->mParserOutput, we know whether
@@ -1565,13 +1566,12 @@ class Article {
 		$nextRedirect = $wgStylePath . '/common/images/nextredirect' . $imageDir . '.png';
 		$alt = $wgContLang->isRTL() ? '←' : '→';
 		// Automatically append redirect=no to each link, since most of them are redirect pages themselves.
-		// FIXME: where this happens?
 		foreach ( $target as $rt ) {
 			$link .= Html::element( 'img', array( 'src' => $nextRedirect, 'alt' => $alt ) );
 			if ( $forceKnown ) {
-				$link .= $sk->linkKnown( $rt, htmlspecialchars( $rt->getFullText() ) );
+				$link .= $sk->linkKnown( $rt, htmlspecialchars( $rt->getFullText(), array(), array( 'redirect' => 'no' ) ) );
 			} else {
-				$link .= $sk->link( $rt, htmlspecialchars( $rt->getFullText() ) );
+				$link .= $sk->link( $rt, htmlspecialchars( $rt->getFullText() ), array(), array( 'redirect' => 'no' ) );
 			}
 		}
 
@@ -1755,7 +1755,7 @@ class Article {
 
 		if ( $affected ) {
 			$newid = $dbw->insertId();
-			$this->mTitle->resetArticleId( $newid );
+			$this->mTitle->resetArticleID( $newid );
 		}
 		wfProfileOut( __METHOD__ );
 
@@ -1767,7 +1767,7 @@ class Article {
 	 *
 	 * @param $dbw DatabaseBase: object
 	 * @param $revision Revision: For ID number, and text used to set
-	                    length and redirect status fields
+						length and redirect status fields
 	 * @param $lastRevision Integer: if given, will not overwrite the page field
 	 *                      when different from the currently set value.
 	 *                      Giving 0 indicates the new page flag should be set
@@ -2271,6 +2271,8 @@ class Article {
 			$revisionId = $revision->insertOn( $dbw );
 
 			$this->mTitle->resetArticleID( $newid );
+			# Update the LinkCache. Resetting the Title ArticleID means it will rely on having that already cached (FIXME?)
+			LinkCache::singleton()->addGoodLinkObj( $newid, $this->mTitle, strlen( $text ), (bool)Title::newFromRedirect( $text ), $revisionId );
 
 			# Update the page record with revision data
 			$this->updateRevisionOn( $dbw, $revision, 0 );
@@ -2430,6 +2432,9 @@ class Article {
 
 	/**
 	 * Add this page to $wgUser's watchlist
+	 *
+	 * This is safe to be called multiple times
+	 *
 	 * @return bool true on successful watch operation
 	 */
 	public function doWatch() {
@@ -4454,7 +4459,7 @@ class Article {
 			$parserOptions = new ParserOptions( $user );
 			$parserOptions->setTidy( true );
 			$parserOptions->enableLimitReport();
-			
+
 			if ( $canonical ) {
 				$parserOptions->setUserLang( $wgLanguageCode ); # Must be set explicitely
 				return $parserOptions;

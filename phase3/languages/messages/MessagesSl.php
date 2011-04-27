@@ -152,6 +152,8 @@ $magicWords = array(
 	'url_query'             => array( '0', 'POIZVEDBA', 'QUERY' ),
 );
 
+$linkTrail = '/^([a-zčćđžš]+)(.*)$/sDu';
+
 $datePreferences = array(
 	'default',
 	'dmy short',
@@ -835,6 +837,7 @@ Prosimo, poskusite znova.
 'token_suffix_mismatch'            => "'''Vaše urejanje je bilo zavrnjeno, ker je vaš odjemalec pokvaril ločila v urejevalnem zahtevku.'''
 Urejanje je bilo zavrnjeno z namenom preprečitve okvare v besedilu strani.
 Največkrat je razlog uporaba hroščato spletno anonimizacijsko storitev.",
+'edit_form_incomplete'             => "'''Nekateri deli urejevalnega obrazca niso dosegli strežnika; prepričajte se, da so vaša urejanja neokrnjena in poskusite znova.'''",
 'editing'                          => 'Urejanje $1',
 'editingsection'                   => 'Urejanje $1 (razdelek)',
 'editingcomment'                   => 'Urejanje $1 (nov razdelek)',
@@ -1624,6 +1627,8 @@ Prosimo preverite file_uploads nastavitev.',
 'uploadscripted'              => 'Datoteka vsebuje HTML- ali skriptno kodo, ki bi jo lahko brskalnik razlagal napačno.',
 'uploadvirus'                 => 'Datoteka vsebuje virus!
 Podrobnosti: $1',
+'uploadjava'                  => 'Datoteka je datoteka ZIP, ki vsebuje javansko datoteko .class.
+Nalaganje javanskih datotek ni dovoljeno, ker je z njimi mogoče obiti varnostne omejitve.',
 'upload-source'               => 'Izvorna datoteka',
 'sourcefilename'              => 'Ime izvorne datoteke:',
 'sourceurl'                   => 'Izvorni URL:',
@@ -1674,6 +1679,14 @@ Prosimo, preverite veljavnost in dostopnost naslova URL ter poskusite ponovno.
 'upload-too-many-redirects' => 'URL vsebuje preveč preusmeritev',
 'upload-unknown-size'       => 'Neznana velikost',
 'upload-http-error'         => 'Prišlo je do napake HTTP: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Med odpiranjem datoteke za preverjanja ZIP je prišlo do napake.',
+'zip-wrong-format'    => 'Navedena datoteka ni bila datoteka ZIP.',
+'zip-bad'             => 'Datoteka je pokvarjena ali kako drugače neberljiva datoteka ZIP.
+Ni mogoče ustrezno preveriti njene varnosti.',
+'zip-unsupported'     => 'Datoteka je datoteka ZIP, ki uporablja funkcije ZIP, katere MediaWiki ne podpira.
+Ni mogoče ustrezno preveriti njene varnosti.',
 
 # Special:UploadStash
 'uploadstash'          => 'Skrite naložene datoteke',
@@ -3045,6 +3058,7 @@ Druga bodo po privzetem skrita.
 'exif-gpsareainformation'          => 'Ime GPS-območja',
 'exif-gpsdatestamp'                => 'GPS-datum',
 'exif-gpsdifferential'             => 'Diferencialni popravek GPS',
+'exif-objectname'                  => 'Kratek naslov',
 
 # EXIF attributes
 'exif-compression-1' => 'Nestisnjeno',

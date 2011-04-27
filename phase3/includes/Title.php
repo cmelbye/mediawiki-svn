@@ -76,7 +76,7 @@ class Title {
 	# Don't change the following default, NS_MAIN is hardcoded in several
 	# places.  See bug 696.
 	var $mDefaultNamespace = NS_MAIN; // /< Namespace index when there is no namespace
-	                                  # Zero except in {{transclusion}} tags
+									  # Zero except in {{transclusion}} tags
 	var $mWatched = null;             // /< Is $wgUser watching this page? null if unfilled, accessed through userIsWatching()
 	var $mLength = -1;                // /< The page length, 0 for special pages
 	var $mRedirect = null;            // /< Is the article at this title a redirect?
@@ -226,7 +226,7 @@ class Title {
 			return array();
 		}
 		$dbr = wfGetDB( DB_SLAVE );
-		
+
 		$res = $dbr->select(
 			'page',
 			array(
@@ -359,10 +359,6 @@ class Title {
 	 */
 	public static function newFromRedirectArray( $text ) {
 		global $wgMaxRedirects;
-		// are redirects disabled?
-		if ( $wgMaxRedirects < 1 ) {
-			return null;
-		}
 		$title = self::newFromRedirectInternal( $text );
 		if ( is_null( $title ) ) {
 			return null;
@@ -397,6 +393,11 @@ class Title {
 	 * @return Title
 	 */
 	protected static function newFromRedirectInternal( $text ) {
+		global $wgMaxRedirects;
+		if ( $wgMaxRedirects < 1 ) {
+			//redirects are disabled, so quit early
+			return null;
+		}
 		$redir = MagicWord::get( 'redirect' );
 		$text = trim( $text );
 		if ( $redir->matchStartAndRemove( $text ) ) {
@@ -617,6 +618,13 @@ class Title {
 				return MWNamespace::getCanonicalName( $this->mNamespace );
 			}
 		}
+
+		if ( $wgContLang->needsGenderDistinction() &&
+				MWNamespace::hasGenderDistinction( $this->mNamespace ) ) {
+			$gender = GenderCache::singleton()->getGenderOf( $this->getText(), __METHOD__ );
+			return $wgContLang->getGenderNsText( $this->mNamespace, $gender );
+		}
+
 		return $wgContLang->getNsText( $this->mNamespace );
 	}
 
@@ -1427,7 +1435,7 @@ class Title {
 
 	/**
 	 * Check restrictions on cascading pages.
-	 * 
+	 *
 	 * @param $action String the action to check
 	 * @param $user User to check
 	 * @param $errors Array list of current errors
@@ -1841,7 +1849,7 @@ class Title {
 	 * cache that we don't need to over-optimize by doing direct comparisons and
 	 * acidentally creating new bugs where $title->equals( Title::newFromText() )
 	 * ends up reporting something differently than $title->isMainPage();
-	 * 
+	 *
 	 * @return Bool
 	 */
 	public function isMainPage() {
@@ -2004,7 +2012,7 @@ class Title {
 	public function userCanEditJsSubpage() {
 		global $wgUser;
 		return ( ( $wgUser->isAllowed( 'editusercssjs' ) && $wgUser->isAllowed( 'edituserjs' ) )
-		       || preg_match( '/^' . preg_quote( $wgUser->getName(), '/' ) . '\//', $this->mTextform ) );
+			   || preg_match( '/^' . preg_quote( $wgUser->getName(), '/' ) . '\//', $this->mTextform ) );
 	}
 
 	/**
@@ -2504,6 +2512,7 @@ class Title {
 		if ( $this->mInterwiki != '' ) {
 			$p = $this->mInterwiki . ':';
 		}
+
 		if ( 0 != $this->mNamespace ) {
 			$p .= $this->getNsText() . ':';
 		}
@@ -2641,7 +2650,7 @@ class Title {
 
 					# Redundant interwiki prefix to the local wiki
 					if ( $wgLocalInterwiki !== false
-						&& 0 == strcasecmp( $this->mInterwiki, $wgLocalInterwiki ) ) 
+						&& 0 == strcasecmp( $this->mInterwiki, $wgLocalInterwiki ) )
 					{
 						if ( $dbkey == '' ) {
 							# Can't have an empty self-link
@@ -2688,13 +2697,13 @@ class Title {
 		# reachable due to the way web browsers deal with 'relative' URLs.
 		# Also, they conflict with subpage syntax.  Forbid them explicitly.
 		if ( strpos( $dbkey, '.' ) !== false &&
-		     ( $dbkey === '.' || $dbkey === '..' ||
-		       strpos( $dbkey, './' ) === 0  ||
-		       strpos( $dbkey, '../' ) === 0 ||
-		       strpos( $dbkey, '/./' ) !== false ||
-		       strpos( $dbkey, '/../' ) !== false  ||
-		       substr( $dbkey, -2 ) == '/.' ||
-		       substr( $dbkey, -3 ) == '/..' ) )
+			 ( $dbkey === '.' || $dbkey === '..' ||
+			   strpos( $dbkey, './' ) === 0  ||
+			   strpos( $dbkey, '../' ) === 0 ||
+			   strpos( $dbkey, '/./' ) !== false ||
+			   strpos( $dbkey, '/../' ) !== false  ||
+			   substr( $dbkey, -2 ) == '/.' ||
+			   substr( $dbkey, -3 ) == '/..' ) )
 		{
 			return false;
 		}
@@ -2973,7 +2982,7 @@ class Title {
 		}
 		if ( ( $this->getDBkey() == '' ) ||
 			 ( !$oldid ) ||
-		     ( $nt->getDBkey() == '' ) ) {
+			 ( $nt->getDBkey() == '' ) ) {
 			$errors[] = array( 'badarticleerror' );
 		}
 
@@ -3093,7 +3102,7 @@ class Title {
 		);
 		$dbw->update( 'categorylinks',
 			array(
-				'cl_sortkey' => Collation::singleton()->getSortKey( 
+				'cl_sortkey' => Collation::singleton()->getSortKey(
 					$nt->getCategorySortkey( $prefix ) ),
 				'cl_timestamp=cl_timestamp' ),
 			array( 'cl_from' => $pageid ),
@@ -3695,7 +3704,10 @@ class Title {
 
 	/**
 	 * Callback for usort() to do title sorts by (namespace, title)
-	 * 
+	 *
+	 * @param $a Title
+	 * @param $b Title
+	 *
 	 * @return Integer: result of string comparison, or namespace comparison
 	 */
 	public static function compare( $a, $b ) {
@@ -3857,7 +3869,8 @@ class Title {
 		}
 		// Check cache first
 		$uid = $user->getId();
-		if ( isset( $this->mNotificationTimestamp[$uid] ) ) {
+		// avoid isset here, as it'll return false for null entries
+		if ( array_key_exists( $uid, $this->mNotificationTimestamp ) ) {
 			return $this->mNotificationTimestamp[$uid];
 		}
 		if ( !$uid || !$wgShowUpdatedMarker ) {
@@ -3908,8 +3921,8 @@ class Title {
 		// Spec: http://www.sixapart.com/pronet/docs/trackback_spec
 		return "<!--
 <rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"
-         xmlns:dc=\"http://purl.org/dc/elements/1.1/\"
-         xmlns:trackback=\"http://madskills.com/public/xml/rss/module/trackback/\">
+		 xmlns:dc=\"http://purl.org/dc/elements/1.1/\"
+		 xmlns:trackback=\"http://madskills.com/public/xml/rss/module/trackback/\">
 <rdf:Description
    rdf:about=\"$url\"
    dc:identifier=\"$url\"
@@ -4093,16 +4106,37 @@ class Title {
 	 * @return array applicable restriction types
 	 */
 	public function getRestrictionTypes() {
-		global $wgRestrictionTypes;
-		
-		$types = $this->exists() ? $wgRestrictionTypes : array( 'create' );
+		$types = self::getFilteredRestrictionTypes( $this->exists() );
 
 		if ( $this->getNamespace() != NS_FILE ) {
+			# Remove the upload restriction for non-file titles
 			$types = array_diff( $types, array( 'upload' ) );
 		}
-		
+
 		wfRunHooks( 'TitleGetRestrictionTypes', array( $this, &$types ) );
 		
+		wfDebug( __METHOD__ . ': applicable restriction types for ' . 
+			$this->getPrefixedText() . ' are ' . implode( ',', $types ) );
+
+		return $types;
+	}
+	/**
+	 * Get a filtered list of all restriction types supported by this wiki. 
+	 * @param bool $exists True to get all restriction types that apply to 
+	 * titles that do exist, False for all restriction types that apply to
+	 * titles that do not exist
+	 * @return array
+	 */
+	public static function getFilteredRestrictionTypes( $exists = true ) {
+		global $wgRestrictionTypes;
+		$types = $wgRestrictionTypes;
+		if ( $exists ) {
+			# Remove the create restriction for existing titles
+			$types = array_diff( $types, array( 'create' ) );			
+		} else {
+			# Only the create and upload restrictions apply to non-existing titles
+			$types = array_intersect( $types, array( 'create', 'upload' ) );
+		}
 		return $types;
 	}
 

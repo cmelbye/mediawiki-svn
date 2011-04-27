@@ -87,7 +87,7 @@ class OutputPage {
 	var $mCategoryLinks = array();
 	var $mCategories = array();
 
-	/// Should be private. Associative array mapping language code to the page name
+	/// Should be private. Array of Interwiki Prefixed (non DB key) Titles (e.g. 'fr:Test page')
 	var $mLanguageLinks = array();
 
 	/**
@@ -980,7 +980,7 @@ class OutputPage {
 	/**
 	 * Get the list of language links
 	 *
-	 * @return Associative array mapping language code to the page name
+	 * @return Array of Interwiki Prefixed (non DB key) Titles (e.g. 'fr:Test page')
 	 */
 	public function getLanguageLinks() {
 		return $this->mLanguageLinks;
@@ -1182,7 +1182,7 @@ class OutputPage {
 	 *
 	 * @param $options either the ParserOption to use or null to only get the
 	 *                 current ParserOption object
-	 * @return current ParserOption object
+	 * @return ParserOptions object
 	 */
 	public function parserOptions( $options = null ) {
 		if ( !$this->mParserOptions ) {
@@ -2388,6 +2388,8 @@ class OutputPage {
 
 	/**
 	 * Get a ResourceLoader object associated with this OutputPage
+	 *
+	 * @return ResourceLoader
 	 */
 	public function getResourceLoader() {
 		if ( is_null( $this->mResourceLoader ) ) {
@@ -2410,18 +2412,18 @@ class OutputPage {
 		// Lazy-load ResourceLoader
 		// TODO: Should this be a static function of ResourceLoader instead?
 		// TODO: Divide off modules starting with "user", and add the user parameter to them
-		$query = array(
+		$baseQuery = array(
 			'lang' => $wgLang->getCode(),
 			'debug' => ResourceLoader::inDebugMode() ? 'true' : 'false',
 			'skin' => $skin->getSkinName(),
 			'only' => $only,
 		);
 		// Propagate printable and handheld parameters if present
-		if ( $wgRequest->getBool( 'printable' ) ) {
-			$query['printable'] = 1;
+		if ( $this->isPrintable() ) {
+			$baseQuery['printable'] = 1;
 		}
 		if ( $wgRequest->getBool( 'handheld' ) ) {
-			$query['handheld'] = 1;
+			$baseQuery['handheld'] = 1;
 		}
 
 		if ( !count( $modules ) ) {
@@ -2450,7 +2452,7 @@ class OutputPage {
 		foreach ( (array) $modules as $name ) {
 			$module = $resourceLoader->getModule( $name );
 			# Check that we're allowed to include this module on this page
-			if( ( $module->getOrigin() > $this->getAllowedModules( ResourceLoaderModule::TYPE_SCRIPTS )
+			if ( ( $module->getOrigin() > $this->getAllowedModules( ResourceLoaderModule::TYPE_SCRIPTS )
 					&& $only == ResourceLoaderModule::TYPE_SCRIPTS )
 				|| ( $module->getOrigin() > $this->getAllowedModules( ResourceLoaderModule::TYPE_STYLES )
 					&& $only == ResourceLoaderModule::TYPE_STYLES )
@@ -2468,14 +2470,30 @@ class OutputPage {
 
 		$links = '';
 		foreach ( $groups as $group => $modules ) {
-			$query['modules'] = implode( '|', array_keys( $modules ) );
+			$query = $baseQuery;
 			// Special handling for user-specific groups
 			if ( ( $group === 'user' || $group === 'private' ) && $wgUser->isLoggedIn() ) {
 				$query['user'] = $wgUser->getName();
 			}
+			
+			// Create a fake request based on the one we are about to make so modules return
+			// correct timestamp and emptiness data
+			$context = new ResourceLoaderContext( $resourceLoader, new FauxRequest( $query ) );
+			// Drop modules that know they're empty
+			foreach ( $modules as $key => $module ) {
+				if ( $module->isKnownEmpty( $context ) ) {
+					unset( $modules[$key] );
+				}
+			}
+			// If there are no modules left, skip this group
+			if ( $modules === array() ) {
+				continue;
+			}
+			
+			$query['modules'] = implode( '|', array_keys( $modules ) );
+			
 			// Support inlining of private modules if configured as such
 			if ( $group === 'private' && $wgResourceLoaderInlinePrivateModules ) {
-				$context = new ResourceLoaderContext( $resourceLoader, new FauxRequest( $query ) );
 				if ( $only == ResourceLoaderModule::TYPE_STYLES ) {
 					$links .= Html::inlineStyle(
 						$resourceLoader->makeModuleResponse( $context, $modules )
@@ -2493,16 +2511,13 @@ class OutputPage {
 			// on-wiki like site or user pages, or user preferences; we need to find the highest
 			// timestamp of these user-changable modules so we can ensure cache misses on change
 			if ( $group === 'user' || $group === 'site' ) {
-				// Create a fake request based on the one we are about to make so modules return
-				// correct times
-				$context = new ResourceLoaderContext( $resourceLoader, new FauxRequest( $query ) );
 				// Get the maximum timestamp
 				$timestamp = 1;
 				foreach ( $modules as $module ) {
 					$timestamp = max( $timestamp, $module->getModifiedTime( $context ) );
 				}
 				// Add a version parameter so cache will break when things change
-				$query['version'] = wfTimestamp( TS_ISO_8601_BASIC, round( $timestamp, -2 ) );
+				$query['version'] = wfTimestamp( TS_ISO_8601_BASIC, $timestamp );
 			}
 			// Make queries uniform in order
 			ksort( $query );
@@ -2541,51 +2556,103 @@ class OutputPage {
 		// Startup - this will immediately load jquery and mediawiki modules
 		$scripts = $this->makeResourceLoaderLink( $sk, 'startup', ResourceLoaderModule::TYPE_SCRIPTS, true );
 
-		// Configuration -- This could be merged together with the load and go, but
-		// makeGlobalVariablesScript returns a whole script tag -- grumble grumble...
-		$scripts .= Skin::makeGlobalVariablesScript( $sk->getSkinName() ) . "\n";
-
 		// Script and Messages "only" requests
 		$scripts .= $this->makeResourceLoaderLink( $sk, $this->getModuleScripts( true ), ResourceLoaderModule::TYPE_SCRIPTS );
 		$scripts .= $this->makeResourceLoaderLink( $sk, $this->getModuleMessages( true ), ResourceLoaderModule::TYPE_MESSAGES );
 
 		// Modules requests - let the client calculate dependencies and batch requests as it likes
+		$loader = '';
 		if ( $this->getModules( true ) ) {
-			$scripts .= Html::inlineScript(
-				ResourceLoader::makeLoaderConditionalScript(
-					Xml::encodeJsCall( 'mediaWiki.loader.load', array( $this->getModules( true ) ) ) .
-					Xml::encodeJsCall( 'mediaWiki.loader.go', array() )
-				)
-			) . "\n";
+			$loader = Xml::encodeJsCall( 'mw.loader.load', array( $this->getModules( true ) ) ) .
+				Xml::encodeJsCall( 'mw.loader.go', array() );
 		}
+		
+		$scripts .= Html::inlineScript(
+			ResourceLoader::makeLoaderConditionalScript(
+				ResourceLoader::makeConfigSetScript( $this->getJSVars() ) . $loader
+			)
+		);
 
 		// Legacy Scripts
 		$scripts .= "\n" . $this->mScripts;
 
+		$userScripts = array( 'user.options' );
+
 		// Add site JS if enabled
 		if ( $wgUseSiteJs ) {
 			$scripts .= $this->makeResourceLoaderLink( $sk, 'site', ResourceLoaderModule::TYPE_SCRIPTS );
+			if( $wgUser->isLoggedIn() ){
+				$userScripts[] = 'user.groups';
+			}
 		}
 
-		// Add user JS if enabled - trying to load user.options as a bundle if possible
-		$userOptionsAdded = false;
+		// Add user JS if enabled
 		if ( $wgAllowUserJs && $wgUser->isLoggedIn() ) {
 			$action = $wgRequest->getVal( 'action', 'view' );
 			if( $this->mTitle && $this->mTitle->isJsSubpage() && $sk->userCanPreview( $action ) ) {
 				# XXX: additional security check/prompt?
 				$scripts .= Html::inlineScript( "\n" . $wgRequest->getText( 'wpTextbox1' ) . "\n" ) . "\n";
 			} else {
-				$scripts .= $this->makeResourceLoaderLink(
-					$sk, array( 'user', 'user.options' ), ResourceLoaderModule::TYPE_SCRIPTS
-				);
-				$userOptionsAdded = true;
+				# FIXME: this means that User:Me/Common.js doesn't load when previewing
+				# User:Me/Vector.js, and vice versa (bug26283)
+				$userScripts[] = 'user';
 			}
 		}
-		if ( !$userOptionsAdded ) {
-			$scripts .= $this->makeResourceLoaderLink( $sk, 'user.options', ResourceLoaderModule::TYPE_SCRIPTS );
-		}
+		$scripts .= $this->makeResourceLoaderLink( $sk, $userScripts, ResourceLoaderModule::TYPE_SCRIPTS );
 
 		return $scripts;
+	}
+
+	/**
+	 * Get an array containing global JS variables
+	 * 
+	 * Do not add things here which can be evaluated in
+	 * ResourceLoaderStartupScript - in other words, without state.
+	 * You will only be adding bloat to the page and causing page caches to
+	 * have to be purged on configuration changes.
+	 */
+	protected function getJSVars() {
+		global $wgUser, $wgRequest, $wgUseAjax, $wgEnableMWSuggest, $wgContLang;
+
+		$title = $this->getTitle();
+		$ns = $title->getNamespace();
+		$nsname = MWNamespace::exists( $ns ) ? MWNamespace::getCanonicalName( $ns ) : $title->getNsText();
+		if ( $ns == NS_SPECIAL ) {
+			$parts = SpecialPage::resolveAliasWithSubpage( $title->getDBkey() );
+			$canonicalName = $parts[0];
+		} else {
+			$canonicalName = false; # bug 21115
+		}
+
+		$vars = array(
+			'wgCanonicalNamespace' => $nsname,
+			'wgCanonicalSpecialPageName' => $canonicalName,
+			'wgNamespaceNumber' => $title->getNamespace(),
+			'wgPageName' => $title->getPrefixedDBKey(),
+			'wgTitle' => $title->getText(),
+			'wgCurRevisionId' => $title->getLatestRevID(),
+			'wgArticleId' => $title->getArticleId(),
+			'wgIsArticle' => $this->isArticle(),
+			'wgAction' => $wgRequest->getText( 'action', 'view' ),
+			'wgUserName' => $wgUser->isAnon() ? null : $wgUser->getName(),
+			'wgUserGroups' => $wgUser->getEffectiveGroups(),
+			'wgCategories' => $this->getCategories(),
+			'wgBreakFrames' => $this->getFrameOptions() == 'DENY',
+		);
+		if ( $wgContLang->hasVariants() ) {
+			$vars['wgUserVariant'] = $wgContLang->getPreferredVariant();
+		}
+		foreach ( $title->getRestrictionTypes() as $type ) {
+			$vars['wgRestriction' . ucfirst( $type )] = $title->getRestrictions( $type );
+		}
+		if ( $wgUseAjax && $wgEnableMWSuggest && !$wgUser->getOption( 'disablesuggest', false ) ) {
+			$vars['wgSearchNamespaces'] = SearchEngine::userNamespaces( $wgUser );
+		}
+		
+		// Allow extensions to add their custom variables to the global JS variables
+		wfRunHooks( 'MakeGlobalVariablesScript', array( &$vars ) );
+		
+		return $vars;
 	}
 
 	/**
@@ -2763,19 +2830,19 @@ class OutputPage {
 	public function buildCssLinks( $sk ) {
 		$ret = '';
 		// Add ResourceLoader styles
-		// Split the styles into three groups
-		$styles = array( 'other' => array(), 'user' => array(), 'site' => array() );
+		// Split the styles into four groups
+		$styles = array( 'other' => array(), 'user' => array(), 'site' => array(), 'private' => array() );
 		$resourceLoader = $this->getResourceLoader();
 		foreach ( $this->getModuleStyles() as $name ) {
 			$group = $resourceLoader->getModule( $name )->getGroup();
-			// Modules in groups named "other" or anything different than "user" or "site" will
-			// be placed in the "other" group
+			// Modules in groups named "other" or anything different than "user", "site" or "private"
+			// will be placed in the "other" group
 			$styles[isset( $styles[$group] ) ? $group : 'other'][] = $name;
 		}
 
-		// We want site and user styles to override dynamically added styles from modules, but we want
+		// We want site, private and user styles to override dynamically added styles from modules, but we want
 		// dynamically added styles to override statically added styles from other modules. So the order
-		// has to be other, dynamic, site, user
+		// has to be other, dynamic, site, private, user
 		// Add statically added styles for other modules
 		$ret .= $this->makeResourceLoaderLink( $sk, $styles['other'], ResourceLoaderModule::TYPE_STYLES );
 		// Add normal styles added through addStyle()/addInlineStyle() here
@@ -2783,10 +2850,15 @@ class OutputPage {
 		// Add marker tag to mark the place where the client-side loader should inject dynamic styles
 		// We use a <meta> tag with a made-up name for this because that's valid HTML
 		$ret .= Html::element( 'meta', array( 'name' => 'ResourceLoaderDynamicStyles', 'content' => '' ) );
-		// Add site and user styles
-		$ret .= $this->makeResourceLoaderLink(
-			$sk, array_merge( $styles['site'], $styles['user'] ), ResourceLoaderModule::TYPE_STYLES
-		);
+		
+		// Add site, private and user styles
+		// 'private' at present only contains user.options, so put that before 'user'
+		// Any future private modules will likely have a similar user-specific character
+		foreach ( array( 'site', 'private', 'user' ) as $group ) {
+			$ret .= $this->makeResourceLoaderLink( $sk, $styles[$group],
+					ResourceLoaderModule::TYPE_STYLES
+			);
+		}
 		return $ret;
 	}
 

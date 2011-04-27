@@ -9,9 +9,9 @@
 .mw-plusminus-neg { color: #8b0000; } /* dark red */
 .mw-plusminus-null { color: #aaa; } /* gray */
 
-/* Links to redirects appear italicized on [[Special:AllPages]],
-   and in category listings */
-.allpagesredirect, .redirect-in-category { font-style: italic; }
+/* Links to redirects appear italicized on [[Special:AllPages]], [[Special:PrefixIndex]],
+   [[Special:Watchlist/edit]] and in category listings */
+.allpagesredirect, .redirect-in-category, .watchlistredir { font-style: italic; }
 
 /* Comment and username portions of RC entries */
 span.comment {
@@ -453,16 +453,6 @@ td.mw-statistics-numbers {
 	text-align: right;
 }
 
-/* Special:SpecialPages styling */
-h4.mw-specialpagesgroup {
-	background-color: #dcdcdc;
-	padding: 2px;
-	margin: .3em 0em 0em 0em;
-}
-.mw-specialpagerestricted {
-	font-weight: bold;
-}
-
 #shared-image-dup, #shared-image-conflict {
 	font-style: italic;
 }
@@ -747,6 +737,7 @@ table.mw_metadata td {
 
 /* Galleries */
 /* These display attributes look nonsensical, but are needed to support IE and FF2 */
+/* Don't forget to update commonPrint.css */
 li.gallerybox {
 	vertical-align: top;
 	background-color: #f9f9f9;
@@ -763,7 +754,6 @@ ul.gallery, li.gallerybox {
 ul.gallery {
 	margin: 2px;
 	padding: 2px;
-	background-color: white;
 	display: block;
 }
 

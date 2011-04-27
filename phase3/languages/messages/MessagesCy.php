@@ -113,7 +113,7 @@ $magicWords = array(
 	'pagesize'              => array( '1', 'MAINTTUD', 'PAGESIZE' ),
 );
 
-$linkTrail = "/^([àáâèéêìíîïòóôûŵŷa-z]+)(.*)\$/sDu";
+$linkTrail = "/^([àáâèéêìíîïòóôûŵŷa-z]+)(.*)$/sDu";
 
 $messages = array(
 # User preference toggles
@@ -752,6 +752,7 @@ Os methwch unwaith eto, ceisiwch [[Special:UserLogout|allgofnodi]] ac yna mewngo
 'token_suffix_mismatch'            => "'''Gwrthodwyd eich golygiad oherwydd bod eich gweinydd cleient wedi gwneud cawl o'r atalnodau yn y tocyn golygu.
 Gwrthodwyd y golygiad rhag i destun y dudalen gael ei lygru.
 Weithiau fe ddigwydd hyn wrth ddefnyddio dirprwy-wasanaeth anhysbys gwallus yn seiliedig ar y we.'''",
+'edit_form_incomplete'             => "'''Nid yw peth o'r ffurflen golygu wedi cyrraedd y gweinydd; sicrhewch bod eich golygiadau'n gyfan o hyd ac yna ceisiwch eto.'''",
 'editing'                          => 'Yn golygu $1',
 'editingsection'                   => 'Yn golygu $1 (adran)',
 'editingcomment'                   => 'Yn golygu $1 (adran newydd)',
@@ -1531,6 +1532,8 @@ Dylech edrych ar hanes dileu'r ffeil honno cyn bwrw ati i'w llwytho unwaith eto.
 Gwiriwch y gosodiad ar file_uploads.',
 'uploadscripted'              => "Mae'r ffeil hon yn cynnwys HTML neu sgript a all achosi problemau i borwyr gwe.",
 'uploadvirus'                 => 'Mae firws gan y ffeil hon! Manylion: $1',
+'uploadjava'                  => "Ffeil ZIP yw hwn sy'n cynnwys ffeil Java .class.
+Ni chaniateir uwchlwytho ffeiliau Java, oherwydd y gallant osgoi cyfyngiadau diogelwch.",
 'upload-source'               => 'Y ffeil gwreiddiol',
 'sourcefilename'              => "Enw'r ffeil wreiddiol:",
 'sourceurl'                   => 'URL y gwreiddiol:',
@@ -1567,6 +1570,14 @@ Os yw'r broblem yn parhau, cysylltwch â [[Special:ListUsers/sysop|gweinyddwr]].
 'upload-too-many-redirects' => 'Roedd gormod o ailgyfeiriadau yn yr URL',
 'upload-unknown-size'       => 'Maint anhysbys',
 'upload-http-error'         => 'Digwyddodd gwall HTTP: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Cafwyd gwall wrth agor y ffeil er mwyn gwneud gwiriadau ZIP.',
+'zip-wrong-format'    => "Nid ffeil ZIP yw'r ffeil a enwyd.",
+'zip-bad'             => "Mae'r ffeil yn ffeil ZIP llygredig neu annarllenadwy. 
+Ni all gael ei wirio'n ddigonol er sicrhau diogelwch.",
+'zip-unsupported'     => "Ffeil ZIP yw hon sy'n defnyddio nodweddion na chefnogir gan MediaWiki.
+Ni all gael ei wirio'n ddigonol er sicrhau diogelwch.",
 
 # Special:UploadStash
 'uploadstash'          => "Uwchlwytho i'r celc",
@@ -1832,7 +1843,7 @@ Sylwch y gall gwefannau eraill gysylltu â ffeil drwy URL uniongyrchol. Gan hynn
 'notargettitle'           => 'Dim targed',
 'notargettext'            => 'Dydych chi ddim wedi dewis defnyddiwr neu dudalen i weithredu arno.',
 'nopagetitle'             => "Nid yw'r dudalen a ddynodwyd ar gael",
-'nopagetext'              => "Nid yw'r dudalen a ddynodwyd ar gael.",
+'nopagetext'              => "Nid yw'r dudalen a enwyd ar gael.",
 'pager-newer-n'           => '{{PLURAL:$1|y $1 mwy diweddar|yr 1 mwy diweddar|y $1 mwy diweddar|y $1 mwy diweddar|y $1 mwy diweddar|y $1 mwy diweddar}}.',
 'pager-older-n'           => '{{PLURAL:$1|y $1 cynharach|yr $1 cynharach|y $1 cynharach|y $1 cynharach|y $1 cynharach|y $1 cynharach}}',
 'suppress'                => 'Goruchwylio',
@@ -2926,6 +2937,7 @@ Ymateb yr amledd gofodol',
 'exif-gpsareainformation'          => "Enw'r parth GPS",
 'exif-gpsdatestamp'                => 'Dyddiad GPS',
 'exif-gpsdifferential'             => 'cywiriad differol y GPS',
+'exif-objectname'                  => 'Teitl byr',
 
 # EXIF attributes
 'exif-compression-1' => 'Heb ei gywasgu',

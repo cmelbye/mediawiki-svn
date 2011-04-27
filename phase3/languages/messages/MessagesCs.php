@@ -982,6 +982,7 @@ Pokud se tento problém bude opakovat, zkuste se [[Special:UserLogout|odhlásit]
 'token_suffix_mismatch'            => "'''Vaše editace byla odmítnuta, protože Váš prohlížeč komolí některé znaky v editovaném textu.
 Editace byla odmítnuta, aby se zabránilo poškození textu stránky.
 Toto se může někdy stát pokud používáte chybující webový anonymizér.'''",
+'edit_form_incomplete'             => "'''Část editačního formuláře nedorazila na server; překontrolujte úplnost změn a zkuste to znovu.'''",
 'editing'                          => 'Editace stránky $1',
 'editingsection'                   => 'Editace stránky $1 (část)',
 'editingcomment'                   => 'Editace stránky $1 (nová sekce)',
@@ -1750,6 +1751,8 @@ Pokud chcete přesto soubor načíst, vraťte se a zvolte jiný název.
 'php-uploaddisabledtext'      => 'V PHP je vypnuto načítání souborů. Prosím, zkontrolujte nastavení file_uploads.',
 'uploadscripted'              => 'Tento soubor obsahuje HTML nebo kód skriptu, který by mohl být prohlížečem chybně interpretován.',
 'uploadvirus'                 => 'Tento soubor obsahuje virus! Podrobnosti: $1',
+'uploadjava'                  => 'Tento soubor je ZIP, který obsahuje javový soubor .class.
+Načítání javových souborů není dovoleno, neboť by mohly umožnit obcházení bezpečnostních omezení.',
 'upload-source'               => 'Zdrojový soubor',
 'sourcefilename'              => 'Jméno zdrojového souboru:',
 'sourceurl'                   => 'Zdrojové URL:',
@@ -1797,6 +1800,14 @@ Kontaktuje prosím [[Special:ListUsers/sysop|správce]].',
 'upload-too-many-redirects' => 'URL obsahovalo příliš mnoho přesměrování',
 'upload-unknown-size'       => 'Neznámá velikost',
 'upload-http-error'         => 'Došlo k chybě HTTP: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Při otevírání souboru ke kontrole ZIP došlo k chybě.',
+'zip-wrong-format'    => 'Dodaný soubor není ve formátu ZIP.',
+'zip-bad'             => 'Soubor je poškozený nebo jinak nečitelný ZIP.
+Nelze náležitě zkontrolovat jeho bezpečnost.',
+'zip-unsupported'     => 'Soubor je ZIP, ale používá funkce, které MediaWiki nepodporuje.
+Nelze náležitě zkontrolovat jeho bezpečnost.',
 
 # Special:UploadStash
 'uploadstash'          => 'Skrýš načtených souborů',
@@ -3145,6 +3156,7 @@ Obsahuje pouze seznam s odrážkami (řádka začíná s *). První odkaz na ř�
 'exif-gpsareainformation'          => 'Označení GPS oblasti',
 'exif-gpsdatestamp'                => 'Datum podle GPS',
 'exif-gpsdifferential'             => 'Diferenciální korekce GPS',
+'exif-objectname'                  => 'Krátký název',
 
 # EXIF attributes
 'exif-compression-1' => 'Nekomprimovaný',

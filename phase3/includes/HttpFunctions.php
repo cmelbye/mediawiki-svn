@@ -89,6 +89,7 @@ class Http {
 			// Check if this domain or any superdomain is listed in $wgConf as a local virtual host
 			$domainParts = array_reverse( $domainParts );
 
+			$domain = '';
 			for ( $i = 0; $i < count( $domainParts ); $i++ ) {
 				$domainPart = $domainParts[$i];
 				if ( $i == 0 ) {
@@ -138,6 +139,8 @@ class Http {
  * php's HTTP extension.
  */
 class MWHttpRequest {
+	const SUPPORTS_FILE_POSTS = false;
+	
 	protected $content;
 	protected $timeout = 'default';
 	protected $headersOnly = null;
@@ -187,7 +190,7 @@ class MWHttpRequest {
 		}
 
 		$members = array( "postData", "proxy", "noProxy", "sslVerifyHost", "caInfo",
-				  "method", "followRedirects", "maxRedirects", "sslVerifyCert" );
+				  "method", "followRedirects", "maxRedirects", "sslVerifyCert", "callback" );
 
 		foreach ( $members as $o ) {
 			if ( isset( $options[$o] ) ) {
@@ -198,6 +201,8 @@ class MWHttpRequest {
 
 	/**
 	 * Generate a new request object
+        * @param $url String: url to use
+	 * @param $options Array: (optional) extra params to pass (see Http::request())
 	 * @see MWHttpRequest::__construct
 	 */
 	public static function factory( $url, $options = null ) {
@@ -339,10 +344,6 @@ class MWHttpRequest {
 
 		if ( strtoupper( $this->method ) == "HEAD" ) {
 			$this->headersOnly = true;
-		}
-
-		if ( is_array( $this->postData ) ) {
-			$this->postData = wfArrayToCGI( $this->postData );
 		}
 
 		if ( is_object( $wgTitle ) && !isset( $this->reqHeaders['Referer'] ) ) {
@@ -798,6 +799,8 @@ class CookieJar {
  * MWHttpRequest implemented using internal curl compiled into PHP
  */
 class CurlHttpRequest extends MWHttpRequest {
+	const SUPPORTS_FILE_POSTS = true;
+	
 	static $curlMessageMap = array(
 		6 => 'http-host-unreachable',
 		28 => 'http-timed-out'
@@ -922,6 +925,10 @@ class PhpHttpRequest extends MWHttpRequest {
 	public function execute() {
 		parent::execute();
 
+		if ( is_array( $this->postData ) ) {
+			$this->postData = wfArrayToCGI( $this->postData );
+		}		
+		
 		// At least on Centos 4.8 with PHP 5.1.6, using max_redirects to follow redirects
 		// causes a segfault
 		$manuallyRedirect = version_compare( phpversion(), '5.1.7', '<' );

@@ -510,6 +510,42 @@ Palihog butang sang ginplastar sing maayo nga adres ukon panason nal lang ang lu
 Dapat ka na magsulod kag islan ang imo pasword subong.
 
 Mahimo nga imo pabayaan ang ini nga mensahe, kon ang ini nga akawnt sala lang ang paghimo.',
+'usernamehasherror'          => 'Ang gamit-pangalan indi mahimo nga may hash nga karakter',
+'login-throttled'            => 'May tuman ka na na kadamo nga pagtilaw sa pagsulod.
+Palihog maghulat anay bag-o tilawan liwat.',
+'loginlanguagelabel'         => 'Hambalanon: $1',
+'suspicious-userlogout'      => 'Ang imo pagpangabay nga mag-guha ginpungga bangud nga ini mahimo nga ginpadala sang guba nga brawser ukon sang proksy nga nagapang-tago.',
+
+# E-mail sending
+'php-mail-error-unknown' => 'Wala nahibaluan nga sala sa kapuslanan nga sulat() sang PHP.',
+
+# JavaScript password checks
+'password-strength'            => 'Paghaum-haom nga kakusogon sang pasword: $1',
+'password-strength-bad'        => 'MALAIN',
+'password-strength-mediocre'   => 'ordinaryo',
+'password-strength-acceptable' => 'mabaton',
+'password-strength-good'       => 'maayo',
+'password-retype'              => 'Ibutang liwat ang pasword dire',
+'password-retype-mismatch'     => 'Wala nagasanto ang mga pasword',
+
+# Password reset dialog
+'resetpass'                 => 'Ilisan ang pasword',
+'resetpass_announce'        => 'Nagsulod ka paagi sang temporary nga kod nga gin-email.
+Agod nga makatapos ka sa pagsulod, kinahanglan mo magbutang sang bag-o nga pasword dire:',
+'resetpass_header'          => 'Ilisan ang pasword sang akawnt',
+'oldpassword'               => 'Daan nga pasword:',
+'newpassword'               => 'Bag-o nga pasword:',
+'retypenew'                 => 'Suliton ang bag-o nga pasword:',
+'resetpass_submit'          => 'Ibutang ang pasword kag magsulod',
+'resetpass_success'         => 'Ang imo pasword madinalag-on nga gin-ilisan!
+Ginapasulod ka na...',
+'resetpass_forbidden'       => 'Ang mga pasword indi mahimo nga paga-ilisan',
+'resetpass-no-info'         => 'Kinahanglan nga nakasulod ka agod nga makadtoan ang ini nga panid sing derecho.',
+'resetpass-submit-loggedin' => 'Ilisan ang pasword',
+'resetpass-submit-cancel'   => 'Kanselahon',
+'resetpass-wrong-oldpass'   => 'Sala nga temporaryo ukon subong nga pasword.
+Mahimo nga madinalag-on mo nga nga gin-ilisan ang imo pasword ukon nagpangabay ka na sang bag-o nga temporaryo nga pasword.',
+'resetpass-temp-password'   => 'Temporaryo nga pasword:',
 
 # Edit page toolbar
 'bold_sample'     => 'Dukot nga teksto',
@@ -539,56 +575,334 @@ Mahimo nga imo pabayaan ang ini nga mensahe, kon ang ini nga akawnt sala lang an
 'savearticle'                      => 'Tiponon ining panid',
 'preview'                          => 'Ipakita subong',
 'showpreview'                      => 'Ipakita nga daan',
+'showlivepreview'                  => 'Prebiyu nga karon dayon',
 'showdiff'                         => 'Ipakita ang inislan',
 'anoneditwarning'                  => "'''Pa-andam:''' Wala ka pa nakasulod.
 Igasulat ang imo IP adres sa historya sini nga inislan na pahina.",
+'anonpreviewwarning'               => "''Wala ka pa nakasulod. Igasulat ang imo IP adres sa historya sini nga inislan na pahina.''",
+'missingsummary'                   => "'''Pahanumdom:''' Wala ka naghatag sang malip-ot nga pagsaysay sang imo gin-ilisan.
+Kon tum-okon mo liwat ang \"{{int:savearticle}}\", ang imo gin-ilisan pagatiponon nga wala sini.",
+'missingcommenttext'               => 'Palihog butangi sang komento sa idalom.',
+'missingcommentheader'             => "'''Pahanumdom:''' Wala ka naghatag sang topiko/ulo sang topiko para sa sini nga komento.
+Kon tum-okon mo liwat ang \"{{int:savearticle}}\", ang imo gin-ilisan pagatiponon nga wala sini.",
 'summary-preview'                  => 'Kabilugan nga prebyu:',
+'subject-preview'                  => 'Prebyu sang topiko/ulo sang topiko:',
+'blockedtitle'                     => 'Ang manuggamit ginapunggan',
+'blockedtext'                      => "'''Ang imo gamit-pangalan ukon adres sang IP ginpunggan.'''
+
+Ang pagpuggon ginhimo ni $1.
+Ang rason amo ang ''$2''.
+
+* Pag-umpisa sa pagpuggong: $8
+* Katapusan sang pagpuggong: $6
+* Tuyo nga pagapunggan: $7
+
+Mahimo ka nga makipag-angot kay $1 ukon sa iban [[{{MediaWiki:Grouppage-sysop}}|administrator]] agod nga ma-estoryahan ang pagpuggong.
+Indi mo magamit ang 'i-email ining manuggamit' samtang wala ka sang matood nga e-mail adres nga ibutang sa imo [[Special:Preferences|espesyal nga pagpalabi]] kag kon wala ka ginapunggan sa paggamit sini.
+Ang imo adres sang IP karon amo ang $3, kag ang ID sang pagpuggong amo ang #$5.
+Palihog dala sang mga nasulat sa ibabaw sa mga pagpamangkot nga imo ubrahon.",
+'autoblockedtext'                  => "Ang adres sang imo IP ginpunggan dayon tungod kay ini gingamit sang lain nga manuggamit, nga ginpunggan ni $1.
+Ang rason nga ginhatag amo sini:
+
+:''$2''
+
+* Pag-umpisa sa pagpuggong: $8
+* Katapusan sang pagpuggong: $6
+* Tuyo nga pagapunggan: $7
+
+Mahimo ka nga makipag-angot kay $1 ukon sa iban [[{{MediaWiki:Grouppage-sysop}}|administrator]] agod nga ma-estoryahan ang pagpuggong.
+
+Indi mo magamit ang 'i-email ining manuggamit' samtang wala ka sang matood nga e-mail adres nga ibutang sa imo [[Special:Preferences|espesyal nga pagpalabi]] kag kon wala ka ginapunggan sa paggamit sini.
+
+Ang imo adres sang IP karon amo ang $3, kag ang ID sang pagpuggong amo ang #$5.
+Palihog dala sang mga nasulat sa ibabaw sa mga pagpamangkot nga imo ubrahon.",
+'blockednoreason'                  => 'wala sang rason nga ginhatag',
+'blockedoriginalsource'            => "Ang ginhalinan sang '''$1''' ginapakita sa dalom:",
+'blockededitsource'                => "Ang mga letra sang '''imo gin-ilisan''' sa '''$1''' ginapakita sa dalom:",
 'whitelistedittitle'               => 'Kinahanglan Magsulod para maka ilis',
+'whitelistedittext'                => 'Kinahanglan mo ang $1 agod maka-ilis sang mga panid.',
+'confirmedittext'                  => 'Kinahanglan mo nga kumpirmahon ang imo e-mail adres bag-o ka mag-ilis sang mga panid.
+Palihog plastar kag magpamatood sang imo e-mail adres paagi sang imo [[Special:Preferences|pagpalabi]].',
+'nosuchsectiontitle'               => 'Indi makit-an ang seksyon',
+'nosuchsectiontext'                => 'Gintilawan mo nga mag-ilis sang seksyon nga wala naga-eksister.
+Mahimo nga ini ginsaylo na ukon ginpanas samtang nagalantaw ka sang panid.',
+'loginreqtitle'                    => 'Kinahanglan magsulod',
 'loginreqlink'                     => 'mag sulod',
+'loginreqpagetext'                 => 'Kinahanglan mo nga mag-$1 agod nga makita ang iban nga mga panid.',
+'accmailtitle'                     => 'Napadala na ang pasword.',
+'accmailtext'                      => "May pasword nga wala ginpilian nga ginhimo para kay [[User talk:$1|$1]] nga ginpadala sa $2.
+
+Ang pasword para sa sini nga bag-o nga akawnt mahimo ma-ilisan sa ''[[Special:ChangePassword|ilisan ang pasword]]'' nga panid pagkatapos magsulod.",
 'newarticle'                       => '(Bag-o)',
 'newarticletext'                   => "Nagbukas ka sang isa ka tabid pakadto sa isa ka pahina nga wala pa nahimo.
 Para maghimo sang sina na pahina, sugod ka lang sa pagtayp sa sulod sang kahon nga makit an mo sa idalum (tan-awa ang [[{{MediaWiki:Helppage}}|bulig nga pahina]] para sa dugang nga impormasyon).
 Pero kung nakasulod nga aksidente lamang, palihog lang i-klik sa imo internet nga may ngalan ukon simbolo nga '''back''' button.",
+'anontalkpagetext'                 => "----''Ini ang panid para sa pagtalakay sa wala makilala-an nga manuggamit nga wala pa nakatuga sang akawnt, ukon wala nagagamit sang isa.
+Amo nga kinahanglan naton mag-gamit sang IP adres nga de numero agod nga mahibaluan naton siya.
+Ang amo sini nga adres sang IP mahimo nga pagasaluhan sang madamo nga manuggamit.
+Kon ikaw manuggamit nga wala makilal-i kag nabatyagan mo nga may mga komento nga wala man sing labot nga ginapakadto sa imo, palihog [[Special:UserLogin/signup|maghimo ka sang akawnt]] ukon [[Special:UserLogin|magsulod]] para malikawan ang iban pa nga pagsala sa iban pa nga wala makilal-an nga manuggamit.''",
 'noarticletext'                    => 'Wala subong sang teksto ang ini nga pahina.
 Pwede ka [[Special:Search/{{PAGENAME}}|mangita para sa titulo sang ini nga pahina]] sa iban man nga pahina,
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} mangita ka sang kaparehas nga logs],
 o [{{fullurl:{{FULLPAGENAME}}|action=edit}} islan ini nga pahina]</span>.',
+'noarticletext-nopermission'       => 'Wala subong sang teksto ang ini nga panid.
+Pwede ka [[Special:Search/{{PAGENAME}}|mangita para sa titulo sang ini nga panid]] sa iban man nga panid,
+ukon <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} mangita ka sang kaparehas nga logs]</span>.',
+'userpage-userdoesnotexist'        => 'Ang akawnt sang manuggamit nga "$1" wala pa marehistro.
+Palihog tsek kon luyag mo nga himuon/ilisan ang ini nga panid.',
+'userpage-userdoesnotexist-view'   => 'Ang akawnt sang manuggamit nga "$1" wala pa marehistro.',
+'blocked-notice-logextract'        => 'Ang ini nga manuggamit ginapunggan karon.
+Ang pinaka-ulihi nga log sa pagpuggong yara sa idalom para mahibaluan nimo:',
+'clearyourcache'                   => "'''Pahibalo: Pagkatapos mo magtipon, mahimo nga kinahanglan mo pa nga laktawan ang talaguan sang imo brawser agod nga makita ang mga pag-ilis.'''
+'''Mozilla / Firefox / Safari:''' tum-ukon sang madugay ang ''Shift'' samtang ginatum-ok ang ''Reload'', ukon tum-ukon ang ''Ctrl-F5'' ukon ''Ctrl-R'' (''Command-R'' sa Macintosh);
+'''Konqueror: '''tum-ukon ang ''Reload'' ukon ang ''F5'';
+'''Opera:''' panason ang talaguan sa ''Tools → Preferences'';
+'''Internet Explorer:''' hold ''Ctrl'' while clicking ''Refresh,'' or press ''Ctrl-F5''.",
+'usercssyoucanpreview'             => "'''Pagbulig:''' Gamiton ang \"{{int:showpreview}}\" nga tulom-ukon agod matilawan ang imo bag-o nga CSS bag-o magtipon.",
+'userjsyoucanpreview'              => "'''Pagbulig:''' Gamiton ang \"{{int:showpreview}}\" nga tulom-ukon agod matilawan ang imo bag-o nga JavaScript bag-o magtipon.",
+'usercsspreview'                   => "'''Tandai nga ginalantaw mo pa lang ang imo CSS sang manuggamit.'''
+'''Wala pa ini matipon!'''",
+'userjspreview'                    => "'''Tandai nga ginalantaw/ginatilawan mo pa lang ang imo JavaScript sang manuggamit.'''
+'''Wala pa ini matipon!'''",
+'sitecsspreview'                   => "'''Tandai nga ginalantaw mo pa lang ang ini nga CSS.'''
+'''Wala pa ini matipon!'''",
+'sitejspreview'                    => "'''Tandai nga ginalantaw mo pa lang ang ini nga kodigo sang JavaScript.'''
+'''Wala pa ini matipon!'''",
+'userinvalidcssjstitle'            => "'''Aviso:''' Wala sang panit nga \"\$1\".
+Sa mga pahungod nga mga panid nga .css and .js magamit sang titulo nga may gagmay nga letra (lowercase), e.g. {{ns:user}}:Foo/vector.css kontra sa {{ns:user}}:Foo/Vector.css.",
+'updated'                          => '(Suno sa oras)',
+'note'                             => "'''Pansinon:'''",
 'previewnote'                      => "'''Tandaan nga prebyu lamang ini.'''
 Wala pa nabutang ang imo nga ginbag-o!",
+'previewconflict'                  => 'Ang ini nga paglantaw nagapakita sang mga teksto nga yara sa may ibabaw ayon nga amo man ang magagwa kon luyag mo na ini nga pagatiponon.',
+'session_fail_preview'             => "'''Nagapangayo kami sang pasaylo! Indi namon ma-proseso ang imo pag-ilis tungod sa pagkadula sang datos sang sesyon.'''
+Palihog tilawi liwat.
+Kon indi man sa gihapon mag-gana, tilawi [[Special:UserLogout|mag-guha]] kag magsulod liwat.",
+'session_fail_preview_html'        => "'''Nagapangayo kami sang pasaylo! Indi namon ma-proseso ang imo pag-ilis tungod sang pagkadula sang datos sang sesyon.'''
+
+''Kay ang {{SITENAME}} may ara sang hilaw nga HTML nga ginapasugtan, ang pagtan-aw gintago bilang pagpanghanda batok sa mga pag-atake sang JavaScript.''
+
+'''Kon ini lehitimo nga paghimakas, palihog tilawi liwat.'''
+Kon indi man sa gihapon mag-gana, tilawi  [[Special:UserLogout|mag-guha]] kag magsulod liwat dayon.",
+'token_suffix_mismatch'            => "'''Ang imo pag-ilis wala ginbaton tungod nga ang imo kleyente nag-guba sang mga letra sa token sang pag-ilis.'''
+Ang pag-ilis wala ginbaton agod to nga malikawan ang kalainan sang mga teksto sa panid.
+Ini nagakatabo kon kaisa kon nagagamit ka sang nakabase sa web nga serbisyo proxy nga madamo sing lusot.",
+'edit_form_incomplete'             => "'''Ang iban nga bahin sang formas sa pag-ilis wala nakalab-ot sa serber; palihog verificar kon ang imo pag-ilis santo man sa gihapon kag tilawi liwat.'''",
 'editing'                          => 'Gina-islan $1',
 'editingsection'                   => 'Gina-Islan $1 (seksiyon)',
+'editingcomment'                   => 'Gina-islan ang $1 (bag-o nga bahin)',
+'editconflict'                     => 'May pagpamatok sa pag-ilis: $1',
+'explainconflict'                  => "May yara sang iban nga nag-ilis sang sini nga panid umpisa nga imo ini gin-ilisan.
+Ang lugar sang ibabaw nga teksto may yara sang teksto sang panid kon ano ini karon naga-eksister.
+Ang imo mga pagbag-o ginapakita sa may lugar sang idalom nga teksto.
+Mahimo nga kinahanglan mo pa nga tabidon ang imo mga pagbag-o sa mga naga-eksiter nga nga teksto.
+Ang mga teksto '''lamang''' nga yara sa lugar sang ibabaw nga teksto ang matipon kon imo pagatum-ukon ang \"{{int:savearticle}}\".",
+'yourtext'                         => 'Imo teksto',
+'storedversion'                    => 'Gintago nga pagbag-o',
+'nonunicodebrowser'                => "'''Pahibalo: Ang imo brawser wala nagahando sa unicode.'''
+May nagakatabo nga paghulag agod nga masugtan ka sang pa-ilis nga may paghalong: ang mga indi ASCII nga mga letra maga-paita sa kahon sang pag-ilis bilang kodigo nga heksadesimal.",
+'editingold'                       => "'''Pahibal: Naga-ilis ikaw sang wala-sa-tiyempo nga pagbag-o sining panid.'''
+Kon imo ini tiponon, ang iban nga pag-ilis halin sang sini nga pagbag-o madula.",
+'yourdiff'                         => 'Mga kinala-in',
 'copyrightwarning'                 => "Tandaan mo ini palihog na ang tanan nga kontribusyon sa {{SITENAME}} ay ginapasugtan nga i-paguha sa idalum sang $2 (tan-awa $1 para sa mga detalye).
 Kung indi mo naluyagan ang imo mga ginsulat nga islan kag palaptahon sang imo gid nga gusto, te indi mo pagpadala diri.<br />
 Naga promisa ka man sa amon nga ikaw mismo ang nagsulat sina, o ginkopya mo ini sa publiko nga domain o kaparehas nga libre na ginkuhaan.
 '''Indi ka maghatag sang na kapirayt nga na obra sing wala lisensiya!'''",
+'copyrightwarning2'                => "Palihog tandai nga ang tanan nga kontribusyon sa  {{SITENAME}} mahimo nga ilisan, liwaton, ukon dulaon sang iban pa nga mga kontribyutor.
+Kon indi mo luyag nga ang imo sinulatan paga-ilisan nga wala sin kaluoy, ginapangabay nga indi mo ina diri pag-ipasa.<br />
+Ikam man nagasumpa sa amon karon nga ikaw mismo ang nagsulat sini, ukon ginkopya mo ini sa pampubliko nga domain ukon kaparehas nga libre nga ginkuhaan (palihog lantaw sang $1 sa mga detalye).
+'''Indi magpadala sang mga na kapirayt nga mga inubrahan nga wala sing lisensya!'''",
+'longpageerror'                    => "'''Eror: Ang teksto nga imo ginpasa may kalabaon nga $1, nga mas malaba pa sang ginpasugtan nga labing malaba nga $2.'''
+Indi ini matipon.",
+'readonlywarning'                  => "'''Phibalo: Ang database ginkandaduhan para sa pagpabilin, gani indi ka mahimo nga magtipon sang imo mga pag-ilis subong.'''
+Mahimo nga maluyagon ikaw nga mag-utod-kag-tapik sang teksto sa isa kag hilera sang teksto kag ini pagatipon mo sa lain nga tinion.
+
+Ang administrador nga nagkandado sini naghatag sang sini nga pag-esplekar: $1",
+'protectedpagewarning'             => "'''Pahibalo: Ang ini nga panid ginapangapinan agod nga ang mga manuggamit lamang nga may prebilihiyo sang administrador ang maka-ilis.'''
+Ang pinakaulihi nga log ginbutang sa idalom para imo mahibaluan:",
+'semiprotectedpagewarning'         => "'''Pahibalo:''' Ang ini nga panid ginpangapinan agod nga ang mga rehistrado nga manuggamit lamang ang maka-ilis sini.
+Ang pinaka-ulihi nga log ginbutang sa idalom para imo mahibaluan:",
+'cascadeprotectedwarning'          => "'''Pahibalo:''' Ang ini nga panid ginapangapinan agod nga ang mga manuggamit nga may pebelihiyo sang administrador lamang ang maka-ilis sin, tungod nga ini na-upod sang masunod nga ginaprotektahan sang cascade nga {{PLURAL:$1|panid|mga panid}}:",
+'titleprotectedwarning'            => "'''Pahibalo: Ang ini nga panid ginapangapinan agod nga may [[Special:ListGroupRights|partikular nga kinamatarong]] nga kinahanglanon sa pagbuhat sini.'''
+Ang pinaka-ulihi nga log ginbutang sa idalom agod nga imo mahibaluan:",
 'templatesused'                    => '{{PLURAL:$1|Ang templeyt|Mga templeyt}} nga nagamit na sa sini nga pahina:',
 'templatesusedpreview'             => '{{PLURAL:$1|Ang templeyt|Mga templeyt}} nga nagamit na sa sini na preview:',
+'templatesusedsection'             => '{{PLURAL:$1|Ang templeyt|Mga templeyt}} nga nagamit na sa sini na bahin:',
 'template-protected'               => '(protektado)',
 'template-semiprotected'           => '(medyo-protektado)',
 'hiddencategories'                 => 'Ini nga pahina ay membro sang {{PLURAL:$1|1 tago nga kategorya|$1 mga tago nga kategorya}}:',
+'nocreatetitle'                    => 'Ginalimitahan ang pagbuhat sang panid',
+'nocreatetext'                     => 'Ang {{SITENAME}} nagapuggong sang abilidad nga magtuga sang mga bag-o nga panid.
+Mahimo ka nga magbalik kag mag-ilis sang naga-eksister nga panid, ukon[[Special:UserLogin|magsulod ukon maghimo sang akawnt]].',
+'nocreate-loggedin'                => 'Wala ka sang lisensya sa pagbuhat sang bag-o nga mga panid.',
+'sectioneditnotsupported-title'    => 'Ang pag-ilis sang bahin wala gina-suportahan',
+'sectioneditnotsupported-text'     => 'Ang pag-ilis sang sini nga bahin wala ginapasugtan sa sini nga panid.',
+'permissionserrors'                => 'Permiso sala/eror',
+'permissionserrorstext'            => 'Wala ka sang permiso para magbuhat sina, sa mga nagasunod nga {{PLURAL:$1|rason|mga rason}}:',
 'permissionserrorstext-withaction' => 'Wala ka sang permiso para mag $2, sa mga nagasunod {{PLURAL:$1|rason|mga rason}}:',
+'recreate-moveddeleted-warn'       => "'''Pahibalo: Magabuhat ka sang panid nga gindula nga anay.'''
+
+Mahimo mo nga pagkonsiderar kon ini insakto kag dapat pagpadayunon sa pag-ilis sang sining panid.
+Ang pagpanas kag pagsaylo sang log para sa sining panid yari agod nga indi ka na mabudlayan:",
+'moveddeleted-notice'              => 'Ang ini nga panid ginpanas na.
+Ang pagpana kag ang log sang pagsaylo sang panid yari sa idalom ago imo mahibaluan.',
+'log-fulllog'                      => 'Lantawon ang bilog nga log',
+'edit-hook-aborted'                => 'Ang pag-ilis gin-untat sang taga.
+Wala ini naghatag sang ano man nga eksplenasyon.',
+'edit-gone-missing'                => 'Indi mabag-o ang panid.
+Ini nagapakita nga gindula na.',
+'edit-conflict'                    => 'May pagpamatok sa pag-ilis.',
+'edit-no-change'                   => 'Ang imo pag-ilis ginpabayaan lamang, kay wala sang pagbag-o nga natabo sa teksto.',
+'edit-already-exists'              => 'Indi mahimo ang bag-o nga panid.
+Naga-eksister na ini.',
+
+# Parser/template warnings
+'expensive-parserfunction-warning'        => "'''Pahibalo:''' Ang ini nga panid may yara sang madamo nga mahal nga pagtawag sang kapusalanan parser.
+
+Kinahanglan nga may yara sang manubo sa  $2 nga {{PLURAL:$2|pagtawag|mga pagtawag}}, kay karon may {{PLURAL:$1|$1 ka pagtawag|$1 ka mga pagtawag}}.",
+'expensive-parserfunction-category'       => 'Mga pahina nga may tuman ka damo nga mahal nga pagtawag sang kapuslanan parser',
+'post-expand-template-inclusion-warning'  => "'''Pagpaandam:''' Ang temleyt nga nadala tuman ka dako.
+May iban nga templeyt indi madala.",
+'post-expand-template-inclusion-category' => 'Mga panid kon diin ang na-upod nga kadakoon nagsobra',
+'post-expand-template-argument-warning'   => "'''Paandam:''' Ang ini nga panid may yara sang indi magnubo sa isa ka pagbinais sa templeyt nga may tuman kadako nga kadakoon sa pagpadako.
+Ang ini nga pagbinaisay wala na gin-upod pa.",
+'post-expand-template-argument-category'  => 'Mga panid nga may yara sang ginlaktawan nga mga pagbinaisay sa templeyt',
+'parser-template-loop-warning'            => 'Ang natiktikan nga pagpukot: [[$1]]',
+'parser-template-recursion-depth-warning' => 'Ang ginalimitahan nga rekursyon sang templeyt nalab-ot na ($1)',
+'language-converter-depth-warning'        => 'Ang ginalimitahan nga kadalumon sa pag-ilis sang hambalanon nalab-ot na ($1)',
+
+# "Undo" feature
+'undo-success' => 'Ang pag-ilis indi mahuman.
+Palihog lantaw sang pagbaki-baki sa dalom agod to nga mapamatud-an kon amo gid man sini ang imo luyag buhaton, dayon tipona ang mga pagbag-o sa dalom agod to nga matapos ang pagliwat sang pag-ilis.',
+'undo-failure' => 'Ang pag-ilis indi na maliwat pa tungod sang nagakonplikto nga mga pang-tunga nga pag-ilis.',
+'undo-norev'   => 'Ang pag-ilis indii na maliwat pa tungod kay ini wala naga-eksister ukon ginpanas na.',
+'undo-summary' => 'Liwaton ang pagbag-o sang $1 sa [[Special:Contributions/$2|$2]] ([[User talk:$2|$2]])',
+
+# Account creation failure
+'cantcreateaccounttitle' => 'Indi mabuhat ang akawnt',
+'cantcreateaccount-text' => "Ang pagbuhat sang akawnt sang sini nga adres sang IP ('''$1''') ginpunggan ni [[User:$3|$3]].
+
+Ang rason nga ginhatag ni $3 amo ang ''$2''",
 
 # History pages
 'viewpagelogs'           => 'Tan-awon ang mga log para sa sini nga pahina',
+'nohistory'              => 'Wala sang kasaysayan sang pag-ilis sang sini nga panid.',
 'currentrev'             => 'Mga Inislan Subong',
 'currentrev-asof'        => 'Bag-o nga rebisyon sang $1',
 'revisionasof'           => 'Ang Pagliwat sang $1',
+'revision-info'          => 'Ang pag-ilis ni $1 halin sang $2',
 'previousrevision'       => '← Daan nga rebisyon',
 'nextrevision'           => 'Mas bag-o nga rebisyon →',
 'currentrevisionlink'    => 'Mga Inislan Subong',
 'cur'                    => 'karon',
+'next'                   => 'dason',
 'last'                   => 'ulihi',
+'page_first'             => 'pinaka-una',
 'page_last'              => 'ulihi',
 'histlegend'             => "Diff pililian: markahan ang mga radyo kahon sa mga ginrebisyon para makompara kag pinduton ang sulod ukon ang pindut sa idalum.<br />
 Legend: '''({{int:cur}})''' = ang ginalain niya sa bag-o nga na rebisyon,
 '''({{int:last}})''' = ang ginalain niya sa gapadayun nga rebisyon, '''{{int:minoreditletter}}''' = menor nga inislan.",
 'history-fieldset-title' => 'Historya sa mga nalantawan',
+'history-show-deleted'   => 'Ginpanas lamang',
 'histfirst'              => 'Pinaka timprano',
 'histlast'               => 'Pinaka Bag-o',
+'historysize'            => '({{PLURAL:$1|1 ka bayt|$1 ka mga bayt}})',
+'historyempty'           => '(wala unod)',
+
+# Revision feed
+'history-feed-title'          => 'Kasaysayan sang pagbag-o',
+'history-feed-description'    => 'Ang kasaysayan sang pagbag-o sang sini nga panid sa wiki',
+'history-feed-item-nocomment' => '$1 sa $2',
+'history-feed-empty'          => 'Ang ginapangayo nga panid indi matood.
+Mahimo nga ini ginpanas na sa wiki, ukon gin-ilisan ang pangalan.
+Tilawi ang [[Special:Search|searching on the wiki]] para sa mga napamatud-an nga mga bag-o nga panid.',
 
 # Revision deletion
-'rev-delundel'   => 'pakita/tagu-on',
-'revdel-restore' => 'pagbag-o sang makita',
+'rev-deleted-comment'         => '(ginkakas ang kumento)',
+'rev-deleted-user'            => '(ginkakas ang gamit-pangalan)',
+'rev-deleted-event'           => '(ang log sang tikang ginkakas)',
+'rev-deleted-user-contribs'   => '[ang gamit-pangalan ukon adres sang IP ginkakas - ang pag-ilis gintago halin sa mga ginhatag]',
+'rev-deleted-text-permission' => "Ang pagbag-o sa sini nga panid '''ginpanas'''.
+Makita ang mga detalye sa [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} log sang pagpanas].",
+'rev-deleted-text-unhide'     => "Ang pagbag-o sa sini nga panid '''ginpanas'''. 
+Makita ang mga detalye sa [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} log sang pagpanas].
+Bilang administrador makita mo man ini sa gihapon [$1 lantawon ang ini nga pagbag-o] kon luyag mo pa magpadayon.",
+'rev-suppressed-text-unhide'  => "Ang pagbag-o sa sini nga panid '''ginpahugotan'''. 
+Makita ang mga detalye sa [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} log sang pagpahugot].
+Bilang administrador makita mo man ini sa gihapon [$1 lantawon ang ini nga pagbag-o] kon luyag mo pa magpadayon.",
+'rev-deleted-text-view'       => "Ang pagbag-o sa sini nga panid '''ginpanas'''.
+Bilang administrador makita mo ini; makita ang mga detalye sa [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} log sang pagpanas].",
+'rev-suppressed-text-view'    => "Ang pagbag-o sa sini nga panid '''ginpahugotan'''.
+Bilang administrador makita mo ini; makita ang mga detalye sa [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} log sang pagpahugot].",
+'rev-deleted-no-diff'         => "Indi mo makita ang ini nga diff tungod na ang isa sa mga pagbag-o '''ginpanas'''.
+Makita ang mga detalye sa [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} log sang pagpanas].",
+'rev-suppressed-no-diff'      => "Indi mo makita ang ini nga diff tungod nga ang isa sa mga pagbag-o '''ginpanas'''.",
+'rev-deleted-unhide-diff'     => "Ang isa sa mga pagbag-o sa sini nga diff '''ginpanas'''.
+Makita ang mga detalye sa [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} log sang pagpanas].
+Bilang administrador makita mo man ini sa gihapon [$1 lantawon ang ini nga diff] kon luyag mo pa magpadayon.",
+'rev-suppressed-unhide-diff'  => "Ang isa sang mga pagbag-o sang sini nga diff '''ginpahugotan'''.
+Makita ang mga detalye sa [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} log sang pagpahugot].
+Bilang administrador makita mo man ini sa gihapon [$1 lantawon ang ini nga diff] kon luyag mo pa magpadayon.",
+'rev-deleted-diff-view'       => "Ang isa sa mga pagbag-o sa sini nga diff '''ginpanas'''.
+Bilang administrador makita mo ini nga diff; makita ang mga detalye sa [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} log sang pagpanas].",
+'rev-suppressed-diff-view'    => "Ang isa sa mga pagbag-o sa sini nga diff '''ginpahugotan'''.
+Bilang administrador makita mo ini nga diff; makita ang mga detalye sa [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} log sang pagpahugot].",
+'rev-delundel'                => 'pakita/tagu-on',
+'rev-showdeleted'             => 'ipakita',
+'revisiondelete'              => 'Panason/indi pagpanason ang mga pagbag-o',
+'revdelete-nooldid-title'     => 'Sala nga natuyo bag-ohon',
+'revdelete-nooldid-text'      => 'Basi nga wala mo ginplastar kon ano ang natuyo mo bag-ohon agod mahimo ini nga buluhaton,
+ang ini nga buluhaton wala, ukon gahimakas ka nga taguon ang karon nga pagbag-o.',
+'revdelete-nologtype-title'   => 'Wala sang sahi sang log nga ginhatag',
+'revdelete-nologtype-text'    => 'Wala ka naghatag sang sahi sang log agod mahimo ang ini nga buluhaton.',
+'revdelete-nologid-title'     => 'Sala nga inugbutang sa log',
+'revdelete-nologid-text'      => 'Basi nga wala ka nagbutang sang natuyo mo nga hinatabo sa log agod nga mahimo ini nga buluhaton ukon ang gintumod nga inugbutang wala naga-eksister.',
+'revdelete-no-file'           => 'Ang ginatumod nga hilera wala naga-eksister.',
+'revdelete-show-file-confirm' => 'Sigurado ka bala nga luyag mo makita ang ginpanas nga pagbag-o sang hilera nga "<nowiki>$1</nowiki>" halin sang $2 sa $3?',
+'revdelete-show-file-submit'  => 'Huo',
+'revdelete-selected'          => "'''{{PLURAL:$2|Ginpili nga pagbag-o|Ginpili nga mga pagbag-o}} ni [[:$1]]:'''",
+'logdelete-selected'          => "'''{{PLURAL:$1|Ginpili nga hinatabo sa log|Ginpili nga mga hinatabo sa log}}:'''",
+'revdelete-text'              => "'''Ang mga ginpanas nga pagbag-o kag hinatabo magapakita sa gihapon sa kasaysayan sang panid kag mga log, apang ang mga parte sang ila kaundan indi na mahimo nga masudlan sang publiko.'''
+Ang iban nga administrador sa {{SITENAME}} mahimo sa gihapon nga makasulod sa nakatago nga kaundan kag mapaiway nga mapanas ini liwat sa amo sa gihapon nga interface, luwas na lang kon may dugang pa nga pagpangbawal ang ibutang.",
+'revdelete-confirm'           => 'Palihog konpermar nga luyag mo ini himuon, nga imo naintiendihan ang mga konsekwensya, kag ginahimo mo ini suno sa [[{{MediaWiki:Policy-url}}|polisiya]].',
+'revdelete-suppress-text'     => "Ang pagpahugot nagakadapat '''lamang''' nga pagagamiton sa masunod nga kaso:
+* Nagapang-guba sang dignindad nga impormasyon
+* Indi nagakadapat nga impormasyon nga personal
+*: ''adres sang puluy-an kag numero sang telepono, numero sa kasiguradohan sang sosyedad, madamo pa.''",
+'revdelete-legend'            => 'Magpili sang pagapatuman sang pagkakitaon',
+'revdelete-hide-text'         => 'Taguon ang teksto sang pagbag-o',
+'revdelete-hide-image'        => 'Taguon ang unod sang hilera',
+'revdelete-hide-name'         => 'Taguon ang paghulag kag ang katuyuan',
+'revdelete-hide-comment'      => 'Taguon ang kabilogan sang pag-ilis',
+'revdelete-hide-user'         => 'Taguon ang gamit-pangalan/adres sang IP sang manug-ilis',
+'revdelete-hide-restricted'   => 'Hugotan ang datos halin sa mga administrador kag sa iban man',
+'revdelete-radio-same'        => '(indi pag-ilisan)',
+'revdelete-radio-set'         => 'Huo',
+'revdelete-radio-unset'       => 'Indi',
+'revdelete-suppress'          => 'Hugotan ang datos halin sa mga administrador kag sa iban man',
+'revdelete-unsuppress'        => 'Kuhaon ang mga pagbawal sa mga ginliwat nga mga pagbag-o',
+'revdelete-log'               => 'Rason:',
+'revdelete-submit'            => 'Ipatuman sa ginpili nga {{PLURAL:$1|pagbag-o|mga pagbag-o}}',
+'revdelete-logentry'          => 'gin-ilisan nga pagbag-o sa pagkakitaon sang "[[$1]]"',
+'logdelete-logentry'          => 'gin-ilisan nga hinatabo sa pagkakitaon sang "[[$1]]"',
+'revdelete-success'           => "'''Ang pagkakitaon sang pagbag-o madinalag-on nga ginbag-o.'''",
+'revdelete-failure'           => "'''Ang pagkakitaon sang pagbag-o indi mabag-o:'''
+$1",
+'logdelete-success'           => "'''Madinalag-on nga ginplastar ang pagkakitaon sang log.'''",
+'logdelete-failure'           => "'''Ang pagkakitaon sang log indi mahimo nga maplastar:'''
+$1",
+'revdel-restore'              => 'pagbag-o sang makita',
+'revdel-restore-deleted'      => 'mga ginpanas nga pagbag-o',
+'revdel-restore-visible'      => 'mga makita nga pagbag-o',
+'pagehist'                    => 'Kasaysayan sang panid',
+'deletedhist'                 => 'Ginpanas nga kasaysayan',
+'revdelete-content'           => 'kaundan',
+'revdelete-summary'           => 'liwaton ang kabilogan',
+'revdelete-uname'             => 'gamit-pangalan',
+'revdelete-restricted'        => 'ginapatuman nga pagbawal sa mga administrador',
+'revdelete-unrestricted'      => 'ginkakas nga pagbawal sa mga administrador',
+'revdelete-hid'               => 'tagu $1',
+'revdelete-unhid'             => 'ditagu $1',
 
 # Merge log
 'revertmerge' => 'Di pag-upod',

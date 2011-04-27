@@ -36,7 +36,7 @@ class CSSMin {
 	 * which when base64 encoded will result in a 1/3 increase in size.
 	 */
 	const EMBED_SIZE_LIMIT = 24576;
-	const URL_REGEX = 'url\(\s*[\'"]?(?P<file>[^\?\)\'"]*)\??[^\)\'"]*[\'"]?\s*\)';
+	const URL_REGEX = 'url\(\s*[\'"]?(?P<file>[^\?\)\'"]*)(?P<query>\??[^\)\'"]*)[\'"]?\s*\)';
 	
 	/* Protected Static Members */
 	
@@ -126,10 +126,22 @@ class CSSMin {
 				$offset = $match[0][1] + strlen( $match[0][0] );
 				continue;
 			}
+			// URLs with absolute paths like /w/index.php need to be expanded
+			// to absolute URLs but otherwise left alone
+			if ( $match['file'][0] !== '' && $match['file'][0][0] === '/' ) {
+				// Replace the file path with an expanded URL
+				$source = substr_replace( $source, wfExpandUrl( $match['file'][0] ),
+					$match['file'][1], strlen( $match['file'][0] )
+				);
+				// Move the offset to the end of the match, leaving it alone
+				$offset = $match[0][1] + strlen( $match[0][0] );
+				continue;
+			}
 			// Shortcuts
 			$embed = $match['embed'][0];
 			$pre = $match['pre'][0];
 			$post = $match['post'][0];
+			$query = $match['query'][0];
 			$url = "{$remote}/{$match['file'][0]}";
 			$file = "{$local}/{$match['file'][0]}";
 			$replacement = false;
@@ -163,7 +175,7 @@ class CSSMin {
 				}
 			} else if ( $local === false ) {
 				// Assume that all paths are relative to $remote, and make them absolute
-				$replacement = "{$embed}{$pre}url({$url}){$post};";
+				$replacement = "{$embed}{$pre}url({$url}{$query}){$post};";
 			}
 			if ( $replacement !== false ) {
 				// Perform replacement on the source

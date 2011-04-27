@@ -25,8 +25,16 @@ class DifferenceEngine {
 	var $mOldid, $mNewid, $mTitle;
 	var $mOldtitle, $mNewtitle, $mPagetitle;
 	var $mOldtext, $mNewtext;
+
+	/**
+	 * @var Title
+	 */
 	var $mOldPage, $mNewPage;
 	var $mRcidMarkPatrolled;
+
+	/**
+	 * @var Revision
+	 */
 	var $mOldRev, $mNewRev;
 	var $mRevisionsLoaded = false; // Have the revisions been loaded
 	var $mTextLoaded = 0; // How many text blobs have been loaded, 0, 1 or 2?
@@ -401,6 +409,10 @@ CONTROL;
 		wfProfileOut( __METHOD__ );
 	}
 
+	/**
+	 * @param $rev Revision
+	 * @return String
+	 */
 	protected function revisionDeleteLink( $rev ) {
 		global $wgUser;
 		$link = '';
@@ -445,7 +457,7 @@ CONTROL;
 
 			$this->loadNewText();
 			$wgOut->setRevisionId( $this->mNewRev->getId() );
-	
+
 			if ( $this->mTitle->isCssJsSubpage() || $this->mTitle->isCssOrJsPage() ) {
 				// Stolen from Article::view --AG 2007-10-11
 				// Give hooks a chance to customise the output
@@ -465,7 +477,7 @@ CONTROL;
 					$wgOut->addParserOutput( $pOutput );
 				} else {
 					$article->doViewParse();
-				} 
+				}
 			} else {
 				$wgOut->addWikiTextTidy( $this->mNewtext );
 			}
@@ -584,7 +596,8 @@ CONTROL;
 	 */
 	function showDiffStyle() {
 		global $wgOut;
-		$wgOut->addModules( 'mediawiki.legacy.diff' );
+		$wgOut->addModuleStyles( 'mediawiki.legacy.diff' );
+		$wgOut->addModuleScripts( 'mediawiki.legacy.diff' );
 	}
 
 	/**
@@ -769,7 +782,6 @@ CONTROL;
 		$difftext = $wgContLang->unsegmentForDiff( $formatter->format( $diffs ) ) .
 		wfProfileOut( __METHOD__ );
 		return $difftext;
-		$this->debug();
 	}
 
 	/**

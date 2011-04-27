@@ -3,6 +3,9 @@
  * Note that additional code still lives in skins/common/upload.js
  */
 
+/**
+ * Add a preview to the upload form
+ */
 jQuery( function( $ ) {
 	/**
 	 * Is the FileAPI available with sufficient functionality?
@@ -125,9 +128,9 @@ jQuery( function( $ ) {
 				$( '#mw-upload-thumbnail .fileinfo' ).text( info );
 			};
 			img.src = dataURL;
-		}, mediaWiki.config.get( 'wgFileCanRotate' ) ? function ( data ) {
+		}, mw.config.get( 'wgFileCanRotate' ) ? function ( data ) {
 			try {
-				meta = mediaWiki.util.jpegmeta( data, file.fileName );
+				meta = mw.util.jpegmeta( data, file.fileName );
 				meta._binary_data = null;
 			} catch ( e ) {
 				meta = null;
@@ -201,5 +204,26 @@ jQuery( function( $ ) {
 				}
 			}
 		} );
+	}
+} );
+
+/**
+ * Disable all upload source fields except the selected one
+ */
+jQuery( function ( $ ) {
+	var rows = $( '.mw-htmlform-field-UploadSourceField' );
+	for ( var i = rows.length; i; i-- ) {
+		var row = rows[i - 1];
+		$( 'input[name="wpSourceType"]', row ).change( function () {
+			var currentRow = row; // Store current row in our own scope
+			return function () {
+				if ( this.checked ) {
+					// Disable all inputs
+					$( 'input[name!="wpSourceType"]', rows ).attr( 'disabled', true );
+					// Re-enable the current one
+					$( 'input', currentRow ).attr( 'disabled', false );
+				}
+			};
+		}() );
 	}
 } );

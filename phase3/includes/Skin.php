@@ -23,7 +23,10 @@ abstract class Skin extends Linker {
 	/**#@-*/
 	protected $mRevisionId; // The revision ID we're looking at, null if not applicable.
 	protected $skinname = 'standard';
-	// @todo Fixme: should be protected :-\
+	/**
+	 * todo Fixme: should be protected :-\
+	 * @var Title
+	 */
 	var $mTitle = null;
 	protected $mRelevantTitle = null;
 	protected $mRelevantUser = null;
@@ -357,7 +360,10 @@ abstract class Skin extends Linker {
 		$this->mTitle = $t;
 	}
 
-	/** Get the title */
+	/** Get the title
+	 *
+	 * @return Title
+	 */
 	public function getTitle() {
 		return $this->mTitle;
 	}
@@ -471,49 +477,6 @@ abstract class Skin extends Linker {
 	}
 
 	/**
-	 * Make a <script> tag containing global variables
-	 * @param $skinName string Name of the skin
-	 * The odd calling convention is for backwards compatibility
-	 * @todo FIXME: Make this not depend on $wgTitle!
-	 * 
-	 * Do not add things here which can be evaluated in ResourceLoaderStartupScript - in other words, without state.
-	 * You will only be adding bloat to the page and causing page caches to have to be purged on configuration changes.
-	 */
-	static function makeGlobalVariablesScript( $skinName ) {
-		global $wgTitle, $wgUser, $wgRequest, $wgOut, $wgUseAjax, $wgEnableMWSuggest;
-		
-		$ns = $wgTitle->getNamespace();
-		$nsname = MWNamespace::exists( $ns ) ? MWNamespace::getCanonicalName( $ns ) : $wgTitle->getNsText();
-		$vars = array(
-			'wgCanonicalNamespace' => $nsname,
-			'wgCanonicalSpecialPageName' => $ns == NS_SPECIAL ?
-				SpecialPage::resolveAlias( $wgTitle->getDBkey() ) : false, # bug 21115
-			'wgNamespaceNumber' => $wgTitle->getNamespace(),
-			'wgPageName' => $wgTitle->getPrefixedDBKey(),
-			'wgTitle' => $wgTitle->getText(),
-			'wgAction' => $wgRequest->getText( 'action', 'view' ),
-			'wgArticleId' => $wgTitle->getArticleId(),
-			'wgIsArticle' => $wgOut->isArticle(),
-			'wgUserName' => $wgUser->isAnon() ? null : $wgUser->getName(),
-			'wgUserGroups' => $wgUser->getEffectiveGroups(),
-			'wgCurRevisionId' => $wgTitle->getLatestRevID(),
-			'wgCategories' => $wgOut->getCategories(),
-			'wgBreakFrames' => $wgOut->getFrameOptions() == 'DENY',
-		);
-		foreach ( $wgTitle->getRestrictionTypes() as $type ) {
-			$vars['wgRestriction' . ucfirst( $type )] = $wgTitle->getRestrictions( $type );
-		}
-		if ( $wgUseAjax && $wgEnableMWSuggest && !$wgUser->getOption( 'disablesuggest', false ) ) {
-			$vars['wgSearchNamespaces'] = SearchEngine::userNamespaces( $wgUser );
-		}
-		
-		// Allow extensions to add their custom variables to the global JS variables
-		wfRunHooks( 'MakeGlobalVariablesScript', array( &$vars ) );
-		
-		return self::makeVariablesScript( $vars );
-	}
-
-	/**
 	 * To make it harder for someone to slip a user a fake
 	 * user-JavaScript or user-CSS preview, a random token
 	 * is associated with the login session. If it's not
@@ -589,7 +552,7 @@ abstract class Skin extends Linker {
 	 * @private
 	 */
 	function setupUserCss( OutputPage $out ) {
-		global $wgRequest;
+		global $wgRequest, $wgUser;
 		global $wgUseSiteCss, $wgAllowUserCss, $wgAllowUserCssPrefs;
 
 		wfProfileIn( __METHOD__ );
@@ -603,6 +566,9 @@ abstract class Skin extends Linker {
 		// Per-site custom styles
 		if ( $wgUseSiteCss ) {
 			$out->addModuleStyles( 'site' );
+			if( $wgUser->isLoggedIn() ){
+				$out->addModuleStyles( 'user.groups' );
+			}
 		}
 
 		// Per-user custom styles
@@ -1394,7 +1360,7 @@ abstract class Skin extends Linker {
 	 * @param $message String
 	 */
 	function addToSidebar( &$bar, $message ) {
-		$this->addToSidebarPlain( $bar, wfMsgForContent( $message ) );
+		$this->addToSidebarPlain( $bar, wfMsgForContentNoTrans( $message ) );
 	}
 
 	/**
@@ -1423,6 +1389,7 @@ abstract class Skin extends Linker {
 				$line = trim( $line, '* ' );
 
 				if ( strpos( $line, '|' ) !== false ) { // sanity check
+					$line = MessageCache::singleton()->transform( $line, false, null, $this->mTitle );
 					$line = array_map( 'trim', explode( '|', $line, 2 ) );
 					$link = wfMsgForContent( $line[0] );
 
@@ -1460,14 +1427,14 @@ abstract class Skin extends Linker {
 						'active' => false
 					);
 				} else if ( ( substr( $line, 0, 2 ) == '{{' ) && ( substr( $line, -2 ) == '}}' ) ) {
-					global $wgParser, $wgTitle;
+					global $wgParser;
 
 					$line = substr( $line, 2, strlen( $line ) - 4 );
 
 					$options = new ParserOptions();
 					$options->setEditSection( false );
 					$options->setInterfaceMessage( true );
-					$wikiBar[$heading] = $wgParser->parse( wfMsgForContentNoTrans( $line ) , $wgTitle, $options )->getText();
+					$wikiBar[$heading] = $wgParser->parse( wfMsgForContentNoTrans( $line ) , $this->mTitle, $options )->getText();
 				} else {
 					continue;
 				}
@@ -1550,4 +1517,115 @@ abstract class Skin extends Linker {
 
 		return $ntl;
 	}
+
+	/**
+	 * Get a cached notice
+	 *
+	 * @param $name String: message name, or 'default' for $wgSiteNotice
+	 * @return String: HTML fragment
+	 */
+	private function getCachedNotice( $name ) {
+		global $wgOut, $wgRenderHashAppend, $parserMemc;
+
+		wfProfileIn( __METHOD__ );
+
+		$needParse = false;
+
+		if( $name === 'default' ) {
+			// special case
+			global $wgSiteNotice;
+			$notice = $wgSiteNotice;
+			if( empty( $notice ) ) {
+				wfProfileOut( __METHOD__ );
+				return false;
+			}
+		} else {
+			$msg = wfMessage( $name )->inContentLanguage();
+			if( $msg->isDisabled() ) {
+				wfProfileOut( __METHOD__ );
+				return false;
+			}
+			$notice = $msg->plain();
+		}
+
+		// Use the extra hash appender to let eg SSL variants separately cache.
+		$key = wfMemcKey( $name . $wgRenderHashAppend );
+		$cachedNotice = $parserMemc->get( $key );
+		if( is_array( $cachedNotice ) ) {
+			if( md5( $notice ) == $cachedNotice['hash'] ) {
+				$notice = $cachedNotice['html'];
+			} else {
+				$needParse = true;
+			}
+		} else {
+			$needParse = true;
+		}
+
+		if ( $needParse ) {
+			if( is_object( $wgOut ) ) {
+				$parsed = $wgOut->parse( $notice );
+				$parserMemc->set( $key, array( 'html' => $parsed, 'hash' => md5( $notice ) ), 600 );
+				$notice = $parsed;
+			} else {
+				wfDebug( 'wfGetCachedNotice called for ' . $name . ' with no $wgOut available' . "\n" );
+				$notice = '';
+			}
+		}
+
+		$notice = '<div id="localNotice">' .$notice . '</div>';
+		wfProfileOut( __METHOD__ );
+		return $notice;
+	}
+
+	/**
+	 * Get a notice based on page's namespace
+	 *
+	 * @return String: HTML fragment
+	 */
+	function getNamespaceNotice() {
+		wfProfileIn( __METHOD__ );
+
+		$key = 'namespacenotice-' . $this->mTitle->getNsText();
+		$namespaceNotice = wfGetCachedNotice( $key );
+		if ( $namespaceNotice && substr( $namespaceNotice, 0, 7 ) != '<p>&lt;' ) {
+			$namespaceNotice = '<div id="namespacebanner">' . $namespaceNotice . '</div>';
+		} else {
+			$namespaceNotice = '';
+		}
+
+		wfProfileOut( __METHOD__ );
+		return $namespaceNotice;
+	}
+
+	/**
+	 * Get the site notice
+	 *
+	 * @return String: HTML fragment
+	 */
+	function getSiteNotice() {
+		global $wgUser;
+
+		wfProfileIn( __METHOD__ );
+		$siteNotice = '';
+
+		if ( wfRunHooks( 'SiteNoticeBefore', array( &$siteNotice, $this ) ) ) {
+			if ( is_object( $wgUser ) && $wgUser->isLoggedIn() ) {
+				$siteNotice = $this->getCachedNotice( 'sitenotice' );
+			} else {
+				$anonNotice = $this->getCachedNotice( 'anonnotice' );
+				if ( !$anonNotice ) {
+					$siteNotice = $this->getCachedNotice( 'sitenotice' );
+				} else {
+					$siteNotice = $anonNotice;
+				}
+			}
+			if ( !$siteNotice ) {
+				$siteNotice = $this->getCachedNotice( 'default' );
+			}
+		}
+
+		wfRunHooks( 'SiteNoticeAfter', array( &$siteNotice, $this ) );
+		wfProfileOut( __METHOD__ );
+		return $siteNotice;
+}
 }

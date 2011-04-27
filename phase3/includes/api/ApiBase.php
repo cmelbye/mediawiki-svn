@@ -403,6 +403,8 @@ abstract class ApiBase {
 	 */
 	public function makeHelpMsg_callback( $matches ) {
 		global $wgAutoloadClasses, $wgAutoloadLocalClasses;
+
+		$file = '';
 		if ( isset( $wgAutoloadLocalClasses[get_class( $this )] ) ) {
 			$file = $wgAutoloadLocalClasses[get_class( $this )];
 		} elseif ( isset( $wgAutoloadClasses[get_class( $this )] ) ) {
@@ -556,6 +558,22 @@ abstract class ApiBase {
 	}
 
 	/**
+	 * Generates the possible errors requireOnlyOneParameter() can die with
+	 *
+	 * @param $params array
+	 * @return array
+	 */
+	public function getRequireOnlyOneParameterErrorMessages( $params ) {
+		$p = $this->getModulePrefix();
+		$params = implode( ", {$p}", $params );
+
+		return array(
+			array( 'code' => "{$p}missingparam", 'info' => "One of the parameters {$p}{$params} is required" ),
+			array( 'code' => "{$p}invalidparammix", 'info' => "The parameters {$p}{$params} can not be used together" )
+		);
+	}
+
+	/**
 	 * Callback function used in requireOnlyOneParameter to check whether reequired parameters are set
 	 *
 	 * @param  $x object Parameter to check is not null/false
@@ -578,9 +596,12 @@ abstract class ApiBase {
 	 * @param $titleObj Title the page under consideration
 	 * @param $userOption String The user option to consider when $watchlist=preferences.
 	 * 	If not set will magically default to either watchdefault or watchcreations
-	 * @returns mixed
+	 * @returns Boolean
 	 */
 	protected function getWatchlistValue ( $watchlist, $titleObj, $userOption = null ) {
+
+		$userWatching = $titleObj->userIsWatching();
+
 		global $wgUser;
 		switch ( $watchlist ) {
 			case 'watch':
@@ -591,22 +612,22 @@ abstract class ApiBase {
 
 			case 'preferences':
 				# If the user is already watching, don't bother checking
-				if ( $titleObj->userIsWatching() ) {
-					return null;
+				if ( $userWatching ) {
+					return true;
 				}
 				# If no user option was passed, use watchdefault or watchcreation
 				if ( is_null( $userOption ) ) {
 					$userOption = $titleObj->exists()
 						? 'watchdefault' : 'watchcreations';
 				}
-				# If the corresponding user option is true, watch, else no change
-				return $wgUser->getOption( $userOption ) ? true : null;
+				# Watch the article based on the user preference
+				return (bool)$wgUser->getOption( $userOption );
 
 			case 'nochange':
-				return null;
+				return $userWatching;
 
 			default:
-				return null;
+				return $userWatching;
 		}
 	}
 
@@ -707,15 +728,17 @@ abstract class ApiBase {
 								? $paramSettings[self::PARAM_RANGE_ENFORCE] : false;
 
 						if ( !is_null( $min ) || !is_null( $max ) ) {
-						    if ( is_array( $value ) ) {
-							    $value = array_map( 'intval', $value );
-							    foreach ( $value as &$v ) {
+							if ( is_array( $value ) ) {
+								$value = array_map( 'intval', $value );
+								foreach ( $value as &$v ) {
 									$this->validateLimit( $paramName, $v, $min, $max, null, $enforceLimits );
 								}
-						    } else {
-							    $value = intval( $value );
-							    $this->validateLimit( $paramName, $value, $min, $max, null, $enforceLimits );
-						    }
+							} else {
+								$value = intval( $value );
+								$this->validateLimit( $paramName, $value, $min, $max, null, $enforceLimits );
+							}
+						} else {
+							$value = intval( $value );
 						}
 						break;
 					case 'limit':

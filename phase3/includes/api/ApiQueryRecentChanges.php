@@ -43,7 +43,8 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 
 	private $fld_comment = false, $fld_parsedcomment = false, $fld_user = false, $fld_userid = false,
 			$fld_flags = false, $fld_timestamp = false, $fld_title = false, $fld_ids = false,
-			$fld_sizes = false, $fld_redirect = false, $fld_patrolled = false, $fld_loginfo = false, $fld_tags = false;
+			$fld_sizes = false, $fld_redirect = false, $fld_patrolled = false, $fld_loginfo = false,
+			$fld_tags = false, $token = array();
 
 	private $tokenFunctions;
 
@@ -71,6 +72,13 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 		return $this->tokenFunctions;
 	}
 
+	/**
+	 * @static
+	 * @param  $pageid
+	 * @param  $title
+	 * @param $rc RecentChange
+	 * @return bool|String
+	 */
 	public static function getPatrolToken( $pageid, $title, $rc ) {
 		global $wgUser;
 		if ( !$wgUser->useRCPatrol() && ( !$wgUser->useNPPatrol() ||
@@ -118,6 +126,8 @@ class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 
 	/**
 	 * Generates and outputs the result of this query based upon the provided parameters.
+	 *
+	 * @param $resultPageSet ApiPageSet
 	 */
 	public function run( $resultPageSet = null ) {
 		global $wgUser;

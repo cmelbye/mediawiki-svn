@@ -36,22 +36,25 @@ $.fn.localize = function( options ) {
 	return $(this)
 		.find( 'msg,html\\:msg' )
 			.each( function() {
-				$(this)
-					.text( mediaWiki.msg( options.prefix + $(this).attr( 'key' ) ) )
-					.replaceWith( $(this).html() );
+				var $el = $(this);
+				$el
+					.text( mw.msg( options.prefix + $el.attr( 'key' ) ) )
+					.replaceWith( $el.html() );
 			} )
 			.end()
 		.find( '[title-msg]' )
 			.each( function() {
-				$(this)
-					.attr( 'title', mw.msg( options.prefix + $(this).attr( 'title-msg' ) ) )
+				var $el = $(this);
+				$el
+					.attr( 'title', mw.msg( options.prefix + $el.attr( 'title-msg' ) ) )
 					.removeAttr( 'title-msg' );
 			} )
 			.end()
 		.find( '[alt-msg]' )
 			.each( function() {
-				$(this)
-					.attr( 'alt', mw.msg( options.prefix + $(this).attr( 'alt-msg' ) ) )
+				var $el = $(this);
+				$el
+					.attr( 'alt', mw.msg( options.prefix + $el.attr( 'alt-msg' ) ) )
 					.removeAttr( 'alt-msg' );
 			} )
 			.end();

@@ -29,7 +29,7 @@
  */
 class IPBlockForm extends SpecialPage {
 	var $BlockAddress, $BlockExpiry, $BlockReason, $BlockReasonList, $BlockOther, $BlockAnonOnly, $BlockCreateAccount,
-		$BlockEnableAutoblock, $BlockEmail, $BlockHideName, $BlockAllowUsertalk, $BlockReblock;
+		$BlockEnableAutoblock, $BlockEmail, $BlockHideName, $BlockAllowUsertalk, $BlockReblock, $BlockWatchUser;
 	// The maximum number of edits a user can have and still be hidden
 	const HIDEUSER_CONTRIBLIMIT = 1000;
 
@@ -131,7 +131,7 @@ class IPBlockForm extends SpecialPage {
 		$otherBlockedMsgs = array();
 		if( $err && $err[0] != 'ipb_already_blocked' ) {
 			$key = array_shift( $err );
-			$msg = wfMsgReal( $key, $err );
+			$msg = wfMsgExt( $key, 'parsemag', $err );
 			$wgOut->setSubtitle( wfMsgHtml( 'formerror' ) );
 			$wgOut->addHTML( Xml::tags( 'p', array( 'class' => 'error' ), $msg ) );
 		} elseif( $this->BlockAddress !== null ) {

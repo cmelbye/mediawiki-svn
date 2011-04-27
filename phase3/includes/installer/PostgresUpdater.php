@@ -21,9 +21,6 @@ class PostgresUpdater extends DatabaseUpdater {
 	 */
 	protected function getCoreUpdateList() {
 		return array(
-			# beginning
-			array( 'checkPgUser' ),
-
 			# new sequences
 			array( 'addSequence', 'logging_log_id_seq'          ),
 			array( 'addSequence', 'page_restrictions_pr_id_seq' ),
@@ -400,7 +397,8 @@ END;
 	protected function renameTable( $old, $new ) {
 		if ( $this->db->tableExists( $old ) ) {
 			$this->output( "Renaming table $old to $new\n" );
-			$this->db->query( "ALTER TABLE '$old' RENAME TO $new" );
+			$old = $this->db->addQuotes( $old );
+			$this->db->query( "ALTER TABLE $old RENAME TO $new" );
 		}
 	}
 
@@ -504,58 +502,6 @@ END;
 		$this->db->query( $command );
 		$command = "ALTER TABLE $table ADD CONSTRAINT $conname FOREIGN KEY ($field) REFERENCES $clause DEFERRABLE INITIALLY DEFERRED";
 		$this->db->query( $command );
-	}
-
-	/**
-	 * Verify that this user is configured correctly
-	 */
-	protected function checkPgUser() {
-		global $wgDBmwschema, $wgDBuser;
-
-		$config = $this->db->selectField(
-			'pg_catalog.pg_user', "array_to_string(useconfig,'*')",
-			array( 'usename' => $wgDBuser ), __METHOD__ );
-
-		$conf = array();
-		foreach ( explode( '*', $config ) as $c ) {
-			list( $x, $y ) = explode( '=', $c );
-			$conf[$x] = $y;
-		}
-
-		if ( !array_key_exists( 'search_path', $conf ) ) {
-			$search_path = '';
-		} else {
-			$search_path = $conf['search_path'];
-		}
-
-		if ( strpos( $search_path, $wgDBmwschema ) === false ) {
-			$this->output( "Adding in schema '$wgDBmwschema' to search_path for user '$wgDBuser'\n" );
-			$search_path = "$wgDBmwschema, $search_path";
-		}
-		$search_path = str_replace( ', ,', ',', $search_path );
-		if ( array_key_exists( 'search_path', $conf ) === false || $search_path != $conf['search_path'] ) {
-			$this->db->query( "ALTER USER $wgDBuser SET search_path = $search_path" );
-			$this->db->query( "SET search_path = $search_path" );
-		} else {
-			$path = $conf['search_path'];
-			$this->output( "... search_path for user '$wgDBuser' looks correct ($path)\n" );
-		}
-
-		$goodconf = array(
-			'client_min_messages' => 'error',
-			'DateStyle'           => 'ISO, YMD',
-			'TimeZone'            => 'GMT'
-		);
-
-		foreach ( $goodconf as $key => $value ) {
-			if ( !array_key_exists( $key, $conf ) or $conf[$key] !== $value ) {
-				$this->output( "Setting $key to '$value' for user '$wgDBuser'\n" );
-				$this->db->query( "ALTER USER $wgDBuser SET $key = '$value'" );
-				$this->db->query( "SET $key = '$value'" );
-			} else {
-				$this->output( "... default value of '$key' is correctly set to '$value' for user '$wgDBuser'\n" );
-			}
-		}
 	}
 
 	protected function convertArchive2() {

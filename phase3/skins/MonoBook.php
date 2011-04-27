@@ -52,7 +52,12 @@ class SkinMonoBook extends SkinTemplate {
  * @ingroup Skins
  */
 class MonoBookTemplate extends BaseTemplate {
+
+	/**
+	 * @var Skin
+	 */
 	var $skin;
+
 	/**
 	 * Template filter callback for MonoBook skin.
 	 * Takes an associative array of data set from a SkinTemplate-based
@@ -62,10 +67,7 @@ class MonoBookTemplate extends BaseTemplate {
 	 * @access private
 	 */
 	function execute() {
-		global $wgRequest;
-
 		$this->skin = $skin = $this->data['skin'];
-		$action = $wgRequest->getText( 'action' );
 
 		// Suppress warnings to prevent notices about missing indexes in $this->data
 		wfSuppressWarnings();

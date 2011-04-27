@@ -473,7 +473,7 @@ function wfUILang() {
  * The intention is that this function replaces all old wfMsg* functions.
  * @param $key \string Message key.
  * Varargs: normal message parameters.
- * @return \type{Message}
+ * @return Message
  * @since 1.17
  */
 function wfMessage( $key /*...*/) {
@@ -1996,108 +1996,6 @@ function swap( &$x, &$y ) {
 	$y = $z;
 }
 
-function wfGetCachedNotice( $name ) {
-	global $wgOut, $wgRenderHashAppend, $parserMemc;
-	$fname = 'wfGetCachedNotice';
-	wfProfileIn( $fname );
-
-	$needParse = false;
-
-	if( $name === 'default' ) {
-		// special case
-		global $wgSiteNotice;
-		$notice = $wgSiteNotice;
-		if( empty( $notice ) ) {
-			wfProfileOut( $fname );
-			return false;
-		}
-	} else {
-		$msg = wfMessage( $name )->inContentLanguage();
-		if( $msg->isDisabled() ) {
-			wfProfileOut( $fname );
-			return( false );
-		}
-		$notice = $msg->plain();
-	}
-
-	// Use the extra hash appender to let eg SSL variants separately cache.
-	$key = wfMemcKey( $name . $wgRenderHashAppend );
-	$cachedNotice = $parserMemc->get( $key );
-	if( is_array( $cachedNotice ) ) {
-		if( md5( $notice ) == $cachedNotice['hash'] ) {
-			$notice = $cachedNotice['html'];
-		} else {
-			$needParse = true;
-		}
-	} else {
-		$needParse = true;
-	}
-
-	if( $needParse ) {
-		if( is_object( $wgOut ) ) {
-			$parsed = $wgOut->parse( $notice );
-			$parserMemc->set( $key, array( 'html' => $parsed, 'hash' => md5( $notice ) ), 600 );
-			$notice = $parsed;
-		} else {
-			wfDebug( 'wfGetCachedNotice called for ' . $name . ' with no $wgOut available' . "\n" );
-			$notice = '';
-		}
-	}
-	$notice = '<div id="localNotice">' .$notice . '</div>';
-	wfProfileOut( $fname );
-	return $notice;
-}
-
-function wfGetNamespaceNotice() {
-	global $wgTitle;
-
-	# Paranoia
-	if ( !isset( $wgTitle ) || !is_object( $wgTitle ) ) {
-		return '';
-	}
-
-	$fname = 'wfGetNamespaceNotice';
-	wfProfileIn( $fname );
-
-	$key = 'namespacenotice-' . $wgTitle->getNsText();
-	$namespaceNotice = wfGetCachedNotice( $key );
-	if ( $namespaceNotice && substr( $namespaceNotice, 0, 7 ) != '<p>&lt;' ) {
-		$namespaceNotice = '<div id="namespacebanner">' . $namespaceNotice . '</div>';
-	} else {
-		$namespaceNotice = '';
-	}
-
-	wfProfileOut( $fname );
-	return $namespaceNotice;
-}
-
-function wfGetSiteNotice() {
-	global $wgUser;
-	$fname = 'wfGetSiteNotice';
-	wfProfileIn( $fname );
-	$siteNotice = '';
-
-	if( wfRunHooks( 'SiteNoticeBefore', array( &$siteNotice ) ) ) {
-		if( is_object( $wgUser ) && $wgUser->isLoggedIn() ) {
-			$siteNotice = wfGetCachedNotice( 'sitenotice' );
-		} else {
-			$anonNotice = wfGetCachedNotice( 'anonnotice' );
-			if( !$anonNotice ) {
-				$siteNotice = wfGetCachedNotice( 'sitenotice' );
-			} else {
-				$siteNotice = $anonNotice;
-			}
-		}
-		if( !$siteNotice ) {
-			$siteNotice = wfGetCachedNotice( 'default' );
-		}
-	}
-
-	wfRunHooks( 'SiteNoticeAfter', array( &$siteNotice ) );
-	wfProfileOut( $fname );
-	return $siteNotice;
-}
-
 /**
  * BC wrapper for MimeMagic::singleton()
  * @deprecated No longer needed as of 1.17 (r68836). Remove in 1.19.
@@ -3346,10 +3244,13 @@ function wfArrayInsertAfter( $array, $insert, $after ) {
 }
 
 /* Recursively converts the parameter (an object) to an array with the same data */
-function wfObjectToArray( $object, $recursive = true ) {
+function wfObjectToArray( $objOrArray, $recursive = true ) {
 	$array = array();
-	foreach ( get_object_vars( $object ) as $key => $value ) {
-		if ( is_object( $value ) && $recursive ) {
+	if( is_object( $objOrArray ) ) {
+		$objOrArray = get_object_vars( $objOrArray );
+	}
+	foreach ( $objOrArray as $key => $value ) {
+		if ( $recursive && ( is_object( $value ) || is_array( $value ) ) ) {
 			$value = wfObjectToArray( $value );
 		}
 

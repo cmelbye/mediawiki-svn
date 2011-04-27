@@ -344,9 +344,9 @@ $separatorTransformTable = array( ',' => "\xc2\xa0", '.' => ',' );
 $messages = array(
 # User preference toggles
 'tog-underline'               => 'Souligner les liens :',
-'tog-highlightbroken'         => 'Afficher <a href="" class="new">en rouge</a> les liens vers les pages inexistantes (sinon :  comme ceci<a href="" class="internal">?</a>)',
+'tog-highlightbroken'         => 'Afficher les liens vers les pages inexistantes <a href="" class="new">comme ceci</a> (alternative : comme cela <a href="" class="internal">?</a>)',
 'tog-justify'                 => 'Justifier les paragraphes',
-'tog-hideminor'               => 'Cacher les modifications récentes mineures',
+'tog-hideminor'               => 'Masquer les modifications mineures parmi les modifications récentes',
 'tog-hidepatrolled'           => 'Masquer les modifications surveillées parmi les modifications récentes',
 'tog-newpageshidepatrolled'   => 'Masquer les pages surveillées parmi les nouvelles pages',
 'tog-extendwatchlist'         => 'Étendre la liste de suivi pour afficher toutes les modifications et non seulement les plus récentes',
@@ -992,6 +992,7 @@ Si cela échoue de nouveau, [[Special:UserLogout|déconnectez-vous]], puis recon
 'token_suffix_mismatch'            => "'''Votre modification n’a pas été acceptée car votre navigateur a mal codé les caractères de ponctuation dans l’identifiant de modification.'''
 Ce rejet est nécessaire pour empêcher la corruption du texte de la page.
 Ce problème se produit parfois lorsque vous utilisez un serveur mandataire anonyme problématique basé sur le web.",
+'edit_form_incomplete'             => "'''Certaines parties du formulaire de modification n'ont pas atteint le serveur, vérifiez que vos modifications sont intactes et essayez à nouveau.'''",
 'editing'                          => 'Modification de $1',
 'editingsection'                   => 'Modification de $1 (section)',
 'editingcomment'                   => 'Modification de $1 (nouvelle section)',
@@ -3194,6 +3195,7 @@ Les autres liens sur la même ligne sont considérés comme des exceptions, par 
 'exif-gpsareainformation'          => 'Nom de la zone GPS',
 'exif-gpsdatestamp'                => 'Date GPS',
 'exif-gpsdifferential'             => 'Correction différentielle GPS',
+'exif-objectname'                  => 'Titre court',
 
 # EXIF attributes
 'exif-compression-1' => 'Non compressé',

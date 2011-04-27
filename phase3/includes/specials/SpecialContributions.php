@@ -58,7 +58,7 @@ class SpecialContributions extends SpecialPage {
 			$this->opts['contribs'] = 'newbie';
 		}
 
-		$this->opts['deletedOnly'] = $wgRequest->getCheck( 'deletedOnly' );
+		$this->opts['deletedOnly'] = $wgRequest->getBool( 'deletedOnly' );
 
 		if( !strlen( $target ) ) {
 			$wgOut->addHTML( $this->getForm() );
@@ -67,7 +67,7 @@ class SpecialContributions extends SpecialPage {
 
 		$this->opts['limit'] = $wgRequest->getInt( 'limit', $wgUser->getOption('rclimit') );
 		$this->opts['target'] = $target;
-		$this->opts['topOnly'] = $wgRequest->getCheck( 'topOnly' );
+		$this->opts['topOnly'] = $wgRequest->getBool( 'topOnly' );
 
 		$nt = Title::makeTitleSafe( NS_USER, $target );
 		if( !$nt ) {
@@ -480,10 +480,18 @@ class SpecialContributions extends SpecialPage {
 		}
 	}
 
+	/**
+	 * @param $revision Revision
+	 * @return string
+	 */
 	protected function feedItemAuthor( $revision ) {
 		return $revision->getUserText();
 	}
 
+	/**
+	 * @param $revision Revision
+	 * @return string
+	 */
 	protected function feedItemDesc( $revision ) {
 		if( $revision ) {
 			return '<p>' . htmlspecialchars( $revision->getUserText() ) . wfMsgForContent( 'colon-separator' ) .
@@ -637,7 +645,6 @@ class ContribsPager extends ReverseChronologicalPager {
 		$classes = array();
 
 		$page = Title::newFromRow( $row );
-		$page->resetArticleId( $row->rev_page ); // use process cache
 		$link = $sk->link(
 			$page,
 			htmlspecialchars( $page->getPrefixedText() ),

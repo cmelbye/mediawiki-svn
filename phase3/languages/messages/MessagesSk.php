@@ -7,6 +7,7 @@
  * @ingroup Language
  * @file
  *
+ * @author Chiak
  * @author Danny B.
  * @author Helix84
  * @author Liso
@@ -897,7 +898,7 @@ alebo [{{fullurl:{{FULLPAGENAME}}|action=edit}} upravovať túto stránku]</span
 'noarticletext-nopermission'       => 'Táto stránka momentálne neobsahuje žiadny text.
 Môžete [[Special:Search/{{PAGENAME}}|hľadať názov tejto stránky]] v texte iných stránok
 alebo <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} si pozrieť súvisiace záznamy]</span>.',
-'userpage-userdoesnotexist'        => 'Používateľský účet „$1“ nie je registrovaný. Prosím, zaškrtnite ak chcete vytvoriť/upravovať túto stránku.',
+'userpage-userdoesnotexist'        => 'Používateľský účet „$1“ nie je registrovaný. Prosím, skontrolujte, či naozaj chcete vytvoriť/upravovať túto stránku.',
 'userpage-userdoesnotexist-view'   => 'Používateľský účet „$1“ nie je registrovaný.',
 'blocked-notice-logextract'        => 'Tento používateľ je momentálne zablokovaný.
 Dolu je pre informáciu posledná položka zo záznamu blokovaní:',
@@ -926,6 +927,7 @@ Ak to nebude fungovať, skúste sa [[Special:UserLogout|odhlásiť]] a znovu pri
 
 '''Ak je toto legitímny pokus o úpravu, skúste to prosím znova. Ak to stále nefunguje, skúste sa [[Special:UserLogout|odhlásiť]] a znovu prihlásiť.'''",
 'token_suffix_mismatch'            => "'''Vaša úprava bola zamietnutá, pretože váš klient pokazil znaky s diakritikou v editačnom symbole (token). Úprava bola zamietnutá, aby sa zabránilo poškodeniu textu stránky. Toto sa občas stáva, keď používate chybnú anonymnú proxy službu cez webové rozhranie.'''",
+'edit_form_incomplete'             => "'''Niektoré časti editačného formulára nedosiahli server. Prosím, znova skontrolujte, že vaše úpravy sú nepoškodené a skúste to znova.'''",
 'editing'                          => 'Úprava stránky $1',
 'editingsection'                   => 'Úprava stránky $1 (sekcia)',
 'editingcomment'                   => 'Úprava stránky $1 (nová sekcia)',
@@ -1298,7 +1300,7 @@ Uistite sa, že táto zmena zachová historickú kontinuitu zmien stránky.',
 
 # Preferences page
 'preferences'                   => 'Nastavenia',
-'mypreferences'                 => 'nastavenia',
+'mypreferences'                 => 'Nastavenia',
 'prefs-edits'                   => 'Počet úprav:',
 'prefsnologin'                  => 'Nie ste prihlásený/á',
 'prefsnologintext'              => 'Aby ste mohli zmeniť svoje nastavenia, musíte byť <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} prihlásený]</span>.',
@@ -3137,6 +3139,7 @@ Každý ďalší odkaz na rovnakom riadku sa považuje za výnimku, t.j. článk
 'exif-gpsareainformation'          => 'Názov GPS oblasti',
 'exif-gpsdatestamp'                => 'Dátum GPS',
 'exif-gpsdifferential'             => 'Diferenciálna korekcia GPS',
+'exif-objectname'                  => 'Krátky názov',
 
 # EXIF attributes
 'exif-compression-1' => 'Bez kompresie',

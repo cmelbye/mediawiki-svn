@@ -101,12 +101,12 @@ class UploadTest extends MediaWikiTestCase {
 		$wgMaxUploadSize = 100;
 
 		$filename = $this->createFileOfSize( $wgMaxUploadSize );
-		$this->upload->initializePathInfo( basename($filename), $filename, 100 );
+		$this->upload->initializePathInfo( basename($filename) . '.txt', $filename, 100 );
 		$result = $this->upload->verifyUpload();
 		unlink( $filename );
 
 		$this->assertEquals(
-			array( 'status' => UploadTestHandler::OK ), $result );
+			array( 'status' => UploadBase::OK ), $result );
 
 		$wgMaxUploadSize = $savedGlobal;  // restore global
 	}

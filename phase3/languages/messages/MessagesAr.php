@@ -167,6 +167,17 @@ $namespaceAliases = array(
 	'نقاش_الصورة' => NS_FILE_TALK,
 );
 
+$namespaceGenderAliases = array(
+	NS_USER => array(
+		'male' => 'مستخدم',
+		'female' => 'مستخدمة'
+	),
+	NS_USER_TALK => array(
+		'male' => 'نقاش_المستخدم',
+		'female' => 'نقاش_المستخدمة'
+	), 
+);
+
 $magicWords = array(
 	'redirect'              => array( '0', '#تحويل', '#REDIRECT' ),
 	'notoc'                 => array( '0', '__لافهرس__', '__NOTOC__' ),
@@ -1100,6 +1111,7 @@ $2',
 'token_suffix_mismatch'            => "'''تعديلك تم رفضه لأن عميلك أخطأ في علامات الترقيم
 في نص التعديل. تم رفض التعديل لمنع فساد نص المقالة.
 هذا يحدث أحيانا عندما تستخدم خدمة بروكسي مجهول معيبة مبنية على الوب.'''",
+'edit_form_incomplete'             => "'''بعض أجزاء من إستمارة التعديل لم تصل إلى الخادم؛ تأكد من أن تعديلاتك لم تمس وحاول مجددا.'''",
 'editing'                          => 'تحرير $1',
 'editingsection'                   => 'تحرير $1 (قسم)',
 'editingcomment'                   => 'تعديل $1 (قسم جديد)',
@@ -2624,7 +2636,7 @@ $1',
 'sp-contributions-newbies-title'       => 'مساهمات المستخدم للحسابات الجديدة',
 'sp-contributions-blocklog'            => 'سجل المنع',
 'sp-contributions-deleted'             => 'مساهمات المستخدم المحذوفة',
-'sp-contributions-uploads'             => 'تحميل',
+'sp-contributions-uploads'             => 'مرفوعات',
 'sp-contributions-logs'                => 'سجلات',
 'sp-contributions-talk'                => 'نقاش',
 'sp-contributions-userrights'          => 'إدارة صلاحيات المستخدم',
@@ -3353,6 +3365,7 @@ $1',
 'exif-gpsareainformation'          => 'اسم مساحة GPS',
 'exif-gpsdatestamp'                => 'تاريخ GPS',
 'exif-gpsdifferential'             => 'تصحيح GPS التفاضلي',
+'exif-objectname'                  => 'عنوان قصير',
 
 # EXIF attributes
 'exif-compression-1' => 'غير مضغوط',

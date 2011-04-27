@@ -932,6 +932,7 @@ Dacă tot nu funcționează, încercați să [[Special:UserLogout|închideți se
 'token_suffix_mismatch'            => "'''Modificarea ta a fost refuzată pentru că clientul tău a deformat caracterele de punctuatie în modificarea semnului.
 Modificarea a fost respinsă pentru a preveni deformarea textului paginii.
 Acest fapt se poate întâmpla atunci când folosești un serviciu proxy anonim.'''",
+'edit_form_incomplete'             => "'''Unele părți ale formularului de modificare nu au ajuns la server; verificați dacă modificările dumneavoastră sunt intacte și reîncercați.'''",
 'editing'                          => 'modificare $1',
 'editingsection'                   => 'modificare $1 (secțiune)',
 'editingcomment'                   => 'Modificare $1 (secțiune nouă)',
@@ -2959,7 +2960,7 @@ Permite adăugarea unui motiv în descrierea modificărilor',
 $1',
 'filedelete-missing'              => 'Fișierul „$1” nu poate fi șters, deoarece nu există.',
 'filedelete-old-unregistered'     => 'Revizia specificată a fișierului "$1" nu este în baza de date.',
-'filedelete-current-unregistered' => 'Fișierul specificat "$1" nu este în baza de date.',
+'filedelete-current-unregistered' => 'Fișierul specificat „$1” nu este în baza de date.',
 'filedelete-archive-read-only'    => 'Directorul arhivei "$1" nu poate fi scris de serverul web.',
 
 # Browsing diffs
@@ -3141,6 +3142,7 @@ Altele vor fi ascunse implicit.
 'exif-gpsareainformation'          => 'Numele domeniului GPS',
 'exif-gpsdatestamp'                => 'Data GPS',
 'exif-gpsdifferential'             => 'Corecția diferențială GPS',
+'exif-objectname'                  => 'Titlu scurt',
 
 # EXIF attributes
 'exif-compression-1' => 'Necomprimată',

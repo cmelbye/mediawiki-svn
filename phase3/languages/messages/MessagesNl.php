@@ -1008,6 +1008,7 @@ Als het dan nog niet lukt, [[Special:UserLogout|meld u zich dan af]] en weer aan
 'token_suffix_mismatch'            => "'''Uw bewerking is geweigerd, omdat uw browser de leestekens in het bewerkingstoken onjuist heeft behandeld.
 De bewerking is geweigerd om verminking van de paginatekst te voorkomen.
 Dit gebeurt soms als er een webgebaseerde proxydienst wordt gebruikt die fouten bevat.'''",
+'edit_form_incomplete'             => "'''Sommige onderdelen van het bewerkingsformulier hebben de server niet bereikt. Controleer of uw bewerkingen intact zijn en probeer het opnieuw.'''",
 'editing'                          => 'Bezig met bewerken van $1',
 'editingsection'                   => 'Bezig met bewerken van $1 (deelpagina)',
 'editingcomment'                   => 'Bezig met bewerken van $1 (nieuw kopje)',
@@ -1140,7 +1141,7 @@ Wellicht is die verwijderd of hernoemd.
 [[Special:Search|Doorzoek de wiki]] voor relevante pagina's.",
 
 # Revision deletion
-'rev-deleted-comment'         => '(reden verwijderd)',
+'rev-deleted-comment'         => '(bewerkingssamenvatting verwijderd)',
 'rev-deleted-user'            => '(gebruikersnaam verwijderd)',
 'rev-deleted-event'           => '(logboekregel verwijderd)',
 'rev-deleted-user-contribs'   => '[gebruikersnaam of IP-adres verwijderd - bewerking verborgen in bijdragen]',
@@ -1818,6 +1819,8 @@ Raadpleeg het verwijderingslogboek voordat u verder gaat.',
 'php-uploaddisabledtext'      => 'PHP-bestanduploads zijn uitgeschakeld. Controleer a.u.b. de file_uploads-instelling.',
 'uploadscripted'              => 'Dit bestand bevat HTML- of scriptcode die foutief door uw browser kan worden weergegeven.',
 'uploadvirus'                 => 'Het bestand bevat een virus! Details: $1',
+'uploadjava'                  => 'Het bestand is een ZIP-bestand dat een Java .class-bestand bevat.
+Het uploaden van Java-bestanden is niet toegestaan omdat hiermee beveiligingsinstellingen omzeild kunnen worden.',
 'upload-source'               => 'Bronbestand',
 'sourcefilename'              => 'Oorspronkelijke bestandsnaam:',
 'sourceurl'                   => 'Bron-URL:',
@@ -1870,6 +1873,14 @@ Als het probleem aanhoudt, neem dan contact op met een [[Special:ListUsers/sysop
 'upload-too-many-redirects' => 'De URL bevatte te veel doorverwijzingen',
 'upload-unknown-size'       => 'Onbekende grootte',
 'upload-http-error'         => 'Er is een HTTP-fout opgetreden: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Er is een fout opgetreden bij het openen van het bestand voor de ZIP-controle.',
+'zip-wrong-format'    => 'Het opgegeven bestand was geen ZIP-bestand.',
+'zip-bad'             => 'Het bestand is een corrupt of onleesbare ZIP-bestand.
+De veiligheid kan niet worden gecontroleerd.',
+'zip-unsupported'     => 'Het bestand is een ZIP-bestand dat gebruik maakt van ZIP-mogelijkheden die MediaWiki niet ondersteunt.
+De veiligheid kan niet worden gecontroleerd.',
 
 # Special:UploadStash
 'uploadstash'          => 'Verborgen uploads',
@@ -1976,6 +1987,7 @@ De [$2 pagina met de bestandsbeschrijving] wordt hieronder weergegeven.',
 'shared-repo-from'                  => 'van $1',
 'shared-repo'                       => 'een gedeelde mediadatabank',
 'shared-repo-name-wikimediacommons' => 'Wikimedia Commons',
+'filepage.css'                      => "/ * De CSS die hier geplaatst wordt, wordt opgenomen in de bestandsbeschrijvingspagina en wordt ook opgenomen op externe wiki's (via externe repositories) * /",
 
 # File reversion
 'filerevert'                => '$1 terugdraaien',
@@ -2988,28 +3000,38 @@ U kunt in de bewerkingssamenvatting een reden opgeven.',
 'tooltip-summary'                 => 'Voer een korte samenvatting in',
 
 # Stylesheets
-'common.css'      => '/** CSS die hier wordt geplaatst heeft invloed op alle skins */',
-'standard.css'    => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Standard */',
-'nostalgia.css'   => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Nostalgie */',
-'cologneblue.css' => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Keuls blauw */',
-'monobook.css'    => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Monobook */',
-'myskin.css'      => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin MijnSkin */',
-'chick.css'       => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Chick */',
-'simple.css'      => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Eenvoudig */',
-'modern.css'      => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Modern */',
-'print.css'       => '/* CSS die hier wordt geplaatst heeft alleen invloed op de printuitvoer */',
-'handheld.css'    => '/* CSS die hier wordt geplaatst heeft alleen invloed op handheldapparaten gebaseerd op de skin die is ingesteld in $wgHandheldStyle */',
+'common.css'        => '/** CSS die hier wordt geplaatst heeft invloed op alle skins */',
+'standard.css'      => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Standard */',
+'nostalgia.css'     => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Nostalgie */',
+'cologneblue.css'   => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Keuls blauw */',
+'monobook.css'      => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Monobook */',
+'myskin.css'        => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin MijnSkin */',
+'chick.css'         => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Chick */',
+'simple.css'        => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Eenvoudig */',
+'modern.css'        => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Modern */',
+'vector.css'        => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Vector */',
+'print.css'         => '/* CSS die hier wordt geplaatst heeft alleen invloed op de printuitvoer */',
+'handheld.css'      => '/* CSS die hier wordt geplaatst heeft alleen invloed op handheldapparaten gebaseerd op de skin die is ingesteld in $wgHandheldStyle */',
+'autoconfirmed.css' => '/* CSS die hier wordt geplaatst heeft alleen invloed op automatisch bevestigde gebruikers */',
+'bot.css'           => '/* CSS die hier wordt geplaatst heeft alleen invloed op robots */',
+'sysop.css'         => '/* CSS die hier wordt geplaatst heeft alleen invloed op beheerders */',
+'bureaucrat.css'    => '/* CSS die hier wordt geplaatst heeft alleen invloed op bureaucraten */',
 
 # Scripts
-'common.js'      => "/* JavaScript die hier wordt geplaatst heeft invloed op alle pagina's voor alle gebruikers */",
-'standard.js'    => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Standaard gebruiken */',
-'nostalgia.js'   => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Nostalgie gebruiken */',
-'cologneblue.js' => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Keuls blauw gebruiken */',
-'monobook.js'    => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Monobook gebruiken */',
-'myskin.js'      => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin MijnSkin gebruiken */',
-'chick.js'       => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Chick gebruiken */',
-'simple.js'      => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Eenvoudig gebruiken */',
-'modern.js'      => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Modern gebruiken */',
+'common.js'        => "/* JavaScript die hier wordt geplaatst heeft invloed op alle pagina's voor alle gebruikers */",
+'standard.js'      => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Standaard gebruiken */',
+'nostalgia.js'     => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Nostalgie gebruiken */',
+'cologneblue.js'   => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Keuls blauw gebruiken */',
+'monobook.js'      => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Monobook gebruiken */',
+'myskin.js'        => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin MijnSkin gebruiken */',
+'chick.js'         => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Chick gebruiken */',
+'simple.js'        => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Eenvoudig gebruiken */',
+'modern.js'        => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Modern gebruiken */',
+'vector.js'        => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op gebruikers die de skin Vector gebruiken */',
+'autoconfirmed.js' => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op automatisch bevestigde gebruikers */',
+'bot.js'           => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op robots */',
+'sysop.js'         => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op beheerders */',
+'bureaucrat.js'    => '/* JavaScript die hier wordt geplaatst heeft alleen invloed op bureaucraten */',
 
 # Metadata
 'nodublincore'      => 'Dublin Core RDF-metadata is uitgeschakeld op deze server.',
@@ -3054,6 +3076,7 @@ Meestal wordt dit door een externe verwijzing op een zwarte lijst veroorzaakt.',
 'skinname-chick'       => 'Chick',
 'skinname-simple'      => 'Eenvoudig',
 'skinname-modern'      => 'Modern',
+'skinname-vector'      => 'Vector',
 
 # Math options
 'mw_math_png'    => 'Altijd als PNG weergeven',
@@ -3284,6 +3307,7 @@ Andere velden worden verborgen.
 'exif-gpsareainformation'          => 'Naam GPS-gebied',
 'exif-gpsdatestamp'                => 'GPS-datum',
 'exif-gpsdifferential'             => 'Differentiele GPS-correctie',
+'exif-objectname'                  => 'Korte naam',
 
 # EXIF attributes
 'exif-compression-1' => 'Ongecomprimeerd',

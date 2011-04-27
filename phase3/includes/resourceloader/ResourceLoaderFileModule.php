@@ -197,6 +197,8 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 					break;
 			}
 		}
+		// Make sure the remote base path is a complete valid url
+		$this->remoteBasePath = wfExpandUrl( $this->remoteBasePath );
 	}
 
 	/**
@@ -217,7 +219,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 				$script = '';
 				foreach ( $files as $file ) {
 					$path = $this->getRemotePath( $file );
-					$script .= "\n\t" . Xml::encodeJsCall( 'mediaWiki.loader.load', array( $path ) );
+					$script .= "\n\t" . Xml::encodeJsCall( 'mw.loader.load', array( $path ) );
 				}
 				return $script;
 			}

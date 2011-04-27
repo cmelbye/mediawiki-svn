@@ -755,6 +755,7 @@ Jeli to hišće njefunguje, [[Special:UserLogout|wotzjew so]] a přizjew so zaso
 '''Jeli to je legitimny wobdźěłowanski pospyt, spytaj prošu hišće raz. Jeli to hišće njefunguje, [[Special:UserLogout|wotzjew so]] a přizjew so znowa.'''",
 'token_suffix_mismatch'            => "'''Twoja změna je so wotpokazała, dokelž twój wobhladowak je znamješka skepsał.
 Składowanje móže wobsah strony zničić. Móže so to na přikład přez wopačnje dźěłowacy proksy stać.'''",
+'edit_form_incomplete'             => "'''Někotre dźěle wobdźěłowanskeho formulara njejsu serwer docpěli; prošu přepruwuj, hač twoje změny su w porjadku a spytaj hišće raz.'''",
 'editing'                          => 'Wobdźěłanje strony $1',
 'editingsection'                   => 'Wobdźěłanje strony $1 (wotrězk)',
 'editingcomment'                   => '$1 so wobdźěłuje (nowy wotrězk)',
@@ -1526,6 +1527,8 @@ Jeli maš tutón wobraz z połnym rozeznaćom, nahraj tutón, hewak změń proš
 'php-uploaddisabledtext'      => 'Nahraća PHP-datajow su znjemóžnjene. Prošu skontroluj nastajenje file_uploads.',
 'uploadscripted'              => 'Dataja wobsahuje HTML- abo skriptowy kod, kotryž móhł so mylnje přez wobhladowak wuwjesć.',
 'uploadvirus'                 => 'Dataja wirus wobsahuje! Podrobnosće: $1',
+'uploadjava'                  => 'Tuta dataja je ZIP-dataja, kotraž .class-dataju z Javy wobsahuje.
+Nahraće datajow Javy njeje dowolene, dokelž móhli wobeńdźenje wěstotnych wobmjezowanjow zmóžnić.',
 'upload-source'               => 'Žórłowa dataja',
 'sourcefilename'              => 'Mjeno žórłoweje dataje:',
 'sourceurl'                   => 'URL žórła:',
@@ -1573,6 +1576,14 @@ $1',
 'upload-too-many-redirects' => 'URL wobsahowaše přewjele daleposrědkowanjow',
 'upload-unknown-size'       => 'Njeznata wulkosć',
 'upload-http-error'         => 'HTTP-zmylk je wustupił: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Při wočinjenju dataje za ZIP-přepruwowanje je zmylk wustupił.',
+'zip-wrong-format'    => 'Podata dataja ZIP-dataja njebě.',
+'zip-bad'             => 'Tute ZIP-dataja je wobškodźena abo z hinašich přičinow nječitajomna.
+Tohodla njeda so jeje wěstota porjadnje přepruwować.',
+'zip-unsupported'     => 'Tuta dataja je ZIP-dataja, kotraž ZIP-funkcije wužiwa, kotrež so wot MediaWiki njepodpěruja.
+Tohodla njeda so jeje wěstota porjadnje přepruwować.',
 
 # Special:UploadStash
 'uploadstash'          => 'Schowanje nahratych datajow',
@@ -2892,6 +2903,7 @@ Nasledne wotkazy na samsnej lince definuja wuwzaća, hdźež so wobraz smě naje
 'exif-gpsareainformation'          => 'Mjeno wobwoda GPS',
 'exif-gpsdatestamp'                => 'Datum GPS',
 'exif-gpsdifferential'             => 'Diferencialna korektura GPS',
+'exif-objectname'                  => 'Krótki titul',
 
 # EXIF attributes
 'exif-compression-1' => 'Njekomprimowany',

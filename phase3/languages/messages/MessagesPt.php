@@ -71,6 +71,11 @@ $namespaceAliases = array(
 	'Arquivo_Discussão' => NS_FILE_TALK,
 );
 
+$namespaceGenderAliases = array(
+	NS_USER => array( 'male' => 'Utilizador', 'female' => 'Utilizadora' ),
+	NS_USER_TALK => array( 'male' => 'Utilizador_Discussão', 'female' => 'Utilizadora_Discussão' ),
+);
+
 $defaultDateFormat = 'dmy';
 
 $dateFormats = array(
@@ -80,7 +85,7 @@ $dateFormats = array(
 );
 
 $separatorTransformTable = array( ',' => ' ', '.' => ',' );
-$linkTrail = '/^([áâãàéêçíóôõúüa-z]+)(.*)$/sDu'; # Bug 21168
+$linkTrail = '/^([áâãàéêẽçíòóôõq̃úüűũa-z]+)(.*)$/sDu'; # Bug 21168, 27633
 
 $specialPageAliases = array(
 	'DoubleRedirects'           => array( 'Redireccionamentos_duplos', 'Redirecionamentos_duplos' ),
@@ -958,6 +963,7 @@ Caso continue a não funcionar, tente [[Special:UserLogout|sair]] e voltar a ent
 'token_suffix_mismatch'            => "'''A edição foi rejeitada porque o seu browser alterou os sinais de pontuação no editor.'''
 A edição foi rejeitada para evitar perdas no texto da página.
 Isso acontece ocasionalmente quando se usa um serviço de proxy anonimizador mal configurado.'''",
+'edit_form_incomplete'             => "'''Algumas partes do formulário de edição não chegaram ao servidor; verifique que a sua edição continua intacta e tente novamente, por favor.'''",
 'editing'                          => 'A editar $1',
 'editingsection'                   => 'A editar $1 (secção)',
 'editingcomment'                   => 'A editar $1 (nova secção)',
@@ -1371,7 +1377,7 @@ Note, no entanto, que a indexação da {{SITENAME}} neste motor de busca pode es
 'resultsperpage'                => 'Resultados por página:',
 'contextlines'                  => 'Linhas por resultado:',
 'contextchars'                  => 'Contexto por linha:',
-'stub-threshold'                => 'Links para páginas provisórias \'\'(stubs)\'\' terão <a href="#" class="stub">este formato</a> se elas ocuparem menos de (bytes):',
+'stub-threshold'                => 'Links para páginas curtas terão <a href="#" class="stub">este formato</a> se elas ocuparem menos de (bytes):',
 'stub-threshold-disabled'       => 'Desactivado',
 'recentchangesdays'             => 'Dias a apresentar nas mudanças recentes:',
 'recentchangesdays-max'         => '(máximo: $1 {{PLURAL:$1|dia|dias}})',
@@ -1756,6 +1762,8 @@ Verifique o motivo da eliminação do ficheiro antes de prosseguir com o re-envi
 Verifique a configuração file_uploads, por favor.',
 'uploadscripted'              => 'Este ficheiro contém HTML ou código que pode ser erradamente interpretado por um browser.',
 'uploadvirus'                 => 'O ficheiro contém um vírus! Detalhes: $1',
+'uploadjava'                  => 'Este é um ficheiro ZIP que contém um ficheiro .class de Java.
+Não é permitido o upload de ficheiros Java, porque estes podem contornar as restrições de segurança.',
 'upload-source'               => 'Ficheiro de origem',
 'sourcefilename'              => 'Nome do ficheiro de origem:',
 'sourceurl'                   => 'URL fonte:',
@@ -1806,6 +1814,14 @@ Caso o problema persista, contacte um [[Special:ListUsers/sysop|administrador]].
 'upload-too-many-redirects' => 'A URL continha demasiados redireccionamentos',
 'upload-unknown-size'       => 'Tamanho desconhecido',
 'upload-http-error'         => 'Ocorreu um erro HTTP: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Foi encontrado um erro ao abrir o ficheiro ZIP para verificação.',
+'zip-wrong-format'    => 'O ficheiro especificado não é um ficheiro ZIP.',
+'zip-bad'             => 'O ficheiro ZIP encontra-se corrompido ou não é legível.
+A sua segurança não pode ser devidamente verificada.',
+'zip-unsupported'     => 'Este ficheiro ZIP usa funcionalidades ZIP não suportadas pelo MediaWiki.
+A sua segurança não pode ser devidamente verificada.',
 
 # Special:UploadStash
 'uploadstash'          => 'Ficheiros escondidos',
@@ -2697,7 +2713,7 @@ Faça a fusão manual das páginas de discussão, por favor.'''",
 'movepage-page-unmoved'        => 'Não foi possível mover a página $1 para $2.',
 'movepage-max-pages'           => 'O limite de $1 {{PLURAL:$1|página movida|páginas movidas}} foi atingido; não será possível mover mais páginas de forma automática.',
 '1movedto2'                    => 'moveu [[$1]] para [[$2]]',
-'1movedto2_redir'              => 'moveu [[$1]] para [[$2]] com redireccionamento',
+'1movedto2_redir'              => 'moveu [[$1]] para [[$2]] com redirecionamento',
 'move-redirect-suppressed'     => 'redireccionamento suprimido',
 'movelogpage'                  => 'Registo de movimento',
 'movelogpagetext'              => 'Abaixo encontra-se uma lista de páginas movidas.',
@@ -3196,6 +3212,7 @@ Caso o ficheiro tenha sido modificado a partir do seu estado original, alguns de
 'exif-gpsareainformation'          => 'Nome da área do GPS',
 'exif-gpsdatestamp'                => 'Data do GPS',
 'exif-gpsdifferential'             => 'Correcção do diferencial do GPS',
+'exif-objectname'                  => 'Título curto',
 
 # EXIF attributes
 'exif-compression-1' => 'Descomprimido',

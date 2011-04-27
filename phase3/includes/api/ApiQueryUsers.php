@@ -66,6 +66,11 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		return $this->tokenFunctions;
 	}
 
+	 /**
+	  * @static
+	  * @param $user User
+	  * @return String
+	  */
 	public static function getUserrightsToken( $user ) {
 		global $wgUser;
 		// Since the permissions check for userrights is non-trivial,
@@ -105,23 +110,21 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		}
 
 		if ( count( $goodNames ) ) {
-			$this->addTables( 'user', 'u1' );
-			$this->addFields( 'u1.*' );
-			$this->addWhereFld( 'u1.user_name', $goodNames );
+			$this->addTables( 'user' );
+			$this->addFields( '*' );
+			$this->addWhereFld( 'user_name', $goodNames );
 
 			if ( isset( $this->prop['groups'] ) ) {
 				$this->addTables( 'user_groups' );
-				$this->addJoinConds( array( 'user_groups' => array( 'LEFT JOIN', 'ug_user=u1.user_id' ) ) );
+				$this->addJoinConds( array( 'user_groups' => array( 'LEFT JOIN', 'ug_user=user_id' ) ) );
 				$this->addFields( 'ug_group' );
 			}
 			if ( isset( $this->prop['blockinfo'] ) ) {
 				$this->addTables( 'ipblocks' );
-				$this->addTables( 'user', 'u2' );
-				$u2 = $this->getAliasedName( 'user', 'u2' );
 				$this->addJoinConds( array(
-					'ipblocks' => array( 'LEFT JOIN', 'ipb_user=u1.user_id' ),
-					$u2 => array( 'LEFT JOIN', 'ipb_by=u2.user_id' ) ) );
-				$this->addFields( array( 'ipb_reason', 'u2.user_name AS blocker_name', 'ipb_expiry' ) );
+					'ipblocks' => array( 'LEFT JOIN', 'ipb_user=user_id' ),
+				) );
+				$this->addFields( array( 'ipb_reason', 'ipb_by_text', 'ipb_expiry' ) );
 			}
 
 			$data = array();
@@ -132,6 +135,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 			foreach ( $res as $row ) {
 				$user = User::newFromRow( $row );
 				$name = $user->getName();
+
+				$data[$name]['userid'] = $user->getId();
 				$data[$name]['name'] = $name;
 
 				if ( isset( $this->prop['editcount'] ) ) {
@@ -162,8 +167,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 					$result->setIndexedTagName( $data[$name]['rights'], 'r' );
 				}
 
-				if ( isset( $this->prop['blockinfo'] ) && !is_null( $row->blocker_name ) ) {
-					$data[$name]['blockedby'] = $row->blocker_name;
+				if ( isset( $this->prop['blockinfo'] ) && !is_null( $row->ipb_by_text ) ) {
+					$data[$name]['blockedby'] = $row->ipb_by_text;
 					$data[$name]['blockreason'] = $row->ipb_reason;
 					$data[$name]['blockexpiry'] = $row->ipb_expiry;
 				}

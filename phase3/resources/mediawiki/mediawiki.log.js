@@ -2,7 +2,7 @@
  * Implementation for mediaWiki.log stub
  */
 
-(function ($, mw) {
+(function ($) {
 
 	/**
 	 * Log output to the console.
@@ -15,14 +15,14 @@
 	 * @author Trevor Parscal <tparscal@wikimedia.org>
 	 * @param {string} string Message to output to console
 	 */
-	mediaWiki.log = function( string ) {
+	mw.log = function( string ) {
 		// Allow log messages to use a configured prefix
 		if ( mw.config.exists( 'mw.log.prefix' ) ) {
 			string = mw.config.get( 'mw.log.prefix' ) + '> ' + string;
 		}
 		// Try to use an existing console
 		if ( typeof window.console !== 'undefined' && typeof window.console.log == 'function' ) {
-			window.console.log( string );
+			console.log( string );
 		} else {
 			// Set timestamp
 			var d = new Date();
@@ -61,4 +61,4 @@
 		}
 	};
 
-})(jQuery, mediaWiki);
+})(jQuery);

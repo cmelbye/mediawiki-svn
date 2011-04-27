@@ -11,6 +11,7 @@
  * @author Aviator
  * @author CoolCityCat
  * @author Diagramma Della Verita
+ * @author Hydra
  * @author Izzudin
  * @author Kurniasan
  * @author Meno25
@@ -796,6 +797,7 @@ Masukan log sekatan terakhir disediakan di bawah sebagai rujukan:',
 'token_suffix_mismatch'            => "'''Suntingan anda telah ditolak kerana pelanggan anda memusnahkan aksara tanda baca
 dalam token suntingan. Suntingan tersebut telah ditolak untuk menghalang kerosakan teks laman.
 Hal ini kadangkala berlaku apabila anda menggunakan khidmat proksi tanpa nama berdasarkan web yang bermasalah.'''",
+'edit_form_incomplete'             => "'''Beberapa bahagian dari bentuk edit tidak mencapai pelayan, periksa bahawa suntingan anda utuh dan cuba lagi'.'''",
 'editing'                          => 'Menyunting $1',
 'editingsection'                   => 'Menyunting $1 (bahagian)',
 'editingcomment'                   => 'Menyunting $1 (bahagian baru)',
@@ -2948,6 +2950,7 @@ Ruangan lain akan disembunyikan.
 'exif-gpsareainformation'          => 'Nama kawasan GPS',
 'exif-gpsdatestamp'                => 'Tarikh GPS',
 'exif-gpsdifferential'             => 'Pembetulan pembezaan GPS',
+'exif-objectname'                  => 'Tajuk ringkas',
 
 # EXIF attributes
 'exif-compression-1' => 'Tidak dimampat',
@@ -3306,14 +3309,15 @@ Imej ditunjuk dalam leraian penuh, jenis fail yang lain dibuka dengan atur cara 
 Sila masukkan nama fail tanpa awalan "{{ns:file}}:".',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Cari fail serupa',
-'fileduplicatesearch-summary'  => 'Anda boleh mencari fail serupa berdasarkan nilai cincangannya.',
-'fileduplicatesearch-legend'   => 'Cari fail serupa',
-'fileduplicatesearch-filename' => 'Nama fail:',
-'fileduplicatesearch-submit'   => 'Gelintar',
-'fileduplicatesearch-info'     => '$1 × $2 piksel<br />Saiz fail: $3<br />Jenis MIME: $4',
-'fileduplicatesearch-result-1' => 'Tiada fail yang serupa dengan "$1".',
-'fileduplicatesearch-result-n' => 'Terdapat $2 fail yang serupa dengan "$1".',
+'fileduplicatesearch'           => 'Cari fail serupa',
+'fileduplicatesearch-summary'   => 'Anda boleh mencari fail serupa berdasarkan nilai cincangannya.',
+'fileduplicatesearch-legend'    => 'Cari fail serupa',
+'fileduplicatesearch-filename'  => 'Nama fail:',
+'fileduplicatesearch-submit'    => 'Gelintar',
+'fileduplicatesearch-info'      => '$1 × $2 piksel<br />Saiz fail: $3<br />Jenis MIME: $4',
+'fileduplicatesearch-result-1'  => 'Tiada fail yang serupa dengan "$1".',
+'fileduplicatesearch-result-n'  => 'Terdapat $2 fail yang serupa dengan "$1".',
+'fileduplicatesearch-noresults' => 'Tidak ada gambar-gambar dengan nama "$1" dijumpai.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Laman khas',
