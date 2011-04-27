@@ -166,7 +166,7 @@ class ClickTrackingHooks {
 		
 		//NOTE: $wgRequest->response setCookie sets it with a prefix and httponly by default
 		setcookie( 'userbuckets' , $packedBuckets , 
-					time() + 60 * 60 * 24 * 365  ); //expire in 1 year
+					time() + 60 * 60 * 24 * 90  ); //expires in 90 days
 	}
 	
 	/**
