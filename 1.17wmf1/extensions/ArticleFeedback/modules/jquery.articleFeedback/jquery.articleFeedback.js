@@ -2,7 +2,17 @@
  * Script for Article Feedback Plugin
  */
 
-( function( $, mw ) {
+( function( $ ) {
+
+// Only track users who have been assigned to the tracking group
+var tracked = 'track' === mw.user.bucket(
+	'ext.articleFeedback-tracking', mw.config.get( 'wgArticleFeedbackTracking' )
+);
+
+// Only show extra options to users in the options group
+var showOptions = 'show' === mw.user.bucket(
+	'ext.articleFeedback-options', mw.config.get( 'wgArticleFeedbackOptions' )
+);
 
 /**
  * Prefixes a key for cookies or events, with extension and version information
@@ -11,9 +21,30 @@
  * @return String: Prefixed event name
  */
 function prefix( key ) {
-	var version = mw.config.get( 'wgArticleFeedbackTrackingVersion' ) || 0;
+	var version = mw.config.get( 'wgArticleFeedbackTracking' ).version || 0;
 	return 'ext.articleFeedback@' + version + '-' + key;
 }
+
+/**
+ * Given an email sting, gets validity status (true, false, null) and updates the label CSS class
+ */
+var updateMailValidityLabel = function( mail, context ) {
+	var	isValid = mw.util.validateEmail( mail ),
+		$that = context.$ui.find( '.articleFeedback-helpimprove-email' );
+
+	// We allow empty address
+	if( isValid === null ) {
+		$that.removeClass( 'valid invalid' );
+
+	// Valid
+	} else if ( isValid ) {
+		$that.addClass( 'valid' ).removeClass( 'invalid' );
+
+	// Not valid
+	} else {
+		$that.addClass( 'invalid' ).removeClass( 'valid' );
+	}
+};
 
 /**
  * Article Feedback jQuery Plugin Support Code
@@ -32,16 +63,25 @@ $.articleFeedback = {
 		<div style="clear:both;"></div>\
 		<div class="articleFeedback-ratings"></div>\
 		<div style="clear:both;"></div>\
-		<div class="articleFeedback-expertise articleFeedback-visibleWith-form" >\
-			<input type="checkbox" value="general" disabled="disabled" /><label class="articleFeedback-expertise-disabled"><html:msg key="form-panel-expertise" /></label>\
-			<div class="articleFeedback-expertise-options">\
-				<div><input type="checkbox" value="studies" /><label><html:msg key="form-panel-expertise-studies" /></label></div>\
-				<div><input type="checkbox" value="profession" /><label><html:msg key="form-panel-expertise-profession" /></label></div>\
-				<div><input type="checkbox" value="hobby" /><label><html:msg key="form-panel-expertise-hobby" /></label></div>\
-				<div><input type="checkbox" value="other" /><label><html:msg key="form-panel-expertise-other" /></label></div>\
+		<div class="articleFeedback-options">\
+			<div class="articleFeedback-expertise articleFeedback-visibleWith-form" >\
+				<input type="checkbox" value="general" disabled="disabled" /><label class="articleFeedback-expertise-disabled"><html:msg key="form-panel-expertise" /></label>\
+				<div class="articleFeedback-expertise-options">\
+					<div><input type="checkbox" value="studies" /><label><html:msg key="form-panel-expertise-studies" /></label></div>\
+					<div><input type="checkbox" value="profession" /><label><html:msg key="form-panel-expertise-profession" /></label></div>\
+					<div><input type="checkbox" value="hobby" /><label><html:msg key="form-panel-expertise-hobby" /></label></div>\
+					<div><input type="checkbox" value="other" /><label><html:msg key="form-panel-expertise-other" /></label></div>\
+					<div class="articleFeedback-helpimprove">\
+						<input type="checkbox" value="helpimprove-email" />\
+						<label><html:msg key="form-panel-helpimprove" /></label>\
+						<input type="text" placeholder="" class="articleFeedback-helpimprove-email" />\
+						<div class="articleFeedback-helpimprove-note"></div>\
+					</div>\
+				</div>\
 			</div>\
+			<div style="clear:both;"></div>\
 		</div>\
-		<button class="articleFeedback-submit articleFeedback-visibleWith-form" type="submit" disabled><html:msg key="form-panel-submit" /></button>\
+		<button class="articleFeedback-submit articleFeedback-visibleWith-form" type="submit" disabled="disabled"><html:msg key="form-panel-submit" /></button>\
 		<div class="articleFeedback-success articleFeedback-visibleWith-form"><span><html:msg key="form-panel-success" /></span></div>\
 		<div style="clear:both;"></div>\
 		<div class="articleFeedback-notices articleFeedback-visibleWith-form">\
@@ -135,7 +175,7 @@ $.articleFeedback = {
 			var context = this;
 			$.articleFeedback.fn.enableSubmission.call( context, false );
 			context.$ui.find( '.articleFeedback-lock' ).show();
-			// Build data from form values
+			// Build data from form values for 'action=articlefeedback'
 			var data = {};
 			for ( var key in context.options.ratings ) {
 				var id = context.options.ratings[key].id;
@@ -157,12 +197,12 @@ $.articleFeedback = {
 					'anontoken': mw.user.id(),
 					'pageid': mw.config.get( 'wgArticleId' ),
 					'revid': mw.config.get( 'wgCurRevisionId' ),
-					'bucket': context.options.bucket
+					'bucket': Number( showOptions )
 				} ),
 				'success': function( data ) {
 					var context = this;
 					if ( 'error' in data ) {
-						mw.log( 'Form submission error' );
+						mw.log( 'ArticleFeedback: Form submission error' );
 						mw.log( data.error );
 						context.$ui.find( '.articleFeedback-error' ).show();
 					} else {
@@ -176,6 +216,67 @@ $.articleFeedback = {
 					context.$ui.find( '.articleFeedback-error' ).show();
 				}
 			} );
+			// Build data from form values for 'action=emailcapture'
+			// Ignore if email was invalid
+			if ( context.$ui.find( '.articleFeedback-helpimprove-email.valid' ).length
+				// Ignore if email field was empty (it's optional)
+				 && !$.isEmpty( context.$ui.find( '.articleFeedback-helpimprove-email' ).val() )
+				 // Ignore if checkbox was unchecked (ie. user can enter and then decide to uncheck,
+				 // field fades out, then we shouldn't submit)
+				 && context.$ui.find('.articleFeedback-helpimprove input:checked' ).length
+			) {
+				$.ajax( {
+					'url': mw.config.get( 'wgScriptPath' ) + '/api.php',
+					'type': 'POST',
+					'dataType': 'json',
+					'context': context,
+					'data': {
+						'email': context.$ui.find( '.articleFeedback-helpimprove-email' ).val(),
+						'info': $.toJSON( {
+							'ratingData': data,
+							'pageTitle': mw.config.get( 'wgTitle' ),
+							'pageCategories': mw.config.get( 'wgCategories' )
+						} ),
+						'action': 'emailcapture',
+						'format': 'json'
+					},
+					'success': function( data ) {
+						var context = this;
+
+						if ( 'error' in data ) {
+							mw.log( 'EmailCapture: Form submission error' );
+							mw.log( data.error );
+							updateMailValidityLabel( 'triggererror', context );
+
+						} else {
+							// Hide helpimprove-email for when user returns to Rate-view
+							// without reloading page
+							context.$ui.find( '.articleFeedback-helpimprove' ).hide();
+
+							// Set cookie if it was successful, so it won't be asked again
+							$.cookie(
+								prefix( 'helpimprove-email' ),
+								// Path must be set so it will be remembered
+								// for all article (not just current level)
+								// @XXX: '/' may be too wide (multi-wiki domains)
+								'hide', { 'expires': 30, 'path': '/' }
+							);
+						}
+					}
+				} );
+			
+			// If something was invalid, reset the helpimprove-email part of the form.
+			// When user returns from submit, it will be clean
+			} else {
+				context.$ui
+					.find( '.articleFeedback-helpimprove' )
+						.find( 'input:checkbox' )
+							.removeAttr( 'checked' )
+							.end()
+						.find( '.articleFeedback-helpimprove-email' )
+							.val( '' )
+							.removeClass( 'valid invalid' );
+			}
 		},
 		'executePitch': function( action ) {
 			var $pitch = $(this).closest( '.articleFeedback-pitch' );
@@ -254,6 +355,20 @@ $.articleFeedback = {
 							.find( '.articleFeedback-expertise-options' )
 								.hide();
 					}
+					
+					// Help improve
+					var $helpimprove = context.$ui.find( '.articleFeedback-helpimprove' );
+
+					var showHelpimprove = true;
+
+					if ( $.cookie( prefix( 'helpimprove-email' ) ) == 'hide'
+						|| !mw.user.anonymous() ) {
+						showHelpimprove = false;
+					}
+					
+					if ( !showHelpimprove ) {
+						$helpimprove.hide();
+					}
 
 					// Index rating data by rating ID
 					var ratings = {};
@@ -305,7 +420,7 @@ $.articleFeedback = {
 							$(this).find( 'input:hidden' ).val( rating.userrating );
 							if ( rating.userrating > 0 ) {
 								// If any ratings exist, make sure expertise is enabled so users can
-								// suppliment their ratings with expertise information
+								// supplement their ratings with expertise information
 								$.articleFeedback.fn.enableExpertise( $expertise );
 							}
 						} else {
@@ -396,7 +511,7 @@ $.articleFeedback = {
 											prefix( 'pitch-' + key ), 'hide', { 'expires': 3 }
 										);
 										// Track that a pitch was dismissed
-										if ( typeof $.trackAction == 'function' ) {
+										if ( tracked && typeof $.trackAction == 'function' ) {
 											$.trackAction( prefix( 'pitch-' + key + '-reject' ) );
 										}
 										$pitch.fadeOut( 'fast', function() {
@@ -430,6 +545,30 @@ $.articleFeedback = {
 										.addClass( 'ui-button-green' );
 							}
 						}
+					} )
+					.end()
+				.find( '.articleFeedback-helpimprove-note' )
+					// Can't use .text() with mw.message(, /* $1 */ link).toString(),
+					// because 'link' should not be re-escaped (which would happen if done by mw.message)
+					.html( function(){
+						var link = mw.html.element(
+							'a', {
+								href: mw.util.wikiGetlink( mw.msg('articlefeedback-form-panel-helpimprove-privacylink') )
+							}, mw.msg('articlefeedback-form-panel-helpimprove-privacy')
+						);
+						return mw.html.escape( mw.msg( 'articlefeedback-form-panel-helpimprove-note') )
+							.replace( /\$1/, mw.message( 'parentheses', link ).toString() );
+					})
+					.end()
+				.find( '.articleFeedback-helpimprove-email' )
+					.attr( 'placeholder', mw.msg( 'articlefeedback-form-panel-helpimprove-email-placeholder' ) )
+					.placeholder() // back. compat. for older browsers
+					.one( 'blur', function() {
+						var $el = $(this);
+						updateMailValidityLabel( $el.val(), context );
+						$el.keyup( function() {
+							updateMailValidityLabel( $el.val(), context );
+						} );
 					} )
 					.end()
 				.localize( { 'prefix': 'articlefeedback-' } )
@@ -467,6 +606,23 @@ $.articleFeedback = {
 								.attr( 'for', id );
 					} )
 					.end()
+				.find( '.articleFeedback-helpimprove > input:checkbox' )
+					.each( function() {
+						var id = 'articleFeedback-expertise-' + $(this).attr( 'value' );
+						$(this)
+							.attr( 'id', id )
+							.next()
+								.attr( 'for', id );
+					})
+					.end()
+				.find( '.articleFeedback-helpimprove-email' )
+					.bind( 'mousedown click', function( e ) {
+						$(this)
+							.closest( '.articleFeedback-helpimprove' )
+								.find( 'input:checkbox' )
+									.attr( 'checked', true );
+					} )
+					.end()
 				// Buttonify the button
 				.find( '.articleFeedback-submit' )
 					.button()
@@ -491,10 +647,14 @@ $.articleFeedback = {
 									.fadeIn( 'fast' );
 							context.$ui.find( '.articleFeedback-ui' ).hide();
 							// Track that a pitch was presented
-							if ( typeof $.trackAction == 'function' ) {
+							if ( tracked && typeof $.trackAction == 'function' ) {
 								$.trackAction( prefix( 'pitch-' + key + '-show' ) );
 							}
 						} else {
+							// Track that a pitch was not presented
+							if ( tracked && typeof $.trackAction == 'function' ) {
+								$.trackAction( prefix( 'pitch-bypass' ) );
+							}
 							// Give user some feedback that a save occured
 							context.$ui.find( '.articleFeedback-success span' ).fadeIn( 'fast' );
 							context.successTimeout = setTimeout( function() {
@@ -565,7 +725,8 @@ $.articleFeedback = {
 							.find( '.articleFeedback-expertise' )
 								.each( function() {
 									$.articleFeedback.fn.enableExpertise( $(this) );
-								} );
+								} )
+								.end();
 						$(this)
 							.closest( '.articleFeedback-rating' )
 								.addClass( 'articleFeedback-rating-new' )
@@ -593,6 +754,10 @@ $.articleFeedback = {
 						$rating.find( 'input:hidden' ).val( 0 );
 						$.articleFeedback.fn.updateRating.call( $rating );
 					} );
+			// Hide/show additional options according to group
+			if ( !showOptions ) {
+				context.$ui.find( '.articleFeedback-options' ).hide();
+			}
 			// Show initial form and report values
 			$.articleFeedback.fn.load.call( context );
 		}
@@ -605,7 +770,6 @@ $.articleFeedback = {
  * Can be called with an options object like...
  * 
  * 	$( ... ).articleFeedback( {
- * 		'bucket': 1, // Numeric identifier of the bucket being used, which is logged on submit
  * 		'ratings': {
  * 			'rating-name': {
  * 				'id': 1, // Numeric identifier of the rating, same as the rating_id value in the db
@@ -626,7 +790,7 @@ $.fn.articleFeedback = function() {
 		var context = $(this).data( 'articleFeedback-context' );
 		if ( !context ) {
 			// Create context
-			context = { '$ui': $(this), 'options': { 'ratings': {}, 'pitches': {}, 'bucket': 1 } };
+			context = { '$ui': $(this), 'options': { 'ratings': {}, 'pitches': {} } };
 			// Allow customization through an options argument
 			if ( typeof args[0] === 'object' ) {
 				context = $.extend( true, context, { 'options': args[0] } );
@@ -640,4 +804,4 @@ $.fn.articleFeedback = function() {
 	return $(this);
 };
 
-} )( jQuery, mediaWiki );
+} )( jQuery );

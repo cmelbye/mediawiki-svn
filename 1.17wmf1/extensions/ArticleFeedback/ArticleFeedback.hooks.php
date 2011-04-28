@@ -52,6 +52,10 @@ class ArticleFeedbackHooks {
 				'jquery.clickTracking',
 			),
 		),
+		'ext.articleFeedback.dashboard' => array(
+			'scripts' => 'ext.articleFeedback/ext.articleFeedback.dashboard.js',
+			'styles' => 'ext.articleFeedback/ext.articleFeedback.dashboard.css',
+		),
 		'jquery.articleFeedback' => array(
 			'scripts' => 'jquery.articleFeedback/jquery.articleFeedback.js',
 			'styles' => 'jquery.articleFeedback/jquery.articleFeedback.css',
@@ -66,6 +70,11 @@ class ArticleFeedbackHooks {
 				'articlefeedback-form-panel-expertise-profession',
 				'articlefeedback-form-panel-expertise-hobby',
 				'articlefeedback-form-panel-expertise-other',
+				'articlefeedback-form-panel-helpimprove',
+				'articlefeedback-form-panel-helpimprove-note',
+				'articlefeedback-form-panel-helpimprove-email-placeholder',
+				'articlefeedback-form-panel-helpimprove-privacy',
+				'articlefeedback-form-panel-helpimprove-privacylink',
 				'articlefeedback-form-panel-submit',
 				'articlefeedback-form-panel-success',
 				'articlefeedback-form-panel-expiry-title',
@@ -75,9 +84,11 @@ class ArticleFeedbackHooks {
 				'articlefeedback-report-panel-description',
 				'articlefeedback-report-empty',
 				'articlefeedback-report-ratings',
+				'parentheses',
 			),
 			'dependencies' => array(
 				'jquery.tipsy',
+				'jquery.json',
 				'jquery.localize',
 				'jquery.ui.dialog',
 				'jquery.ui.button',
@@ -206,10 +217,12 @@ class ArticleFeedbackHooks {
 	public static function resourceLoaderGetConfigVars( &$vars ) {
 		global $wgArticleFeedbackCategories,
 			$wgArticleFeedbackLotteryOdds,
-			$wgArticleFeedbackTrackingVersion;
+			$wgArticleFeedbackTracking,
+			$wgArticleFeedbackOptions;
 		$vars['wgArticleFeedbackCategories'] = $wgArticleFeedbackCategories;
 		$vars['wgArticleFeedbackLotteryOdds'] = $wgArticleFeedbackLotteryOdds;
-		$vars['wgArticleFeedbackTrackingVersion'] = $wgArticleFeedbackTrackingVersion;
+		$vars['wgArticleFeedbackTracking'] = $wgArticleFeedbackTracking;
+		$vars['wgArticleFeedbackOptions'] = $wgArticleFeedbackOptions;
 		return true;
 	}
 }

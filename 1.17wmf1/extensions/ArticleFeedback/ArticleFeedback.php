@@ -15,6 +15,9 @@ require_once( dirname( dirname( __FILE__ ) ) . '/SimpleSurvey/SimpleSurvey.php' 
 
 /* Configuration */
 
+// Enable/disable dashboard page
+$wgArticleFeedbackDashboard = false;
+
 // Number of revisions to keep a rating alive for
 $wgArticleFeedbackRatingLifetime = 30;
 
@@ -31,9 +34,37 @@ $wgArticleFeedbackCategories = array();
 // are the smallest increments used.
 $wgArticleFeedbackLotteryOdds = 0;
 
-// This version number is added to all tracking event names, so that changes in the software don't
-// corrupt the data being collected. Bump this when you want to start a new "experiment".
-$wgArticleFeedbackTrackingVersion = 0;
+// Bucket settings for tracking users
+$wgArticleFeedbackTracking = array(
+	// Not all users need to be tracked, but we do want to track some users over time - these
+	// buckets are used when deciding to track someone or not, placing them in one of two buckets:
+	// "ignore" or "track". When $wgArticleFeedbackTrackingVersion changes, users will be
+	// re-bucketed, so you should always increment $wgArticleFeedbackTrackingVersion when changing
+	// this number to ensure the new odds are applied to everyone, not just people who have yet to
+	// be placed in a bucket.
+	'buckets' => array(
+		'ignore' => 100,
+		'track' => 0,
+	),
+	// This version number is added to all tracking event names, so that changes in the software
+	// don't corrupt the data being collected. Bump this when you want to start a new "experiment".
+	'version' => 0,
+	// Let user's be tracked for a month, and then rebucket them, allowing some churn
+	'expires' => 30,
+	// Track the event of users being bucketed - so we can be sure the odds worked out right
+	'tracked' => true
+);
+
+// Bucket settings for extra options in the UI
+$wgArticleFeedbackOptions = array(
+	'buckets' => array(
+		'show' => 100,
+		'hide' => 0,
+	),
+	'version' => 0,
+	'expires' => 30,
+	'tracked' => true
+);
 
 // Would ordinarily call this articlefeedback but survey names are 16 chars max
 $wgPrefSwitchSurveys['articlerating'] = array(
@@ -70,6 +101,9 @@ $wgPrefSwitchSurveys['articlerating'] = array(
 );
 $wgValidSurveys[] = 'articlerating';
 
+// Replace default emailcapture message
+$wgEmailCaptureAutoResponse['body-msg'] = 'articlefeedback-emailcapture-response-body';
+
 /* Setup */
 
 $wgExtensionCredits['other'][] = array(
@@ -92,7 +126,9 @@ $dir = dirname( __FILE__ ) . '/';
 $wgAutoloadClasses['ApiQueryArticleFeedback'] = $dir . 'api/ApiQueryArticleFeedback.php';
 $wgAutoloadClasses['ApiArticleFeedback'] = $dir . 'api/ApiArticleFeedback.php';
 $wgAutoloadClasses['ArticleFeedbackHooks'] = $dir . 'ArticleFeedback.hooks.php';
+$wgAutoloadClasses['SpecialArticleFeedback'] = $dir . 'SpecialArticleFeedback.php';
 $wgExtensionMessagesFiles['ArticleFeedback'] = $dir . 'ArticleFeedback.i18n.php';
+$wgExtensionAliasesFiles['ArticleFeedback'] = $dir . 'ArticleFeedback.alias.php';
 // Hooks
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'ArticleFeedbackHooks::loadExtensionSchemaUpdates';
 $wgHooks['ParserTestTables'][] = 'ArticleFeedbackHooks::parserTestTables';
@@ -102,3 +138,7 @@ $wgHooks['ResourceLoaderGetConfigVars'][] = 'ArticleFeedbackHooks::resourceLoade
 // API Registration
 $wgAPIListModules['articlefeedback'] = 'ApiQueryArticleFeedback';
 $wgAPIModules['articlefeedback'] = 'ApiArticleFeedback';
+
+// Special Page
+$wgSpecialPages['ArticleFeedback'] = 'SpecialArticleFeedback';
+$wgSpecialPageGroups['ArticleFeedback'] = 'other';
