@@ -350,15 +350,15 @@ window.mediaWiki = new ( function( $ ) {
 				'tracked': false,
 				'expires': 30
 			}, options || {} );
-			var cookie = $.cookie( 'mw.user.bucket:' + key );
+			var cookie = $.cookie( 'mediaWiki.user.bucket:' + key );
 			var bucket = null;
 			var version = 0;
 			// Bucket information is stored as 2 integers, together as version:bucket like: "1:2"
 			if ( typeof cookie === 'string' && cookie.length > 2 && cookie.indexOf( ':' ) > 0 ) {
 				var parts = cookie.split( ':' );
-				if ( parts.length > 1 && parts[1] == options.version ) {
+				if ( parts.length > 1 && parts[0] == options.version ) {
 					version = Number( parts[0] );
-					bucket = Number( parts[1] );
+					bucket = String( parts[1] );
 				}
 			}
 			if ( bucket === null ) {
@@ -384,11 +384,13 @@ window.mediaWiki = new ( function( $ ) {
 				}
 				if ( options.tracked ) {
 					mw.loader.using( 'jquery.clickTracking', function() {
-						$.trackAction( 'mw.user.bucket:' + key + '@' + version + ':' + bucket );
+						$.trackAction(
+							'mediaWiki.user.bucket:' + key + '@' + version + ':' + bucket
+						);
 					} );
 				}
 				$.cookie(
-					'mw.user.bucket:' + key,
+					'mediaWiki.user.bucket:' + key,
 					version + ':' + bucket,
 					{ 'path': '/', 'expires': Number( options.expires ) }
 				);
