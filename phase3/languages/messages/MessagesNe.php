@@ -542,16 +542,13 @@ $2',
 'loginlanguagelabel'         => 'भाषा: $1',
 'suspicious-userlogout'      => 'तपाईंको निर्गमन अनुरोध अस्विकार गरिन्छ किन कि यो खराब ब्राउजर वा क्यासिङ प्रोक्सिले पठाएको जस्तो देखिन्छ।',
 
-# JavaScript password checks
-'password-strength'            => 'पासवर्डको अनुमानित बल: $1',
-'password-strength-bad'        => 'नराम्रो',
-'password-strength-acceptable' => 'स्वीकार्य',
-'password-strength-good'       => 'राम्रो',
-'password-retype'              => 'पासवर्ड फेरी टाईप गर्नुहोस्',
-'password-retype-mismatch'     => 'पासवर्डहरु मिलेनन्',
+# E-mail sending
+'php-mail-error-unknown' => 'PHP मेल() क्रियामा अज्ञात त्रुटि',
 
-# Password reset dialog
+# Change password dialog
 'resetpass'                 => 'प्रवेशशव्द परिवर्तन गर्नुहोस्',
+'resetpass_announce'        => 'तपाईंले अस्थायी ई-मेल कोडको आधारमा प्रवेश गर्नु भएकोछ।
+प्रवेशकार्य पूरा गर्न नयाँ प्रवेश शव्द यहाँ दिनुहोस्:',
 'resetpass_header'          => 'खाताको प्रवेशशव्द परिवर्तन गर्ने',
 'oldpassword'               => 'पुरानो पासवर्ड:',
 'newpassword'               => 'नयाँ पासवर्ड:',
@@ -562,6 +559,8 @@ $2',
 'resetpass-no-info'         => 'यो पृष्ठ सिधै हेर्नको लागि तपाईँले प्रवेश गर्नुपर्छ ।',
 'resetpass-submit-loggedin' => 'प्रवेशशव्द परिवर्तन गर्ने',
 'resetpass-submit-cancel'   => 'रद्द गर्ने',
+'resetpass-wrong-oldpass'   => 'अस्थायी अथवा हा्लिएको प्रवेश शव्द अमान्य
+तपाईंले अघिबाट नैं प्रवेश शव्द सफलता पूर्वक परिवर्तन गरिसक्नु भएको हो वा नयाँ प्रवेश शव्दको निम्ति निवेदन गर्नुभएकोछ।',
 'resetpass-temp-password'   => 'अस्थाइ प्रवेशशव्द',
 
 # Edit page toolbar
@@ -596,6 +595,7 @@ $2',
 'showdiff'                         => 'परिवर्तन देखाउनुहोस्',
 'anoneditwarning'                  => "'''चेतावनी:''' तपाईँले प्रवेश गर्नु भएको छैन।
 तपाईँको IP ठेगाना पृष्ठसम्पादन इतिहासमा दर्तागरिने छ ।",
+'anonpreviewwarning'               => "''तपाईंले प्रवेश गर्नु भएको छैन। संग्रह (Save) गरेको खण्डमा पृष्ठको इतिहासमा तपाईंको IP ठेगाना अंकित गरिनेछ।''",
 'missingsummary'                   => "'''यादगर्नुहोस् :''' तपाईले सम्पादन सारांश दिनुभएको छैन ।
 यदि तपाईले संग्रहगर्नुहोस्  थिच्नुभयो भने , सारांश बिना नै संग्रहित गरिने छ ।",
 'missingcommenttext'               => 'कृपया टिप्पणी प्रविष्ठ गर्नुहोस् ।',
@@ -617,12 +617,30 @@ $2',
 तपाईँले  'प्रयोगकर्तालाई इ-मेल गर्ने ' सुविधा मान्य इमेल ठेगाना [[Special:Preferences|account preferences]] मा नखुलाए सम्म प्रयोगगर्न पाउनुहुने छैन र यसको प्रयोग गर्नबाट रोक लगाइएको छैन ।
 तपाईको IP ठेगाना $3 को, र रोक्का संख्या #$5.
 कृपया तपाईँको प्रश्नमा सबै जानकारी खुलाउनुहोला ।",
+'autoblockedtext'                  => "तपाईंको IP ठेगानामाथि रोक लगाइएकोछ किन भनें यो अर्को प्रयोगकर्ताले प्रयोग गरेको थियो, जसलाई $1ले रोक लगाएका थिए। 
+रोक लगाउनुको कारण:
+:''$2''  
+
+* रोकावट सुरु: $8
+* रोकावट सकिने: $6
+* रोकावटको प्रयोजन: $7
+
+तपाईंले $1 सित संपर्क गर्न सक्नुहुन्छ अथवा कुनै [[{{MediaWiki:Grouppage-sysop}}|प्रबन्धकसित]] रोकबारे चर्चा गर्न सक्नुहु्न्छ।
+
+ध्यान दिनुहोस् कि तपाईंले यस प्रयोगकर्ताका लागि ई-मेलको प्रयोग तबसम्म गर्नसक्नुहुन्न जबसम्म तपाईको [[Special:Preferences|अभिरुचि]] पंजिकृत गर्नु हुन्न वा यस ई-मेलको प्रयोगमाथि रोक लगाइएको हुँदैन। 
+
+तपाईंको वर्तमान IP ठेगाना हो- $3, अनि रोक लगाइएको ID हो- #$5.
+कृपया कुनै बेला सोधनी गर्नु परे उपर्युक्त विवरण दर्शाउनु होला।",
 'blockednoreason'                  => 'कारण दिइएको छैन',
 'blockedoriginalsource'            => "'''$1''' को स्रोत तल देखाइएको छ:",
 'blockededitsource'                => "'''$1'''को '''तपाईँको सम्पादन'''को पाठ तल देखाइएको छ:",
 'whitelistedittitle'               => 'सम्पादन गर्नको लागि प्रवेश (लग इन) आवश्यक छ',
 'whitelistedittext'                => 'पाना सम्पादन गर्न तपाँईले $1 गर्नु पर्दछ।',
+'confirmedittext'                  => 'तपाईंले पृष्ठ संपादन गर्नअघि आफ्नो ई-मेल ठेगानाको पुष्टि गर्नुपर्छ।
+कृपया ई-मेल ठेगाना तयार गरी [[Special:Preferences|प्रयोगकर्ता अभिरूचि]] मार्फत मंजुर गराउनुहोस्।',
 'nosuchsectiontitle'               => 'सेक्सन फेला परेन',
+'nosuchsectiontext'                => 'तपाईं त्यस्तो खण्डको संपादन गर्ने प्रयास गर्नु्भयो जो अस्तित्वमा छैन।
+यो सारिएको अथवा मेटाइएको हुनुपर्छ जब तपाईं यस पृष्ठलाई हेर्नुहुँदैथियो।',
 'loginreqtitle'                    => 'प्रवेशगर्नु जरुरी छ।',
 'loginreqlink'                     => 'प्रवेश (लग ईन)',
 'loginreqpagetext'                 => 'अरु पृष्ठहेर्न तपाईले $1 गर्नुपर्छ ।',
@@ -889,14 +907,6 @@ $1",
 
 # Suppression log
 'suppressionlog' => 'कमगरेको लग',
-
-# Revision move
-'moverevlogentry'         => '$1बाट $2मा {{PLURAL:$3|एउटा संशोधन सारियो|$3 संशोधनहरु सारिए}}',
-'revisionmove'            => '"$1"बाट संशोधनहरु सार्ने',
-'revmove-reasonfield'     => 'कारण:',
-'revmove-titlefield'      => 'लक्षित पृष्ठ',
-'revmove-nullmove-title'  => 'गलत शीर्षक',
-'revmove-success-created' => '{{PLURAL:$1|एउटा संशोधन [[$2]]बाट|$1 संशोधनहरु [[$2]]बाट}} नयाँ बनाइएको पृष्ठ [[$3]]मा सार्ने काम भयो।',
 
 # History merging
 'mergehistory'                     => 'पृष्ठ इतिहासहरु जोड्नुहोस्',
@@ -1277,7 +1287,6 @@ HTML ट्यागहरु जाँच्नुहोस् ।',
 'action-userrights'           => 'सबै प्रयोगकर्ताका अधिकारहरु सम्पादन गर्ने',
 'action-userrights-interwiki' => 'अरु विकिका प्रयोगकर्ताहरुको प्रयोगकर्ता अधिकारलाई सम्पादन गर्ने',
 'action-siteadmin'            => 'डेटाबेस बन्दगर्ने वा खोल्ने',
-'action-revisionmove'         => 'संशोधन सार्ने',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|परिवर्तन|परिवर्तनहरु}}',
@@ -1325,7 +1334,10 @@ HTML ट्यागहरु जाँच्नुहोस् ।',
 # Upload
 'upload'                 => 'फाइल उर्ध्वभरण',
 'uploadbtn'              => 'फाइलहरु उर्ध्वभरण गर्ने',
+'reuploaddesc'           => 'उर्ध्वभरण रद्द गर्ने र उर्ध्वभरण फारमतिर जाने',
+'upload-tryagain'        => 'संशोधित फाइल विवरण बुझाउने',
 'uploadnologin'          => 'प्रवेश (लग ईन) नगरिएको',
+'uploadnologintext'      => 'फाइल उर्ध्वभरण गर्न तपाईंले [[Special:UserLogin|प्रवेश]] गर्नुपर्छ।',
 'uploaderror'            => 'उर्ध्वभरण त्रुटि',
 'uploadtext'             => "फाइल उर्ध्वभरण गर्न निम्न फारम प्रयोग गर्नुहोस्।
 हेर्नुहोस्- पहिला उर्ध्वभरण गरिएका [[Special:FileList|फाइलहरुको सूची]] , पुनः उर्ध्वभरण गरिएका [[Special:Log/upload|उर्ध्वभरण लग]]मा , मेटिएका फाइलहरु [[Special:Log/delete|मेटिएको लग]]मा।
@@ -2032,7 +2044,6 @@ $3द्वारा $1को ($4को  समय $5 मा) मेटाइए
 'ipb-edit-dropdown'               => 'निषेध कारण सम्पादन गर्नुहोस्',
 'ipb-unblock-addr'                => '$1 निषेध खारेज गर्ने',
 'ipb-unblock'                     => 'प्रयोगकर्ता वा IP माथिको निषेध खारेज गर्ने',
-'ipb-blocklist-addr'              => '$1माथि रहेका निषेधहरु',
 'ipb-blocklist'                   => 'हाल रहेका निषेधहरु हेर्नुहोस्',
 'ipb-blocklist-contribs'          => '$1 को लागि योगदान',
 'unblockip'                       => 'प्रयोगकर्ताको निषेध खारेज गर्नुहोस्',
@@ -2407,7 +2418,13 @@ $1को बन्देजको कारण : "$2" हो',
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # EXIF tags
 'exif-imagewidth'                  => 'चौडाइ',
@@ -2422,11 +2439,9 @@ $1को बन्देजको कारण : "$2" हो',
 'exif-ycbcrpositioning'            => 'Y र C व्यवस्थापन',
 'exif-xresolution'                 => 'क्षैतिज संकल्प(resolution)',
 'exif-yresolution'                 => 'ऊर्ध्वाधर संकल्प(resolution)',
-'exif-resolutionunit'              => 'यूनिट एक्स र वाईको रिजोलुसन',
 'exif-stripoffsets'                => 'चित्र आँकड़ाको अवस्थिति',
 'exif-rowsperstrip'                => 'प्रतिपंक्ति पट्टीहरुको संख्या',
 'exif-jpeginterchangeformatlength' => 'JPEG आँकड़ाको बाइट',
-'exif-transferfunction'            => 'स्थानान्तरण कार्य',
 'exif-whitepoint'                  => 'सेतो बिंदु क्रोम्यासिटी(chromaticity)',
 'exif-datetime'                    => 'फाइल परिवर्तन मिति तथा समय',
 'exif-imagedescription'            => 'चित्र नाम',
@@ -2452,7 +2467,6 @@ $1को बन्देजको कारण : "$2" हो',
 'exif-exposureprogram'             => 'एक्स्पोजर कार्यक्रम',
 'exif-spectralsensitivity'         => 'वर्णक्रमीय संवेदनशीलता',
 'exif-isospeedratings'             => 'आईएसओ गति रेटिंग',
-'exif-oecf'                        => 'Optoelectronic रूपांतरण कारक',
 'exif-shutterspeedvalue'           => 'शटरको गति',
 'exif-aperturevalue'               => 'छिंड़',
 'exif-brightnessvalue'             => 'चमक',
@@ -2462,7 +2476,6 @@ $1को बन्देजको कारण : "$2" हो',
 'exif-lightsource'                 => 'प्रकाश स्रोत',
 'exif-focallength'                 => 'लेंस फोकल लम्बाई',
 'exif-subjectarea'                 => 'विषय क्षेत्र',
-'exif-spatialfrequencyresponse'    => 'स्थानिक आवृत्ति प्रतिक्रिया',
 'exif-focalplanexresolution'       => 'फोकल विमान एक्स संकल्प',
 'exif-focalplaneyresolution'       => 'फोकल प्लेन वाई रिजोलुसन',
 'exif-subjectlocation'             => 'विषयको अवस्थिति',
@@ -2833,14 +2846,5 @@ $1',
 'htmlform-submit'              => 'बुझाउने',
 'htmlform-reset'               => 'परिवर्तनहरू परित्याग गर्नुहोस्',
 'htmlform-selectorother-other' => 'अन्य',
-
-# Special:DisableAccount
-'disableaccount'             => 'प्रयोगकर्ता खाता निस्क्रिय गर्ने',
-'disableaccount-user'        => 'प्रयोगकर्ता-नाम:',
-'disableaccount-reason'      => 'कारण:',
-'disableaccount-mustconfirm' => 'तपाईंले यो सुनिश्चित गर्नुपर्छ कि तपाईं यो खाता निस्क्रिय गर्न चाहनुहुन्छ।',
-'disableaccount-nosuchuser'  => 'यो $1 प्रयोगकर्ता खाता छैन।',
-'disableaccount-success'     => '"$1" प्रयोगकर्ता खाता स्थायी रुपले निस्क्रिय गरिएकोछ।',
-'disableaccount-logentry'    => '[[$1]] प्रयोगकर्ता खाता स्थायी रुपले निस्क्रिय पारियो।',
 
 );

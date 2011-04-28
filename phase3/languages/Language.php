@@ -603,7 +603,15 @@ class Language {
 	function getMonthName( $key ) {
 		return $this->getMessageFromDB( self::$mMonthMsgs[$key - 1] );
 	}
-
+	
+	function getMonthNamesArray() {
+		$monthNames = array( '' );
+		for ( $i=1; $i < 13; $i++ ) { 
+			$monthNames[] = $this->getMonthName( $i );
+		}
+		return $monthNames;
+	}
+	
 	function getMonthNameGen( $key ) {
 		return $this->getMessageFromDB( self::$mMonthGenMsgs[$key - 1] );
 	}
@@ -611,7 +619,15 @@ class Language {
 	function getMonthAbbreviation( $key ) {
 		return $this->getMessageFromDB( self::$mMonthAbbrevMsgs[$key - 1] );
 	}
-
+	
+	function getMonthAbbreviationsArray() {
+		$monthNames = array('');
+		for ( $i=1; $i < 13; $i++ ) { 
+			$monthNames[] = $this->getMonthAbbreviation( $i );
+		}
+		return $monthNames;
+	}
+	
 	function getWeekdayName( $key ) {
 		return $this->getMessageFromDB( self::$mWeekdayMsgs[$key - 1] );
 	}
@@ -1857,7 +1873,8 @@ class Language {
 			return $s;
 		}
 
-		$isutf8 = ( $s == iconv("UTF-8","UTF-8//IGNORE", $s));
+		$isutf8 = preg_match( '/^([\x00-\x7f]|[\xc0-\xdf][\x80-\xbf]|' .
+				'[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xf7][\x80-\xbf]{3})+$/', $s );
 		if ( $isutf8 ) {
 			return $s;
 		}

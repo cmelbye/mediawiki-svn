@@ -830,8 +830,10 @@ class Parser {
 		foreach ( $lines as $outLine ) {
 			$line = trim( $outLine );
 
-			if ( $line === '' ) { # empty line, go to next line
-				$out .= $outLine."\n";
+			# empty line, go to next line,
+			# but only append \n if outside of table
+			if ( $line === '') { 
+				$output .= $outLine . "\n";
 				continue;
 			}
 
@@ -841,7 +843,6 @@ class Parser {
 			if ( preg_match( '/^(:*)\{\|(.*)$/', $line , $matches ) ) {
 				# First check if we are starting a new table
 				$indent_level = strlen( $matches[1] );
-
 				$attributes = $this->mStripState->unstripBoth( $matches[2] );
 				$attributes = Sanitizer::fixTagAttributes( $attributes , 'table' );
 
@@ -867,6 +868,14 @@ class Parser {
 				if ( array_pop( $tr_history ) ) {
 					$line = "</tr>{$line}";
 				}
+				$o = '';
+				$curtable = array_pop( $tables );
+
+				#Add a line-ending before the table, but only if there isn't one already
+				if ( substr( $out, -1 ) !== "\n" ) {
+					$o .= "\n";
+				}
+				$o .= $this->generateTableHTML( $curtable ) . $line . "\n";
 
 				if ( array_pop( $td_history ) ) {
 					$line = "</{$last_tag}>{$line}";
@@ -918,9 +927,12 @@ class Parser {
 				# by earlier parser steps, but should avoid splitting up eg
 				# attribute values containing literal "||".
 				$cells = StringUtils::explodeMarkup( '||' , $line );
+			} else {
+				$output .= "\n$outLine";
+			}
+		}
 
 				$outLine = '';
-
 				# Loop through each table cell
 				foreach ( $cells as $cell ) {
 					$previous = '';
@@ -934,6 +946,18 @@ class Parser {
 						array_pop( $has_opened_tr );
 						array_push( $has_opened_tr , true );
 					}
+		# Close any unclosed tables
+		if ( isset( $tables ) && count( $tables ) > 0 ) {
+			for ( $i = 0; $i < count( $tables ); $i++ ) {
+				$curtable = array_pop( $tables );
+				$curtable = $this->generateTableHTML( $curtable );
+				#Add a line-ending before the table, but only if there isn't one already
+				if ( substr( $out, -1 ) !== "\n"  && $curtable !== "" ) {
+					$out .= "\n";
+				}
+				$out .= $curtable;
+			}
+		}
 
 					$last_tag = array_pop( $last_tag_history );
 
@@ -979,6 +1003,46 @@ class Parser {
 		while ( count( $td_history ) > 0 ) {
 			if ( array_pop( $td_history ) ) {
 				$out .= "</td>\n";
+			$content = trim ( $cellData[1] );
+		}
+		return array( $content, $attributes );
+	}
+
+
+	/**
+	 * Helper function for doTableStuff(). This converts the structured array into html.
+	 *
+	 * @private
+	 */
+	function generateTableHTML ( &$table ) {
+		$return = "";
+		$return .= str_repeat( '<dl><dd>' , $table['indent'] );
+		$return .= '<table';
+		$return .= isset( $table['attributes'] ) ? $table['attributes'] : '';
+		$return .= '>';
+		unset( $table['attributes'] );
+
+		if ( isset( $table['caption'] ) ) {
+			$return .= "\n<caption";
+			$return .= isset( $table['caption']['attributes'] ) ? $table['caption']['attributes'] : '';
+			$return .= '>';
+			$return .= $table['caption']['content'];
+			$return .= "\n</caption>";
+		}
+		$lastSection = '';
+		$empty = true;
+		$simple = true;
+
+		// If we only have tbodies, mark table as simple
+		for ( $i = 0; isset( $table[$i] ); $i++ ) {
+			if ( !count( $table[$i] ) ) continue;
+			if ( !isset( $table[$i]['type'] ) ) $table[$i]['type'] = 'tbody';
+			if ( !$lastSection ) {
+				$lastSection = $table[$i]['type'];
+			} else if ( $lastSection != $table[$i]['type'] ) {
+				$simple = false;
+				break;
+
 			}
 			if ( array_pop( $tr_history ) ) {
 				$out .= "</tr>\n";
@@ -994,6 +1058,8 @@ class Parser {
 		if ( substr( $out, -1 ) === "\n" ) {
 			$out = substr( $out, 0, -1 );
 		}
+				if ( $table[$i][$j]['content'] != '' )
+					$return .= "\n";
 
 		# special case: don't return empty table
 		if ( $out === "<table>\n<tr><td></td></tr>\n</table>" ) {

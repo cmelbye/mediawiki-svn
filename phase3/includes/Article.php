@@ -579,7 +579,7 @@ class Article {
 	 * @return mixed value of $x, or value stored in Article::mForUpdate
 	 */
 	public function forUpdate( $x = null ) {
-		wfDeprecated();
+		wfDeprecated( __METHOD__ );
 		return wfSetVar( $this->mForUpdate, $x );
 	}
 
@@ -1677,32 +1677,7 @@ class Article {
 	 * Handle action=purge
 	 */
 	public function purge() {
-		global $wgRequest, $wgOut;
-
-		if ( $wgOut->getUser()->isAllowed( 'purge' ) || $wgRequest->wasPosted() ) {
-			//FIXME: shouldn't this be in doPurge()?
-			if ( wfRunHooks( 'ArticlePurge', array( &$this ) ) ) {
-				$this->doPurge();
-				$this->view();
-			}
-		} else {
-			$formParams = array(
-				'method' => 'post',
-				'action' =>  $wgRequest->getRequestURL(),
-			);
-
-			$wgOut->addWikiMsg( 'confirm-purge-top' );
-
-			$form  = Html::openElement( 'form', $formParams );
-			$form .= Xml::submitButton( wfMsg( 'confirm_purge_button' ) );
-			$form .= Html::closeElement( 'form' );
-
-			$wgOut->addHTML( $form );
-			$wgOut->addWikiMsg( 'confirm-purge-bottom' );
-
-			$wgOut->setPageTitle( $this->mTitle->getPrefixedText() );
-			$wgOut->setRobotPolicy( 'noindex,nofollow' );
-		}
+		return Action::factory( 'purge', $this )->show();
 	}
 
 	/**
@@ -1710,6 +1685,10 @@ class Article {
 	 */
 	public function doPurge() {
 		global $wgUseSquid;
+
+		if( !wfRunHooks( 'ArticlePurge', array( &$this ) ) ){
+			return false;
+		}
 
 		// Invalidate the cache
 		$this->mTitle->invalidateCache();
@@ -2424,27 +2403,10 @@ class Article {
 
 	/**
 	 * User-interface handler for the "watch" action
+	 * @deprecated since 1.18
 	 */
 	public function watch() {
-		global $wgOut;
-
-		if ( $wgOut->getUser()->isAnon() ) {
-			$wgOut->showErrorPage( 'watchnologin', 'watchnologintext' );
-			return;
-		}
-
-		if ( wfReadOnly() ) {
-			$wgOut->readOnlyPage();
-			return;
-		}
-
-		if ( $this->doWatch() ) {
-			$wgOut->setPagetitle( wfMsg( 'addedwatch' ) );
-			$wgOut->setRobotPolicy( 'noindex,nofollow' );
-			$wgOut->addWikiMsg( 'addedwatchtext', $this->mTitle->getPrefixedText() );
-		}
-
-		$wgOut->returnToMain( true, $this->mTitle->getPrefixedText() );
+		Action::factory( 'watch', $this )->show();
 	}
 
 	/**
@@ -2453,64 +2415,27 @@ class Article {
 	 * This is safe to be called multiple times
 	 *
 	 * @return bool true on successful watch operation
+	 * @deprecated since 1.18
 	 */
 	public function doWatch() {
-		global $wgUser;
-
-		if ( $wgUser->isAnon() ) {
-			return false;
-		}
-
-		if ( wfRunHooks( 'WatchArticle', array( &$wgUser, &$this ) ) ) {
-			$wgUser->addWatch( $this->mTitle );
-			return wfRunHooks( 'WatchArticleComplete', array( &$wgUser, &$this ) );
-		}
-
-		return false;
+		return Action::factory( 'watch', $this )->execute();
 	}
 
 	/**
 	 * User interface handler for the "unwatch" action.
+	 * @deprecated since 1.18
 	 */
 	public function unwatch() {
-		global $wgOut;
-
-		if ( $wgOut->getUser()->isAnon() ) {
-			$wgOut->showErrorPage( 'watchnologin', 'watchnologintext' );
-			return;
-		}
-
-		if ( wfReadOnly() ) {
-			$wgOut->readOnlyPage();
-			return;
-		}
-
-		if ( $this->doUnwatch() ) {
-			$wgOut->setPagetitle( wfMsg( 'removedwatch' ) );
-			$wgOut->setRobotPolicy( 'noindex,nofollow' );
-			$wgOut->addWikiMsg( 'removedwatchtext', $this->mTitle->getPrefixedText() );
-		}
-
-		$wgOut->returnToMain( true, $this->mTitle->getPrefixedText() );
+		Action::factory( 'unwatch', $this )->show();
 	}
 
 	/**
 	 * Stop watching a page
 	 * @return bool true on successful unwatch
+	 * @deprecated since 1.18
 	 */
 	public function doUnwatch() {
-		global $wgUser;
-
-		if ( $wgUser->isAnon() ) {
-			return false;
-		}
-
-		if ( wfRunHooks( 'UnwatchArticle', array( &$wgUser, &$this ) ) ) {
-			$wgUser->removeWatch( $this->mTitle );
-			return wfRunHooks( 'UnwatchArticleComplete', array( &$wgUser, &$this ) );
-		}
-
-		return false;
+		return Action::factory( 'unwatch', $this )->execute();
 	}
 
 	/**
@@ -2828,6 +2753,93 @@ class Article {
 		$reason = str_replace( '$1', $contents, $reason );
 
 		return $reason;
+=======
+		return DeleteAction::getAutoReason( $this );
+=======
+		global $wgContLang;
+
+		$dbw = wfGetDB( DB_MASTER );
+		// Get the last revision
+		$rev = Revision::newFromTitle( $this->mTitle );
+
+		if ( is_null( $rev ) ) {
+			return false;
+		}
+
+		// Get the article's contents
+		$contents = $rev->getText();
+		$blank = false;
+
+		// If the page is blank, use the text from the previous revision,
+		// which can only be blank if there's a move/import/protect dummy revision involved
+		if ( $contents == '' ) {
+			$prev = $rev->getPrevious();
+
+			if ( $prev )	{
+				$contents = $prev->getText();
+				$blank = true;
+			}
+		}
+
+		// Find out if there was only one contributor
+		// Only scan the last 20 revisions
+		$res = $dbw->select( 'revision', 'rev_user_text',
+			array( 'rev_page' => $this->getID(), $dbw->bitAnd( 'rev_deleted', Revision::DELETED_USER ) . ' = 0' ),
+			__METHOD__,
+			array( 'LIMIT' => 20 )
+		);
+
+		if ( $res === false ) {
+			// This page has no revisions, which is very weird
+			return false;
+		}
+
+		$hasHistory = ( $res->numRows() > 1 );
+		$row = $dbw->fetchObject( $res );
+
+		if ( $row ) { // $row is false if the only contributor is hidden
+			$onlyAuthor = $row->rev_user_text;
+			// Try to find a second contributor
+			foreach ( $res as $row ) {
+				if ( $row->rev_user_text != $onlyAuthor ) { // Bug 22999
+					$onlyAuthor = false;
+					break;
+				}
+			}
+		} else {
+			$onlyAuthor = false;
+		}
+
+		// Generate the summary with a '$1' placeholder
+		if ( $blank ) {
+			// The current revision is blank and the one before is also
+			// blank. It's just not our lucky day
+			$reason = wfMsgForContent( 'exbeforeblank', '$1' );
+		} else {
+			if ( $onlyAuthor ) {
+				$reason = wfMsgForContent( 'excontentauthor', '$1', $onlyAuthor );
+			} else {
+				$reason = wfMsgForContent( 'excontent', '$1' );
+			}
+		}
+
+		if ( $reason == '-' ) {
+			// Allow these UI messages to be blanked out cleanly
+			return '';
+		}
+
+		// Replace newlines with spaces to prevent uglyness
+		$contents = preg_replace( "/[\n\r]/", ' ', $contents );
+		// Calculate the maximum amount of chars to get
+		// Max content length = max comment length - length of the comment (excl. $1)
+		$maxLength = 255 - ( strlen( $reason ) - 2 );
+		$contents = $wgContLang->truncate( $contents, $maxLength );
+		// Remove possible unfinished links
+		$contents = preg_replace( '/\[\[([^\]]*)\]?$/', '$1', $contents );
+		// Now replace the '$1' placeholder
+		$reason = str_replace( '$1', $contents, $reason );
+
+		return $reason;
 	}
 
 
@@ -2935,7 +2947,10 @@ class Article {
 			//FIXME: lego
 			$wgOut->addHTML( '<strong class="mw-delete-warning-revisions">' .
 				wfMsgExt( 'historywarning', array( 'parseinline' ), $wgLang->formatNum( $revisions ) ) .
-				wfMsgHtml( 'word-separator' ) . $skin->historyLink() .
+				wfMsgHtml( 'word-separator' ) . $skin->link( $this->mTitle,
+					wfMsgHtml( 'history' ),
+					array( 'rel' => 'archives' ),
+					array( 'action' => 'history' ) ) .
 				'</strong>'
 			);
 
@@ -3138,24 +3153,21 @@ class Article {
 	 * Perform a deletion and output success or failure messages
 	 */
 	public function doDelete( $reason, $suppress = false ) {
-		global $wgOut, $wgUser;
+		global $wgOut;
 
 		$id = $this->mTitle->getArticleID( Title::GAID_FOR_UPDATE );
 
 		$error = '';
-		if ( wfRunHooks( 'ArticleDelete', array( &$this, &$wgUser, &$reason, &$error ) ) ) {
-			if ( $this->doDeleteArticle( $reason, $suppress, $id ) ) {
-				$deleted = $this->mTitle->getPrefixedText();
+		if ( $this->doDeleteArticle( $reason, $suppress, $id, $error ) ) {
+			$deleted = $this->mTitle->getPrefixedText();
 
-				$wgOut->setPagetitle( wfMsg( 'actioncomplete' ) );
-				$wgOut->setRobotPolicy( 'noindex,nofollow' );
+			$wgOut->setPagetitle( wfMsg( 'actioncomplete' ) );
+			$wgOut->setRobotPolicy( 'noindex,nofollow' );
 
-				$loglink = '[[Special:Log/delete|' . wfMsgNoTrans( 'deletionlog' ) . ']]';
+			$loglink = '[[Special:Log/delete|' . wfMsgNoTrans( 'deletionlog' ) . ']]';
 
-				$wgOut->addWikiMsg( 'deletedtext', $deleted, $loglink );
-				$wgOut->returnToMain( false );
-				wfRunHooks( 'ArticleDeleteComplete', array( &$this, &$wgUser, $reason, $id ) );
-			}
+			$wgOut->addWikiMsg( 'deletedtext', $deleted, $loglink );
+			$wgOut->returnToMain( false );
 		} else {
 			if ( $error == '' ) {
 				$wgOut->showFatalError(
@@ -3177,6 +3189,16 @@ class Article {
 				$wgOut->showFatalError( $error );
 			}
 		}
+
+		return DeleteAction::doDeleteArticle(
+			$this,
+			$this->getContext(),
+			array(
+				'Suppress' => $suppress !== false,
+				'Reason' => $reason,
+			),
+			true
+		);
 	}
 
 	/**
@@ -3198,6 +3220,51 @@ class Article {
 
 		wfDebug( __METHOD__ . "\n" );
 
+		$dbw = wfGetDB( DB_MASTER );
+		$t = $this->mTitle->getDBkey();
+		$id = $id ? $id : $this->mTitle->getArticleID( Title::GAID_FOR_UPDATE );
+
+		if ( $t === '' || $id == 0 ) {
+			return false;
+		}
+
+		$u = new SiteStatsUpdate( 0, 1, - (int)$this->isCountable( $this->getRawText() ), -1 );
+		array_push( $wgDeferredUpdateList, $u );
+
+		// Bitfields to further suppress the content
+		if ( $suppress ) {
+			$bitfield = 0;
+			// This should be 15...
+			$bitfield |= Revision::DELETED_TEXT;
+			$bitfield |= Revision::DELETED_COMMENT;
+			$bitfield |= Revision::DELETED_USER;
+			$bitfield |= Revision::DELETED_RESTRICTED;
+		} else {
+			$bitfield = 'rev_deleted';
+		}
+
+		$dbw->begin();
+		// For now, shunt the revision data into the archive table.
+		// Text is *not* removed from the text table; bulk storage
+		// is left intact to avoid breaking block-compression or
+		// immutable storage schemes.
+		//
+		// For backwards compatibility, note that some older archive
+		// table entries will have ar_text and ar_flags fields still.
+		//
+		// In the future, we may keep revisions and mark them with
+		// the rev_deleted field, which is reserved for this purpose.
+		$dbw->insertSelect( 'archive', array( 'page', 'revision' ),
+
+	public function doDeleteArticle( $reason, $suppress = false, $id = 0, $commit = true, &$error = '' ) {
+		global $wgDeferredUpdateList, $wgUseTrackbacks;
+		global $wgUser;
+
+		wfDebug( __METHOD__ . "\n" );
+
+		if ( ! wfRunHooks( 'ArticleDelete', array( &$this, &$wgUser, &$reason, &$error ) ) ) {
+			return false;
+		}
 		$dbw = wfGetDB( DB_MASTER );
 		$t = $this->mTitle->getDBkey();
 		$id = $id ? $id : $this->mTitle->getArticleID( Title::GAID_FOR_UPDATE );
@@ -3291,14 +3358,6 @@ class Article {
 			$dbw->delete( 'externallinks', array( 'el_from' => $id ) );
 			$dbw->delete( 'langlinks', array( 'll_from' => $id ) );
 			$dbw->delete( 'redirect', array( 'rd_from' => $id ) );
-			
-			if ( $wgEnableInterwikiTemplatesTracking && $wgGlobalDatabase ) {
-				$dbw2 = wfGetDB( DB_MASTER, array(), $wgGlobalDatabase );
-				$dbw2->delete( 'globaltemplatelinks',
-							array(  'gtl_from_wiki' => wfWikiID( ),
-							        'gtl_from_page' => $id )
-							);
-			}
 		}
 
 		# If using cleanup triggers, we can skip some manual deletes
@@ -3331,6 +3390,7 @@ class Article {
 			$dbw->commit();
 		}
 
+		wfRunHooks( 'ArticleDeleteComplete', array( &$this, &$wgUser, $reason, $id ) );
 		return true;
 	}
 
@@ -4469,7 +4529,6 @@ class Article {
 	 */
 	public function getParserOptions( $canonical = false ) {
 		global $wgUser, $wgLanguageCode;
-
 		if ( !$this->mParserOptions || $canonical ) {
 			$user = !$canonical ? $wgUser : new User;
 			$parserOptions = new ParserOptions( $user );
@@ -4482,10 +4541,20 @@ class Article {
 			}
 			$this->mParserOptions = $parserOptions;
 		}
-
-		// Clone to allow modifications of the return value without affecting
-		// the cache
+		// Clone to allow modifications of the return value without affecting cache
 		return clone $this->mParserOptions;
+	}
+
+	/**
+	* Get parser options suitable for rendering the primary article wikitext
+	* @param User $user
+	* @return ParserOptions
+	*/
+	public function makeParserOptions( User $user ) {
+		$options = ParserOptions::newFromUser( $user );
+		$options->enableLimitReport(); // show inclusion/loop reports
+		$options->setTidy( true ); // fix bad HTML
+		return $options;
 	}
 
 	/**

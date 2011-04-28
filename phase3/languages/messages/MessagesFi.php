@@ -18,6 +18,7 @@
  * @author Nike
  * @author Ochs
  * @author Olli
+ * @author Pxos
  * @author Silvonen
  * @author Str4nd
  * @author Tarmo
@@ -733,7 +734,7 @@ Käyttäjätunnuksesi on luotu.
 'createaccounterror'         => 'Tunnuksen luonti ei onnistunut: $1',
 'nocookiesnew'               => 'Käyttäjä luotiin, mutta et ole kirjautunut sisään. {{SITENAME}} käyttää evästeitä sisäänkirjautumisen yhteydessä. Selaimesi ei salli evästeistä. Kytke ne päälle, ja sitten kirjaudu sisään juuri luomallasi käyttäjänimellä ja salasanalla.',
 'nocookieslogin'             => '{{SITENAME}} käyttää evästeitä sisäänkirjautumisen yhteydessä. Selaimesi ei salli evästeitä. Ota ne käyttöön, ja yritä uudelleen.',
-'nocookiesfornew'            => 'Käyttäjätiliä ei luotu, koska sen lähdettä ei kyetty varmistamaan. Varmista, että selaimessasi on käytössä evästeet, päivitä tämä sivu ja yritä uudelleen.',
+'nocookiesfornew'            => 'Käyttäjätunnusta ei luotu, koska sen lähdettä ei kyetty varmistamaan. Varmista, että selaimessasi on käytössä evästeet, päivitä tämä sivu ja yritä uudelleen.',
 'noname'                     => 'Et ole määritellyt kelvollista käyttäjänimeä.',
 'loginsuccesstitle'          => 'Sisäänkirjautuminen onnistui',
 'loginsuccess'               => "'''Olet kirjautunut käyttäjänä $1.'''",
@@ -782,15 +783,6 @@ Odota ennen kuin yrität uudelleen.',
 # E-mail sending
 'php-mail-error-unknown' => 'Tuntematon virhe PHP:n mail()-funktiossa',
 
-# JavaScript password checks
-'password-strength'            => 'Arvioitu salasanan vahvuus: $1',
-'password-strength-bad'        => 'HUONO',
-'password-strength-mediocre'   => 'keskinkertainen',
-'password-strength-acceptable' => 'hyväksyttävä',
-'password-strength-good'       => 'hyvä',
-'password-retype'              => 'Salasana uudelleen',
-'password-retype-mismatch'     => 'Salasanat eivät vastaa toisiaan',
-
 # Password reset dialog
 'resetpass'                 => 'Muuta salasana',
 'resetpass_announce'        => 'Kirjauduit sisään sähköpostitse lähetetyllä väliaikaissalasanalla. Päätä sisäänkirjautuminen asettamalla uusi salasana.',
@@ -820,8 +812,6 @@ Olet saattanut jo onnistuneesti vaihtaa salasanasi tai pyytää uutta väliaikai
 'extlink_tip'     => 'Ulkoinen linkki (muista http:// edessä)',
 'headline_sample' => 'Otsikkoteksti',
 'headline_tip'    => 'Otsikko',
-'math_sample'     => 'Lisää kaava tähän',
-'math_tip'        => 'Matemaattinen kaava (LaTeX)',
 'nowiki_sample'   => 'Lisää muotoilematon teksti tähän',
 'nowiki_tip'      => 'Tekstiä, jota wiki ei muotoile',
 'image_sample'    => 'Esimerkki.jpg',
@@ -911,10 +901,10 @@ tai <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}
 'blocked-notice-logextract'        => 'Tämä käyttäjä on tällä hetkellä estetty.
 Alla on viimeisin estolokin tapahtuma:',
 'clearyourcache'                   => "'''Huomautus:''' Selaimen välimuisti pitää tyhjentää asetusten tallentamisen jälkeen, jotta muutokset tulisivat voimaan:
-*'''Mozilla, Firefox ja Safari:''' napsauta ''Shift''-näppäin pohjassa päivitä tai paina ''Ctrl-Shift-R'' (''Cmd-Shift-R'' Applella)
-*'''Konqueror''': napsauta päivitä tai paina ''F5''
-*'''Opera:''' saatat joutua tyhjentämään välimuistin kokonaan (''Tools→Preferences'')
-*'''Internet Explorer:''' napsauta ''Ctrl''-näppäin pohjassa päivitä tai paina ''Ctrl-F5''.",
+'''Mozilla, Firefox ja Safari:''' napsauta Vaihto-näppäin pohjassa Päivitä tai paina ''Ctrl-F5'' tai ''Ctrl-R'' (''Command-R'' Macintoshilla);
+'''Konqueror''': napsauta Päivitä tai paina ''F5'';
+'''Opera:''' tyhjennä välimuisti: ''Tools→Preferences'';
+'''Internet Explorer:''' napsauta ''Ctrl''-näppäin pohjassa Päivitä tai paina ''Ctrl-F5''.",
 'usercssyoucanpreview'             => 'Voit testata uutta CSS:ää ennen tallennusta käyttämällä painiketta ”{{int:showpreview}}”.',
 'userjsyoucanpreview'              => 'Voit testata uutta JavaScriptiä ennen tallennusta käyttämällä painiketta ”{{int:showpreview}}”.',
 'usercsspreview'                   => "'''Tämä on CSS:n esikatselu. Muutoksia ei ole vielä tallennettu.'''",
@@ -967,7 +957,7 @@ Alla on viimeisin lokitapahtuma:",
 'templatesusedpreview'             => 'Esikatselussa mukana {{PLURAL:$1|oleva malline|olevat mallineet}}:',
 'templatesusedsection'             => 'Tässä osiossa mukana {{PLURAL:$1|oleva malline|olevat mallineet}}:',
 'template-protected'               => '(suojattu)',
-'template-semiprotected'           => '(suojattu anonyymeiltä ja uusilta käyttäjiltä)',
+'template-semiprotected'           => '(suojattu kirjautumattomilta ja uusilta käyttäjiltä)',
 'hiddencategories'                 => 'Tämä sivu kuuluu {{PLURAL:$1|seuraavaan piilotettuun luokkaan|seuraaviin piilotettuihin luokkiin}}:',
 'edittools'                        => '<!-- Tässä oleva teksti näytetään muokkauskentän alla. -->',
 'nocreatetitle'                    => 'Sivujen luominen on rajoitettu',
@@ -976,7 +966,7 @@ Alla on viimeisin lokitapahtuma:",
 'sectioneditnotsupported-title'    => 'Osiomuokkaaminen ei ole tuettu.',
 'sectioneditnotsupported-text'     => 'Osiomuokkaaminen ei ole tuettu tällä sivulla.',
 'permissionserrors'                => 'Puutteelliset oikeudet',
-'permissionserrorstext'            => 'Sinulla ei ole oikeuksia suorittaa toimintoa {{PLURAL:$1|seuraavasta|seuraavista}} syistä johtuen:',
+'permissionserrorstext'            => 'Sinulla ei ole oikeutta suorittaa toimintoa {{PLURAL:$1|seuraavasta syystä|seuraavista syistä}} johtuen:',
 'permissionserrorstext-withaction' => 'Sinulla ei ole lupaa {{lcfirst:$2}} {{PLURAL:$1|seuraavasta syystä|seuraavista syistä}} johtuen:',
 'recreate-moveddeleted-warn'       => "'''Olet luomassa sivua, joka on aikaisemmin poistettu.'''
 
@@ -1007,7 +997,7 @@ Nämä muuttujat on jätetty käsittelemättä.',
 
 # "Undo" feature
 'undo-success' => 'Kumoaminen onnistui. Valitse <em>tallenna</em> toteuttaaksesi muutokset.',
-'undo-failure' => 'Muokkausta ei voitu kumota välissä olevien ristiriistaisten muutosten vuoksi. Kumoa muutokset käsin.',
+'undo-failure' => 'Muokkausta ei voitu kumota välissä olevien ristiriitaisten muutosten vuoksi. Kumoa muutokset käsin.',
 'undo-norev'   => 'Muokkausta ei voitu perua, koska sitä ei ole olemassa tai se on poistettu.',
 'undo-summary' => 'Kumottu muokkaus $1, jonka teki [[Special:Contributions/$2|$2]] ([[User talk:$2|keskustelu]])',
 
@@ -1155,24 +1145,6 @@ Sinulla ei ole oikeutta siihen.',
 'suppressionlogtext' => 'Alla on lista uusimmista poistoista ja muokkausestoista, jotka sisältävät ylläpitäjiltä piilotettua materiaalia.
 [[Special:IPBlockList|Muokkausestolistassa]] on tämänhetkiset muokkausestot.',
 
-# Revision move
-'moverevlogentry'              => 'siirsi {{PLURAL:$3|yhden version|$3 versiota}} sivulta $1 sivulle $2',
-'revisionmove'                 => 'Siirrä versioita sivulta ”$1”',
-'revmove-explain'              => 'Seuraavat versiot siirretään sivulta $1 kohdesivulle. Jos kohdetta ei ole olemassa, se luodaan. Muussa tapauksessa nämä versiot yhdistetään muutoshistoriaan.',
-'revmove-legend'               => 'Aseta kohdesivu ja yhteenveto',
-'revmove-submit'               => 'Siirrä versiot valitulle sivulle',
-'revisionmoveselectedversions' => 'Siirrä valitut versiot',
-'revmove-reasonfield'          => 'Syy',
-'revmove-titlefield'           => 'Kohdesivu',
-'revmove-badparam-title'       => 'Virheelliset parametrit',
-'revmove-badparam'             => 'Pyyntösi sisältää virheellisiä tai riittämättömiä parametreja. Napauta "takaisin" ja yritä uudelleen.',
-'revmove-norevisions-title'    => 'Virheellinen kohdeversio',
-'revmove-norevisions'          => 'Et määrittänyt yhtä tai useampaa versiota tämän funktion suoritettavaksi, tai määritettyä versiota ei ole olemassa.',
-'revmove-nullmove-title'       => 'Virheellinen otsikko',
-'revmove-nullmove'             => 'Lähde- ja kohdesivu ovat samat. Palaa edelliselle sivulle ja valitse sivunimi, joka on eri kuin "$1".',
-'revmove-success-existing'     => '{{PLURAL:$1|Yksi versio|$1 versiota}} sivulta [[$2]] on siirretty olemassa olevalle sivulle [[$3]].',
-'revmove-success-created'      => '{{PLURAL:$1|Yksi versio|$1 versiota}} sivulta [[$2]] on siirretty juuri luodulle sivulle [[$3]].',
-
 # History merging
 'mergehistory'                     => 'Yhdistä sivuhistoriat',
 'mergehistory-header'              => 'Tämä sivu mahdollistaa sivun muutoshistorian yhdistämisen uudemman sivun muutoshistoriaan.
@@ -1298,7 +1270,6 @@ Kokeile lisätä haun alkuun ''all:'', niin haku kohdistuu kaikkeen sisältöön
 'changepassword'                => 'Salasanan vaihto',
 'prefs-skin'                    => 'Ulkoasu',
 'skin-preview'                  => 'esikatselu',
-'prefs-math'                    => 'Matematiikka',
 'datedefault'                   => 'Ei valintaa',
 'prefs-datetime'                => 'Aika ja päiväys',
 'prefs-personal'                => 'Käyttäjätiedot',
@@ -1401,7 +1372,7 @@ Tässä satunnaisesti tuotettu arvo, jota voit käyttää: $1',
 'prefs-diffs'                   => 'Erot',
 
 # User preference: e-mail validation using jQuery
-'email-address-validity-valid'   => 'Antamasi sähköpostiosoite vaikuttaa kelvolliselta',
+'email-address-validity-valid'   => 'Sähköpostiosoite vaikuttaa kelvolliselta',
 'email-address-validity-invalid' => 'Virheellinen sähköpostiosoite',
 
 # User rights
@@ -1511,8 +1482,6 @@ Tässä satunnaisesti tuotettu arvo, jota voit käyttää: $1',
 'right-reset-passwords'       => 'Alustaa muiden käyttäjien salasanoja',
 'right-override-export-depth' => 'Viedä sivuja sisältäen viitatut sivut viiden syvyydellä',
 'right-sendemail'             => 'Lähettää sähköpostia muille käyttäjille',
-'right-revisionmove'          => 'Siirtää versioita',
-'right-disableaccount'        => 'Poistaa tunnuksia käytöstä',
 
 # User rights log
 'rightslog'      => 'Käyttöoikeusloki',
@@ -1555,7 +1524,6 @@ Tässä satunnaisesti tuotettu arvo, jota voit käyttää: $1',
 'action-userrights'           => 'muokata kaikkia käyttöoikeuksia',
 'action-userrights-interwiki' => 'muokata muiden wikien käyttäjien käyttöoikeuksia',
 'action-siteadmin'            => 'lukita tai avata tietokantaa',
-'action-revisionmove'         => 'siirtää versioita',
 
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|muutos|muutosta}}',
@@ -1724,9 +1692,12 @@ $1',
 'upload-unknown-size'       => 'Tuntematon koko',
 'upload-http-error'         => 'HTTP-virhe: $1',
 
+# ZipDirectoryReader
+'zip-wrong-format' => 'Määritetty tiedosto ei ole ZIP-tiedosto.',
+
 # Special:UploadStash
-'uploadstash-summary'  => 'Tämä sivu antaa pääsyn tiedostoihin, jotka on tallennettu tai joiden tallennus on käynnissä, mutta joita ei ole vielä julkaistu tässä wikissä. Vain tiedostot tallentanut käyttäjä voi tarkastella näitä tiedostoja.',
-'uploadstash-badtoken' => 'Toiminnon suoritus epäonnistui. Tähän voi olla syynä muokkausvaltuuksien vanhentuminen. Ole hyvä ja yritä uudelleen.',
+'uploadstash-summary'  => 'Tämä sivu tarjoaa pääsyn tiedostoihin, jotka on tallennettu tai joiden tallennus on käynnissä, mutta joita ei ole vielä julkaistu tässä wikissä. Vain tiedostot tallentanut käyttäjä voi tarkastella näitä tiedostoja.',
+'uploadstash-badtoken' => 'Toiminnon suoritus epäonnistui. Tähän voi olla syynä muokkausvaltuuksien vanhentuminen. Yritä uudelleen.',
 'uploadstash-refresh'  => 'Päivitä tiedostoluettelo',
 
 # img_auth script messages
@@ -1926,7 +1897,7 @@ Jokaisella rivillä on linkit ensimmäiseen ja toiseen ohjaukseen sekä toisen o
 'nmembers'                => '$1 {{PLURAL:$1|jäsen|jäsentä}}',
 'nrevisions'              => '$1 {{PLURAL:$1|muutos|muutosta}}',
 'nviews'                  => '$1 {{PLURAL:$1|lataus|latausta}}',
-'nimagelinks'             => 'käytössä $1 {{PLURAL:$1|sivulla}}',
+'nimagelinks'             => 'Käytössä $1 {{PLURAL:$1|sivulla}}',
 'ntransclusions'          => 'käytössä $1 {{PLURAL:$1|sivulla}}',
 'specialpage-empty'       => 'Tämä sivu on tyhjä.',
 'lonelypages'             => 'Yksinäiset sivut',
@@ -2100,6 +2071,9 @@ Lisätietoa yksittäisistä käyttäjäoikeuksista saattaa löytyä [[{{MediaWik
 'noemailtext'          => 'Tämä käyttäjä ei ole määritellyt kelvollista sähköpostiosoitetta.',
 'nowikiemailtitle'     => 'Sähköpostin lähettäminen ei sallittu',
 'nowikiemailtext'      => 'Tämä käyttäjä ei halua sähköpostia muilta käyttäjiltä.',
+'emailtarget'          => 'Vastaanottajan käyttäjätunnus',
+'emailusername'        => 'Käyttäjätunnus',
+'emailusernamesubmit'  => 'Hae lomake',
 'email-legend'         => 'Sähköpostin lähetys {{GRAMMAR:genitive|{{SITENAME}}}} käyttäjälle',
 'emailfrom'            => 'Lähettäjä',
 'emailto'              => 'Vastaanottaja',
@@ -2393,7 +2367,8 @@ Alla on viimeisin estolokin tapahtuma:',
 
 # Block/unblock
 'block'                           => 'Estä käyttäjä',
-'blockip'                         => 'Aseta muokkausesto',
+'unblock'                         => 'Poista käyttäjän esto',
+'blockip'                         => 'Estä käyttäjä',
 'blockip-title'                   => 'Estä käyttäjä',
 'blockip-legend'                  => 'Estä käyttäjä',
 'blockiptext'                     => 'Tällä lomakkeella voit estää käyttäjän tai IP-osoitteen muokkausoikeudet. Muokkausoikeuksien poistamiseen [[{{MediaWiki:Policy-url}}|pitää olla syy]], esimerkiksi sivujen vandalisointi. Kirjoita syy siihen varattuun kenttään.<br />Vapaamuotoisen vanhenemisajat noudattavat GNUn standardimuotoa, joka on kuvattu tar-manuaalissa ([http://www.gnu.org/software/tar/manual/html_node/Date-input-formats.html] [EN]), esimerkiksi ”1 hour”, ”2 days”, ”next Wednesday”, ”2014-08-29”.',
@@ -2437,6 +2412,7 @@ Nykyiset estot löytyvät [[Special:IPBlockList|estolistalta]].',
 'unblockiptext'                   => 'Tällä lomakkeella voit poistaa käyttäjän tai IP-osoitteen muokkauseston.',
 'ipusubmit'                       => 'Poista esto',
 'unblocked'                       => 'Käyttäjän [[User:$1|$1]] esto on poistettu',
+'unblocked-range'                 => '$1 ei ole enää estettynä',
 'unblocked-id'                    => 'Esto $1 on poistettu',
 'blocklist'                       => 'Estetyt käyttäjät',
 'ipblocklist'                     => 'Estetyt käyttäjät',
@@ -2490,6 +2466,7 @@ Alla on ote häivytyslokista.',
 'ipb_already_blocked'             => '”$1” on jo estetty.',
 'ipb-needreblock'                 => '$1 on jo estetty. Haluatko muuttaa eston asetuksia?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Muu esto|Muut estot}}',
+'unblock-hideuser'                => 'Et voi poistaa estoa tältä käyttäjältä, kun käyttäjänimi on piilotettuna.',
 'ipb_cant_unblock'                => 'Estoa ”$1” ei löytynyt. Se on saatettu poistaa.',
 'ipb_blocked_as_range'            => 'IP-osoite $1 on estetty välillisesti ja sen estoa ei voi poistaa. Se on estetty osana verkkoaluetta $2, jonka eston voi poistaa',
 'ip_range_invalid'                => 'Virheellinen IP-alue.',
@@ -2672,7 +2649,8 @@ Jos haluat muokata MediaWikin yleistä kotoistusta, käy [http://www.mediawiki.o
 'import-interwiki-namespace' => 'Kohdenimiavaruus:',
 'import-upload-filename'     => 'Tiedostonimi:',
 'import-comment'             => 'Syy',
-'importtext'                 => 'Vie sivuja lähdewikistä käyttäen [[Special:Export|vienti]]-työkalua. Tallenna tiedot koneellesi ja tallenna ne täällä.',
+'importtext'                 => 'Vie sivuja lähdewikistä käyttäen [[Special:Export|vientityökalua]].
+Tallenna tiedot koneellesi ja tuo ne tällä sivulla.',
 'importstart'                => 'Tuodaan sivuja...',
 'import-revision-count'      => '$1 {{PLURAL:$1|versio|versiota}}',
 'importnopages'              => 'Ei tuotavia sivuja.',
@@ -2827,25 +2805,6 @@ Jos haluat muokata MediaWikin yleistä kotoistusta, käy [http://www.mediawiki.o
 'skinname-simple'      => 'Yksinkertainen',
 'skinname-modern'      => 'Moderni',
 
-# Math options
-'mw_math_png'    => 'Näytä aina PNG:nä',
-'mw_math_simple' => 'Näytä HTML:nä, jos yksinkertainen, muuten PNG:nä',
-'mw_math_html'   => 'Näytä HTML:nä, jos mahdollista, muuten PNG:nä',
-'mw_math_source' => 'Näytä TeX-muodossa (tekstiselaimille)',
-'mw_math_modern' => 'Suositus nykyselaimille',
-'mw_math_mathml' => 'Näytä MathML:nä jos mahdollista (kokeellinen)',
-
-# Math errors
-'math_failure'          => 'Jäsentäminen epäonnistui',
-'math_unknown_error'    => 'Tuntematon virhe',
-'math_unknown_function' => 'Tuntematon funktio',
-'math_lexing_error'     => 'Tulkintavirhe',
-'math_syntax_error'     => 'Jäsennysvirhe',
-'math_image_error'      => 'Muuntaminen PNG-tiedostomuotoon epäonnistui; tarkista, että latex ja dvipng (tai dvips, gs ja convert) on asennettu oikein.',
-'math_bad_tmpdir'       => 'Matematiikan kirjoittaminen väliaikaishakemistoon tai tiedostonluonti ei onnistu',
-'math_bad_output'       => 'Matematiikan tulostehakemistoon kirjoittaminen tai tiedostonluonti ei onnistu',
-'math_notexvc'          => 'Texvc-sovellus puuttuu, lue math/READMEstä asennustietoja',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Merkitse tarkastetuksi',
 'markaspatrolledtext'                 => 'Merkitse muokkaus tarkastetuksi',
@@ -2859,7 +2818,7 @@ Jos haluat muokata MediaWikin yleistä kotoistusta, käy [http://www.mediawiki.o
 
 # Patrol log
 'patrol-log-page'      => 'Muutostentarkastusloki',
-'patrol-log-header'    => 'Tämä on loki tarkistetuista muutoksista.',
+'patrol-log-header'    => 'Tämä on loki tarkastetuista muutoksista.',
 'patrol-log-line'      => 'merkitsi sivun $2 muutoksen $1 tarkastetuksi $3',
 'patrol-log-auto'      => '(automaattinen)',
 'patrol-log-diff'      => 'versio $1',
@@ -2881,21 +2840,23 @@ $1',
 'nextdiff'     => 'Uudempi muutos →',
 
 # Media information
-'mediawarning'         => "'''Varoitus''': Tämä tiedostomuoto saattaa sisältää vahingollista koodia.
+'mediawarning'           => "'''Varoitus''': Tämä tiedostomuoto saattaa sisältää vahingollista koodia.
 Suorittamalla sen järjestelmäsi voi muuttua epäluotettavaksi.",
-'imagemaxsize'         => 'Kuvien enimmäiskoko kuvaussivuilla',
-'thumbsize'            => 'Pikkukuvien koko',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|sivu|sivua}}',
-'file-info'            => '$1, MIME-tyyppi: $2',
-'file-info-size'       => '$1×$2 px, $3, MIME-tyyppi: $4',
-'file-nohires'         => '<small>Tarkempaa kuvaa ei ole saatavilla.</small>',
-'svg-long-desc'        => 'SVG-tiedosto; oletustarkkuus $1×$2 kuvapistettä; tiedostokoko $3',
-'show-big-image'       => 'Korkeatarkkuuksinen versio',
-'file-info-gif-looped' => 'toistuva',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|kehys|kehystä}}',
-'file-info-png-looped' => 'toistuva',
-'file-info-png-repeat' => 'toistettu $1 {{PLURAL:$1|kertaa|kertaa}}',
-'file-info-png-frames' => '$1 {{PLURAL:$1|kehys|kehystä}}',
+'imagemaxsize'           => 'Kuvien enimmäiskoko kuvaussivuilla',
+'thumbsize'              => 'Pikkukuvien koko',
+'widthheightpage'        => '$1×$2, $3 {{PLURAL:$3|sivu|sivua}}',
+'file-info'              => '$1, MIME-tyyppi: $2',
+'file-info-size'         => '$1×$2 px, $3, MIME-tyyppi: $4',
+'file-nohires'           => '<small>Tarkempaa kuvaa ei ole saatavilla.</small>',
+'svg-long-desc'          => 'SVG-tiedosto; oletustarkkuus $1×$2 kuvapistettä; tiedostokoko $3',
+'show-big-image'         => 'Korkeatarkkuuksinen versio',
+'show-big-image-preview' => '<small>Tämän esikatselun koko: $1.</small>',
+'show-big-image-size'    => '$1 × $2 pikseliä',
+'file-info-gif-looped'   => 'toistuva',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|kehys|kehystä}}',
+'file-info-png-looped'   => 'toistuva',
+'file-info-png-repeat'   => 'toistettu $1 {{PLURAL:$1|kertaa|kertaa}}',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|kehys|kehystä}}',
 
 # Special:NewFiles
 'newimages'             => 'Uudet tiedostot',
@@ -2949,7 +2910,6 @@ Kaikki muut linkit ovat poikkeuksia eli toisin sanoen sivuja, joissa tiedostoa s
 'exif-stripbytecounts'             => 'Tavua pakatussa kaistassa',
 'exif-jpeginterchangeformat'       => 'Etäisyys JPEG SOI:hin',
 'exif-jpeginterchangeformatlength' => 'JPEG-tiedon tavujen lukumäärä',
-'exif-transferfunction'            => 'Siirtofunktio',
 'exif-whitepoint'                  => 'Valkoisen pisteen väriarvot',
 'exif-primarychromaticities'       => 'Päävärien väriarvot',
 'exif-ycbcrcoefficients'           => 'Väriavaruuden muuntomatriisin kertoimet',
@@ -2968,7 +2928,6 @@ Kaikki muut linkit ovat poikkeuksia eli toisin sanoen sivuja, joissa tiedostoa s
 'exif-compressedbitsperpixel'      => 'Kuvan pakkaustapa',
 'exif-pixelydimension'             => 'Käyttökelpoinen kuvan leveys',
 'exif-pixelxdimension'             => 'Käyttökelpoinen kuvan korkeus',
-'exif-makernote'                   => 'Valmistajan merkinnät',
 'exif-usercomment'                 => 'Käyttäjän kommentit',
 'exif-relatedsoundfile'            => 'Liitetty äänitiedosto',
 'exif-datetimeoriginal'            => 'Luontipäivämäärä',
@@ -2982,7 +2941,6 @@ Kaikki muut linkit ovat poikkeuksia eli toisin sanoen sivuja, joissa tiedostoa s
 'exif-exposureprogram'             => 'Valotusohjelma',
 'exif-spectralsensitivity'         => 'Värikirjoherkkyys',
 'exif-isospeedratings'             => 'Herkkyys (ISO)',
-'exif-oecf'                        => 'Optoelektroninen muuntokerroin',
 'exif-shutterspeedvalue'           => 'Suljinaika',
 'exif-aperturevalue'               => 'Aukko',
 'exif-brightnessvalue'             => 'Kirkkaus',
@@ -2995,7 +2953,6 @@ Kaikki muut linkit ovat poikkeuksia eli toisin sanoen sivuja, joissa tiedostoa s
 'exif-focallength'                 => 'Linssin polttoväli',
 'exif-subjectarea'                 => 'Kohteen ala',
 'exif-flashenergy'                 => 'Salaman teho',
-'exif-spatialfrequencyresponse'    => 'Tilataajuusvaste',
 'exif-focalplanexresolution'       => 'Tarkennustason X-resoluutio',
 'exif-focalplaneyresolution'       => 'Tarkennustason Y-resoluutio',
 'exif-focalplaneresolutionunit'    => 'Tarkennustason resoluution yksikkö',
@@ -3004,7 +2961,6 @@ Kaikki muut linkit ovat poikkeuksia eli toisin sanoen sivuja, joissa tiedostoa s
 'exif-sensingmethod'               => 'Mittausmenetelmä',
 'exif-filesource'                  => 'Tiedostolähde',
 'exif-scenetype'                   => 'Kuvatyyppi',
-'exif-cfapattern'                  => 'CFA-kuvio',
 'exif-customrendered'              => 'Muokattu kuvankäsittely',
 'exif-exposuremode'                => 'Valotustapa',
 'exif-whitebalance'                => 'Valkotasapaino',
@@ -3485,18 +3441,5 @@ Sinun olisi pitänyt saada [{{SERVER}}{{SCRIPTPATH}}/COPYING kopio GNU General P
 # SQLite database support
 'sqlite-has-fts' => '$1, jossa on tuki kokotekstihaulle',
 'sqlite-no-fts'  => '$1, jossa ei ole tukea kokotekstihaulle',
-
-# Special:DisableAccount
-'disableaccount'             => 'Käyttäjätunnuksen poistaminen käytöstä',
-'disableaccount-user'        => 'Käyttäjätunnus',
-'disableaccount-reason'      => 'Syy',
-'disableaccount-confirm'     => "Poista tämä käyttäjätili.
-Käyttäjä ei pysty kirjautumaan sisään, pyytämään uutta salasanaa tai vastaanottamaan sähköposti-ilmoituksia. 
-Jos käyttäjä on kirjautuneena sisään jonnekin, käyttäjä kirjataan ulos välittömästi.
-''Huomaa, että tilin käytöstä poistamisen peruminen ei ole mahdollista ilman MediaWiki-alustaan käsiksi pääsevän järjestelmänvalvojan toimia.''",
-'disableaccount-mustconfirm' => 'Vahvista, että haluat poistaa tämän tilin.',
-'disableaccount-nosuchuser'  => 'Käyttäjätunnusta ”$1” ei ole olemassa.',
-'disableaccount-success'     => "Käyttäjätunnus ''$1'' on poistettu käytöstä pysyvästi.",
-'disableaccount-logentry'    => 'poisti pysyvästi käytöstä käyttäjätunnuksen [[$1]]',
 
 );
