@@ -1,12 +1,8 @@
 /*
  * Script for Article Feedback Extension
  */
-( function( $ ) {
 
-// Only track users who have been assigned to the tracking group
-var tracked = 'track' === mw.user.bucket(
-	'ext.articleFeedback-tracking', mw.config.get( 'wgArticleFeedbackTracking' )
-);
+( function( $, mw ) {
 
 /**
  * Prefixes a key for cookies or events, with extension and version information
@@ -15,7 +11,7 @@ var tracked = 'track' === mw.user.bucket(
  * @return String: Prefixed event name
  */
 function prefix( key ) {
-	var version = mw.config.get( 'wgArticleFeedbackTracking' ).version || 0;
+	var version = mw.config.get( 'wgArticleFeedbackTrackingVersion' ) || 0;
 	return 'ext.articleFeedback@' + version + '-' + key;
 }
 
@@ -41,13 +37,13 @@ function mutePitch( pitch, duration ) {
 
 function trackClick( id ) {
 	// Track the click so we can figure out how useful this is
-	if ( tracked && $.isFunction( $.trackActionWithInfo ) ) {
-		$.trackActionWithInfo( prefix( id ), mw.config.get( 'wgTitle' ) );
+	if ( typeof $.trackActionWithInfo == 'function' ) {
+		$.trackActionWithInfo( prefix( id ), mediaWiki.config.get( 'wgTitle' ) )
 	}
 }
 
 function trackClickURL( url, id ) {
-	if ( tracked && $.isFunction( $.trackActionURL ) ) {
+	if ( typeof $.trackActionURL == 'function' ) {
 		return $.trackActionURL( url, prefix( id ) );
 	} else {
 		return url;
@@ -60,7 +56,7 @@ function trackClickURL( url, id ) {
  * This object makes use of Special:SimpleSurvey, and uses some nasty hacks - this needs to be
  * replaced with something much better in the future.
  */
-var survey = new ( function() {
+var survey = new ( function( mw ) {
 	
 	/* Private Members */
 	
@@ -82,7 +78,7 @@ var survey = new ( function() {
 		// Try to select existing dialog
 		$dialog = $( '#articleFeedback-dialog' );
 		// Fall-back on creating one
-		if ( $dialog.length === 0 ) {
+		if ( $dialog.size() == 0 ) {
 			// Create initially in loading state
 			$dialog = $( '<div id="articleFeedback-dialog" class="loading" />' )
 				.dialog( {
@@ -104,7 +100,7 @@ var survey = new ( function() {
 				.load( formSource, function() {
 					$form = $dialog.find( 'form' );
 					// Bypass normal form processing
-					$form.submit( function() { return that.submit(); } );
+					$form.submit( function() { return that.submit() } );
 					// Dirty hack - we want a fully styled button, and we can't get that from an
 					// input[type=submit] control, so we just swap it out
 					var $input = $form.find( 'input[type=submit]' );
@@ -190,9 +186,9 @@ var survey = new ( function() {
 			.addClass( 'articleFeedback-survey-message-' + message )
 			.text( mw.msg( 'articlefeedback-survey-message-' + message ) )
 			.appendTo( $dialog );
-		$dialog.dialog( 'option', 'height', $message.height() + 100 );
+		$dialog.dialog( 'option', 'height', $message.height() + 100 )
 	};
-} )();
+} )( mediaWiki );
 
 var config = {
 	'ratings': {
@@ -237,7 +233,7 @@ var config = {
 		},
 		'join': {
 			'condition': function() {
-				return isPitchVisible( 'join' ) && mw.user.anonymous();
+				return isPitchVisible( 'join' ) && mediaWiki.user.anonymous();
 			},
 			'action': function() {
 				// Mute for 1 day
@@ -245,10 +241,10 @@ var config = {
 				// Go to account creation page
 				// Track the click through an API redirect
 				window.location = trackClickURL(
-					mw.config.get( 'wgScript' ) + '?' + $.param( {
+					mediaWiki.config.get( 'wgScript' ) + '?' + $.param( {
 						'title': 'Special:UserLogin',
 						'type': 'signup',
-						'returnto': mw.config.get( 'wgPageName' )
+						'returnto': mediaWiki.config.get( 'wgPageName' )
 					} ), 'pitch-signup-accept' );
 				return false;
 			},
@@ -265,9 +261,9 @@ var config = {
 				// Go to login page
 				// Track the click through an API redirect
 				window.location = trackClickURL(
-					mw.config.get( 'wgScript' ) + '?' + $.param( {
+					mediaWiki.config.get( 'wgScript' ) + '?' + $.param( {
 						'title': 'Special:UserLogin',
-						'returnto': mw.config.get( 'wgPageName' )
+						'returnto': mediaWiki.config.get( 'wgPageName' )
 					} ), 'pitch-join-accept' );
 				return false;
 			}
@@ -275,9 +271,9 @@ var config = {
 		'edit': {
 			'condition': function() {
 				// An empty restrictions array means anyone can edit
-				var restrictions =  mw.config.get( 'wgRestrictionEdit' );
+				var restrictions =  mediaWiki.config.get( 'wgRestrictionEdit' );
 				if ( restrictions.length ) {
-					var groups =  mw.config.get( 'wgUserGroups' );
+					var groups =  mediaWiki.config.get( 'wgUserGroups' );
 					// Verify that each restriction exists in the user's groups
 					for ( var i = 0; i < restrictions.length; i++ ) {
 						if ( !$.inArray( restrictions[i], groups ) ) {
@@ -293,8 +289,8 @@ var config = {
 				// Go to edit page
 				// Track the click through an API redirect
 				window.location = trackClickURL(
-					mw.config.get( 'wgScript' ) + '?' + $.param( {
-						'title': mw.config.get( 'wgPageName' ),
+					mediaWiki.config.get( 'wgScript' ) + '?' + $.param( {
+						'title': mediaWiki.config.get( 'wgPageName' ),
 						'action': 'edit',
 						'clicktrackingsession': $.cookie( 'clicktracking-session' ),
 						'clicktrackingevent': prefix( 'pitch-edit-save' )
@@ -311,11 +307,12 @@ var config = {
 };
 
 /* Load at the bottom of the article */
-$( '<div id="mw-articlefeedback"></div>' ).articleFeedback( config ).insertBefore( '#catlinks' );
+$( '#catlinks' ).before( $( '<div id="mw-articlefeedback"></div>' ).articleFeedback( config ) );
 
 /* Add link so users can navigate to the feedback tool from the toolbox */
-var $tbAft = $( '<li id="t-articlefeedback"><a href="#mw-articlefeedback"></a></li>' )
-	.find( 'a' )
+$( '#p-tb ul' )
+	.append( '<li id="t-articlefeedback"><a href="#mw-articlefeedback"></a></li>' )
+	.find( '#t-articlefeedback a' )
 		.text( mw.msg( 'articlefeedback-form-switch-label' ) )
 		.click( function() {
 			// Click tracking
@@ -335,8 +332,6 @@ var $tbAft = $( '<li id="t-articlefeedback"><a href="#mw-articlefeedback"></a></
 				}
 			}, 200 );
 			return true;
-		} )
-		.end();
-$( '#p-tb' ).find( 'ul' ).append( $tbAft );
+		} );
 
-} )( jQuery );
+} )( jQuery, mediaWiki );

@@ -282,15 +282,14 @@
 	float: right;
 }
 
-.articleFeedback-expertise-disabled,
-.articleFeedback-helpimprove-disabled {
-	color: silver;
-}
-
 .articleFeedback-expertise {
 	float: left;
 	margin-bottom: 0.5em;
 	margin-top: 0.75em;
+}
+
+.articleFeedback-expertise-disabled {
+	color: silver;
 }
 
 .articleFeedback-expertise input {
@@ -301,7 +300,7 @@
 }
 
 .articleFeedback-expertise label {
-	margin-left: 0.5em;
+	margin-left: 0.25em;
 	margin-bottom: 0.5em;
 	float: left;
 	line-height: 1.4em;
@@ -314,34 +313,7 @@
 }
 
 .articleFeedback-expertise-options input {
-	display: block;
-	clear: both;
 	margin-left: 2em;
-}
-
-.articleFeedback-expertise-options label {
-	line-height: 1.6em;
-}
-
-.articleFeedback-expertise-options .articleFeedback-helpimprove-email {
-	width: 20em;
-	margin-left: 4em;
-	margin-top: 0.25em;
-	cursor: text;
-}
-
-.articleFeedback-helpimprove-note {
-	margin-left: 4em;
-	font-size: 0.8em;
-	clear: both;
-}
-
-.articleFeedback-helpimprove-email.valid {
-	background-color: #C0FFC0;
-}
-
-.articleFeedback-helpimprove-email.invalid {
-	background-color: #FFC0C0;
 }
 
 .articleFeedback-success {
