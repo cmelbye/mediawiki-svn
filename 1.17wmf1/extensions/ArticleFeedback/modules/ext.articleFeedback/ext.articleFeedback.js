@@ -1,8 +1,12 @@
 /*
  * Script for Article Feedback Extension
  */
+( function( $ ) {
 
-( function( $, mw ) {
+// Only track users who have been assigned to the tracking group
+var tracked = 'track' === mw.user.bucket(
+	'ext.articleFeedback-tracking', mw.config.get( 'wgArticleFeedbackTracking' )
+);
 
 /**
  * Prefixes a key for cookies or events, with extension and version information
@@ -11,7 +15,7 @@
  * @return String: Prefixed event name
  */
 function prefix( key ) {
-	var version = mw.config.get( 'wgArticleFeedbackTrackingVersion' ) || 0;
+	var version = mw.config.get( 'wgArticleFeedbackTracking' ).version || 0;
 	return 'ext.articleFeedback@' + version + '-' + key;
 }
 
@@ -37,13 +41,13 @@ function mutePitch( pitch, duration ) {
 
 function trackClick( id ) {
 	// Track the click so we can figure out how useful this is
-	if ( typeof $.trackActionWithInfo == 'function' ) {
-		$.trackActionWithInfo( prefix( id ), mediaWiki.config.get( 'wgTitle' ) )
+	if ( tracked && $.isFunction( $.trackActionWithInfo ) ) {
+		$.trackActionWithInfo( prefix( id ), mw.config.get( 'wgTitle' ) );
 	}
 }
 
 function trackClickURL( url, id ) {
-	if ( typeof $.trackActionURL == 'function' ) {
+	if ( tracked && $.isFunction( $.trackActionURL ) ) {
 		return $.trackActionURL( url, prefix( id ) );
 	} else {
 		return url;
@@ -56,7 +60,7 @@ function trackClickURL( url, id ) {
  * This object makes use of Special:SimpleSurvey, and uses some nasty hacks - this needs to be
  * replaced with something much better in the future.
  */
-var survey = new ( function( mw ) {
+var survey = new ( function() {
 	
 	/* Private Members */
 	
@@ -78,7 +82,7 @@ var survey = new ( function( mw ) {
 		// Try to select existing dialog
 		$dialog = $( '#articleFeedback-dialog' );
 		// Fall-back on creating one
-		if ( $dialog.size() == 0 ) {
+		if ( $dialog.length === 0 ) {
 			// Create initially in loading state
 			$dialog = $( '<div id="articleFeedback-dialog" class="loading" />' )
 				.dialog( {
@@ -100,7 +104,7 @@ var survey = new ( function( mw ) {
 				.load( formSource, function() {
 					$form = $dialog.find( 'form' );
 					// Bypass normal form processing
-					$form.submit( function() { return that.submit() } );
+					$form.submit( function() { return that.submit(); } );
 					// Dirty hack - we want a fully styled button, and we can't get that from an
 					// input[type=submit] control, so we just swap it out
 					var $input = $form.find( 'input[type=submit]' );
@@ -186,9 +190,9 @@ var survey = new ( function( mw ) {
 			.addClass( 'articleFeedback-survey-message-' + message )
 			.text( mw.msg( 'articlefeedback-survey-message-' + message ) )
 			.appendTo( $dialog );
-		$dialog.dialog( 'option', 'height', $message.height() + 100 )
+		$dialog.dialog( 'option', 'height', $message.height() + 100 );
 	};
-} )( mediaWiki );
+} )();
 
 var config = {
 	'ratings': {
@@ -233,7 +237,7 @@ var config = {
 		},
 		'join': {
 			'condition': function() {
-				return isPitchVisible( 'join' ) && mediaWiki.user.anonymous();
+				return isPitchVisible( 'join' ) && mw.user.anonymous();
 			},
 			'action': function() {
 				// Mute for 1 day
@@ -241,10 +245,10 @@ var config = {
 				// Go to account creation page
 				// Track the click through an API redirect
 				window.location = trackClickURL(
-					mediaWiki.config.get( 'wgScript' ) + '?' + $.param( {
+					mw.config.get( 'wgScript' ) + '?' + $.param( {
 						'title': 'Special:UserLogin',
 						'type': 'signup',
-						'returnto': mediaWiki.config.get( 'wgPageName' )
+						'returnto': mw.config.get( 'wgPageName' )
 					} ), 'pitch-signup-accept' );
 				return false;
 			},
@@ -261,9 +265,9 @@ var config = {
 				// Go to login page
 				// Track the click through an API redirect
 				window.location = trackClickURL(
-					mediaWiki.config.get( 'wgScript' ) + '?' + $.param( {
+					mw.config.get( 'wgScript' ) + '?' + $.param( {
 						'title': 'Special:UserLogin',
-						'returnto': mediaWiki.config.get( 'wgPageName' )
+						'returnto': mw.config.get( 'wgPageName' )
 					} ), 'pitch-join-accept' );
 				return false;
 			}
@@ -271,9 +275,9 @@ var config = {
 		'edit': {
 			'condition': function() {
 				// An empty restrictions array means anyone can edit
-				var restrictions =  mediaWiki.config.get( 'wgRestrictionEdit' );
+				var restrictions =  mw.config.get( 'wgRestrictionEdit' );
 				if ( restrictions.length ) {
-					var groups =  mediaWiki.config.get( 'wgUserGroups' );
+					var groups =  mw.config.get( 'wgUserGroups' );
 					// Verify that each restriction exists in the user's groups
 					for ( var i = 0; i < restrictions.length; i++ ) {
 						if ( !$.inArray( restrictions[i], groups ) ) {
@@ -289,8 +293,8 @@ var config = {
 				// Go to edit page
 				// Track the click through an API redirect
 				window.location = trackClickURL(
-					mediaWiki.config.get( 'wgScript' ) + '?' + $.param( {
-						'title': mediaWiki.config.get( 'wgPageName' ),
+					mw.config.get( 'wgScript' ) + '?' + $.param( {
+						'title': mw.config.get( 'wgPageName' ),
 						'action': 'edit',
 						'clicktrackingsession': $.cookie( 'clicktracking-session' ),
 						'clicktrackingevent': prefix( 'pitch-edit-save' )
@@ -307,12 +311,11 @@ var config = {
 };
 
 /* Load at the bottom of the article */
-$( '#catlinks' ).before( $( '<div id="mw-articlefeedback"></div>' ).articleFeedback( config ) );
+$( '<div id="mw-articlefeedback"></div>' ).articleFeedback( config ).insertBefore( '#catlinks' );
 
 /* Add link so users can navigate to the feedback tool from the toolbox */
-$( '#p-tb ul' )
-	.append( '<li id="t-articlefeedback"><a href="#mw-articlefeedback"></a></li>' )
-	.find( '#t-articlefeedback a' )
+var $tbAft = $( '<li id="t-articlefeedback"><a href="#mw-articlefeedback"></a></li>' )
+	.find( 'a' )
 		.text( mw.msg( 'articlefeedback-form-switch-label' ) )
 		.click( function() {
 			// Click tracking
@@ -332,6 +335,8 @@ $( '#p-tb ul' )
 				}
 			}, 200 );
 			return true;
-		} );
+		} )
+		.end();
+$( '#p-tb' ).find( 'ul' ).append( $tbAft );
 
-} )( jQuery, mediaWiki );
+} )( jQuery );

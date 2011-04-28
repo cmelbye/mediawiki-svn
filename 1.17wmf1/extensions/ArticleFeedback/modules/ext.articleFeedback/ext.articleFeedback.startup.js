@@ -2,16 +2,19 @@
  * Script for Article Feedback Extension
  */
 
-$(document).ready( function() {
+jQuery( function( $ ) {
 	if (
 		// Main namespace articles
-		mw.config.get( 'wgNamespaceNumber', false ) === 0
+		mw.config.get( 'wgNamespaceNumber' ) === 0
 		// View pages
-		&& mw.config.get( 'wgAction', false ) === 'view'
+		&& mw.config.get( 'wgAction' ) === 'view'
 		// Current revision
 		&& mw.util.getParamValue( 'diff' ) === null
 		&& mw.util.getParamValue( 'oldid' ) === null
 	) {
+		var trackingBucket = mw.user.bucket(
+			'ext.articleFeedback-tracking', mw.config.get( 'wgArticleFeedbackTracking' )
+		);
 		// Category activation
 		var articleFeedbackCategories = mw.config.get( 'wgArticleFeedbackCategories', [] );
 		var articleCategories = mw.config.get( 'wgCategories', [] );
