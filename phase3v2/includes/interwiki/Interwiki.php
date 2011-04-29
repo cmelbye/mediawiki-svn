@@ -190,9 +190,10 @@ class Interwiki {
 			$iw->mURL = $mc['iw_url'];
 			$iw->mLocal = isset( $mc['iw_local'] ) ? $mc['iw_local'] : 0;
 			$iw->mTrans = isset( $mc['iw_trans'] ) ? $mc['iw_trans'] : 0;
+			$iw->mAPI = isset( $mc['iw_api'] ) ? $mc['iw_api'] : 
 			$iw->mAPI = isset( $mc['iw_api'] ) ? $mc['iw_api'] : '';
 			$iw->mWikiID = isset( $mc['iw_wikiid'] ) ? $mc['iw_wikiid'] : '';
-
+			
 			return $iw;
 		}
 		return false;
@@ -269,4 +270,112 @@ class Interwiki {
 		$msg = wfMessage( 'interwiki-desc-' . $this->mPrefix )->inContentLanguage();
 		return !$msg->exists() ? '' : $msg;
 	}
+	
+	
+
+	/**
+	 * Transclude an interwiki link.
+	 */
+	public static function interwikiTransclude( $title ) {
+			
+		// If we have a wikiID, we will use it to get an access to the remote database
+		// if not, we will use the API URL to retrieve the data through a HTTP Get
+		
+		$wikiID = $title->getTransWikiID( );
+		$transAPI = $title->getTransAPI( );
+		
+		if ( $wikiID !== '') {
+		
+			$finalText = self::fetchTemplateFromDB( $wikiID, $title );
+			return $finalText;
+
+		} else if( $transAPI !== '' ) {
+			
+			$fullTitle = $title->getNsText().':'.$title->getText();
+	
+			$url1 = $transAPI."?action=query&prop=revisions&titles=$fullTitle&rvprop=content&format=json";
+	
+			if ( strlen( $url1 ) > 255 ) {
+				return false;
+			}
+			
+			$finalText = self::fetchTemplateHTTPMaybeFromCache( $url1 );
+	
+			$url2 = $transAPI."?action=parse&text={{".$fullTitle."}}&prop=templates&format=json";
+			
+			$get = Http::get( $url2 );
+			$myArray = FormatJson::decode($get, true);
+			
+			if ( ! empty( $myArray['parse'] )) {
+				$templates = $myArray['parse']['templates'];
+			}
+			
+			// TODO: The templates are retrieved one by one. We should get them all in 1 request
+			// Here, we preload and cache the subtemplates
+			for ($i = 0 ; $i < count( $templates ) ; $i++) {
+				$newTitle = $templates[$i]['*'];
+				
+				$url = $transAPI."?action=query&prop=revisions&titles=$newTitle&rvprop=content&format=json";
+				
+				// $newText is unused, but requesting it will put the template in the cache
+				$newText = self::fetchTemplateHTTPMaybeFromCache( $url );
+	
+			}
+			return $finalText;
+			
+		}
+		return false;
+	}
+	
+	public static function fetchTemplateFromDB ( $wikiID, $title ) {
+		
+		$revision = Revision::loadFromTitleForeignWiki( $wikiID, $title );
+		
+		if ( $revision ) {
+			$text = $revision->getText();
+			return $text;
+		}
+				
+		return false;
+	}
+	
+	public static function fetchTemplateHTTPMaybeFromCache( $url ) {
+		global $wgTranscludeCacheExpiry;
+		$dbr = wfGetDB( DB_SLAVE );
+		$tsCond = $dbr->timestamp( time() - $wgTranscludeCacheExpiry );
+		$obj = $dbr->selectRow( 'transcache', array('tc_time', 'tc_contents' ),
+				array( 'tc_url' => $url, "tc_time >= " . $dbr->addQuotes( $tsCond ) ) );
+
+		if ( $obj ) {
+			return $obj->tc_contents;
+		}
+	
+		$get = Http::get( $url );
+		
+		$content = FormatJson::decode( $get, true );
+			
+		if ( ! empty($content['query']['pages']) ) {
+			
+			$page = array_pop( $content['query']['pages'] );
+			$text = $page['revisions'][0]['*'];
+			
+		} else	{
+			
+			return wfMsg( 'scarytranscludefailed', $url );
+			
+		}
+	
+		$dbw = wfGetDB( DB_MASTER );
+		$dbw->replace( 'transcache', array('tc_url'), array(
+			'tc_url' => $url,
+			'tc_time' => $dbw->timestamp( ),
+			'tc_contents' => $text)
+		);
+				
+		return $text;
+	}	
+
+	
+	
+	
 }
