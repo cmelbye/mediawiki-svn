@@ -3938,6 +3938,8 @@ class Article {
 	 * @param $title Title object
 	 */
 	public static function onArticleCreate( $title ) {
+		global $wgDeferredUpdateList;
+		
 		# Update existence markers on article/talk tabs...
 		if ( $title->isTalkPage() ) {
 			$other = $title->getSubjectPage();
@@ -3951,6 +3953,9 @@ class Article {
 		$title->touchLinks();
 		$title->purgeSquid();
 		$title->deleteTitleProtection();
+		
+		# Invalidate caches of distant articles which transclude this page
+		$wgDeferredUpdateList[] = new HTMLCacheUpdate( $title, 'globaltemplatelinks' );
 	}
 
 	/**
@@ -3959,6 +3964,8 @@ class Article {
 	 * @param $title Title
 	 */
 	public static function onArticleDelete( $title ) {
+		global $wgMessageCache, $wgDeferredUpdateList;
+
 		# Update existence markers on article/talk tabs...
 		if ( $title->isTalkPage() ) {
 			$other = $title->getSubjectPage();
@@ -3994,6 +4001,9 @@ class Article {
 
 		# Image redirects
 		RepoGroup::singleton()->getLocalRepo()->invalidateImageRedirect( $title );
+		
+		# Invalidate caches of distant articles which transclude this page
+		$wgDeferredUpdateList[] = new HTMLCacheUpdate( $title, 'globaltemplatelinks' );
 	}
 
 	/**
@@ -4010,7 +4020,6 @@ class Article {
 		
 		// Invalidate caches of distant articles which transclude this page
 		$wgDeferredUpdateList[] = new HTMLCacheUpdate( $title, 'globaltemplatelinks' );
-		wfDoUpdates();
 
 		// Invalidate the caches of all pages which redirect here
 		$wgDeferredUpdateList[] = new HTMLCacheUpdate( $title, 'redirect' );
