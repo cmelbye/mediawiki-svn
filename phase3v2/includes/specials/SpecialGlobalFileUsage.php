@@ -6,7 +6,7 @@
 
 class SpecialGlobalFileUsage extends SpecialPage {
 	public function __construct() {
-		parent::__construct( 'GlobalFileUsage', 'globalfileusage' );
+		parent::__construct( 'GlobalFileUsage' );
 	}
 
 	/**

@@ -352,6 +352,39 @@ class LinksUpdate {
 			$this->mDb->insert( $table, $insertions, __METHOD__, 'IGNORE' );
 		}
 	}
+	
+	/**
+	 * Update a shared table by doing a delete query then an insert query
+	 * @private
+	 */
+	function incrSharedTableUpdate( $table, $prefix, $deletions, $insertions ) {
+		global $wgEnableInterwikiTemplatesTracking, $wgGlobalDatabase;
+		
+		if ( $wgEnableInterwikiTemplatesTracking && $wgGlobalDatabase ) {
+			$dbw = wfGetDB( DB_MASTER, array(), $wgGlobalDatabase );
+			$where = array( "{$prefix}_from_wiki" => wfWikiID( ),
+							"{$prefix}_from_page" => $this->mId
+					);
+			$baseKey = "{$prefix}_to_prefix";
+			$middleKey = "{$prefix}_to_namespace";
+			
+			$clause = $dbw->makeWhereFrom3d( $deletions, $baseKey, $middleKey, "{$prefix}_to_title" );
+			if ( $clause ) {
+				$where[] = $clause;
+			} else {
+				$where = false;
+			}
+			
+			if ( $where ) {
+				$dbw->delete( $table, $where, __METHOD__ );
+			}
+			if ( count( $insertions ) ) {
+				$dbw->insert( 'globaltemplatelinks', $insertions['globaltemplatelinks'], __METHOD__, 'IGNORE' );
+				$dbw->insert( 'globalnamespaces', $insertions['globalnamespaces'], __METHOD__, 'IGNORE' );
+				$dbw->insert( 'globalinterwiki', $insertions['globalinterwiki'], __METHOD__, 'IGNORE' );
+			}
+		}
+	}
 
 
 	/**
@@ -388,6 +421,37 @@ class LinksUpdate {
 					'tl_namespace' => $ns,
 					'tl_title'     => $dbk
 				);
+			}
+		}
+		return $arr;
+	}
+
+		$arr = array();
+		foreach( $this->mDistantTemplates as $prefix => $templatesToNS ) {
+			foreach( $templatesToNS as $ns => $dbkeys ) {
+				$diffs = isset( $existing[$prefix] ) && isset( $existing[$prefix][$ns] ) ? array_diff_key( $dbkeys, $existing[$prefix][$ns] ) : $dbkeys;
+				$interwiki = Interwiki::fetch( $prefix );
+				$wikiid = $interwiki->getWikiID( );
+				foreach ( $diffs as $dbk => $id ) {
+					$arr['globaltemplatelinks'][] = array(
+						'gtl_from_wiki'      => wfWikiID( ),
+						'gtl_from_page'      => $this->mId,
+						'gtl_from_namespace' => $this->mTitle->getNamespace(),
+						'gtl_from_title'     => $this->mTitle->getText(),
+						'gtl_to_prefix'      => $prefix,
+						'gtl_to_namespace'   => $ns,
+						'gtl_to_title'       => $dbk
+					);
+					$arr['globalinterwiki'][] = array(
+						'giw_wikiid'		 => $wikiid,
+						'giw_prefix'		 => $prefix
+					);
+					$arr['globalnamespaces'][] = array(
+						'gn_wiki'			 => wfWikiID( ),
+						'gn_namespace'   	 => $this->mTitle->getNamespace(),
+						'gn_namespacetext' 	 => $this->mTitle->getNsText(),
+					);
+				}
 			}
 		}
 		return $arr;
