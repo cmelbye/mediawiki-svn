@@ -293,6 +293,31 @@ class ParserOutput extends CacheTime {
 		$this->mTemplateIds[$ns][$dbk] = $rev_id; // For versioning
 	}
 	
+	function addDistantTemplate( $title, $page_id, $rev_id ) {
+		$prefix = $title->getInterwiki();
+		if ( $prefix !=='' ) {
+			$ns = $title->getNamespace();
+			$dbk = $title->getDBkey();
+			
+			if ( !isset( $this->mDistantTemplates[$prefix] ) ) {
+				$this->mDistantTemplates[$prefix] = array();
+			}
+			if ( !isset( $this->mDistantTemplates[$prefix][$ns] ) ) {
+				$this->mDistantTemplates[$prefix][$ns] = array();
+			}
+			$this->mDistantTemplates[$prefix][$ns][$dbk] = $page_id;
+
+			// For versioning
+			if ( !isset( $this->mDistantTemplateIds[$prefix] ) ) {
+				$this->mDistantTemplateIds[$prefix] = array();
+			}
+			if ( !isset( $this->mDistantTemplateIds[$prefix][$ns] ) ) {
+				$this->mDistantTemplateIds[$prefix][$ns] = array();
+			}
+			$this->mDistantTemplateIds[$prefix][$ns][$dbk] = $rev_id;
+		}
+	}
+	
 	/**
 	 * @param $title Title object, must be an interwiki link
 	 * @throws MWException if given invalid input
