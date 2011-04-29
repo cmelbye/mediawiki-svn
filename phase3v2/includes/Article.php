@@ -4007,6 +4007,10 @@ class Article {
 
 		// Invalidate caches of articles which include this page
 		$wgDeferredUpdateList[] = new HTMLCacheUpdate( $title, 'templatelinks' );
+		
+		// Invalidate caches of distant articles which transclude this page
+		$wgDeferredUpdateList[] = new HTMLCacheUpdate( $title, 'globaltemplatelinks' );
+		wfDoUpdates();
 
 		// Invalidate the caches of all pages which redirect here
 		$wgDeferredUpdateList[] = new HTMLCacheUpdate( $title, 'redirect' );
@@ -4174,7 +4178,7 @@ class Article {
 			}
 	
 			$dbr = wfGetDB( DB_SLAVE, array(), $wgGlobalDatabase );
-			$res = $dbr->select( array( 'globaltemplatelinks' ),
+			$res = $dbr->select( 'globaltemplatelinks',
 				array( 'gtl_to_prefix', 'gtl_to_namespace', 'gtl_to_title' ),
 				array( 'gtl_from_wiki' => wfWikiID( ), 'gtl_from_page' => $id ),
 				__METHOD__ );
@@ -4184,10 +4188,8 @@ class Article {
 					$result[] = Title::makeTitle( $row->gtl_to_namespace, $row->gtl_to_title, null, $row->gtl_to_prefix );
 				}
 			}
-	
-			$dbr->freeResult( $res );
 		}
-
+		
 		return $result;
 	}
 	
