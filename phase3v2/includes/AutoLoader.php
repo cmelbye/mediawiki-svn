@@ -708,6 +708,7 @@ $wgAutoloadLocalClasses = array(
 	'SpecialEmailUser' => 'includes/specials/SpecialEmailuser.php',
 	'SpecialExport' => 'includes/specials/SpecialExport.php',
 	'SpecialFilepath' => 'includes/specials/SpecialFilepath.php',
+	'SpecialGlobalTemplateUsage' => 'includes/specials/SpecialGlobalTemplateUsage.php',
 	'SpecialImport' => 'includes/specials/SpecialImport.php',
 	'SpecialListFiles' => 'includes/specials/SpecialListfiles.php',
 	'SpecialListGroupRights' => 'includes/specials/SpecialListgrouprights.php',
