@@ -5007,6 +5007,7 @@ $wgSpecialPageGroups = array(
 	'Export'                    => 'pagetools',
 	'Import'                    => 'pagetools',
 	'Whatlinkshere'             => 'pagetools',
+	'GlobalFileUsage'           => 'pagetools',
 	'GlobalTemplateUsage'       => 'pagetools',
 
 	'Statistics'                => 'wiki',
