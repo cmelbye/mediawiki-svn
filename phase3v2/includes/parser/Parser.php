@@ -3220,6 +3220,9 @@ class Parser {
 			}
 			$title = Title::newFromText( $part1, $ns );
 			if ( $title ) {
+				if ( !$title->isExternal() && $piece['interwiki'] !== '' ) {
+					$title->setInterwiki( $piece['interwiki'] );
+				}
 				$titleText = $title->getPrefixedText();
 				# Check for language variants if the template is not found
 				if ( $wgContLang->hasVariants() && $title->getArticleID() == 0 ) {
