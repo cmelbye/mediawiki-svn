@@ -462,6 +462,8 @@ $specialPageAliases = array(
 	'Watchlist'                 => array( 'Watchlist' ),
 	'Whatlinkshere'             => array( 'WhatLinksHere' ),
 	'Withoutinterwiki'          => array( 'WithoutInterwiki' ),
+	'Globalfileusage'           => array( 'GlobalFileUsage' ),
+	'Globaltemplateusage'       => array( 'GlobalTemplateUsage' ),
 );
 
 /**
