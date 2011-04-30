@@ -157,8 +157,8 @@ class ApiQueryAllUsers extends ApiQueryBase {
 					'name' => $lastUser,
 					'userid' => $row->user_id,
 				);
-				if ( $fld_blockinfo && !is_null( $row->blocker_name ) ) {
-					$lastUserData['blockedby'] = $row->blocker_name;
+				if ( $fld_blockinfo && !is_null( $row->ipb_by_text ) ) {
+					$lastUserData['blockedby'] = $row->ipb_by_text;
 					$lastUserData['blockreason'] = $row->ipb_reason;
 				}
 				if ( $row->ipb_deleted ) {
