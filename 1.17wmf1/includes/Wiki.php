@@ -374,7 +374,12 @@ class MediaWiki {
 		// Do any deferred jobs
 		wfDoUpdates( true );
 		// Close the session so that jobs don't access the current session
-		session_write_close();
+		/**
+		 * WMF PATCH: removed, causes bug 27891.
+		 * Removing this here without taking other steps probably breaks 
+		 * $wgAllowCopyUploads.
+		 * session_write_close();
+		 */
 		$this->doJobs();
 		wfProfileOut( __METHOD__ );
 	}
