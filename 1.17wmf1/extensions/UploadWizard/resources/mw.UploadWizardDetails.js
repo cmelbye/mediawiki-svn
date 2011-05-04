@@ -216,7 +216,15 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 			showAnim: 'slideDown',
 			showButtonPanel: true
 		} )
-		.click( function() { $j( this ).datepicker( 'show' ); } );
+		.data( 'open', 0 )
+		.click( function() {
+			var $this = $j( this );
+			if ( $this.data( 'open' ) === 0 ) {
+				$this.data( 'open', 1 ).datepicker( 'show' );
+			} else { 
+				$this.data( 'open', 0 ).datepicker( 'hide' );
+			} 
+		} );
 
 	mw.UploadWizardUtil.makeToggler( moreDetailsCtrlDiv, moreDetailsDiv );	
 
@@ -693,6 +701,7 @@ mw.UploadWizardDetails.prototype = {
 				_this.upload.detailsProgress = 1.0;
 				_this.upload.state = 'complete';
 				_this.showIndicator( 'uploaded' );
+				_this.setStatus( 'mwe-upwiz-published' );
 			} else {
 				err( 'details-info-missing', result );
 			}
