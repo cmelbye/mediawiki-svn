@@ -13,14 +13,14 @@ if ( !defined( 'MEDIAWIKI' ) ) die();
  * Parameters
  *	  * categories = string ; default = Published
  *	  * notcategories = string ; default = null
- *	  * namespace = string ; default = null
+ *	  * namespace = string ; default = 0 (main)
  *	  * count = integer ; default = $wgGNSMmaxResultCount = 50
  *	  * hourcont = integer ; default -1 (disabled), how many hours before cutoff
  *	  * order = string ; default = descending
  *	  * ordermethod = string ; default = categoryadd
  *	  * redirects = string ; default = exclude
- *	  * stablepages = string ; default = null
- *	  * qualitypages = string ; default = null
+ *	  * stablepages = string ; default = only
+ *	  * qualitypages = string ; default = include
  *	  * feed = string ; default = sitemap
  **/
 
@@ -281,15 +281,14 @@ class GoogleNewsSitemap extends SpecialPage {
 		switch ( $params['redirects'] ) {
 			case self::OPT_ONLY:
 				$conditions['page_is_redirect'] = 1;
-			break;
+				break;
 			case self::OPT_EXCLUDE:
 				$conditions['page_is_redirect'] = 0;
-			break;
+				break;
 		}
 
 		if ( $params['hourCount'] > 0
-			&& $params['orderMethod'] !== 'lastedit' )
-		{
+			&& $params['orderMethod'] !== 'lastedit' ) {
 			// Limit to last X number of hours added to category,
 			// if hourcont is positive and we're sorting by
 			// category add date.
@@ -341,7 +340,6 @@ class GoogleNewsSitemap extends SpecialPage {
 			$options['ORDER BY'] = 'c1.cl_timestamp ' . $sortOrder;
 		}
 
-
 		// earlier validation logic ensures this is a reasonable number
 		$options['LIMIT'] = $params['count'];
 
@@ -354,7 +352,7 @@ class GoogleNewsSitemap extends SpecialPage {
 	 *   variables that make up the request.
 	 **/
 	public function getParams() {
-		global $wgContLang, $wgRequest, $wgGNSMmaxCategories,
+		global $wgRequest, $wgGNSMmaxCategories,
 			$wgGNSMmaxResultCount, $wgGNSMfallbackCategory;
 
 		$params = array();
@@ -368,8 +366,7 @@ class GoogleNewsSitemap extends SpecialPage {
 		$params['hourCount'] = $wgRequest->getInt( 'hourcount', -1 );
 
 		if ( ( $params['count'] > $wgGNSMmaxResultCount )
-				|| ( $params['count'] < 1 ) )
-		{
+				|| ( $params['count'] < 1 ) ) {
 			$params['count'] = $wgGNSMmaxResultCount;
 		}
 
@@ -377,8 +374,8 @@ class GoogleNewsSitemap extends SpecialPage {
 		$params['orderMethod'] = $wgRequest->getVal( 'ordermethod', 'categoryadd' );
 
 		$params['redirects'] = $this->getIEOVal( 'redirects', self::OPT_EXCLUDE );
-		$params['stable'] = $this->getIEOVal( 'stable', self::OPT_ONLY );
-		$params['quality'] = $this->getIEOVal( 'qualitypages', self::OPT_ONLY );
+		$params['stable'] = $this->getIEOVal( 'stablepages', self::OPT_ONLY );
+		$params['quality'] = $this->getIEOVal( 'qualitypages', self::OPT_INCLUDE );
 
 		// feed parameter is validated later in the execute method.
 		$params['feed'] = $wgRequest->getVal( 'feed', 'sitemap' );

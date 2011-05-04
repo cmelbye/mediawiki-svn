@@ -17,11 +17,10 @@ EOT;
  *                  - 0.92 http://www.rssboard.org/rss-0-9-2
  *  Atom feed output - 2005 http://tools.ietf.org/html/rfc4287
  **
- * This page can be accessed from Special:GoogleNewsSitemap[/][|category=Catname]
- *      [|notcategory=OtherCatName][|namespace=0][|notnamespace=User]
- *      [|feed=sitemap][|count=10][|mode=ul][|ordermethod=lastedit]
- *      [|order=ascending] as well as being included like
- *      {{Special:GoogleNewsSitemap/[options][...]}}
+ * This page can be accessed from Special:GoogleNewsSitemap?[categories=Catname]
+ *      [&notcategories=OtherCatName][&namespace=0]
+ *      [&feed=sitemap][&count=10][&ordermethod=lastedit]
+ *      [&order=ascending]
  **
  *  This program is free software; you can redistribute it and/or modify it
  *  under the terms of the GNU General Public License as published by the Free
@@ -56,9 +55,10 @@ EOT;
 $wgExtensionCredits['specialpage'][] = array(
 	'path' => __FILE__,
 	'name' => 'GoogleNewsSitemap',
-	'author' => 'Amgine',
+	'author' => array( 'Amgine', '[http://mediawiki.org/wiki/User:Bawolff Brian Wolff]' ),
 	'descriptionmsg' => 'googlenewssitemap-desc',
 	'url' => 'http://www.mediawiki.org/wiki/Extension:GoogleNewsSitemap',
+	'version' => 1,
 );
 
 $dir = dirname( __FILE__ ) . '/';
